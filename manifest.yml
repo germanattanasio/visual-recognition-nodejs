@@ -1,0 +1,7 @@
+applications:
+- services:
+  - visual-recognition-service
+  name: visual-recognition-nodejs
+  command: node app.js
+  path: .
+  memory: 128M

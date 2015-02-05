@@ -1,0 +1,85 @@
+//- index.jade
+extends ./layout.jade
+
+block row-content
+  div.row.image-options
+    div.col-lg-12
+      h2 Select a sample image or Upload your own below
+      div.well.row
+        input.image-radio(type='radio', id='image1', name='images', value='someImage')
+        label(for='image1').col-lg-2.col-xs-2.img-container.image
+          div.overlay
+          img(src='images/horses.jpg')
+        input.image-radio(type='radio', id='image2', name='images', value='someImage')
+        label(for='image2').col-lg-2.col-xs-2.img-container.image
+          div.overlay
+          img(src='images/73388.jpg')
+        input.image-radio(type='radio', id='image3', name='images', value='someImage')
+        label(for='image3').col-lg-2.col-xs-2.img-container.image.widen
+          div.overlay
+          img(src='images/67528.jpg')
+        input.image-radio(type='radio', id='image4', name='images', value='someImage')
+        label(for='image4').col-lg-2.col-xs-2.img-container.image
+          div.overlay
+          img(src='images/63992.jpg')
+        input.image-radio(type='radio', id='image5', name='images', value='someImage')
+        label(for='image5').col-lg-2.col-xs-2.img-container.image
+          div.overlay
+          img(src='images/26537.jpg')
+        input.image-radio(type='radio', id='image6', name='images', value='someImage')
+        label(for='image6').col-lg-2.col-xs-2.img-container.image.widen
+          div.overlay
+          img(src='images/4068.jpg')
+  div.row
+    div.col-lg-6.col-md-6.col-xs-12
+      h2 &nbsp;
+      div.well.file-chooser-container
+        a.start-over(href='.') Start Over
+        div.form-group.row
+          div.col-lg-12.col-xs-12.col-md-12
+            h3.selected-classifier
+            div.image-staged.img-container
+              img(id='image-staged', src)
+        form.upload-form#fileupload(method='POST', enctype='multipart/form-data', action='/')
+          fieldset
+            div.form-group.row
+              div.col-lg-12.col-md-12.col-xs-12
+                label.control-label(for='classifier') Select a classifier:
+                select(name='classifier')#classifier.form-control
+                  option(value='0', selected=classifier=='0') All (Default)
+                  option(value='Animal', selected=classifier=='Animal') Animal
+                  option(value='Food', selected=classifier=='Food') Food
+                  option(value='Landmark', selected=classifier=='Landmark') Landmark
+                  option(value='Object', selected=classifier=='Object') Object
+                  option(value='Human', selected=classifier=='Human') Human
+                  option(value='Scene', selected=classifier=='Scene') Scene
+                  option(value='Sports', selected=classifier=='Sports') Sports
+                  option(value='Vehicle', selected=classifier=='Vehicle') Vehicle
+            hr
+            div.form-group.row
+              div.col-lg-12.col-md-12.col-xs-12.text-center.dropzone
+                label.btn(for='file') Click or drop a JPG in this box.
+                input#file(type='file',name='image', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+            div.form-group.row
+              div.col-lg-12
+                div.text-center or
+            div.form-group.row
+              div.col-lg-12.col-xs-12
+                small.help-block.invalid-url(style='display:none;') Invalid URL
+                small.help-block.invalid-image-url(style='display:none;') This URL is not valid.  The URL must end with .JPG, .GIF, or .PNG.
+                input.url-input(type='text', placeholder=' Paste image url here...', name='url')
+
+    div.col-lg-6.col-md-6.col-xs-12
+      h2 Output
+      div.row
+        div.col-lg-12.col-xs-12
+          div.well.row.result
+            div.col-lg-12.col-xs-12.loading
+              img(src='images/watson.gif')
+            div.col-lg-12.col-xs-12.error.message
+              h4 Error processing the request.  Please try again.
+            div.col-lg-12.col-xs-12.empty-results.message
+              h4.empty-text
+            div.col-lg-12.col-xs-12
+              table.data
+          div.well.row.status.text-center(style='display:none;')
