@@ -1,3 +1,7 @@
+declared-services:
+- visual-recognition-service:
+    label: visual_recognition
+    plan: free
 applications:
 - services:
   - visual-recognition-service
