@@ -1,5 +1,5 @@
 declared-services:
-- visual-recognition-service:
+  visual-recognition-service:
     label: visual_recognition
     plan: free
 applications:
