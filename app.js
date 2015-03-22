@@ -22,7 +22,7 @@ var express = require('express'),
   path = require('path'),
   bluemix = require('./config/bluemix'),
   validator = require('validator'),
-  VisualRecognition = require('./visual-recognition'),
+  watson = require('watson-developer-cloud'),
   extend = require('util')._extend,
   fs = require('fs');
 
@@ -31,13 +31,13 @@ require('./config/express')(app);
 
 // if bluemix credentials exists, then override local
 var credentials = extend({
-  url: '<url>',
+  version: 'v1',
   username: '<username>',
   password: '<password>'
 }, bluemix.getServiceCreds('visual_recognition')); // VCAP_SERVICES
 
 // Create the service wrapper
-var visualRecognition = new VisualRecognition(credentials);
+var visualRecognition = watson.visual_recognition(credentials);
 
 // render index page
 app.get('/', function(req, res) {
@@ -70,15 +70,14 @@ app.post('/', function(req, res) {
 
   var formData = {
     labels_to_check: classifier,
-    imgFile: imgFile
+    image_file: imgFile
   };
 
-  visualRecognition.recognize(formData, function(err, result) {
-    if (err)
-      return res.status(500).json({ error: err });
-    else {
+  visualRecognition.recognize(formData, function(error, result) {
+    if (error)
+      return res.status(error.error ? error.error.code || 500 : 500).json({ error: error });
+    else
       return res.json(result);
-    }
   });
 });
 

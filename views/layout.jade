@@ -11,6 +11,7 @@ html(lang='en')
     link(rel='shortcut icon', href='/images/favicon.ico', type='image/x-icon')
     link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
     link(rel='stylesheet', href='/css/watson-bootstrap-dark.css')
+    link(rel='stylesheet', href='/css/banner.css')
     link(rel='stylesheet', href='/css/style.css')
 
   body
@@ -19,10 +20,11 @@ html(lang='en')
         div.col-lg-12
           div.row.top-nav
             div.col-lg-12
-              a.left(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html') Learn more about this service
-              a.right.fork(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork
-              a.right(href='mailto:watsondevelopercloud@ibm.com') Contact Us
-              a.right(href='https://developer.ibm.com/answers/smartspace/watson/') Watson Community
+              h3.heading.left IBM 
+                span Watson Developer Cloud
+                | : Demo
+              a.right(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/') Documentation
+              a.right(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/apis/#!/visual-recognition') API Details
           div.row.header(style='padding-bottom:0px;')
             div.avatar.img-container.col-lg-1.col-xs-1
               img(src='/images/app.png')
@@ -30,10 +32,11 @@ html(lang='en')
               h2 Visual Recognition NodeJS Starter Application
               p The Visual Recognition service analyzes images, enabling
                 | you to understand their content without any accompanying descriptive text.
-            div.col-lg-4.col-xs-4
-              h3 Keep Exploring:
-              a.left(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/') Documentation
-              a.right(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/apis/#!/visual-recognition') API Details
+              a.learn-more(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html') More about this service
+            div.col-lg-4.col-xs-4.build-your-own
+              h3 Build your own:
+              a.left.fork(href='https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs.git') Fork and Deploy on Bluemix
+              a.right.fork(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork on Github
       block row-content
 
     script(type='text/javascript', src='/js/jquery-1.11.1.min.js')
