@@ -17,14 +17,26 @@
 'use strict';
 
 var express = require('express'),
-  app = express(),
-  request = require('request'),
-  path = require('path'),
-  bluemix = require('./config/bluemix'),
+  app       = express(),
+  request   = require('request'),
+  path      = require('path'),
+  bluemix   = require('./config/bluemix'),
   validator = require('validator'),
-  watson = require('watson-developer-cloud'),
-  extend = require('util')._extend,
-  fs = require('fs');
+  watson    = require('watson-developer-cloud'),
+  extend    = require('util')._extend,
+  fs        = require('fs'),
+  multer    = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage });
 
 // Bootstrap application settings
 require('./config/express')(app);
@@ -39,12 +51,7 @@ var credentials = extend({
 // Create the service wrapper
 var visualRecognition = watson.visual_recognition(credentials);
 
-// render index page
-app.get('/', function(req, res) {
-  res.render('index');
-});
-
-app.post('/', function(req, res) {
+app.post('/', upload.single('image'), function(req, res, next) {
 
   // Classifiers are 0 = all or a json = {label_groups:['<classifier-name>']}
   var classifier = req.body.classifier || '0';  // All
@@ -54,18 +61,18 @@ app.post('/', function(req, res) {
 
   var imgFile;
 
-  if (req.files.image) {
+  if (req.file) {
     // file image
-    imgFile = fs.createReadStream(req.files.image.path);
+    imgFile = fs.createReadStream(req.file.path);
   } else if(req.body.url && validator.isURL(req.body.url)) {
     // web image
     imgFile = request(req.body.url.split('?')[0]);
   } else if (req.body.url && req.body.url.indexOf('images') === 0) {
     // local image
-    imgFile = fs.createReadStream(path.join('public',req.body.url));
+    imgFile = fs.createReadStream(path.join('public', req.body.url));
   } else {
     // malformed url
-    return res.status(500).json({ error: 'Malformed URL' });
+    return next({ error: 'Malformed URL', code: 400 });
   }
 
   var formData = {
@@ -73,13 +80,19 @@ app.post('/', function(req, res) {
     image_file: imgFile
   };
 
-  visualRecognition.recognize(formData, function(error, result) {
-    if (error)
-      return res.status(error.error ? error.error.code || 500 : 500).json({ error: error });
+  visualRecognition.recognize(formData, function(err, result) {
+    // delete the recognized file
+    fs.unlink(imgFile.path);
+
+    if (err)
+      next(err);
     else
       return res.json(result);
   });
 });
+
+// error-handler settings
+require('./config/error-handler')(app);
 
 var port = process.env.VCAP_APP_PORT || 3000;
 app.listen(port);

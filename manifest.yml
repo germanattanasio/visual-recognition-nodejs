@@ -8,4 +8,4 @@ applications:
   name: visual-recognition-nodejs
   command: node app.js
   path: .
-  memory: 128M
+  memory: 512M

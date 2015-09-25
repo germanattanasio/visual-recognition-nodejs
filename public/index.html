@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Visual Recognition</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/watson-bootstrap-dark.css">
+  <link rel="stylesheet" href="/css/banner.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row top-nav">
+          <div class="col-lg-12">
+            <h3 class="heading left">IBM <span>Watson Developer Cloud</span>: Demo</h3><a href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/" class="right">Documentation</a><a href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/apis/#!/visual-recognition" class="right">API Details</a></div>
+        </div>
+        <div style="padding-bottom:0px;" class="row header">
+          <div class="avatar img-container col-lg-1 col-xs-1"><img src="/images/app.png"></div>
+          <div class="col-lg-6 col-xs-6">
+            <h2>Visual Recognition NodeJS Starter Application</h2>
+            <p>The Visual Recognition service analyzes images, enabling you to understand their content without any accompanying descriptive text.</p><a href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html" class="learn-more">More about this service</a></div>
+          <div class="col-lg-4 col-xs-4 build-your-own">
+            <h3>Build your own:</h3><a href="https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs.git" class="left fork">Fork and Deploy on Bluemix</a><a href="https://github.com/watson-developer-cloud/visual-recognition-nodejs" class="right fork">Fork on Github</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="row image-options">
+      <div class="col-lg-12">
+        <h2>Select a sample image or Upload your own below</h2>
+        <div class="well row">
+          <input type="radio" id="image1" name="images" value="someImage" class="image-radio">
+          <label for="image1" class="col-lg-2 col-xs-2 img-container image">
+            <div class="overlay"></div><img src="images/horses.jpg"></label>
+          <input type="radio" id="image2" name="images" value="someImage" class="image-radio">
+          <label for="image2" class="col-lg-2 col-xs-2 img-container image">
+            <div class="overlay"></div><img src="images/73388.jpg"></label>
+          <input type="radio" id="image3" name="images" value="someImage" class="image-radio">
+          <label for="image3" class="col-lg-2 col-xs-2 img-container image widen">
+            <div class="overlay"></div><img src="images/67528.jpg"></label>
+          <input type="radio" id="image4" name="images" value="someImage" class="image-radio">
+          <label for="image4" class="col-lg-2 col-xs-2 img-container image">
+            <div class="overlay"></div><img src="images/63992.jpg"></label>
+          <input type="radio" id="image5" name="images" value="someImage" class="image-radio">
+          <label for="image5" class="col-lg-2 col-xs-2 img-container image">
+            <div class="overlay"></div><img src="images/26537.jpg"></label>
+          <input type="radio" id="image6" name="images" value="someImage" class="image-radio">
+          <label for="image6" class="col-lg-2 col-xs-2 img-container image widen">
+            <div class="overlay"></div><img src="images/4068.jpg"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-xs-12">
+        <h2>&nbsp;</h2>
+        <div class="well file-chooser-container"><a href="." class="start-over">Start Over</a>
+          <div class="form-group row">
+            <div class="col-lg-12 col-xs-12 col-md-12">
+              <h3 class="selected-classifier"></h3>
+              <div class="image-staged img-container"><img id="image-staged" src></div>
+            </div>
+          </div>
+          <form id="fileupload" method="POST" enctype="multipart/form-data" action="/" class="upload-form">
+            <fieldset>
+              <div class="form-group row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                  <label for="classifier" class="control-label">Select a classifier:</label>
+                  <select name="classifier" id="classifier" class="form-control">
+                    <option value="0">All (Default)</option>
+                    <option value="Animal">Animal</option>
+                    <option value="Food">Food</option>
+                    <option value="Landmark">Landmark</option>
+                    <option value="Object">Object</option>
+                    <option value="Human">Human</option>
+                    <option value="Scene">Scene</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Vehicle">Vehicle</option>
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <div class="form-group row">
+                <div class="col-lg-12 col-md-12 col-xs-12 text-center dropzone">
+                  <label for="file" class="btn">Click or drop a JPG in this box.</label>
+                  <input id="file" type="file" name="image" accept="image/x-png, image/jpg, image/gif, image/jpeg, image/png" title="Choose an image to upload">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-12">
+                  <div class="text-center">or</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-12 col-xs-12"><small style="display:none;" class="help-block invalid-url">Invalid URL</small><small style="display:none;" class="help-block invalid-image-url">This URL is not valid.  The URL must end with .JPG, .GIF, or .PNG.</small>
+                  <input type="text" placeholder=" Paste image url here..." name="url" class="url-input">
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-xs-12">
+        <h2>Output</h2>
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <div class="well row result">
+              <div class="col-lg-12 col-xs-12 loading"><img src="images/watson.gif"></div>
+              <div class="col-lg-12 col-xs-12 error message">
+                <h4>Error processing the request.  Please try again.</h4></div>
+              <div class="col-lg-12 col-xs-12 empty-results message">
+                <h4 class="empty-text"></h4></div>
+              <div class="col-lg-12 col-xs-12">
+                <table class="data"></table>
+              </div>
+            </div>
+            <div style="display:none;" class="well row status text-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.ui.widget.js"></script>
+  <script type="text/javascript" src="/js/jquery.fileupload.js"></script>
+  <script type="text/javascript" src="/js/jquery.iframe-transport.js"></script>
+  <script type="text/javascript" src="/js/demo.js"></script>
+</body>
+
+</html>

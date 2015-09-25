@@ -107,15 +107,11 @@
     $('.data').append(htmlString);
   }
 
-  function _error(xhr, status, error) {
+  function _error(xhr) {
     $('.loading').hide();
     $('.error').show();
     var response = JSON.parse(xhr.responseText);
-    console.log(response.error.error);
-
-    if (response.error.error == 500) {
-      $('.error h4').text('The image format is not supported, try with another image.');
-    }
+    $('.error h4').text(response.error);
   }
 
   // turns floating decimals into truncated percantages
@@ -209,6 +205,8 @@
       error: _error,
       done: function(e, data) {
         $('.status').hide();
+        console.log('e:', e);
+        console.log('data:', data);
         showResult(data.result);
       }
     });

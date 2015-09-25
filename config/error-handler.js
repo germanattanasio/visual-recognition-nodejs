@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 IBM Corp. All Rights Reserved.
+ * Copyright 2015 IBM Corp. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,25 @@
 
 'use strict';
 
-// Module dependencies
-var express    = require('express'),
-  errorhandler = require('errorhandler'),
-  bodyParser   = require('body-parser');
-
 module.exports = function (app) {
 
-  // Configure Express
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  // catch 404 and forward to error handler
+  app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.code = 404;
+    err.message = 'Not Found';
+    next(err);
+  });
 
-  // Setup static public directory
-  app.use(express.static(__dirname + '/../public'));
+  // error handler
+  app.use(function(err, req, res, next) {
+    var error = {
+      code: err.code || 500,
+      error: err.error || err.message
+    };
+    console.log('error:', error);
 
-  // Add error handling in dev
-  if (!process.env.VCAP_SERVICES) {
-    app.use(errorhandler());
-  }
+    res.status(error.code).json(error);
+  });
 
 };
