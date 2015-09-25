@@ -9,3 +9,5 @@ applications:
   command: node app.js
   path: .
   memory: 512M
+  env:
+    NODE_ENV: production
