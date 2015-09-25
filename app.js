@@ -82,7 +82,8 @@ app.post('/', upload.single('image'), function(req, res, next) {
 
   visualRecognition.recognize(formData, function(err, result) {
     // delete the recognized file
-    fs.unlink(imgFile.path);
+    if(req.file)
+      fs.unlink(imgFile.path);
 
     if (err)
       next(err);
