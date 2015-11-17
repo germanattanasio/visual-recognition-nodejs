@@ -9,7 +9,7 @@
     "multer": "~1.1.0",
     "request": "~2.65.0",
     "validator": "~4.2.1",
-    "watson-developer-cloud": "~0.10.6"
+    "watson-developer-cloud": "~1.0.3"
   },
   "engines": {
     "node": ">=0.10"
