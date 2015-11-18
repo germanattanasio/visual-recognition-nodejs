@@ -7,7 +7,7 @@
     "errorhandler": "~1.4.2",
     "express": "~4.13.3",
     "multer": "~1.1.0",
-    "request": "~2.65.0",
+    "request": "~2.66.0",
     "validator": "~4.2.1",
     "watson-developer-cloud": "~0.10.6"
   },
