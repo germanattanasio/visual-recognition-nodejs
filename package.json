@@ -8,7 +8,7 @@
     "express": "~4.13.3",
     "multer": "~1.1.0",
     "request": "~2.67.0",
-    "validator": "~4.2.1",
+    "validator": "~4.3.0",
     "watson-developer-cloud": "~0.10.6"
   },
   "engines": {
