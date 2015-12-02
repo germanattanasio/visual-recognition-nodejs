@@ -1,0 +1,6 @@
+mixin sampleImages(array, className, id)
+  each item, index in array
+    input(id='#{className}--image#{index}_#{id}', class='#{className}--example-radio', type='radio', name='#{className}--example-images', value='someImage')
+    label(class='#{className}--example-thumb square', for='#{className}--image#{index}_#{id}')
+      img(class='#{className}--example-image', src='#{item}')
+      div(class='#{className}--example-image-overlay')

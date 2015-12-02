@@ -1,0 +1,23 @@
+{
+  "datasets": [{
+    "name": "Car",
+    "id": "car_vs_truck",
+    "positive": 50,
+    "negative": 50
+  }, {
+    "name": "Pizza",
+    "id": "pizza_vs_spaghetti",
+    "positive": 50,
+    "negative": 50
+  }, {
+    "name": "Golden Retrievers",
+    "id": "golden_retrievers_vs_dogs",
+    "positive": 50,
+    "negative": 50
+  }, {
+    "name": "Baseball",
+    "id": "baseball_vs_cricket",
+    "positive": 50,
+    "negative": 50
+  }]
+}

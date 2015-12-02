@@ -1,35 +1,43 @@
 {
-  "name": "VisualRecognitionNodejsStarterApp",
-  "version": "0.1.2",
-  "description": "A sample nodejs app for Bluemix that use the Visual Recognition service",
-  "dependencies": {
-    "body-parser": "~1.14.1",
-    "errorhandler": "~1.4.2",
-    "express": "~4.13.3",
-    "multer": "~1.1.0",
-    "request": "~2.67.0",
-    "validator": "~4.3.0",
-    "watson-developer-cloud": "~1.0.5"
-  },
-  "engines": {
-    "node": ">=0.10"
-  },
+  "name": "VisualRecognition",
+  "version": "2.0.0",
+  "description": "A Visual Recognition sample nodejs application",
   "repository": {
     "type": "git",
     "url": "https://github.com/watson-developer-cloud/visual-recognition-nodejs.git"
   },
   "author": "IBM Corp.",
-  "contributors": [
-    {
-      "name": "German Attanasio Ruiz",
-      "email": "germanatt@us.ibm.com"
-    }
-  ],
+  "contributors": [{
+    "name": "James Zhang",
+    "email": "jzhang300@us.ibm.com"
+  }, {
+    "name": "Eva Xiaohui Luo",
+    "email": "evaluo_xhl@us.ibm.com"
+  }, {
+    "name": "German Attanasio Ruiz",
+    "email": "germanatt@us.ibm.com"
+  }],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/watson-developer-cloud/visual-recognition-nodejs/issues"
   },
   "scripts": {
     "start": "node app.js"
+  },
+  "dependencies": {
+    "archiver": "^0.16.0",
+    "async": "^1.5.0",
+    "body-parser": "^1.13.2",
+    "express": "^4.12.2",
+    "express-rate-limit": "^2.0.2",
+    "express-secure-only": "^0.2.1",
+    "find-remove": "^0.2.8",
+    "helmet": "^0.14.0",
+    "jade": "^1.11.0",
+    "multer": "^1.1.0",
+    "request": "^2.65.0",
+    "uuid": "^2.0.1",
+    "validator": "^4.2.1",
+    "watson-developer-cloud": "^1.0.5"
   }
 }

@@ -1,0 +1,24 @@
+mixin trainBundle(dataset)
+  .train--bundle
+    a.base--a.train--bundle-select-all(href='javascript: void(0)', data-id='#{dataset.id}') use bundle
+    h3.base--h3.train--bundle-header #{dataset.name}
+    h5.train--bundle-sub-header positive images
+    .train--bundle-positive
+      - var n = 0
+      while n < 10
+        .train--bundle-thumb-container.square
+          img.train--bundle-thumb(src='images/datasets/#{dataset.id}/positive/#{n}.jpg')
+          - n++
+          if n == 10
+            .train--overlay
+              .train--overlay-more +#{dataset.positive - 10}
+    h5.train--bundle-sub-header negative images
+    .train--bundle-negative
+      - var n = 0
+      while n < 10
+        .train--bundle-thumb-container.square
+          img.train--bundle-thumb(src='images/datasets/#{dataset.id}/negative/#{n}.jpg')
+          - n++
+          if n == 10
+            .train--overlay
+              .train--overlay-more +#{dataset.negative - 10}

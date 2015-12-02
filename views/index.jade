@@ -1,0 +1,20 @@
+extends ./layout.jade
+
+block content
+  ._demo--container
+    article._content.base--article
+      .tab-panels.tab-views(role='tabpanel')
+        ul.tab-panels--tab-list.tab-views--tab-list(role='tablist')
+          li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
+            a.tab-panels--tab.tab-views--tab.active(href='#panel1', aria-controls='panel1', role='tab') Try out
+          li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
+            a.tab-panels--tab.tab-views--tab(href='#panel2', aria-controls='panel2', role='tab') Train
+          li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
+            a.tab-panels--tab.tab-views--tab.disabled(href='#panel3', aria-controls='panel3', role='tab') Test
+        .tab-panels--tab-content
+          #panel1.tab-views--tab-pane.tab-panels--tab-pane.active(role='tab-panel')
+            include ./includes/use.jade
+          #panel2.tab-views--tab-pane.tab-panels--tab-pane(role='tab-panel')
+            include ./includes/train.jade
+          #panel3.tab-views--tab-pane.tab-panels--tab-pane(role='tab-panel')
+            include ./includes/test.jade

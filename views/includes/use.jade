@@ -1,0 +1,30 @@
+include ../mixins/sampleInput.jade
+
+h2.base--h2.use--header Select an Image
++sampleInput('use')
+.loading.use--loading
+  img.use--loading-image.loading--image(src='images/loading-indicator.gif')
+  p.base--p.use--loading-message.loading--message Watson is classifying the image to determine a match...
+.error.use--error
+  img.use--error-image.error--image(src='images/icons/alert.svg')
+  p.base--p.use--error-message.error--message Visual Recognition is not available right now...
+.use--output
+  hr.base--hr.use--hr
+  h2.base--h2.use--output-header Results
+  .use--output-row
+    .use--output-left
+      .use--output-image-container
+        img.use--output-image
+    .use--output-right
+      table.base--table.use--output-table
+        thead.base--thead.use--output-thead
+          tr.base--tr.use--output-tr
+            td.base--td.use--output-td
+              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Classifier
+            td.base--td.use--output-td 
+              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Confidence Score
+        tbody.use--output-tbody
+  .use--output-note You can use your own images to create a custom classifier that is tailored to your needs.
+  hr.base--hr.use--hr
+  .use--output-row
+    button.base--button.use--train-button Create a custom classifier

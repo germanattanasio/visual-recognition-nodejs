@@ -1,0 +1,60 @@
+html(lang='en')
+  head
+    title Visual Recognition Demo
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
+    link(rel='stylesheet', href='css/style.css')
+    block extra-header
+
+  body
+    header._demo--heading
+      ._demo--container
+        a.wordmark(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/')
+          span.wordmark--left IBM 
+          span.wordmark--right Watson Developer Cloud
+        nav.heading-nav(role='menubar')
+          li.base--li.heading-nav--li(role='presentation')
+            a.heading-nav--item(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/services-catalog.html', role='menuitem') Services
+          li.base--li.heading-nav--li(role='presentation')
+            a.heading-nav--item(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/', role='menuitem') Docs
+          li.base--li.heading-nav--li(role='presentation')
+            a.heading-nav--item(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/gallery.html', role='menuitem') App Gallery
+          li.base--li.heading-nav--li(role='presentation')
+            a.heading-nav--item(href='https://developer.ibm.com/watson/', role='menuitem') Community
+    ._demo--banner
+      ._demo--container
+        .banner--service-icon-container
+          img.banner--service-icon(src='images/service-icon.svg', alt='Visual Recognition API Icon')
+        .banner--service-info
+          h1.banner--service-title.base--h1
+            img.banner--service-icon_INLINE(src='images/service-icon.svg', alt='Visual Recognition API Icon')
+            | Visual Recognition
+          .banner--service-description
+            | Visual Recognition allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
+          .banner--service-resource
+            span.icon.icon-link 
+            strong Resources:
+          .banner--service-links
+            li.base--li.banner--service-link-item
+              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition/api/v2/') API Reference
+            li.base--li.banner--service-link-item
+              a.base--a(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/') Documentation
+            li.base--li.banner--service-link-item
+              a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork on Github
+            li.base--li.banner--service-link-item
+              a.base--a(href='https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork and Deploy on Bluemix
+
+    block content
+    include ./includes/underscore-templates.jade
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js')
+    script(src='js/use.js')
+    script(src='js/train.js')
+    script(src='js/demo.js')
+    script(src='js/tealeaf.js')
+    block extra-scripts

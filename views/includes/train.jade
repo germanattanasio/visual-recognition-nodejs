@@ -1,0 +1,59 @@
+include ../mixins/trainBundle.jade
+.loading.train--loading
+  img.loading--image(src='images/loading-indicator.gif')
+  p.base--p.loading--message Watson is training your new classifier. 
+  p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
+.error.train--error
+  img.train--error-image.error--image(src='images/icons/alert.svg')
+  p.base--p.train--error-message.error--message Visual Recognition is not available right now...
+.train--input
+  h2.base--h2.train--header Create a Custom Classifier
+  p.base--p.train--input-error-message Only alphanumeric, spaces, hyphens, and underscores are characters allowed.
+  input.train--name-input.train--url-input.base--input(type='text', placeholder='Name a classifier', name='name')
+  p.base--p.train--text
+    | Upload images to define your classifier.  
+    a.base--a(href='javascript:void(0);') What's a classifier?
+  .train--row
+    .train--positive-input
+      h3.base--h3 Positive Images
+      form#train--fileupload_positive.train--dropzone.train--dropzone_positive
+        label.train--file-input-button.base--button(for='train--file_positive')
+          p.base--p 
+            span.base--a Select 50 or more images 
+            |  or drag from your computer to define the classifier. More images will improve accuracy.
+          .train--file-preview-container.positive-images
+            .train--file-preview
+            button.base--a.train--clear-button clear
+        input#train--file_positive.train--file-input(type='file', name='positive_images', multiple, accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+        .train--file-indicator
+          .train--file-meter
+            .train--file-meter-percent
+          .train--file-indicator-text
+            span.train--files
+            |  images
+    .train--negative-input
+      h3.base--h3 Negative Images
+      form#train--fileupload_negative.train--dropzone.train--dropzone_negative
+        label.train--file-input-button.base--button(for='train--file_negative')
+          p.base--p
+            span.base--a Select 50 or more images 
+            |  or drag from your computer to define the classifier. More images will improve accuracy.
+          .train--file-preview-container.negative-images
+            .train--file-preview
+            button.base--a.train--clear-button clear
+            input#train--file_negative.train--file-input(type='file', name='negative_images', multiple, accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+        .train--file-indicator
+          .train--file-meter
+            .train--file-meter-percent
+          .train--file-indicator-text
+            span.train--files
+            |  images
+  .train--row
+    button.train--train-button.base--button(disabled='true') Train your classifier
+  p.base--p.train--text
+    | You can also use one of the following sample image bundles to train your new classifier
+    br
+    | NOTE: Your classifiers and images are not saved when you exit the browser.
+  .train--bundles
+    each dataset in datasets
+      +trainBundle(dataset)

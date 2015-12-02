@@ -1,0 +1,41 @@
+include ../mixins/sampleInput.jade
+
+h2.base--h2.test--classifier-name
+hr.base--hr.test--hr
+.test--input-container.toggled
+  h3.base--h3.test--header Test your classifier
+  i.test--classifier-images-arrow.icon.icon-down-arrow
+  +sampleInput('test')
+hr.base--hr.test--hr
+.test--classifier-images-toggle
+  h3.test--classifier-images-title.base--h3 Show your trained images
+  i.test--classifier-images-arrow.icon.icon-down-arrow
+  .test--classifier-images
+    .test--classifier-images-left
+      h3.base--h3.test--classifier-images-header Positive Images
+      .test--classifier-images-thumbs.test--classifier-images-thumbs_positive
+    .test--classifier-images-right
+      h3.base--h3.test--classifier-images-header Negative Images
+      .test--classifier-images-thumbs.test--classifier-images-thumbs_negative
+hr.base--hr.test--hr
+.loading.test--loading
+  img.test--loading-image.loading--image(src='images/loading-indicator.gif')
+  p.base--p.test--loading-message.loading--message Visual Recognition is classifying the image to determine a match...
+.error.test--error
+  img.test--error-image.error--image(src='images/icons/alert.svg')
+  p.base--p.test--error-message.error--message Visual Recognition is not available right now...
+.test--output
+  h2.base--h2.test--output-header Results
+  .test--output-row
+    .test--output-left
+      .test--output-image-container
+        img.test--output-image
+    .test--output-right
+      table.base--table.test--output-table
+        thead.base--thead.test--output-thead
+          tr.base--tr.test--output-tr
+            td.base--td.test--output-td
+              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Classifier
+            td.base--td.test--output-td
+              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Confidence Score
+        tbody.test--output-tbody

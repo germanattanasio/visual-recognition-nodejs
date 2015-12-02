@@ -1,0 +1,31 @@
+include ./sampleImages.jade
+
+mixin sampleInput(className)
+  - var sampleImages = []
+  - sampleImages.push('images/samples/1.jpg')
+  - sampleImages.push('images/samples/2.jpg')
+  - sampleImages.push('images/samples/3.jpg')
+  - sampleImages.push('images/samples/4.jpg')
+  - sampleImages.push('images/samples/5.jpg')
+  - sampleImages.push('images/samples/6.jpg')
+  - var images = []
+  each dataset in datasets
+    - var arr = []
+    each val in [0, 1, 2, 3, 4, 5]
+      - arr.push('images/datasets/' + dataset.id + '/test/' + val + '.jpg')
+    - images.push(arr)
+  form(id='#{className}--fileupload', class='#{className}--form', data-upload-template-id='template-upload-#{className}')
+    div(class='#{className}--example-images #{className}--example-images_default')
+      +sampleImages(sampleImages, className, 'default')
+    each dataset, index in datasets
+      div(class='#{className}--example-images #{className}--example-images_#{dataset.id}')
+        +sampleImages(images[index], className, dataset.id)
+    div(class='#{className}--dropzone')
+      label(class='#{className}--file-input-button base--button', for='#{className}--file')
+        span.base--a Select an image
+        |  or drag from your computer
+      input(id='#{className}--file', class='#{className}--file-input', type='file', name='images_file', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+    div(class='#{className}--url')
+      div(class='#{className}--invalid-url') Invalid URL
+      div(class='#{className}--invalid-image-url') The URL must end with .JPG, .GIF, or .PNG.
+      input(class='#{className}--url-input base--input', type='text', placeholder='Paste image URL here', name='url')

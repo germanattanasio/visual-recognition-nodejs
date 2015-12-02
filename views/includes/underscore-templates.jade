@@ -1,0 +1,13 @@
+script(type='text/html', id='testClassifierImagesTemplate').
+  <% _.each(items, function(item, key, list) { %>
+    <div class="test--classifier-images-thumb square">
+      <img src="<%= item %>" class="test--classifier-images-image"/>
+    </div>
+  <% });%>
+
+script(type='text/html', id='trainPreviewImagesTemplate').
+  <% _.each(items, function(item, key, list) { %>
+    <div class="train--file-preview-thumb square">
+      <img src="<%= item %>" class="train--file-preview-image"/>
+    </div>
+  <% });%>
