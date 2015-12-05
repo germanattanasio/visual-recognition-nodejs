@@ -7,16 +7,20 @@
     "url": "https://github.com/watson-developer-cloud/visual-recognition-nodejs.git"
   },
   "author": "IBM Corp.",
-  "contributors": [{
-    "name": "James Zhang",
-    "email": "jzhang300@us.ibm.com"
-  }, {
-    "name": "Eva Xiaohui Luo",
-    "email": "evaluo_xhl@us.ibm.com"
-  }, {
-    "name": "German Attanasio Ruiz",
-    "email": "germanatt@us.ibm.com"
-  }],
+  "contributors": [
+    {
+      "name": "James Zhang",
+      "email": "jzhang300@us.ibm.com"
+    },
+    {
+      "name": "Eva Xiaohui Luo",
+      "email": "evaluo_xhl@us.ibm.com"
+    },
+    {
+      "name": "German Attanasio Ruiz",
+      "email": "germanatt@us.ibm.com"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/watson-developer-cloud/visual-recognition-nodejs/issues"
@@ -37,7 +41,7 @@
     "multer": "^1.1.0",
     "request": "^2.65.0",
     "uuid": "^2.0.1",
-    "validator": "^4.2.1",
+    "validator": "^4.4.0",
     "watson-developer-cloud": "^1.0.5"
   }
 }
