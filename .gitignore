@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 uploads/*
 !uploads/README.md
+VCAP_SERVICES.json
+run.sh
