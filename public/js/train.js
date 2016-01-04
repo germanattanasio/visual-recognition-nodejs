@@ -390,12 +390,13 @@
                 showPreviewNegative();
               }
             };
+
+            setTrainButtonState();
           };
 
           reader.readAsDataURL(data.files[0]);
         }
         $('.train--dropzone label').removeClass('dragover');
-        setTrainButtonState();
         resetTestSamples();
         $('.tab-panels--tab[href="#panel3"]').addClass('disabled');
       },
