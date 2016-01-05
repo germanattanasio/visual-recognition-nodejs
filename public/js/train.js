@@ -326,7 +326,7 @@
           if (err.responseJSON)
             message = err.responseJSON.error;
 
-        $errorMsg.html('The demo is not available right now. <br/>We are working on getting this back up and running soon.');
+        $errorMsg.html(message);
       }
     });
   });
