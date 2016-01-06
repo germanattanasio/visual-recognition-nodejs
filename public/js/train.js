@@ -389,9 +389,8 @@
                 loadPreviewsNegative([resizedImage]);
                 showPreviewNegative();
               }
+              setTrainButtonState();
             };
-
-            setTrainButtonState();
           };
 
           reader.readAsDataURL(data.files[0]);
@@ -431,13 +430,16 @@
   }
 
   function setTrainButtonState() {
+    var button = document.querySelector('.train--train-button');
     if ($trainUrlInput.val() !== '' &&
       $('.positive-images img').length > 0 &&
       $('.negative-images img').length > 0 &&
       isNameValid()){
         $trainButton.prop('disabled', false);
+        button.disabled = false;
     } else {
       $trainButton.prop('disabled', true);
+      button.disabled = true;
     }
   }
 
