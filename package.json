@@ -42,6 +42,6 @@
     "request": "^2.65.0",
     "uuid": "^2.0.1",
     "validator": "^4.4.0",
-    "watson-developer-cloud": "^1.0.6"
+    "watson-developer-cloud": "^1.2.0"
   }
 }
