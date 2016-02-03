@@ -39,7 +39,7 @@
     "helmet": "^0.14.0",
     "jade": "^1.11.0",
     "multer": "^1.1.0",
-    "request": "^2.65.0",
+    "request": "^2.69.0",
     "uuid": "^2.0.1",
     "validator": "^4.6.1",
     "watson-developer-cloud": "^1.0.6"
