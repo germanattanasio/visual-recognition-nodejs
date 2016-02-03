@@ -36,7 +36,7 @@
     "express-rate-limit": "^2.0.2",
     "express-secure-only": "^0.2.1",
     "find-remove": "^0.2.8",
-    "helmet": "^0.14.0",
+    "helmet": "^1.0.1",
     "jade": "^1.11.0",
     "multer": "^1.1.0",
     "request": "^2.65.0",
