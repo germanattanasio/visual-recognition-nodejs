@@ -41,7 +41,7 @@
     "multer": "^1.1.0",
     "request": "^2.65.0",
     "uuid": "^2.0.1",
-    "validator": "^4.7.0",
+    "validator": "^4.7.1",
     "watson-developer-cloud": "^1.0.6"
   }
 }
