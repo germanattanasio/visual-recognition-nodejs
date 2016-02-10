@@ -33,7 +33,7 @@
     "async": "^1.5.0",
     "body-parser": "^1.13.2",
     "express": "^4.12.2",
-    "express-rate-limit": "^2.0.2",
+    "express-rate-limit": "^2.1.0",
     "express-secure-only": "^0.2.1",
     "find-remove": "^0.2.8",
     "helmet": "^0.14.0",
