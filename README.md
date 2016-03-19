@@ -1,6 +1,6 @@
 # Visual Recognition Nodejs Starter Application
 
-  The IBM Watson [Visual Recognition][https://console.ng.bluemix.net/registration/] service analyzes the visual content of images to understand the scene without any input text describing
+The [IBM Watson Visual Recognition service][visual_recognition_service] analyzes the visual content of images to understand the scene without any input text describing
 
 Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on Bluemix.
 
@@ -24,7 +24,7 @@ applications:
   path: .
   memory: 512M
   ```
-  The name you use will determinate your application url initially, e.g. `<application-name>.mybluemix.net`.
+  The name you use will determine your initial application URL, e.g. `<application-name>.mybluemix.net`.
 
 4. Connect to Bluemix in the command line tool
   ```sh
@@ -101,3 +101,5 @@ To troubleshoot your Bluemix app the main useful source of information are the l
 
 [service_url]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
 [cloud_foundry]: https://github.com/cloudfoundry/cli
+[visual_recognition_service]: https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
+[sign_up]: https://console.ng.bluemix.net/registration/
