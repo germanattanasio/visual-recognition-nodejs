@@ -1,6 +1,6 @@
 # Visual Recognition Nodejs Starter Application
 
-  The IBM Watson [Visual Recognition][service_url] service analyzes the visual content of images to understand the scene without any input text describing
+  The IBM Watson [Visual Recognition][https://console.ng.bluemix.net/registration/] service analyzes the visual content of images to understand the scene without any input text describing
 
 Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on Bluemix.
 
