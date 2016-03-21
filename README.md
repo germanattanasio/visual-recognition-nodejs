@@ -117,3 +117,4 @@ To troubleshoot your Bluemix app the main useful source of information are the l
 [cloud_foundry]: https://github.com/cloudfoundry/cli
 [visual_recognition_service]: https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
 [sign_up]: https://console.ng.bluemix.net/registration/
+[getting_started]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/
