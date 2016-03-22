@@ -215,14 +215,6 @@ function setupUse(params) {
     $(self).focus();
   });
 
-  /*
-   * Image url submission
-   */
-  $trainButton.click(function() {
-    $('.tab-panels--tab[href="#panel2"]').trigger('click');
-    scrollToElement($('.tab-views'));
-  });
-
   function resetPasteUrl() {
     $urlInput.removeClass(panel + '--url-input_error');
     $invalidUrl.hide();

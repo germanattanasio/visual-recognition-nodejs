@@ -1153,6 +1153,10 @@ pre[class*=" language-"] {
   .tab-views--tab-pane {
     margin-top: 2rem; }
 
+.use--header {
+  margin-top: 1rem;
+  margin-bottom: 1rem; }
+
 .use--example-radio {
   display: none; }
 
