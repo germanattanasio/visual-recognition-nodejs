@@ -45,8 +45,18 @@ html(lang='en')
               a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork on Github
             li.base--li.banner--service-link-item
               a.base--a(href='https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork and Deploy on Bluemix
-
-    block content
+    ._demo--container
+      article._content.base--article
+        .tab-panels.tab-views(role='tabpanel')
+          ul.tab-panels--tab-list.tab-views--tab-list(role='tablist')
+            li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
+              a.tab-panels--tab.tab-views--tab.active(href='/', aria-controls='panel1', role='tab') Try out
+            li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
+              a.tab-panels--tab.tab-views--tab(href='/train', aria-controls='panel2', role='tab') Train
+            li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
+              a.tab-panels--tab.tab-views--tab.disabled(href='/test', aria-controls='panel3', role='tab') Test
+          .tab-panels--tab-content
+            block content
     include ./includes/underscore-templates.jade
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')

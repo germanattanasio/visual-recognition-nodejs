@@ -12,9 +12,4 @@ block content
           li.tab-panels--tab-list-item.tab-views--tab-list-item.base--li(role='presentation')
             a.tab-panels--tab.tab-views--tab.disabled(href='#panel3', aria-controls='panel3', role='tab') Test
         .tab-panels--tab-content
-          #panel1.tab-views--tab-pane.tab-panels--tab-pane.active(role='tab-panel')
-            include ./includes/use.jade
-          #panel2.tab-views--tab-pane.tab-panels--tab-pane(role='tab-panel')
-            include ./includes/train.jade
-          #panel3.tab-views--tab-pane.tab-panels--tab-pane(role='tab-panel')
-            include ./includes/test.jade
+          include ./includes/test.jade

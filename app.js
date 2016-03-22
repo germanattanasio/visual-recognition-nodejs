@@ -47,7 +47,19 @@ var alchemyVision = watson.alchemy_vision({
 });
 
 app.get('/', function(req, res) {
-  res.render('index', datasets);
+  res.render('use', datasets);
+});
+
+app.get('/use', function(req, res) {
+  res.render('use', datasets);
+});
+
+app.get('/train', function(req, res) {
+  res.render('train', datasets);
+});
+
+app.get('/test', function(req, res) {
+  res.render('test', datasets);
 });
 
 /**
