@@ -49,6 +49,17 @@ function imageFadeIn(imgSelector) {
   });
 }
 
+/**
+ * scroll animation to element on page
+ * @param  {$element}  Jquery element
+ * @return {void}
+ */
+function scrollToElement(element) {
+  $('html, body').animate({
+    scrollTop: element.offset().top
+  }, 300);
+}
+
 $(document).ready(function () {
 
   // tagging which images are landscape
@@ -60,6 +71,8 @@ $(document).ready(function () {
 
   square();
   imageFadeIn('.square img');
+
+  scrollToElement($('.tab-views'));
 
   $(window).resize(square);
 
