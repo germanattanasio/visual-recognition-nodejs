@@ -42,6 +42,10 @@ var visualRecognition = watson.visual_recognition({
   version_date:'2015-12-02'
 });
 
+var alchemyVision = watson.alchemy_vision({
+  api_key: process.env.ALCHEMY_KEY || '<alchemy-key>'
+});
+
 app.get('/', function(req, res) {
   res.render('index', datasets);
 });
@@ -67,6 +71,36 @@ function filterUserCreatedClassifier(result, classifier_ids) {
   }
   return result;
 }
+
+/**
+ * Normalize Alchemy Vision results
+ * @param  {Object} Alchemy vision result
+ * @return {Object} Visual Recognition result
+ */
+function normalizeResult(item) {
+  var result = {
+    name: item.text || 'Unkown',
+    score: parseFloat(item.score || '0')
+  };
+  if (item.knowledgeGraph && item.knowledgeGraph.typeHierarchy) {
+    result.knowledge_graph = item.knowledgeGraph.typeHierarchy;
+  }
+  return result;
+}
+/**
+ * Formats Alchemy Vision results to match the Watson Vision format
+ * @param  {Object} result        The result of calling 'classify()'
+ * @return {Object}               The formatted 'result'
+ */
+function formatAlchemyVisionResults(results) {
+  return {
+    images: [{
+      scores: results.imageKeywords.map(normalizeResult)
+    }]
+  };
+}
+
+
 /**
  * Creates a classifier
  * @param req.body.positives Array of base64 or relative images
@@ -149,23 +183,41 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     return next({ error: 'Malformed URL', code: 400 });
   }
 
-  var params = {
-    images_file: file
-  };
 
-  if (req.query.classifier_id)
-    params.classifier_ids = [req.query.classifier_id];
 
-  visualRecognition.classify(params, function(err, results) {
-    // delete the recognized file
-    if (req.file)
-      fs.unlink(file.path);
+  if (req.query.classifier_id) {
+    var vparams = {
+      images_file: file,
+      classifier_ids: [req.query.classifier_id]
+    };
 
-    if (err)
-      return next(err);
-    else
-      res.json(filterUserCreatedClassifier(results, params.classifier_ids));
-  });
+    visualRecognition.classify(vparams, function(err, results) {
+      if (req.file) // delete the recognized file
+        fs.unlink(file.path);
+
+      if (err)
+        return next(err);
+      else
+        res.json(filterUserCreatedClassifier(results, vparams.classifier_ids));
+    });
+  } else {
+    var aparams = {};
+    if (req.body.url && validator.isURL(req.body.url)) {
+      aparams.url = req.body.url;
+    } else {
+      aparams.image = file;
+    }
+    alchemyVision.getImageKeywords(aparams, function (err, results) {
+      // delete the recognized file
+      if (req.file)
+        fs.unlink(file.path);
+
+      if (err)
+        return next(err);
+      else
+        res.json(formatAlchemyVisionResults(results));
+    });
+  }
 });
 
 // error-handler settings
