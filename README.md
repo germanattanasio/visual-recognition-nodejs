@@ -1,6 +1,6 @@
 # Visual Recognition Nodejs Starter Application
 
-The [IBM Watson Visual Recognition service][visual_recognition_service] analyzes the visual content of images to understand the scene without any input text describing
+[Visual Recognition][visual_recognition_service] partnered with [Alchemy Vision](www.alchemyapi.com/products/alchemyvision), allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
 Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on Bluemix.
 
@@ -37,21 +37,26 @@ applications:
   $ cf create-service visual_recognition free visual-recognition-service
   ```
 
-6. Push it live!
+6. Create the Alchemy service in Bluemix or copy your existing key into `ALCHEMY_KEY` in `app.js`
+  ```sh
+  $ cf create-service alchemy_api free alchemy-service
+  ```
+
+7. Push it live!
   ```sh
   $ cf push
   ```
-  
+
 7. Optional Security and Performance enhancements
 
   Set `NODE_ENV=production` to enable view caching and other performance enhancements:
-  
+
   ```sh
   $ cf set-env <application-name> NODE_ENV production
   ```
-  
+
   Set `SECURE_EXPRESS=1` to enable rate-limiting, HTTPS-only, and several other security features:
-  
+
   ```sh
   $ cf set-env <application-name> SECURE_EXPRESS 1
   ```
