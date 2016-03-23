@@ -90,7 +90,7 @@ function setupUse(params) {
 
     if (!scores || scores.length === 0) {
       var message = 'The image could not be classified';
-      if ($('#panel3').hasClass('active'))
+      if ($('#test').hasClass('active'))
         message = 'Not a positive match for ' + $('.test--classifier-name').text() + ' with a confidence above 50%';
       $tbody.html(
         '<tr class="base--tr use--output-tr" >' +
@@ -311,9 +311,3 @@ function setupUse(params) {
     }, 300);
   }
 }
-
-// init pages
-$(function() {
-  setupUse({ panel: 'use'});
-  setupUse({ panel: 'test', useClassifierId: true});
-});

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
- /* global $:false, _, trainPreviewImagesTemplate, testClassifierImagesTemplate,
- landscapify, square, imageFadeIn, CLASSIFIER_ID */
+ /* global $:false, Cookies, _, trainPreviewImagesTemplate, testClassifierImagesTemplate,
+ landscapify, square, imageFadeIn, CLASSIFIER_ID, setupUse, currentPage, nextHour*/
 
  'use strict';
 
@@ -197,27 +197,27 @@
    */
   $('.train--bundle-select-all').click(function() {
     var id = $(this).data('id');
-    showTestSamples(id);
+    Cookies.set('bundle', id, { expires: nextHour()});
     scrollToElement($('.tab-panels--tab-content'));
 
-      var dataset = datasets.filter(function(item) { return item.id === id; })[0];
-      var positive = [];
-      var negative = [];
-      for (var i = 0; i < dataset.positive; i++) {
-        positive.push('images/datasets/' + id + '/positive/' + i + '.jpg');
-      }
-      for (var j = 0; j < dataset.negative; j++) {
-        negative.push('images/datasets/' + id + '/negative/' + j + '.jpg');
-      }
+    var dataset = datasets.filter(function(item) { return item.id === id; })[0];
+    var positive = [];
+    var negative = [];
+    for (var i = 0; i < dataset.positive; i++) {
+      positive.push('images/datasets/' + id + '/positive/' + i + '.jpg');
+    }
+    for (var j = 0; j < dataset.negative; j++) {
+      negative.push('images/datasets/' + id + '/negative/' + j + '.jpg');
+    }
 
-      $error.hide();
-      resetPreviews();
-      loadPreviews(positive, negative);
-      $trainUrlInput.val(dataset.name);
-      showPreviews();
-      setTrainButtonState();
-      setInputErrorState();
-      $('.tab-panels--tab[href="#panel3"]').addClass('disabled');
+    $error.hide();
+    resetPreviews();
+    loadPreviews(positive, negative);
+    $trainUrlInput.val(dataset.name);
+    showPreviews();
+    setTrainButtonState();
+    setInputErrorState();
+    $('.tab-panels--tab[href="/test"]').addClass('disabled');
   });
 
   $positiveClearButton.click(function(e) {
@@ -263,8 +263,8 @@
       dataType: 'json',
       success: function(result) {
         resetPage();
-        // $('.tab-panels--tab[href="/test"]').removeClass('disabled').trigger('click');
-        window.location = '/test';
+        Cookies.set('classifier', result, { expires: nextHour()});
+        $('.tab-panels--tab[href="/test"]').trigger('click');
       },
       error: function(err) {
         $loading.hide();
@@ -282,7 +282,7 @@
   $trainUrlInput.on('propertychange change click keyup input paste', function() {
     setTrainButtonState();
     setInputErrorState();
-    $('.tab-panels--tab[href="#panel3"]').addClass('disabled');
+    $('.tab-panels--tab[href="/test"]').addClass('disabled');
   });
 
   function populateTestThumbnails(positives, negatives) {
@@ -345,7 +345,7 @@
         }
         $('.train--dropzone label').removeClass('dragover');
         resetTestSamples();
-        $('.tab-panels--tab[href="#panel3"]').addClass('disabled');
+        $('.tab-panels--tab[href="/test"]').addClass('disabled');
       },
       error: _error,
       done: function(e, data) {
@@ -413,12 +413,75 @@
     $('.test--example-images_default').show();
   }
 
-  $('.tab-panels--tab[href="#panel2"]').click(function() {
-    if (xhr)
-      xhr.abort();
-    setTrainButtonState();
-    setInputErrorState();
-    resetPage();
-  });
+  // init pages
+  setupUse({ panel: 'use'});
+  setupUse({ panel: 'test', useClassifierId: true});
 
+  /**
+   * Select the test page and configure it with the created classifier
+   * @param  {Object} classifier The created classifier
+   */
+  function setupTestPanel(classifier) {
+    CLASSIFIER_ID = classifier.classifier_id;
+    $('.test--classifier-name').text(classifier.name);
+    landscapify('.test--example-image-overlay');
+    imageFadeIn('.test--example-image-overlay');
+
+    function toggleSection(selector) {
+      $(selector).toggleClass('toggled');
+      square();
+    }
+
+    // unbind all click events
+    $('.test--classifier-images-title').off('click');
+    $('.test--classifier-images-toggle .test--classifier-images-arrow').off('click');
+    $('.test--classifier-images-header').off('click');
+    $('.test--header').off('click');
+    $('.test--input-container .test--classifier-images-arrow').off('click');
+
+    // reset results
+    $('.test--output').hide();
+
+    $('.test--classifier-images-title').click(function() {
+      toggleSection('.test--classifier-images-toggle');
+      landscapify('.test--classifier-images-image');
+    });
+    $('.test--classifier-images-toggle .test--classifier-images-arrow').click(function() {
+      toggleSection('.test--classifier-images-toggle');
+      landscapify('.test--classifier-images-image');
+    });
+    $('.test--classifier-images-header').click(function() {
+      toggleSection('.test--classifier-images-toggle');
+      landscapify('.test--classifier-images-image');
+    });
+
+    $('.test--header').click(function() {
+      toggleSection('.test--input-container');
+      landscapify('.test--example-image');
+      landscapify('.test--output-image');
+    });
+    $('.test--input-container .test--classifier-images-arrow').click(function() {
+      toggleSection('.test--input-container');
+      landscapify('.test--example-image');
+      landscapify('.test--output-image');
+    });
+  }
+
+
+  var classifier = Cookies.get('classifier');
+  // enable test if there is trained classifier
+  if (classifier)
+    $('.tab-panels--tab[href="/test"]').removeClass('disabled');
+
+  // send the user to train if they hit /test without a trained classifier
+  if (currentPage() === '/test') {
+    if (classifier){
+      showTestSamples(Cookies.get('bundle') || 'default');
+      square();
+      $(window).resize(square);
+      setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
+    } else {
+      $('.tab-panels--tab[href="/train"]').trigger('click');
+    }
+  }
 });

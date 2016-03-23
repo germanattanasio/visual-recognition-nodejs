@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- /* global $:false */
+ /* global $:false, setupUse */
 'use strict';
 
 // if image is landscape, tag it
@@ -60,6 +60,25 @@ function scrollToElement(element) {
   }, 300);
 }
 
+/**
+ * Returns the current page
+ * @return {String} the current page: test, train or use
+ */
+function currentPage() {
+  var href = $(window.location).attr('href');
+  return href.substr(href.lastIndexOf('/'));
+}
+
+/**
+ * Returns the next hour as Date
+ * @return {Date} the next hour
+ */
+function nextHour() {
+  var oneHour = new Date();
+  oneHour.setHours(oneHour.getHours() + 1);
+  return oneHour;
+}
+
 $(document).ready(function () {
 
   // tagging which images are landscape
@@ -72,31 +91,14 @@ $(document).ready(function () {
   square();
   imageFadeIn('.square img');
 
-  scrollToElement($('.tab-views'));
-
   $(window).resize(square);
 
-  // tab listener
-  // $('.tab-panels--tab').click(function(e){
-  //   e.preventDefault();
-  //   var self = $(this);
-  //   var inputGroup = self.closest('.tab-panels');
-  //   var idName = null;
-  //
-  //   if (!self.hasClass('disabled')) {
-  //       inputGroup.find('.active').removeClass('active');
-  //       self.addClass('active');
-  //       idName = self.attr('href');
-  //       $(idName).addClass('active');
-  //   }
-  //
-  //   square();
-  //   landscapify('.use--example-image');
-  //   landscapify('.use--output-image');
-  //   landscapify('.train--bundle-thumb');
-  //   landscapify('.test--example-image');
-  //   landscapify('.test--output-image');
-  //
-  //   $('.dragover').removeClass('dragover');
-  // });
+  //tab listener
+  $('.tab-panels--tab').click(function(e){
+    e.preventDefault();
+    var self = $(this);
+    var newPanel = self.attr('href');
+    if (newPanel !== currentPage())
+      window.location = newPanel;
+  });
 });
