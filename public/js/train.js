@@ -253,7 +253,8 @@
     $loading.show();
     $error.hide();
 
-    populateTestThumbnails(images.positives, images.negatives);
+    localStorage.setItem('positives', JSON.stringify(images.positives));
+    localStorage.setItem('negatives', JSON.stringify(images.negatives));
 
     xhr = $.ajax({
       type: 'POST',
@@ -464,6 +465,8 @@
   if (currentPage() === '/test') {
     if (classifier){
       showTestSamples(Cookies.get('bundle') || 'default');
+      console.log(localStorage['positives']);
+      populateTestThumbnails(JSON.parse(localStorage['positives']), JSON.parse(localStorage['negatives']));
       square();
       $(window).resize(square);
       setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
