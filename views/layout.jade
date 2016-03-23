@@ -32,7 +32,7 @@ html(lang='en')
             img.banner--service-icon_INLINE(src='images/service-icon.svg', alt='Visual Recognition API Icon')
             | Visual Recognition
           .banner--service-description
-            | Visual Recognition allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
+            | Visual Recognition partnered with Alchemy Vision, allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
           .banner--service-resource
             span.icon.icon-link 
             strong Resources:
@@ -45,17 +45,18 @@ html(lang='en')
               a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork on Github
             li.base--li.banner--service-link-item
               a.base--a(href='https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs') Fork and Deploy on Bluemix
-
-    block content
+    ._demo--container
+      article._content.base--article
+        block content
     include ./includes/underscore-templates.jade
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.min.js')
+    script(src='js/demo.js')
     script(src='js/use.js')
     script(src='js/train.js')
-    script(src='js/demo.js')
     script(src='js/vendors/tealeaf.js')
     script(src='js/vendors/ga.js')
-    block extra-scripts

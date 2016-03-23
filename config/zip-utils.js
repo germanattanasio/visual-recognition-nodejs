@@ -38,6 +38,7 @@ function parseBase64Image(imageString) {
   resource.data = new Buffer(matches[2], 'base64');
   return resource;
 }
+module.exports.parseBase64Image = parseBase64Image;
 
 /**
  * Archives an image uning the @param archive module
@@ -60,7 +61,6 @@ function archiveImage(archive, image) {
     }
   }
 }
-
 
 /**
  * Creates a zip file with the images array

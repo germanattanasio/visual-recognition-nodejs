@@ -17,9 +17,11 @@ mixin sampleInput(className)
   form(id='#{className}--fileupload', class='#{className}--form', data-upload-template-id='template-upload-#{className}')
     div(class='#{className}--example-images #{className}--example-images_default')
       +sampleImages(sampleImages, className, 'default')
-    each dataset, index in datasets
-      div(class='#{className}--example-images #{className}--example-images_#{dataset.id}')
-        +sampleImages(images[index], className, dataset.id)
+    if className != 'use'
+      each dataset, index in datasets
+        div(class='#{className}--example-images #{className}--example-images_#{dataset.id}')
+          +sampleImages(images[index], className, dataset.id)
+    
     div(class='#{className}--dropzone')
       label(class='#{className}--file-input-button base--button', for='#{className}--file')
         span.base--a Select an image
@@ -29,3 +31,4 @@ mixin sampleInput(className)
       div(class='#{className}--invalid-url') Invalid URL
       div(class='#{className}--invalid-image-url') The URL must end with .JPG, .GIF, or .PNG.
       input(class='#{className}--url-input base--input', type='text', placeholder='Paste image URL here', name='url')
+      input(class='#{className}--image-data-input base--input', type='hidden', name='image_data')

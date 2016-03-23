@@ -16,7 +16,7 @@
 
 'use strict';
 var CLASSIFIER_ID = null;
-/*global $:false */
+/*global $:false, resize */
 
 /**
  * Setups the "Try Out" and "Test" panels.
@@ -45,10 +45,10 @@ function setupUse(params) {
     $tbody = $(pclass + 'output-tbody'),
     $image = $(pclass + 'output-image'),
     $urlInput = $(pclass + 'url-input'),
+    $imageDataInput = $(pclass + 'image-data-input'),
     $radioImages = $(pclass + 'example-radio'),
     $invalidImageUrl = $(pclass + 'invalid-image-url').hide(),
     $invalidUrl = $(pclass + 'invalid-url').show(),
-    $trainButton = $(pclass + 'train-button'),
     $dropzone = $(pclass + 'dropzone'),
     $fileupload = $(pid + 'fileupload');
 
@@ -90,8 +90,9 @@ function setupUse(params) {
 
     if (!scores || scores.length === 0) {
       var message = 'The image could not be classified';
-      if ($('#panel3').hasClass('active'))
-        message = 'Not a positive match for ' + $('.test--classifier-name').text() + ' with a confidence above 50%';
+      if ($('#test').hasClass('active'))
+        message = 'Not a positive match for ' + $('.test--classifier-name').text() +
+        ' with a confidence above 50%';
       $tbody.html(
         '<tr class="base--tr use--output-tr" >' +
         '<td class="base--td use--output-td">' +
@@ -148,10 +149,12 @@ function setupUse(params) {
   /*
    * submit event
    */
-  function classifyImage(imgPath) {
+  function classifyImage(imgPath, imageData) {
     processImage();
-    $image.attr('src', imgPath);
+    if (imgPath !== '')
+      $image.attr('src', imgPath);
     $urlInput.val(imgPath);
+    $imageDataInput.val(imageData);
 
     var url = '/api/classify';
     if (useClassifierId === true && CLASSIFIER_ID)
@@ -160,10 +163,10 @@ function setupUse(params) {
     // Grab all form data
     $.post(url, $(pclass + 'form').serialize())
       .done(showResult)
-      .error(function(err) {
+      .error(function() {
         $loading.hide();
-        // showError(err.responseJSON.error);
-        showError('The demo is not available right now. <br/>We are working on getting this back up and running soon.');
+        showError('The demo is not available right now. <br/>We are working on ' +
+        'getting this back up and running soon.');
       });
   }
 
@@ -205,7 +208,7 @@ function setupUse(params) {
             self.addClass(panel + '--url-input_error');
           } else {
             resetPasteUrl();
-            classifyImage(url);
+            convertFileToDataURLviaFileReader(url, classifyImage.bind(classifyImage, url));
             self.blur();
           }
         });
@@ -213,14 +216,6 @@ function setupUse(params) {
     }
 
     $(self).focus();
-  });
-
-  /*
-   * Image url submission
-   */
-  $trainButton.click(function() {
-    $('.tab-panels--tab[href="#panel2"]').trigger('click');
-    scrollToElement($('.tab-views'));
   });
 
   function resetPasteUrl() {
@@ -239,14 +234,9 @@ function setupUse(params) {
     add: function(e, data) {
       var path = (useClassifierId && CLASSIFIER_ID) ? '?classifier_id=' + CLASSIFIER_ID : '';
       data.url = '/api/classify' + path;
-      console.log($fileupload);
       if (data.files && data.files[0]) {
-        if(data.files[0]['size'] > 5242880) {
-          showError('The file size exceeds the limit allowed. The maximum file size is 5 MB.');
-          return;
-        } else {
-          $error.hide();
-        }
+        $error.hide();
+          
         processImage();
         var reader = new FileReader();
         reader.onload = function() {
@@ -254,10 +244,12 @@ function setupUse(params) {
           image.src = reader.result;
           image.onload = function() {
             $image.attr('src', this.src);
+            classifyImage('', resize(image, 640));
           };
         };
         reader.readAsDataURL(data.files[0]);
-        data.submit();
+        // do not submit the image
+        //data.submit();
       }
     },
     error: _error,
@@ -308,6 +300,23 @@ function setupUse(params) {
     $(pclass + 'dropzone label').removeClass('dragover');
   });
 
+  function convertFileToDataURLviaFileReader(url, callback){
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function() {
+          var reader  = new FileReader();
+          reader.onloadend = function () {
+            var image = new Image();
+            image.src = reader.result;
+            image.onload = function() {
+              callback(resize(image, 640));
+            };
+          };
+          reader.readAsDataURL(xhr.response);
+      };
+      xhr.open('GET', url);
+      xhr.send();
+  }
   /**
    * scroll animation to element on page
    * @param  {$element}  Jquery element
@@ -319,9 +328,3 @@ function setupUse(params) {
     }, 300);
   }
 }
-
-// init pages
-$(function() {
-  setupUse({ panel: 'use'});
-  setupUse({ panel: 'test', useClassifierId: true});
-});
