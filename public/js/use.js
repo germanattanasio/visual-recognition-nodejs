@@ -16,7 +16,7 @@
 
 'use strict';
 var CLASSIFIER_ID = null;
-/*global $:false */
+/*global $:false, resize */
 
 /**
  * Setups the "Try Out" and "Test" panels.
@@ -45,6 +45,7 @@ function setupUse(params) {
     $tbody = $(pclass + 'output-tbody'),
     $image = $(pclass + 'output-image'),
     $urlInput = $(pclass + 'url-input'),
+    $imageDataInput = $(pclass + 'image-data-input'),
     $radioImages = $(pclass + 'example-radio'),
     $invalidImageUrl = $(pclass + 'invalid-image-url').hide(),
     $invalidUrl = $(pclass + 'invalid-url').show(),
@@ -148,10 +149,11 @@ function setupUse(params) {
   /*
    * submit event
    */
-  function classifyImage(imgPath) {
+  function classifyImage(imgPath, imageData) {
     processImage();
     $image.attr('src', imgPath);
     $urlInput.val(imgPath);
+    $imageDataInput.val(imageData);
 
     var url = '/api/classify';
     if (useClassifierId === true && CLASSIFIER_ID)
@@ -205,7 +207,7 @@ function setupUse(params) {
             self.addClass(panel + '--url-input_error');
           } else {
             resetPasteUrl();
-            classifyImage(url);
+            convertFileToDataURLviaFileReader(url, classifyImage.bind(classifyImage, url));
             self.blur();
           }
         });
@@ -231,7 +233,6 @@ function setupUse(params) {
     add: function(e, data) {
       var path = (useClassifierId && CLASSIFIER_ID) ? '?classifier_id=' + CLASSIFIER_ID : '';
       data.url = '/api/classify' + path;
-      console.log($fileupload);
       if (data.files && data.files[0]) {
         if(data.files[0]['size'] > 5242880) {
           showError('The file size exceeds the limit allowed. The maximum file size is 5 MB.');
@@ -300,6 +301,23 @@ function setupUse(params) {
     $(pclass + 'dropzone label').removeClass('dragover');
   });
 
+  function convertFileToDataURLviaFileReader(url, callback){
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function() {
+          var reader  = new FileReader();
+          reader.onloadend = function () {
+            var image = new Image();
+            image.src = reader.result;
+            image.onload = function() {
+              callback(resize(image, 640));
+            };
+          };
+          reader.readAsDataURL(xhr.response);
+      };
+      xhr.open('GET', url);
+      xhr.send();
+  }
   /**
    * scroll animation to element on page
    * @param  {$element}  Jquery element

@@ -31,3 +31,4 @@ mixin sampleInput(className)
       div(class='#{className}--invalid-url') Invalid URL
       div(class='#{className}--invalid-image-url') The URL must end with .JPG, .GIF, or .PNG.
       input(class='#{className}--url-input base--input', type='text', placeholder='Paste image URL here', name='url')
+      input(class='#{className}--image-data-input base--input', type='hidden', name='image_data')

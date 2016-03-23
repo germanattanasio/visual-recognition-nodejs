@@ -364,19 +364,6 @@
     $('.train--dropzone label').removeClass('dragover');
   });
 
-
-  function resize(image, maxSize) {
-    var c = window.document.createElement('canvas'),
-      ctx = c.getContext('2d'),
-      ratio = image.width / image.height;
-
-    c.width = (ratio > 1 ? maxSize : maxSize * ratio);
-    c.height = (ratio > 1 ? maxSize / ratio : maxSize);
-
-    ctx.drawImage(image, 0, 0, c.width, c.height);
-    return c.toDataURL('image/jpeg');
-  }
-
   function setTrainButtonState() {
     var button = document.querySelector('.train--train-button');
     if ($trainUrlInput.val() !== '' &&

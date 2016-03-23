@@ -37,6 +37,7 @@ var express = require('express'),
   request = require('request'),
   datasets = require('./public/data/datasets.json'),
   zipUtils = require('./config/zip-utils'),
+  uuid      = require('uuid'),
   watson = require('watson-developer-cloud');
 
 
@@ -102,7 +103,7 @@ function filterUserCreatedClassifier(result, classifier_ids) {
  */
 function normalizeResult(item) {
   var result = {
-    name: item.text || 'Unkown',
+    name: item.text || 'Unknown',
     score: parseFloat(item.score || '0')
   };
   if (item.knowledgeGraph && item.knowledgeGraph.typeHierarchy) {
@@ -122,7 +123,6 @@ function formatAlchemyVisionResults(results) {
     }]
   };
 }
-
 
 /**
  * Creates a classifier
@@ -195,6 +195,12 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   if (req.file) {
     // file image
     file = fs.createReadStream(req.file.path);
+  } else if (req.body.image_data) {
+    // write the base64 image to a temp file
+    var resource = zipUtils.parseBase64Image(req.body.image_data);
+    var temp = './uploads/' + uuid.v1() + '.' + resource.type;
+    fs.writeFileSync(temp, resource.data);
+    file = fs.createReadStream(temp);
   } else if (req.body.url && validator.isURL(req.body.url)) {
     // web image
     file = request(req.body.url.split('?')[0]);
@@ -205,8 +211,6 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     // malformed url
     return next({ error: 'Malformed URL', code: 400 });
   }
-
-
 
   if (req.query.classifier_id) {
     var vparams = {
@@ -224,13 +228,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
         res.json(filterUserCreatedClassifier(results, vparams.classifier_ids));
     });
   } else {
-    var aparams = {};
-    if (req.body.url && validator.isURL(req.body.url)) {
-      aparams.url = req.body.url;
-    } else {
-      aparams.image = file;
-    }
-    alchemyVision.getImageKeywords(aparams, function (err, results) {
+    alchemyVision.getImageKeywords({ image: file}, function (err, results) {
       // delete the recognized file
       if (req.file)
         fs.unlink(file.path);
