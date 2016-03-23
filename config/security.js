@@ -28,7 +28,7 @@ module.exports = function (app) {
   app.use(secure());
 
   // 2. helmet with defaults
-  app.use(helmet.defaults({ cacheControl: false }));
+  app.use(helmet({ cacheControl: false }));
 
   // 3. rate-limit to /api/
   app.use('/api/', rateLimit({
