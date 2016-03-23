@@ -89,7 +89,9 @@ function setupUse(params) {
     var scores = results.images[0].scores;
 
     if (!scores || scores.length === 0) {
-      var message = 'The image could not be classified';
+      var message = $('.test--classifier-name').length === 0 ?
+        'The image could not be classified' :
+        'This image is not a match for ' + $('.test--classifier-name').text();
       if ($('#test').hasClass('active'))
         message = 'Not a positive match for ' + $('.test--classifier-name').text() +
         ' with a confidence above 50%';
@@ -236,7 +238,7 @@ function setupUse(params) {
       data.url = '/api/classify' + path;
       if (data.files && data.files[0]) {
         $error.hide();
-          
+
         processImage();
         var reader = new FileReader();
         reader.onload = function() {
