@@ -49,7 +49,6 @@ function setupUse(params) {
     $radioImages = $(pclass + 'example-radio'),
     $invalidImageUrl = $(pclass + 'invalid-image-url').hide(),
     $invalidUrl = $(pclass + 'invalid-url').show(),
-    $trainButton = $(pclass + 'train-button'),
     $dropzone = $(pclass + 'dropzone'),
     $fileupload = $(pid + 'fileupload');
 
@@ -92,7 +91,8 @@ function setupUse(params) {
     if (!scores || scores.length === 0) {
       var message = 'The image could not be classified';
       if ($('#test').hasClass('active'))
-        message = 'Not a positive match for ' + $('.test--classifier-name').text() + ' with a confidence above 50%';
+        message = 'Not a positive match for ' + $('.test--classifier-name').text() +
+        ' with a confidence above 50%';
       $tbody.html(
         '<tr class="base--tr use--output-tr" >' +
         '<td class="base--td use--output-td">' +
@@ -151,7 +151,8 @@ function setupUse(params) {
    */
   function classifyImage(imgPath, imageData) {
     processImage();
-    $image.attr('src', imgPath);
+    if (imgPath !== '')
+      $image.attr('src', imgPath);
     $urlInput.val(imgPath);
     $imageDataInput.val(imageData);
 
@@ -162,10 +163,10 @@ function setupUse(params) {
     // Grab all form data
     $.post(url, $(pclass + 'form').serialize())
       .done(showResult)
-      .error(function(err) {
+      .error(function() {
         $loading.hide();
-        // showError(err.responseJSON.error);
-        showError('The demo is not available right now. <br/>We are working on getting this back up and running soon.');
+        showError('The demo is not available right now. <br/>We are working on ' +
+        'getting this back up and running soon.');
       });
   }
 
@@ -247,10 +248,12 @@ function setupUse(params) {
           image.src = reader.result;
           image.onload = function() {
             $image.attr('src', this.src);
+            classifyImage('', resize(image, 640));
           };
         };
         reader.readAsDataURL(data.files[0]);
-        data.submit();
+        // do not submit the image
+        //data.submit();
       }
     },
     error: _error,

@@ -219,7 +219,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     };
 
     visualRecognition.classify(vparams, function(err, results) {
-      if (req.file) // delete the recognized file
+      if (req.file || req.body.image_data) // delete the recognized file
         fs.unlink(file.path);
 
       if (err)
@@ -230,7 +230,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   } else {
     alchemyVision.getImageKeywords({ image: file}, function (err, results) {
       // delete the recognized file
-      if (req.file)
+      if (req.file || req.body.image_data)
         fs.unlink(file.path);
 
       if (err)
