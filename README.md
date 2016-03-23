@@ -1,4 +1,4 @@
-# Visual Recognition Nodejs Starter Application
+# Visual Recognition + AlchemyVision Demo
 
 [Visual Recognition][visual_recognition_service] partnered with [Alchemy Vision](www.alchemyapi.com/products/alchemyvision), allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
