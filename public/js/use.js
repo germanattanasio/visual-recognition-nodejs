@@ -235,12 +235,8 @@ function setupUse(params) {
       var path = (useClassifierId && CLASSIFIER_ID) ? '?classifier_id=' + CLASSIFIER_ID : '';
       data.url = '/api/classify' + path;
       if (data.files && data.files[0]) {
-        if(data.files[0]['size'] > 5242880) {
-          showError('The file size exceeds the limit allowed. The maximum file size is 5 MB.');
-          return;
-        } else {
-          $error.hide();
-        }
+        $error.hide();
+          
         processImage();
         var reader = new FileReader();
         reader.onload = function() {
