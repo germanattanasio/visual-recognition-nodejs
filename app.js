@@ -106,10 +106,11 @@ function normalizeResult(item) {
     name: item.text || 'Unknown',
     score: parseFloat(item.score || '0')
   };
-  if (item.knowledgeGraph && item.knowledgeGraph.typeHierarchy) {
-    result.knowledge_graph = item.knowledgeGraph.typeHierarchy;
-  }
   return result;
+}
+
+function noTags(tag) {
+  return tag.name !== 'NO_TAGS';
 }
 /**
  * Formats Alchemy Vision results to match the Watson Vision format
@@ -119,7 +120,7 @@ function normalizeResult(item) {
 function formatAlchemyVisionResults(results) {
   return {
     images: [{
-      scores: results.imageKeywords.map(normalizeResult)
+      scores: results.imageKeywords.map(normalizeResult).filter(noTags)
     }]
   };
 }
