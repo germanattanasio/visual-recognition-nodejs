@@ -7,17 +7,18 @@ hr.base--hr.test--hr
   i.test--classifier-images-arrow.icon.icon-down-arrow
   +sampleInput('test')
 hr.base--hr.test--hr
-.test--classifier-images-toggle
-  h3.test--classifier-images-title.base--h3 Show your trained images
-  i.test--classifier-images-arrow.icon.icon-down-arrow
-  .test--classifier-images
-    .test--classifier-images-left
-      h3.base--h3.test--classifier-images-header Positive Images
-      .test--classifier-images-thumbs.test--classifier-images-thumbs_positive
-    .test--classifier-images-right
-      h3.base--h3.test--classifier-images-header Negative Images
-      .test--classifier-images-thumbs.test--classifier-images-thumbs_negative
-hr.base--hr.test--hr
+.test--classifier-images-container
+  .test--classifier-images-toggle
+    h3.test--classifier-images-title.base--h3 Show your trained images
+    i.test--classifier-images-arrow.icon.icon-down-arrow
+    .test--classifier-images
+      .test--classifier-images-left
+        h3.base--h3.test--classifier-images-header Positive Images
+        .test--classifier-images-thumbs.test--classifier-images-thumbs_positive
+      .test--classifier-images-right
+        h3.base--h3.test--classifier-images-header Negative Images
+        .test--classifier-images-thumbs.test--classifier-images-thumbs_negative
+  hr.base--hr.test--hr
 .loading.test--loading
   img.test--loading-image.loading--image(src='images/loading-indicator.gif')
   p.base--p.test--loading-message.loading--message Visual Recognition is classifying the image to determine a match...

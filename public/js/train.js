@@ -465,8 +465,11 @@
   if (currentPage() === '/test') {
     if (classifier){
       showTestSamples(Cookies.get('bundle') || 'default');
-      console.log(localStorage['positives']);
-      populateTestThumbnails(JSON.parse(localStorage['positives']), JSON.parse(localStorage['negatives']));
+      populateTestThumbnails(JSON.parse(localStorage['positives'] || '[]'), JSON.parse(localStorage['negatives'] || '[]'));
+      if (!localStorage['positives'] || !localStorage['negatives'])
+        $('.test--classifier-images-container').hide();
+      else
+        $('.test--classifier-images-container').show();
       square();
       $(window).resize(square);
       setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
