@@ -265,7 +265,8 @@
       success: function(result) {
         resetPage();
         Cookies.set('classifier', result, { expires: nextHour()});
-        $('.tab-panels--tab[href="/test"]').trigger('click');
+        // $('.tab-panels--tab[href="/test"]').trigger('click');
+        window.location.href = '/test';
       },
       error: function(err) {
         $loading.hide();
