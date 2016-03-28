@@ -59,7 +59,11 @@ var alchemyVision = watson.alchemy_vision({
 });
 
 app.get('/', function(req, res) {
-  res.render('use', datasets);
+  res.render('use', {
+    datasets: datasets,
+    ct: req._csrfToken,
+    ga: process.env.GOOGLE_ANALYTICS
+  });
 });
 
 app.get('/use', function(req, res) {

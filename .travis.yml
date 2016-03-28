@@ -16,6 +16,8 @@ before_deploy: npm install -g cf-blue-green
 deploy:
   provider: script
   script:
+    - echo "ignoring cf-blue-green-travis for now..."
+    - cf push
     - cf-blue-green-travis
   on:
     branch: master
