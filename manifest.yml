@@ -4,7 +4,7 @@ declared-services:
     plan: free
 applications:
 - name: visual-recognition-demo
-  command: node app.js
+  command: npm start
   path: .
   memory: 512M
   services:

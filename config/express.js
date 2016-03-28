@@ -23,8 +23,9 @@ var express    = require('express'),
   findRemoveSync = require('find-remove');
 
 module.exports = function (app) {
-  // Only loaded when SECURE_EXPRESS is `1`
-  if (process.env.SECURE_EXPRESS)
+  // When running in Bluemix add rate-limitation
+  // and some other features around security
+  if (process.env.VCAP_APPLICATION)
     require('./security')(app);
 
 
