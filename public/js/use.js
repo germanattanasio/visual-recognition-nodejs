@@ -153,14 +153,16 @@ function setupUse(params) {
    */
   function classifyImage(imgPath, imageData) {
     processImage();
-    if (imgPath !== '')
+    if (imgPath !== '') {
       $image.attr('src', imgPath);
-    $urlInput.val(imgPath);
+      $urlInput.val(imgPath);
+    }
+
     $imageDataInput.val(imageData);
 
     var url = '/api/classify';
     if (useClassifierId === true && CLASSIFIER_ID)
-      url+= '?classifier_id=' +  CLASSIFIER_ID;
+      url += '?classifier_id=' +  CLASSIFIER_ID;
 
     // Grab all form data
     $.post(url, $(pclass + 'form').serialize())
@@ -210,7 +212,7 @@ function setupUse(params) {
             self.addClass(panel + '--url-input_error');
           } else {
             resetPasteUrl();
-            convertFileToDataURLviaFileReader(url, classifyImage.bind(classifyImage, url));
+            classifyImage(url);
             self.blur();
           }
         });

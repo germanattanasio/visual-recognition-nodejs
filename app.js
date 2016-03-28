@@ -191,55 +191,71 @@ app.post('/api/classifiers', function(req, res, next) {
  *                     images/test.jpg or https://example.com/test.jpg
  */
 app.post('/api/classify', app.upload.single('images_file'), function(req, res, next) {
+
+  function requestWatsonApis(url) {
+    if (req.query.classifier_id) {
+      var vparams = {
+        images_file: file,
+        classifier_ids: [req.query.classifier_id]
+      };
+
+      visualRecognition.classify(vparams, function(err, results) {
+        if (req.file || req.body.image_data) // delete the recognized file
+          fs.unlink(file.path);
+
+        if (err)
+          return next(err);
+        else
+          res.json(filterUserCreatedClassifier(results, vparams.classifier_ids));
+      });
+    } else {
+      var aparams = {
+        image: file
+      };
+
+      if (url)
+        aparams = { url: url };
+      alchemyVision.getImageKeywords(aparams, function (err, results) {
+        // delete the recognized file
+        if (req.file || req.body.image_data)
+          fs.unlink(file.path);
+
+        if (err)
+          return next(err);
+        else
+          res.json(formatAlchemyVisionResults(results));
+      });
+    }
+  }
+
   var file = null;
 
   if (req.file) {
     // file image
     file = fs.createReadStream(req.file.path);
+    requestWatsonApis();
   } else if (req.body.image_data) {
     // write the base64 image to a temp file
     var resource = zipUtils.parseBase64Image(req.body.image_data);
     var temp = './uploads/' + uuid.v1() + '.' + resource.type;
     fs.writeFileSync(temp, resource.data);
     file = fs.createReadStream(temp);
+    requestWatsonApis();
   } else if (req.body.url && validator.isURL(req.body.url)) {
     // web image
     file = request(req.body.url.split('?')[0]);
+    var url = req.body.url.split('?')[0];
+    requestWatsonApis(url);
   } else if (req.body.url && req.body.url.indexOf('images') === 0) {
     // local image
     file = fs.createReadStream(path.join('public', req.body.url));
+    requestWatsonApis();
   } else {
     // malformed url
     return next({ error: 'Malformed URL', code: 400 });
+    requestWatsonApis();
   }
 
-  if (req.query.classifier_id) {
-    var vparams = {
-      images_file: file,
-      classifier_ids: [req.query.classifier_id]
-    };
-
-    visualRecognition.classify(vparams, function(err, results) {
-      if (req.file || req.body.image_data) // delete the recognized file
-        fs.unlink(file.path);
-
-      if (err)
-        return next(err);
-      else
-        res.json(filterUserCreatedClassifier(results, vparams.classifier_ids));
-    });
-  } else {
-    alchemyVision.getImageKeywords({ image: file}, function (err, results) {
-      // delete the recognized file
-      if (req.file || req.body.image_data)
-        fs.unlink(file.path);
-
-      if (err)
-        return next(err);
-      else
-        res.json(formatAlchemyVisionResults(results));
-    });
-  }
 });
 
 // error-handler settings

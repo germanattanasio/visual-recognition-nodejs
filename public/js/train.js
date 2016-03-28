@@ -403,8 +403,8 @@
   }
 
   // init pages
-  setupUse({ panel: 'use'});
-  setupUse({ panel: 'test', useClassifierId: true});
+  setupUse({ panel: 'use' });
+  setupUse({ panel: 'test', useClassifierId: true });
 
   /**
    * Select the test page and configure it with the created classifier
