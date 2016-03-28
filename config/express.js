@@ -23,7 +23,7 @@ var express    = require('express'),
   findRemoveSync = require('find-remove');
 
 module.exports = function (app) {
-  // Only loaded when SECURE_EXPRESS is `true`
+  // Only loaded when SECURE_EXPRESS is `1`
   if (process.env.SECURE_EXPRESS)
     require('./security')(app);
 
