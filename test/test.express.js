@@ -26,10 +26,29 @@ describe('express', function() {
     request(app).get('/').expect(200, done);
   });
 
+  it('load home page when GET /train', function(done) {
+    request(app).get('/train').expect(200, done);
+  });
+
+  it('load home page when GET /test', function(done) {
+    request(app).get('/test').expect(200, done);
+  });
+
   it('404 when page not found', function(done) {
     request(app).get('/foo/bar').expect(404, done);
   });
 
+  // api/classify
+  it('200 when calling /api/classify', function(done) {
+
+  });
+
+  // api/classifiers
+  it('200 when calling /api/classifiers', function(done) {
+
+  });
+
+  // 200 when calling
   // it('200 when calling classify', function(done) {
   //   var server = 'https://gateway.watsonplatform.net:443',
   //     classifier_id = '<classifier-id>',
