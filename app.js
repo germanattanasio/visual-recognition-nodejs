@@ -58,6 +58,7 @@ var alchemyVision = watson.alchemy_vision({
   api_key: process.env.ALCHEMY_KEY || '<alchemy-key>'
 });
 
+
 app.get('/', function(req, res) {
   res.render('use', {
     datasets: datasets,
@@ -66,16 +67,20 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/use', function(req, res) {
-  res.render('use', datasets);
-});
-
 app.get('/train', function(req, res) {
-  res.render('train', datasets);
+  res.render('train', {
+    datasets: datasets,
+    ct: req._csrfToken,
+    ga: process.env.GOOGLE_ANALYTICS
+  });
 });
 
 app.get('/test', function(req, res) {
-  res.render('test', datasets);
+  res.render('test', {
+    datasets: datasets,
+    ct: req._csrfToken,
+    ga: process.env.GOOGLE_ANALYTICS
+  });
 });
 
 /**

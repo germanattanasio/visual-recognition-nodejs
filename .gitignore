@@ -5,5 +5,4 @@ uploads/*
 !uploads/README.md
 VCAP_SERVICES.json
 run.sh
-
 .env.js

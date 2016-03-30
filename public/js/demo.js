@@ -121,4 +121,10 @@ $(document).ready(function () {
         window.location = newPanel;
     }
   });
+
+  $.ajaxSetup({
+    headers: {
+      'csrf-token': $('meta[name="ct"]').attr('content')
+    }
+  });
 });
