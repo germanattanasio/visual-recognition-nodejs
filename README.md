@@ -47,20 +47,6 @@ applications:
   $ cf push
   ```
 
-7. Optional Security and Performance enhancements
-
-  Set `NODE_ENV=production` to enable view caching and other performance enhancements:
-
-  ```sh
-  $ cf set-env <application-name> NODE_ENV production
-  ```
-
-  Set `SECURE_EXPRESS=1` to enable rate-limiting, HTTPS-only, and several other security features:
-
-  ```sh
-  $ cf set-env <application-name> SECURE_EXPRESS 1
-  ```
-
 See the full [Getting Started][getting_started] documentation for more details, including code snippets and references.
 
 ## Running locally
