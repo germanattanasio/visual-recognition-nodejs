@@ -23,6 +23,7 @@ var express    = require('express'),
   findRemoveSync = require('find-remove');
 
 module.exports = function (app) {
+
   // When running in Bluemix add rate-limitation
   // and some other features around security
   if (process.env.VCAP_APPLICATION)

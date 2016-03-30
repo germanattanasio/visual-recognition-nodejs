@@ -1,10 +1,6 @@
 #! /usr/bin/env node
 'use strict';
 
-// hack for blue-green deployments
-if (process.env.CLASSIFIER_ID){
-  process.env.CLASSIFIER_ID = process.env.CLASSIFIER_ID.replace(/\"/g,'');
-}
 if (process.env.GOOGLE_ANALYTICS){
   process.env.GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS.replace(/\"/g,'');
 }
