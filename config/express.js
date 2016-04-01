@@ -32,8 +32,8 @@ module.exports = function (app) {
 
   // Configure Express
   app.set('view engine', 'jade');
-  app.use(bodyParser.urlencoded({ extended: true, limit: '20mb' }));
-  app.use(bodyParser.json({ limit: '20mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '40mb' }));
+  app.use(bodyParser.json({ limit: '40mb' }));
 
   // Setup static public directory
   app.use(express.static(__dirname + '/../public'));

@@ -79,8 +79,8 @@
     $positivePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      landscapify(this);
-      imageFadeIn(this);
+      //landscapify(this);
+      //imageFadeIn(this);
     });
 
     numImages = $('.train--positive-input .train--file-preview-image').length;
@@ -109,8 +109,8 @@
     $negativePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      landscapify(this);
-      imageFadeIn(this);
+      //landscapify(this);
+      //imageFadeIn(this);
     });
 
     numImages = $('.train--negative-input .train--file-preview-image').length;
@@ -253,8 +253,10 @@
     $loading.show();
     $error.hide();
 
-    localStorage.setItem('positives', JSON.stringify(images.positives));
-    localStorage.setItem('negatives', JSON.stringify(images.negatives));
+    localStorage.setItem('positives', JSON.stringify(images.positives.slice(0, 50)));
+    localStorage.setItem('negatives', JSON.stringify(images.negatives.slice(0, 50)));
+    localStorage.setItem('positives_size', images.positives.length);
+    localStorage.setItem('negatives_size', images.negatives.length);
 
     xhr = $.ajax({
       type: 'POST',

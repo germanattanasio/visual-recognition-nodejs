@@ -35,6 +35,7 @@
     "archiver": "^0.21.0",
     "async": "^1.5.0",
     "body-parser": "^1.15.0",
+    "cf-deployment-tracker-client": "0.0.8",
     "cookie-parser": "^1.4.1",
     "csurf": "^1.8.3",
     "express": "^4.13.4",
