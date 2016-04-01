@@ -34,6 +34,8 @@
       $negativePreviewContainer = $('.train--negative-input .train--file-preview-container'),
       $positiveClearButton = $('.positive-images .train--clear-button'),
       $negativeClearButton = $('.negative-images .train--clear-button'),
+      $positiveLimitExceeded = $('.positive-images .train--limit-exceeded-message'),
+      $negativeLimitExceeded = $('.negative-images .train--limit-exceeded-message'),
       $hiddenInput = $('.train--hidden-input'),
       $trainUrlInput = $('.train--url-input'),
       $trainInput = $('.train--input'),
@@ -79,8 +81,8 @@
     $positivePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      //landscapify(this);
-      //imageFadeIn(this);
+      landscapify(this);
+      imageFadeIn(this);
     });
 
     numImages = $('.train--positive-input .train--file-preview-image').length;
@@ -109,8 +111,8 @@
     $negativePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      //landscapify(this);
-      //imageFadeIn(this);
+      landscapify(this);
+      imageFadeIn(this);
     });
 
     numImages = $('.train--negative-input .train--file-preview-image').length;
@@ -334,12 +336,24 @@
               // display thumbs
               var resizedImage = resize(image, 320);
               if (dropzoneType === 'positive') {
-                loadPreviewsPositive([resizedImage]);
-                showPreviewPositive();
+                if ($('.positive-images .train--file-preview-image').length < 200) {
+                  loadPreviewsPositive([resizedImage]);
+                  showPreviewPositive();
+                } else {
+                  // if 200 image limit exceeded
+                  if (!$positiveLimitExceeded.is(':visible'))
+                    $positiveLimitExceeded.show();
+                }
               }
               else if (dropzoneType === 'negative') {
-                loadPreviewsNegative([resizedImage]);
-                showPreviewNegative();
+                if ($('.negative-images .train--file-preview-image').length < 200) {
+                  loadPreviewsNegative([resizedImage]);
+                  showPreviewNegative();
+                } else {
+                  // if 200 image limit exceeded
+                  if (!$negativeLimitExceeded.is(':visible'))
+                    $negativeLimitExceeded.show();
+                }
               }
               setTrainButtonState();
             };

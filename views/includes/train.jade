@@ -23,6 +23,8 @@ include ../mixins/trainBundle.jade
             |  or drag from your computer to define the classifier. More images will improve accuracy.
           .train--file-preview-container.positive-images
             .train--file-preview
+            .train--limit-exceeded-message
+              | You have exceeded 200 images, which is the limit for this demo.  However, this is not a limit to the Visual Recognition API itself.
             button.base--a.train--clear-button clear
         input#train--file_positive.train--file-input(type='file', name='positive_images', multiple, accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
         .train--file-indicator
@@ -40,6 +42,8 @@ include ../mixins/trainBundle.jade
             |  or drag from your computer to define the classifier. More images will improve accuracy.
           .train--file-preview-container.negative-images
             .train--file-preview
+            .train--limit-exceeded-message
+              | You have exceeded 200 images, which is the limit for this demo.  However, this is not a limit to the Visual Recognition API itself.
             button.base--a.train--clear-button clear
             input#train--file_negative.train--file-input(type='file', name='negative_images', multiple, accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
         .train--file-indicator

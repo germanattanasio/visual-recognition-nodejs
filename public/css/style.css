@@ -1506,7 +1506,9 @@ pre[class*=" language-"] {
 
 .train--file-preview {
   text-align: center; }
-
+.train--limit-exceeded-message {
+  color: #e71d32;
+  display: none; }
 .train--file-preview-thumb {
   position: relative;
   display: inline-block;
