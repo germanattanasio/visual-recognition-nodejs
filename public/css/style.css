@@ -1505,6 +1505,8 @@ pre[class*=" language-"] {
   display: none; }
 
 .train--file-preview {
+  max-height: 246px;
+  overflow: auto;
   text-align: center; }
 .train--limit-exceeded-message {
   color: #e71d32;
@@ -1528,10 +1530,8 @@ pre[class*=" language-"] {
   bottom: -9999px;
   margin: auto;
   max-width: initial;
+  height: 100%;
   width: 100%; }
-  .train--file-preview-image.landscape {
-    height: 100%;
-    width: auto; }
 
 .train--train-button {
   padding: 0.5em 1em;

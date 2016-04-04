@@ -81,8 +81,7 @@
     $positivePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      landscapify(this);
-      imageFadeIn(this);
+      $positivePreview.scrollTop($(this).offset().top);
     });
 
     numImages = $('.train--positive-input .train--file-preview-image').length;
@@ -111,8 +110,7 @@
     $negativePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      landscapify(this);
-      imageFadeIn(this);
+      $negativePreview.scrollTop($(this).offset().top);
     });
 
     numImages = $('.train--negative-input .train--file-preview-image').length;
