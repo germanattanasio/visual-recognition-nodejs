@@ -141,6 +141,7 @@ function formatAlchemyVisionResults(results) {
  * @param req.body.name classifier name
  */
 app.post('/api/classifiers', function(req, res, next) {
+  console.log(req.body.positives);
   // check the inputs
   if (!util.isArray(req.body.positives)) {
     return next({error: 'Missing positives images', code: 400});
@@ -269,9 +270,5 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
 
 // error-handler settings
 require('./config/error-handler')(app);
-
-var port = process.env.VCAP_APP_PORT || 3000;
-app.listen(port);
-console.log('listening at:', port);
 
 module.exports = app;
