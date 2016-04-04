@@ -32,6 +32,8 @@
       $negativeIndicator = $('.train--negative-input .train--file-indicator'),
       $positivePreviewContainer = $('.train--positive-input .train--file-preview-container'),
       $negativePreviewContainer = $('.train--negative-input .train--file-preview-container'),
+      $positiveFileLoading = $('.train--positive-input .train--file-preview'),
+      $negativeFileLoading = $('.train--negative-input .train--file-preview'),
       $positiveClearButton = $('.positive-images .train--clear-button'),
       $negativeClearButton = $('.negative-images .train--clear-button'),
       $positiveLimitExceeded = $('.positive-images .train--limit-exceeded-message'),
@@ -226,6 +228,7 @@
     hidePreviewsPositive();
     setTrainButtonState();
     $trainPositiveInputErrMsg.hide();
+    $positiveLimitExceeded.hide();
     resetTestSamples();
   });
 
@@ -235,6 +238,7 @@
     hidePreviewsNegative();
     setTrainButtonState();
     $trainPositiveInputErrMsg.hide();
+    $negativeLimitExceeded.hide();
     resetTestSamples();
   });
 
