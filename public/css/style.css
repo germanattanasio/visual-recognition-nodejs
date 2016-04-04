@@ -1666,11 +1666,6 @@ pre[class*=" language-"] {
   margin: 1rem auto 0rem;
   display: none; }
 
-.train--file-loading-image {
-  display: block;
-  margin: auto;
-  width: 7rem; }
-
 .train--loading {
   display: none; }
 

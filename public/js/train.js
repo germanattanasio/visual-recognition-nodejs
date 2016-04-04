@@ -32,8 +32,8 @@
       $negativeIndicator = $('.train--negative-input .train--file-indicator'),
       $positivePreviewContainer = $('.train--positive-input .train--file-preview-container'),
       $negativePreviewContainer = $('.train--negative-input .train--file-preview-container'),
-      $positiveFileLoading = $('.train--positive-input .train--file-preview'),
-      $negativeFileLoading = $('.train--negative-input .train--file-preview'),
+      $positiveFileLoading = $('.train--positive-input .train--file-loading'),
+      $negativeFileLoading = $('.train--negative-input .train--file-loading'),
       $positiveClearButton = $('.positive-images .train--clear-button'),
       $negativeClearButton = $('.negative-images .train--clear-button'),
       $positiveLimitExceeded = $('.positive-images .train--limit-exceeded-message'),
@@ -328,33 +328,54 @@
       dropZone: $('#train--fileupload_' + dropzoneType + ' label'),
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
       add: function(e, data) {
+
         if (data.files && data.files[0]) {
-          var reader = new FileReader();
+          var reader = new FileReader(),
+              existingThumbs;
+
+          if (dropzoneType === 'positive') {
+            $positiveFileLoading.show();
+            existingThumbs = $('.positive-images .train--file-preview-image').length;
+          }
+          else if (dropzoneType === 'negative') {
+            $negativeFileLoading.show();
+            existingThumbs = $('.negative-images .train--file-preview-image').length;
+          }
 
           reader.onload = function() {
             var image = new Image();
+            console.log(existingThumbs);
             image.src = reader.result;
             image.onload = function() {
               // display thumbs
-              var resizedImage = resize(image, 320);
+              var resizedImage = resize(image, 320),
+                  $positiveThumbs = $('.positive-images .train--file-preview-image'),
+                  $negativeThumbs = $('.negative-images .train--file-preview-image');
+
               if (dropzoneType === 'positive') {
-                if ($('.positive-images .train--file-preview-image').length < 200) {
+                if ($positiveThumbs.length < 200) {
                   loadPreviewsPositive([resizedImage]);
                   showPreviewPositive();
+                  if ($positiveThumbs.length + 1 === data.originalFiles.length + existingThumbs);
+                    $positiveFileLoading.hide();
                 } else {
                   // if 200 image limit exceeded
                   if (!$positiveLimitExceeded.is(':visible'))
                     $positiveLimitExceeded.show();
+                  $positiveFileLoading.hide();
                 }
               }
               else if (dropzoneType === 'negative') {
                 if ($('.negative-images .train--file-preview-image').length < 200) {
                   loadPreviewsNegative([resizedImage]);
                   showPreviewNegative();
+                  if ($negativeThumbs.length + 1 === data.originalFiles.length + existingThumbs)
+                    $negativeFileLoading.hide();
                 } else {
                   // if 200 image limit exceeded
                   if (!$negativeLimitExceeded.is(':visible'))
                     $negativeLimitExceeded.show();
+                  $negativeFileLoading.hide();
                 }
               }
               setTrainButtonState();
