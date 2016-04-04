@@ -503,7 +503,7 @@
 
   // send the user to train if they hit /test without a trained classifier
   if (currentPage() === '/test') {
-    if (classifier){
+    if (classifier) {
       showTestSamples(Cookies.get('bundle') || 'default');
       populateTestThumbnails(JSON.parse(localStorage['positives'] || '[]'), JSON.parse(localStorage['negatives'] || '[]'));
       if (!localStorage['positives'] || !localStorage['negatives'])
