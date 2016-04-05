@@ -8,6 +8,6 @@ script(type='text/html', id='testClassifierImagesTemplate').
 script(type='text/html', id='trainPreviewImagesTemplate').
   <% _.each(items, function(item, key, list) { %>
     <div class="train--file-preview-thumb square">
-      <img src="<%= item %>" class="train--file-preview-image"/>
+      <img src="<%= item %>" class="train--file-preview-image loaded"/>
     </div>
   <% });%>

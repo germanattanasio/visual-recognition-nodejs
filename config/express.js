@@ -23,15 +23,17 @@ var express    = require('express'),
   findRemoveSync = require('find-remove');
 
 module.exports = function (app) {
-  // Only loaded when SECURE_EXPRESS is `true`
-  if (process.env.SECURE_EXPRESS)
+
+  // When running in Bluemix add rate-limitation
+  // and some other features around security
+  if (process.env.VCAP_APPLICATION)
     require('./security')(app);
 
 
   // Configure Express
   app.set('view engine', 'jade');
-  app.use(bodyParser.urlencoded({ extended: true, limit: '20mb' }));
-  app.use(bodyParser.json({ limit: '20mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '40mb' }));
+  app.use(bodyParser.json({ limit: '40mb' }));
 
   // Setup static public directory
   app.use(express.static(__dirname + '/../public'));

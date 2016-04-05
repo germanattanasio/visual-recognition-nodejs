@@ -22,8 +22,12 @@ include ../mixins/trainBundle.jade
             span.base--a Select 50 or more images 
             |  or drag from your computer to define the classifier. More images will improve accuracy.
           .train--file-preview-container.positive-images
+            .train--limit-exceeded-message
+              | While the API supports training with large numbers of images, for best results when using the demo, upload no more than 200 images.
             .train--file-preview
             button.base--a.train--clear-button clear
+          .train--file-loading
+            | Loading...
         input#train--file_positive.train--file-input(type='file', name='positive_images', multiple, accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
         .train--file-indicator
           .train--file-meter
@@ -39,9 +43,13 @@ include ../mixins/trainBundle.jade
             span.base--a Select 50 or more images 
             |  or drag from your computer to define the classifier. More images will improve accuracy.
           .train--file-preview-container.negative-images
+            .train--limit-exceeded-message
+              | While the API supports training with large numbers of images, for best results when using the demo, upload no more than 200 images.
             .train--file-preview
             button.base--a.train--clear-button clear
             input#train--file_negative.train--file-input(type='file', name='negative_images', multiple, accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+          .train--file-loading
+            | Loading...
         .train--file-indicator
           .train--file-meter
             .train--file-meter-percent

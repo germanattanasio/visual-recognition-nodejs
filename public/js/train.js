@@ -32,8 +32,12 @@
       $negativeIndicator = $('.train--negative-input .train--file-indicator'),
       $positivePreviewContainer = $('.train--positive-input .train--file-preview-container'),
       $negativePreviewContainer = $('.train--negative-input .train--file-preview-container'),
+      $positiveFileLoading = $('.train--positive-input .train--file-loading'),
+      $negativeFileLoading = $('.train--negative-input .train--file-loading'),
       $positiveClearButton = $('.positive-images .train--clear-button'),
       $negativeClearButton = $('.negative-images .train--clear-button'),
+      $positiveLimitExceeded = $('.positive-images .train--limit-exceeded-message'),
+      $negativeLimitExceeded = $('.negative-images .train--limit-exceeded-message'),
       $hiddenInput = $('.train--hidden-input'),
       $trainUrlInput = $('.train--url-input'),
       $trainInput = $('.train--input'),
@@ -79,8 +83,7 @@
     $positivePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      landscapify(this);
-      imageFadeIn(this);
+      $positivePreview.scrollTop($(this).offset().top);
     });
 
     numImages = $('.train--positive-input .train--file-preview-image').length;
@@ -109,8 +112,7 @@
     $negativePreview.append(_.template(trainPreviewImages_template, {
       items: images
     })).find('img').each(function() {
-      landscapify(this);
-      imageFadeIn(this);
+      $negativePreview.scrollTop($(this).offset().top);
     });
 
     numImages = $('.train--negative-input .train--file-preview-image').length;
@@ -226,6 +228,7 @@
     hidePreviewsPositive();
     setTrainButtonState();
     $trainPositiveInputErrMsg.hide();
+    $positiveLimitExceeded.hide();
     resetTestSamples();
   });
 
@@ -235,6 +238,7 @@
     hidePreviewsNegative();
     setTrainButtonState();
     $trainPositiveInputErrMsg.hide();
+    $negativeLimitExceeded.hide();
     resetTestSamples();
   });
 
@@ -253,8 +257,10 @@
     $loading.show();
     $error.hide();
 
-    localStorage.setItem('positives', JSON.stringify(images.positives));
-    localStorage.setItem('negatives', JSON.stringify(images.negatives));
+    localStorage.setItem('positives', JSON.stringify(images.positives.slice(0, 50)));
+    localStorage.setItem('negatives', JSON.stringify(images.negatives.slice(0, 50)));
+    localStorage.setItem('positives_size', images.positives.length);
+    localStorage.setItem('negatives_size', images.negatives.length);
 
     xhr = $.ajax({
       type: 'POST',
@@ -265,7 +271,8 @@
       success: function(result) {
         resetPage();
         Cookies.set('classifier', result, { expires: nextHour()});
-        $('.tab-panels--tab[href="/test"]').trigger('click');
+        // $('.tab-panels--tab[href="/test"]').trigger('click');
+        window.location.href = '/test';
       },
       error: function(err) {
         $loading.hide();
@@ -321,22 +328,55 @@
       dropZone: $('#train--fileupload_' + dropzoneType + ' label'),
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
       add: function(e, data) {
+
         if (data.files && data.files[0]) {
-          var reader = new FileReader();
+          var reader = new FileReader(),
+              existingThumbs;
+
+          if (dropzoneType === 'positive') {
+            $positiveFileLoading.show();
+            existingThumbs = $('.positive-images .train--file-preview-image').length;
+          }
+          else if (dropzoneType === 'negative') {
+            $negativeFileLoading.show();
+            existingThumbs = $('.negative-images .train--file-preview-image').length;
+          }
 
           reader.onload = function() {
             var image = new Image();
+            console.log(existingThumbs);
             image.src = reader.result;
             image.onload = function() {
               // display thumbs
-              var resizedImage = resize(image, 320);
+              var resizedImage = resize(image, 320),
+                  $positiveThumbs = $('.positive-images .train--file-preview-image'),
+                  $negativeThumbs = $('.negative-images .train--file-preview-image');
+
               if (dropzoneType === 'positive') {
-                loadPreviewsPositive([resizedImage]);
-                showPreviewPositive();
+                if ($positiveThumbs.length < 200) {
+                  loadPreviewsPositive([resizedImage]);
+                  showPreviewPositive();
+                  if ($positiveThumbs.length + 1 === data.originalFiles.length + existingThumbs);
+                    $positiveFileLoading.hide();
+                } else {
+                  // if 200 image limit exceeded
+                  if (!$positiveLimitExceeded.is(':visible'))
+                    $positiveLimitExceeded.show();
+                  $positiveFileLoading.hide();
+                }
               }
               else if (dropzoneType === 'negative') {
-                loadPreviewsNegative([resizedImage]);
-                showPreviewNegative();
+                if ($('.negative-images .train--file-preview-image').length < 200) {
+                  loadPreviewsNegative([resizedImage]);
+                  showPreviewNegative();
+                  if ($negativeThumbs.length + 1 === data.originalFiles.length + existingThumbs)
+                    $negativeFileLoading.hide();
+                } else {
+                  // if 200 image limit exceeded
+                  if (!$negativeLimitExceeded.is(':visible'))
+                    $negativeLimitExceeded.show();
+                  $negativeFileLoading.hide();
+                }
               }
               setTrainButtonState();
             };
@@ -402,8 +442,8 @@
   }
 
   // init pages
-  setupUse({ panel: 'use'});
-  setupUse({ panel: 'test', useClassifierId: true});
+  setupUse({ panel: 'use' });
+  setupUse({ panel: 'test', useClassifierId: true });
 
   /**
    * Select the test page and configure it with the created classifier
@@ -463,7 +503,7 @@
 
   // send the user to train if they hit /test without a trained classifier
   if (currentPage() === '/test') {
-    if (classifier){
+    if (classifier) {
       showTestSamples(Cookies.get('bundle') || 'default');
       populateTestThumbnails(JSON.parse(localStorage['positives'] || '[]'), JSON.parse(localStorage['negatives'] || '[]'));
       if (!localStorage['positives'] || !localStorage['negatives'])

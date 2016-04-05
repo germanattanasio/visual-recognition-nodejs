@@ -114,9 +114,17 @@ $(document).ready(function () {
   //tab listener
   $('.tab-panels--tab').click(function(e){
     e.preventDefault();
-    var self = $(this);
-    var newPanel = self.attr('href');
-    if (newPanel !== currentPage())
-      window.location = newPanel;
+    if (!$(this).hasClass('disabled')) {
+      var self = $(this);
+      var newPanel = self.attr('href');
+      if (newPanel !== currentPage())
+        window.location = newPanel;
+    }
+  });
+
+  $.ajaxSetup({
+    headers: {
+      'csrf-token': $('meta[name="ct"]').attr('content')
+    }
   });
 });

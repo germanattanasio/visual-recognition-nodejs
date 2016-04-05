@@ -1,4 +1,6 @@
 # Visual Recognition + AlchemyVision Demo
+[![Build Status](https://travis-ci.org/watson-developer-cloud/visual-recognition-nodejs.svg?branch=master)](https://github.com/watson-developer-cloud/visual-recognition-nodejs)
+[![codecov.io](https://codecov.io/github/watson-developer-cloud/visual-recognition-nodejs/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/visual-recognition-nodejs?branch=master)
 
 [Visual Recognition][visual_recognition_service] partnered with [Alchemy Vision](www.alchemyapi.com/products/alchemyvision), allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
@@ -45,20 +47,6 @@ applications:
 7. Push it live!
   ```sh
   $ cf push
-  ```
-
-7. Optional Security and Performance enhancements
-
-  Set `NODE_ENV=production` to enable view caching and other performance enhancements:
-
-  ```sh
-  $ cf set-env <application-name> NODE_ENV production
-  ```
-
-  Set `SECURE_EXPRESS=1` to enable rate-limiting, HTTPS-only, and several other security features:
-
-  ```sh
-  $ cf set-env <application-name> SECURE_EXPRESS 1
   ```
 
 See the full [Getting Started][getting_started] documentation for more details, including code snippets and references.
@@ -118,6 +106,22 @@ To troubleshoot your Bluemix app the main useful source of information are the l
 ## Open Source @ IBM
   Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
+### Privacy Notice
+
+This node sample web application includes code to track deployments to Bluemix and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker][deploy_track_url] service on each deployment:
+
+* Application Name (`application_name`)
+* Space ID (`space_id`)
+* Application Version (`application_version`)
+* Application URIs (`application_uris`)
+
+This data is collected from the `VCAP_APPLICATION` environment variable in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+
+### Disabling Deployment Tracking
+
+Deployment tracking can be disabled by removing `require('cf-deployment-tracker-client').track();` from the beginning of the `server.js` file at the root of this repo.
+
+[deploy_track_url]: https://github.com/cloudant-labs/deployment-tracker
 [service_url]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
 [cloud_foundry]: https://github.com/cloudfoundry/cli
 [visual_recognition_service]: https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
