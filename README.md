@@ -1,4 +1,6 @@
 # Visual Recognition + AlchemyVision Demo
+[![Build Status](https://travis-ci.org/watson-developer-cloud/visual-recognition-nodejs.svg?branch=master)](https://github.com/watson-developer-cloud/visual-recognition-nodejs)
+[![codecov.io](https://codecov.io/github/watson-developer-cloud/visual-recognition-nodejs/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/visual-recognition-nodejs?branch=master)
 
 [Visual Recognition][visual_recognition_service] partnered with [Alchemy Vision](www.alchemyapi.com/products/alchemyvision), allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
