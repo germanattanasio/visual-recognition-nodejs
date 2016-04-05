@@ -2,4 +2,3 @@ coverage
 node_modules
 uploads/*
 .env.js
-run.sh
