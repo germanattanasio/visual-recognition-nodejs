@@ -4,6 +4,10 @@
 if (process.env.GOOGLE_ANALYTICS){
   process.env.GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS.replace(/\"/g,'');
 }
+if (process.env.ALCHEMY_KEY){
+  process.env.ALCHEMY_KEY = process.env.ALCHEMY_KEY.replace(/\"/g,'');
+}
+
 // Deployment tracking
 require('cf-deployment-tracker-client').track();
 

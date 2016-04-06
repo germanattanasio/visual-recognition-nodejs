@@ -10,8 +10,8 @@ env:
   - CF_API=https://api.ng.bluemix.net
   - CF_ORGANIZATION=WatsonPlatformServices
   - CF_SPACE=demos
-  - secure: "R58YETGYrJ010Zys/9ajvKx4I6PGrZe0OPRpr4rCwkpE6cbbUsOqGcnFWA1GwKxia8L+LNyCwhdhKcZ5QmVBQJu/aUrQTPF4gZ3mm8M2I5u8mI3L9KYQLVAfA+HDAz9EdesM4fc8RLHE/Hvy2olBgSdqP7PFUNTDZURHP9um2YU="
-  - secure: "cz8WfWOmv3f3pprylCaRQdKtg7h0mxjVjRtWMWUSUzQ7f26ISVml9h19JycIJ5yLUTz6luFZeP7aohqhIA/c3r4MR8sj17Cmj5WcvkhPgt0kJFpaCA02QzAn1H0HVqFmnrWAVYRkAyOlUzKnnptjtf6KFYO1K9sPHiP2EMwY0PM="
+  - secure: "VQlkoKnZd6C+pcZlF4KVFd/RQ7j/Ajz5VZQqtk9nF9YIPy7J/jqMk0FKSR9bikj92FWJtQEUNg201nwKQQxFyDOArnwY7qEdKsK43tlJNsR2sw64UPExSDKT2EvwUe1GD/YrZsgt8Rfg1bU5MQBufvSJzLaSCIb8+2HV0CGSUJQ="
+  - secure: "NmjZiD8wU0q0uERLLUM1/xjkWEuENRwGb1olx4dT7AQ/3uj/qOI6oan/TraWiRlAZtojEARmlCfje1AGXgGiBvPrOHyDVRdA5nnEXKlHG0nXI3IawzzjXFcbSAoBuV1DG2yiSbe3vgl/eFnSFQedQ9SNN2iaA6fcAlx3qzgJm8k="
 before_deploy: npm install -g cf-blue-green
 deploy:
   provider: script
