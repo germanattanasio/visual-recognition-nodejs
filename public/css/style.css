@@ -1958,6 +1958,22 @@ pre[class*=" language-"] {
 .test--header {
   cursor: pointer; }
 
+.test--overlay {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  margin-top: 0rem;
+  background-color: rgba(18, 18, 18, 0.5);
+  width: 100%;
+  height: 100%;
+  display: table; }
+
+.test--overlay-more {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  color: white; }
+
 .loading--image {
   margin: 0rem auto;
   width: 10rem;

@@ -259,8 +259,8 @@
 
     localStorage.setItem('positives', JSON.stringify(images.positives.slice(0, 50)));
     localStorage.setItem('negatives', JSON.stringify(images.negatives.slice(0, 50)));
-    localStorage.setItem('positives_size', images.positives.length);
-    localStorage.setItem('negatives_size', images.negatives.length);
+    localStorage.setItem('positives_size', images.positives.length - 50);
+    localStorage.setItem('negatives_size', images.negatives.length - 50);
 
     xhr = $.ajax({
       type: 'POST',
@@ -293,7 +293,7 @@
     $('.tab-panels--tab[href="/test"]').addClass('disabled');
   });
 
-  function populateTestThumbnails(positives, negatives) {
+  function populateTestThumbnails(positives, negatives, positiveSize, negativeSize) {
     var $positiveImages = $('.test--classifier-images-thumbs_positive'),
         $negativeImages = $('.test--classifier-images-thumbs_negative');
 
@@ -303,14 +303,16 @@
     $negativeImages.empty();
 
     $positiveImages.append(_.template(testClassifierImages_template, {
-      items: positives
+      items: positives,
+      size: positiveSize
     })).find('img').each(function() {
       landscapify(this);
       imageFadeIn(this);
     });
 
     $negativeImages.append(_.template(testClassifierImages_template, {
-      items: negatives
+      items: negatives,
+      size: negativeSize
     })).find('img').each(function() {
       landscapify(this);
       imageFadeIn(this);
@@ -505,7 +507,10 @@
   if (currentPage() === '/test') {
     if (classifier) {
       showTestSamples(Cookies.get('bundle') || 'default');
-      populateTestThumbnails(JSON.parse(localStorage['positives'] || '[]'), JSON.parse(localStorage['negatives'] || '[]'));
+      populateTestThumbnails(JSON.parse(localStorage['positives'] || '[]'),
+        JSON.parse(localStorage['negatives'] || '[]'),
+        parseInt(localStorage['positives_size']),
+        parseInt(localStorage['negatives_size']));
       if (!localStorage['positives'] || !localStorage['negatives'])
         $('.test--classifier-images-container').hide();
       else

@@ -4,3 +4,4 @@ coverage
 VCAP_SERVICES.json
 run.sh
 .env.js
+npm-debug.log

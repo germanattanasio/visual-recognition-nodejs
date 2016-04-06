@@ -1,4 +1,4 @@
 coverage
 node_modules
-uploads/*
 .env.js
+npm-debug.log
