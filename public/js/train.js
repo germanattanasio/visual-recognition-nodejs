@@ -216,6 +216,7 @@
     resetPreviews();
     loadPreviews(positive, negative);
     $trainUrlInput.val(dataset.name);
+    $trainUrlInput.prop('readonly',true);
     showPreviews();
     setTrainButtonState();
     setInputErrorState();
