@@ -216,6 +216,7 @@
     resetPreviews();
     loadPreviews(positive, negative);
     $trainUrlInput.val(dataset.name);
+    $trainUrlInput.prop('readonly',true);
     showPreviews();
     setTrainButtonState();
     setInputErrorState();
@@ -224,6 +225,7 @@
 
   $positiveClearButton.click(function(e) {
     e.preventDefault();
+    $trainUrlInput.prop('readonly',false);
     resetPreviewsPositive();
     hidePreviewsPositive();
     setTrainButtonState();
@@ -234,6 +236,7 @@
 
   $negativeClearButton.click(function(e) {
     e.preventDefault();
+    $trainUrlInput.prop('readonly',false);
     resetPreviewsNegative();
     hidePreviewsNegative();
     setTrainButtonState();
