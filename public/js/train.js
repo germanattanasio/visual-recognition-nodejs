@@ -225,6 +225,7 @@
 
   $positiveClearButton.click(function(e) {
     e.preventDefault();
+    $trainUrlInput.prop('readonly',false);
     resetPreviewsPositive();
     hidePreviewsPositive();
     setTrainButtonState();
@@ -235,6 +236,7 @@
 
   $negativeClearButton.click(function(e) {
     e.preventDefault();
+    $trainUrlInput.prop('readonly',false);
     resetPreviewsNegative();
     hidePreviewsNegative();
     setTrainButtonState();
