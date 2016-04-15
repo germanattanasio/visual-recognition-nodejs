@@ -1410,6 +1410,11 @@ pre[class*=" language-"] {
   display: none;
   color: #e71d32; }
 
+.train--browser-warning {
+  display: none;
+  margin-top: 1.5rem;
+}
+
 .train--url-input {
   padding: 1rem 2rem;
   margin-top: 0rem;

@@ -45,6 +45,7 @@
       $trainInputErrMsg = $('.train--input-error-message'),
       $trainPositiveInputErrMsg = $('.train--input-positive-error-message'),
       $trainNegativeInputErrMsg = $('.train--input-negative-error-message'),
+      $trainBrowserWarning = $('.train--browser-warning'),
       $loading = $('.train--loading'),
       $error = $('.train--error'),
       $errorMsg = $('.train--error-message');
@@ -525,4 +526,9 @@
       $('.tab-panels--tab[href="/train"]').trigger('click');
     }
   }
+
+  if (browserInfo.search('windows') > -1 &&
+       (browserInfo.search('firefox') > -1 || browserInfo.search('ie') > -1))
+    $trainBrowserWarning.show();
+
 });
