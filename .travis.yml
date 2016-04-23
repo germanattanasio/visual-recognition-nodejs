@@ -21,5 +21,3 @@ deploy:
     branch: master
     repo: watson-developer-cloud/visual-recognition-nodejs
   skip_cleanup: true
-notifications:
-  email: false
