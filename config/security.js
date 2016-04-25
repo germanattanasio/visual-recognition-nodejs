@@ -32,7 +32,7 @@ module.exports = function (app) {
   app.use('/api/', rateLimit({
     windowMs: 60 * 1000, // seconds
     delayMs: 0,
-    max: 6
+    max: 10
   }));
 
   // 3. setup cookies
