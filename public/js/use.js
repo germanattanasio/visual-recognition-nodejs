@@ -137,7 +137,6 @@ function setupUse(params) {
     var message = 'Error creating the classifier';
       if (xhr.responseJSON)
         message = xhr.responseJSON.error;
-
     showError(message);
   }
 
@@ -167,10 +166,14 @@ function setupUse(params) {
     // Grab all form data
     $.post(url, $(pclass + 'form').serialize())
       .done(showResult)
-      .error(function() {
+      .error(function(error) {
         $loading.hide();
-        showError('The demo is not available right now. <br/>We are working on ' +
-        'getting this back up and running soon.');
+        console.log(error);
+        if (error.status === 429)
+          showError('You have entered too many requests at once. Please try again later.');
+        else
+          showError('The demo is not available right now. <br/>We are working on ' +
+          'getting this back up and running soon.');
       });
   }
 
