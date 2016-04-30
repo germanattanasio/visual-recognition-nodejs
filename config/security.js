@@ -28,7 +28,10 @@ module.exports = function (app) {
   // 1. helmet with defaults
   app.use(helmet({ cacheControl: false }));
 
-  app.use(helmet.frameguard('sameorigin'));
+  app.use(function frameguard(req, res, next) {
+    res.setHeader('X-Frame-Options', directive)
+    next()
+  }
 
   // 2. rate-limit to /api/
   app.use('/api/', rateLimit({
