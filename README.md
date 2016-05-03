@@ -84,7 +84,7 @@ See the full [Getting Started][getting_started] documentation for more details, 
 3. Go to the project folder in a terminal and run:
     `npm install`
 4. Start the application
-5.  `node app.js`
+5.  `npm start`
 6. Go to `http://localhost:3000`
 
 ## Troubleshooting
