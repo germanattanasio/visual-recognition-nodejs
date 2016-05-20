@@ -1,0 +1,33 @@
+{
+  "images": [
+    {
+      "faces": [
+        {
+          "age": {
+            "max": 44,
+            "min": 35,
+            "score": 0.384876
+          },
+          "face_location": {
+            "height": 110,
+            "left": 161,
+            "top": 80,
+            "width": 92
+          },
+          "gender": {
+            "gender": "MALE",
+            "score": 0.997527
+          },
+          "identity": {
+            "name": "Barack Obama",
+            "score": 0.731059,
+            "type_hierarchy": "/people/politicians/democrats/barack obama"
+          }
+        }
+      ],
+      "resolved_url": "https://lh6.googleusercontent.com/-2lJYGtfXKwQ/AAAAAAAAAAI/AAAAAAAB15E/JDAoqjtUysE/s0-c-k-no-ns/photo.jpg",
+      "source_url": "https://lh6.googleusercontent.com/-2lJYGtfXKwQ/AAAAAAAAAAI/AAAAAAAB15E/JDAoqjtUysE/s0-c-k-no-ns/photo.jpg"
+    }
+  ],
+  "images_processed": 1
+}

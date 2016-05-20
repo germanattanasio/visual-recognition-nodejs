@@ -51,7 +51,7 @@
     "request": "^2.72.0",
     "uuid": "^2.0.2",
     "validator": "^5.2.0",
-    "watson-developer-cloud": "git+https://github.com/watson-developer-cloud/node-sdk"
+    "watson-developer-cloud": "git+https://github.com/watson-developer-cloud/node-sdk#visual-recognition"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.4",

@@ -21,7 +21,7 @@ var request = require('supertest');
 
 describe('express', function() {
   it('classify an image from url', function(done) {
-    request(app).post('/classify')
+    request(app).post('/api/classify')
     .send({url: 'https://visual-recognition-demo.mybluemix.net/images/samples/3.jpg'})
     .expect(200, done);
   });

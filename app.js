@@ -20,12 +20,17 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var util = require('util');
+var extend = require('extend');
 var path = require('path');
 var async = require('async');
 var validator = require('validator');
 var datasets = require('./public/data/datasets.json').datasets;
 var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
+
+var detectedFaces = require('./data/faces');
+var recognizedText = require('./data/text');
+var classification = require('./data/classify');
 
 var ONE_HOUR = 3600000;
 
@@ -118,6 +123,13 @@ app.post('/api/classifiers', function(req, res, next) {
     });
   });
 });
+
+app.get('/test/classify', function(req, res) {
+  setTimeout(function() {
+    res.json(extend(true, {}, detectedFaces, recognizedText, classification));
+  }, req.query.s ? req.query.s * 1000 : 1000);
+});
+
 
 /**
  * Classifies an image
