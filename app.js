@@ -160,7 +160,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     if (err) {
       return next(err);
     }
-    res.json(results);
+    res.json(extend(true, {}, results[0], results[1], results[2]));
   });
 });
 

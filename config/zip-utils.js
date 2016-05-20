@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ /* eslint valid-jsdoc: "off"*/
 
 'use strict';
 
-var fs      = require('fs'),
-  path      = require('path'),
-  archiver  = require('archiver'),
-  uuid      = require('uuid');
+var fs      = require('fs');
+var path      = require('path');
+var archiver  = require('archiver');
+var uuid      = require('uuid');
 
 /**
  * Parse a base 64 image and return the extension and buffer
@@ -27,8 +28,8 @@ var fs      = require('fs'),
  * @return {Object}             { type: String, data: Buffer }
  */
 function parseBase64Image(imageString) {
-  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/),
-    resource = {};
+  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
+  var resource = {};
 
   if (matches.length !== 3) {
     return null;
@@ -38,10 +39,11 @@ function parseBase64Image(imageString) {
   resource.data = new Buffer(matches[2], 'base64');
   return resource;
 }
+
 module.exports.parseBase64Image = parseBase64Image;
 
 /**
- * Archives an image uning the @param archive module
+ * Archives an image into archive
  * @param  {Object} archive The archiver module
  * @param  {String} image   The base64 or path to the image for bundles
  */

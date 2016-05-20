@@ -17,16 +17,18 @@
 'use strict';
 
 // security.js
-var rateLimit  = require('express-rate-limit'),
-  csrf         = require('csurf'),
-  cookieParser = require('cookie-parser'),
-  helmet       = require('helmet');
+var rateLimit = require('express-rate-limit');
+var csrf = require('csurf');
+var cookieParser = require('cookie-parser');
+var helmet = require('helmet');
 
 module.exports = function(app) {
   app.enable('trust proxy');
 
   // 1. helmet with defaults
-  app.use(helmet({ cacheControl: false }));
+  app.use(helmet({
+    cacheControl: false
+  }));
 
   // Allow from a specific host:
   app.use(helmet.frameguard({
@@ -46,7 +48,10 @@ module.exports = function(app) {
   app.use(cookieParser(secret));
 
   // 4. csrf
-  var csrfProtection = csrf({ cookie: true });
+  var csrfProtection = csrf({
+    cookie: true
+  });
+
   app.get('/*', csrfProtection, function(req, res, next) {
     req._csrfToken = req.csrfToken();
     next();
