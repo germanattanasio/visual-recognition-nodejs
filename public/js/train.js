@@ -22,33 +22,33 @@
  $(document).ready(function () {
 
   // jquery elements we are using
-  var $positivePreview = $('.train--positive-input .train--file-preview'),
-      $negativePreview = $('.train--negative-input .train--file-preview'),
-      $positiveNumFiles = $('.train--positive-input .train--files'),
-      $negativeNumFiles = $('.train--negative-input .train--files'),
-      $positiveMeter = $('.train--positive-input .train--file-meter-percent'),
-      $negativeMeter = $('.train--negative-input .train--file-meter-percent'),
-      $positiveIndicator = $('.train--positive-input .train--file-indicator'),
-      $negativeIndicator = $('.train--negative-input .train--file-indicator'),
+  var $positivePreview          = $('.train--positive-input .train--file-preview'),
+      $negativePreview          = $('.train--negative-input .train--file-preview'),
+      $positiveNumFiles         = $('.train--positive-input .train--files'),
+      $negativeNumFiles         = $('.train--negative-input .train--files'),
+      $positiveMeter            = $('.train--positive-input .train--file-meter-percent'),
+      $negativeMeter            = $('.train--negative-input .train--file-meter-percent'),
+      $positiveIndicator        = $('.train--positive-input .train--file-indicator'),
+      $negativeIndicator        = $('.train--negative-input .train--file-indicator'),
       $positivePreviewContainer = $('.train--positive-input .train--file-preview-container'),
       $negativePreviewContainer = $('.train--negative-input .train--file-preview-container'),
-      $positiveFileLoading = $('.train--positive-input .train--file-loading'),
-      $negativeFileLoading = $('.train--negative-input .train--file-loading'),
-      $positiveClearButton = $('.positive-images .train--clear-button'),
-      $negativeClearButton = $('.negative-images .train--clear-button'),
-      $positiveLimitExceeded = $('.positive-images .train--limit-exceeded-message'),
-      $negativeLimitExceeded = $('.negative-images .train--limit-exceeded-message'),
-      $hiddenInput = $('.train--hidden-input'),
-      $trainUrlInput = $('.train--url-input'),
-      $trainInput = $('.train--input'),
-      $trainButton = $('.train--train-button'),
-      $trainInputErrMsg = $('.train--input-error-message'),
+      $positiveFileLoading      = $('.train--positive-input .train--file-loading'),
+      $negativeFileLoading      = $('.train--negative-input .train--file-loading'),
+      $positiveClearButton      = $('.positive-images .train--clear-button'),
+      $negativeClearButton      = $('.negative-images .train--clear-button'),
+      $positiveLimitExceeded    = $('.positive-images .train--limit-exceeded-message'),
+      $negativeLimitExceeded    = $('.negative-images .train--limit-exceeded-message'),
+      $hiddenInput              = $('.train--hidden-input'),
+      $trainUrlInput            = $('.train--url-input'),
+      $trainInput               = $('.train--input'),
+      $trainButton              = $('.train--train-button'),
+      $trainInputErrMsg         = $('.train--input-error-message'),
       $trainPositiveInputErrMsg = $('.train--input-positive-error-message'),
       $trainNegativeInputErrMsg = $('.train--input-negative-error-message'),
-      $trainBrowserWarning = $('.train--browser-warning'),
-      $loading = $('.train--loading'),
-      $error = $('.train--error'),
-      $errorMsg = $('.train--error-message');
+      $trainBrowserWarning      = $('.train--browser-warning'),
+      $loading                  = $('.train--loading'),
+      $error                    = $('.train--error'),
+      $errorMsg                 = $('.train--error-message');
 
   var xhr;
 
@@ -203,7 +203,7 @@
     Cookies.set('bundle', id, { expires: nextHour()});
     scrollToElement($('.tab-panels--tab-content'));
 
-    var dataset = datasets.filter(function(item) { return item.id === id; })[0];
+    var dataset  = datasets.filter(function(item) { return item.id === id; })[0];
     var positive = [];
     var negative = [];
     for (var i = 0; i < dataset.positive; i++) {

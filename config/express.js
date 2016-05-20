@@ -17,9 +17,9 @@
 'use strict';
 
 // Module dependencies
-var express    = require('express'),
-  bodyParser   = require('body-parser'),
-  multer       = require('multer'),
+var express      = require('express'),
+  bodyParser     = require('body-parser'),
+  multer         = require('multer'),
   findRemoveSync = require('find-remove');
 
 module.exports = function (app) {

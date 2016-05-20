@@ -27,30 +27,30 @@ var CLASSIFIER_ID = null;
  *                                  variable CLASSIFIER_ID
  */
 function setupUse(params) {
-  var panel = params.panel || 'use';
+  var panel           = params.panel || 'use';
   var useClassifierId = params.useClassifierId || 'false';
 
   console.log('setupUse()', panel);
 
   // panel ids
   var pclass = '.'+ panel + '--',
-      pid = '#'+ panel + '--';
+      pid    = '#'+ panel + '--';
 
 
   // jquery elements we are using
-  var $loading = $(pclass + 'loading'),
-    $result = $(pclass + 'output'),
-    $error = $(pclass + 'error'),
-    $errorMsg = $(pclass + 'error-message'),
-    $tbody = $(pclass + 'output-tbody'),
-    $image = $(pclass + 'output-image'),
-    $urlInput = $(pclass + 'url-input'),
-    $imageDataInput = $(pclass + 'image-data-input'),
-    $radioImages = $(pclass + 'example-radio'),
+  var $loading       = $(pclass + 'loading'),
+    $result          = $(pclass + 'output'),
+    $error           = $(pclass + 'error'),
+    $errorMsg        = $(pclass + 'error-message'),
+    $tbody           = $(pclass + 'output-tbody'),
+    $image           = $(pclass + 'output-image'),
+    $urlInput        = $(pclass + 'url-input'),
+    $imageDataInput  = $(pclass + 'image-data-input'),
+    $radioImages     = $(pclass + 'example-radio'),
     $invalidImageUrl = $(pclass + 'invalid-image-url').hide(),
-    $invalidUrl = $(pclass + 'invalid-url').show(),
-    $dropzone = $(pclass + 'dropzone'),
-    $fileupload = $(pid + 'fileupload');
+    $invalidUrl      = $(pclass + 'invalid-url').show(),
+    $dropzone        = $(pclass + 'dropzone'),
+    $fileupload      = $(pid + 'fileupload');
 
   /**
    * Resets the panel
@@ -196,7 +196,7 @@ function setupUse(params) {
    * Image url submission
    */
   $urlInput.keypress(function(e) {
-    var url = $(this).val();
+    var url  = $(this).val();
     var self = $(this);
 
     if (e.keyCode === 13) {

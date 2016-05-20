@@ -28,7 +28,7 @@ var fs      = require('fs'),
  */
 function parseBase64Image(imageString) {
   var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/),
-    resource = {};
+    resource  = {};
 
   if (matches.length !== 3) {
    return null;

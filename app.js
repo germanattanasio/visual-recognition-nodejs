@@ -28,17 +28,17 @@ try {
 }
 
 var express = require('express'),
-  app = express(),
-  fs = require('fs'),
-  util = require('util'),
-  path = require('path'),
-  async = require('async'),
+  app       = express(),
+  fs        = require('fs'),
+  util      = require('util'),
+  path      = require('path'),
+  async     = require('async'),
   validator = require('validator'),
-  request = require('request'),
-  datasets = require('./public/data/datasets.json').datasets,
-  zipUtils = require('./config/zip-utils'),
+  request   = require('request'),
+  datasets  = require('./public/data/datasets.json').datasets,
+  zipUtils  = require('./config/zip-utils'),
   uuid      = require('uuid'),
-  watson = require('watson-developer-cloud');
+  watson    = require('watson-developer-cloud');
 
 
 var ONE_HOUR = 3600000;

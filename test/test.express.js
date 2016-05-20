@@ -16,9 +16,9 @@
 
 'use strict';
 
-var app = require('../app');
+var app     = require('../app');
 var request = require('supertest');
-var nock = require('nock');
+var nock    = require('nock');
 
 describe('express', function() {
 
