@@ -1161,6 +1161,9 @@ pre[class*=" language-"] {
 
 .use--example-radio {
   display: none; }
+.use--example-radio:checked + .use--example-thumb {
+  box-shadow: 0px 0px 3px #336588;
+}
 
 .use--example-thumb {
   width: 31.91489%;
@@ -1170,6 +1173,7 @@ pre[class*=" language-"] {
   display: inline-block;
   height: 100px;
   cursor: pointer;
+  transition: 0.15s;
   margin-top: 0rem;
   margin-bottom: 1rem;
   overflow: hidden; }
@@ -1186,8 +1190,11 @@ pre[class*=" language-"] {
         float: left; }
       .use--example-thumb:nth-of-type(6n) {
         margin-right: 0rem; } }
-  .use--example-thumb:hover .use--example-image-overlay {
-    opacity: 0.5; }
+  .use--example-thumb:hover {
+    height: 142.969px;
+    transform: scale(1.2);
+    z-index: 1;
+    box-shadow: 0px 0px 3px #336588; }
 
 .use--example-image {
   position: absolute;
