@@ -27,7 +27,6 @@ var datasets = require('./public/data/datasets.json').datasets;
 var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
 
-
 var ONE_HOUR = 3600000;
 
 // Bootstrap application settings
