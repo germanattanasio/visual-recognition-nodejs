@@ -22,7 +22,7 @@ var rateLimit  = require('express-rate-limit'),
   cookieParser = require('cookie-parser'),
   helmet       = require('helmet');
 
-module.exports = function (app) {
+module.exports = function(app) {
   app.enable('trust proxy');
 
   // 1. helmet with defaults

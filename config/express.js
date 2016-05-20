@@ -22,7 +22,7 @@ var express    = require('express'),
   multer       = require('multer'),
   findRemoveSync = require('find-remove');
 
-module.exports = function (app) {
+module.exports = function(app) {
 
   // When running in Bluemix add rate-limitation
   // and some other features around security
@@ -40,10 +40,10 @@ module.exports = function (app) {
 
   // Setup the upload mechanism
   var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
       cb(null, './uploads/');
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname);
     }
   });

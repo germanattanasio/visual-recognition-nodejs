@@ -15,7 +15,7 @@
  */
 
 'use strict';
-module.exports = function (app) {
+module.exports = function(app) {
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

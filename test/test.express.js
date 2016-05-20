@@ -18,40 +18,27 @@
 
 var app = require('../app');
 var request = require('supertest');
-var nock = require('nock');
 
 describe('express', function() {
-
-  it('load home page when GET /', function(done) {
-    request(app).get('/').expect(200, done);
+  it('classify an image from url', function(done) {
+    request(app).post('/classify')
+    .send({url: 'https://visual-recognition-demo.mybluemix.net/images/samples/3.jpg'})
+    .expect(200, done);
   });
 
-  it('load home page when GET /train', function(done) {
-    request(app).get('/train').expect(200, done);
-  });
-
-  it('load home page when GET /test', function(done) {
-    request(app).get('/test').expect(200, done);
-  });
-
-  it('404 when page not found', function(done) {
-    request(app).get('/foo/bar').expect(404, done);
-  });
-
-  // api/classify
-  it('200 when calling /api/classify', function(done) {
-    done();
-  });
-
-  // try 50 images each
-
-  // try lower than 50
-
-  // try 500 images?
-
-  // api/classifiers
-  it('200 when calling /api/classifiers', function(done) {
-    done();
-  });
-
+  // it('load home page when GET /', function(done) {
+  //   request(app).get('/').expect(200, done);
+  // });
+  //
+  // it('load home page when GET /train', function(done) {
+  //   request(app).get('/train').expect(200, done);
+  // });
+  //
+  // it('load home page when GET /test', function(done) {
+  //   request(app).get('/test').expect(200, done);
+  // });
+  //
+  // it('404 when page not found', function(done) {
+  //   request(app).get('/foo/bar').expect(404, done);
+  // });
 });

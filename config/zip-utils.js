@@ -31,7 +31,7 @@ function parseBase64Image(imageString) {
     resource = {};
 
   if (matches.length !== 3) {
-   return null;
+    return null;
   }
 
   resource.type = matches[1] === 'jpeg' ? 'jpg' : matches[1];
@@ -52,7 +52,7 @@ function archiveImage(archive, image) {
     });
   } else {
     var resource = parseBase64Image(image);
-    if (resource !== null){
+    if (resource !== null) {
       archive.append(resource.data, {
         name: uuid.v1() + '.' + resource.type
       });
@@ -67,7 +67,7 @@ function archiveImage(archive, image) {
  * @param images The images to zip
  * @param  {Function} callback The callback
  */
-module.exports.zipImages = function (images, callback) {
+module.exports.zipImages = function(images, callback) {
   try {
     var zipFile = path.join(__dirname, '../uploads/training-' + uuid.v1() + '.zip');
 
@@ -75,7 +75,7 @@ module.exports.zipImages = function (images, callback) {
     archive.on('error', callback);
 
     var output = fs.createWriteStream(zipFile);
-    output.on('close', function(){
+    output.on('close', function() {
       callback(null, zipFile);
     });
     archive.pipe(output);
