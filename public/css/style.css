@@ -2022,15 +2022,13 @@ pre[class*=" language-"] {
 
 ._demo--heading {
   background-color: #404041;
-  margin-top: 0;
-  padding-bottom: 1rem; }
+  margin-top: 0; }
   @media (min-width: 700px) {
     ._demo--heading {
       padding-bottom: 0; } }
 
 ._demo--banner {
   margin-top: 0;
-  padding: 0 1rem 2rem;
   background-color: #f4f4f4;
   border-bottom: 2px solid #ececec; }
 
@@ -2054,3 +2052,97 @@ pre[class*=" language-"] {
       float: left;
       margin-left: 0;
       margin-right: 0%; } }
+
+      .banner {
+        padding: 1.5rem 1rem; }
+        @media (min-width: 1200px) {
+          .banner--service-container {
+            width: 74.46809%;
+            margin-left: 0%;
+            margin-right: 2.12766%;
+            float: left;
+            display: block;
+            margin-top: 0rem; } }
+        .banner--service-icon {
+          vertical-align: middle;
+          margin-top: 0.5rem; }
+          @media (min-width: 500px) {
+            .banner--service-icon {
+              width: 6.25rem; } }
+          @media (min-width: 700px) {
+            .banner--service-icon {
+              width: 8.125rem; } }
+        .banner--service-icon_INLINE {
+          vertical-align: middle;
+          display: inline;
+          height: 1.25em;
+          display: none;
+          margin-top: -0.275em; }
+          @media (min-width: 500px) {
+            .banner--service-icon_INLINE {
+              display: none; } }
+        .banner--service-icon-container {
+          width: 100%;
+          margin-left: 0%;
+          margin-right: 2.12766%;
+          float: left;
+          display: block;
+          display: none; }
+          @media (min-width: 700px) {
+            .banner--service-icon-container {
+              width: 14.89362%;
+              margin-left: 0%;
+              margin-right: 2.12766%;
+              float: left;
+              display: block; } }
+        @media (min-width: 700px) {
+          .banner--service-info {
+            width: 82.97872%;
+            margin-left: 0%;
+            float: left;
+            display: block;
+            margin-top: 0rem; } }
+        .banner--service-link-item {
+          display: block;
+          margin-top: 0; }
+          @media (min-width: 700px) {
+            .banner--service-link-item {
+              display: inline-block;
+              margin-right: 1rem; } }
+        @media (min-width: 1200px) {
+          .banner--service-resource-container {
+            width: 23.40426%;
+            margin-left: 0%;
+            float: left;
+            display: block;
+            margin-top: 0rem;
+            padding-top: 1rem; } }
+        .banner--service-resource {
+          width: 100%;
+          margin-left: 0%;
+          float: left;
+          display: block; }
+          @media (min-width: 700px) {
+            .banner--service-resource {
+              width: 82.97872%;
+              margin-left: 17.02128%;
+              float: left;
+              display: block; } }
+        .banner--service-resource .icon-link {
+          margin-right: 0.25rem; }
+        .banner--service-links {
+          width: 100%;
+          margin-left: 0%;
+          float: left;
+          display: block; }
+          @media (min-width: 700px) {
+            .banner--service-links {
+              width: auto;
+              float: none;
+              margin-left: 0rem;
+              margin-right: 0rem;
+              display: block;
+              width: 82.97872%;
+              margin-left: 17.02128%;
+              float: left;
+              display: block; } }

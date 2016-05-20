@@ -16,16 +16,16 @@
 
 'use strict';
 
-try {
-  var env = require('./.env.js');
-  console.log('loading .env.js');
-  for (var key in env) {
-    if (!(key in process.env))
-      process.env[key] = env[key];
-  }
-} catch(ex) {
-  console.log('.env.js not found');
-}
+// try {
+//   var env = require('./.env.js');
+//   console.log('loading .env.js');
+//   for (var key in env) {
+//     if (!(key in process.env))
+//       process.env[key] = env[key];
+//   }
+// } catch(ex) {
+//   console.log('.env.js not found');
+// }
 
 var express = require('express'),
   app = express(),
