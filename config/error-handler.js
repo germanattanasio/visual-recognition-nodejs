@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ /* eslint no-unused-vars: "off"*/
 'use strict';
 module.exports = function(app) {
   // catch 404 and forward to error handler
@@ -30,7 +30,6 @@ module.exports = function(app) {
       code: err.code || 500,
       error: err.error || err.message
     };
-    console.log(next);
     res.status(error.code).json(error);
   });
 };
