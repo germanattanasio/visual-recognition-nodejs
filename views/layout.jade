@@ -7,6 +7,7 @@ html(lang='en')
     meta(name='ct' content='#{ct}')
     link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
     link(rel='stylesheet', href='css/style.css')
+    link(rel='stylesheet', href='css/training.css')
     block extra-header
     style.
       .container {
@@ -393,7 +394,7 @@ html(lang='en')
                 img.banner--service-icon_INLINE(src='images/service-icon.svg', alt='Tone Analyzer API Icon')
                 | Visual Recognition
               .banner--service-description
-                | Visual Recognition partnered with Alchemy Vision, allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
+                | Visual Recognition uses deep learning algorithms to analyze images for scenes, objects, faces, text, and other subjects that can give you insights into your visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
           .banner--service-resource-container
             .banner--row
               .banner--service-resource
@@ -412,7 +413,6 @@ html(lang='en')
     ._demo--container
       article._content.base--article
         block content
-        if googleAnalyticsKey
     ._demo--banner.bottom-banner
       .footer-banner
         ._demo--container.footer-container
