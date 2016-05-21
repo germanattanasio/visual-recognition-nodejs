@@ -1,7 +1,7 @@
 node_modules
 coverage
 .DS_Store
-VCAP_SERVICES.json
-run.sh
-.env.js
+.env
 npm-debug.log
+uploads/*
+!uploads/README.md

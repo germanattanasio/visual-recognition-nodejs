@@ -1,4 +1,7 @@
-coverage
 node_modules
-.env.js
+coverage
+.DS_Store
+.env
 npm-debug.log
+uploads/*
+!uploads/README.md

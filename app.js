@@ -27,7 +27,7 @@ var validator = require('validator');
 var datasets = require('./public/data/datasets.json').datasets;
 var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
-
+var uuid = require('uuid');
 var detectedFaces = require('./data/faces');
 var recognizedText = require('./data/text');
 var classification = require('./data/classify');
@@ -40,7 +40,7 @@ require('./config/express')(app);
 // Create the service wrapper
 var visualRecognition = watson.visual_recognition({
   version: 'v3',
-  api_key: '<api-key>',
+  api_key: process.env.API_KEY || '<api-key>',
   version_date: '2015-05-19'
 });
 
@@ -138,29 +138,44 @@ app.get('/test/classify', function(req, res) {
  */
 app.post('/api/classify', app.upload.single('images_file'), function(req, res, next) {
   var params = {
-    file: null
+    parameters: null,
+    images_file: null
   };
 
   if (req.file) { // file image
-    params.file = fs.createReadStream(req.file.path);
+    params.images_file = fs.createReadStream(req.file.path);
   } else if (req.body.url && req.body.url.indexOf('images') === 0) { // local image
-    params.file = fs.createReadStream(path.join('public', req.body.url));
+    params.images_file = fs.createReadStream(path.join('public', req.body.url));
+  } else if (req.body.image_data) {  // write the base64 image to a temp file
+    var resource = zipUtils.parseBase64Image(req.body.image_data);
+    var temp = path.join(__dirname, 'uploads', uuid.v1() + '.' + resource.type);
+    fs.writeFileSync(temp, resource.data);
+    params.images_file = fs.createReadStream(temp);
   } else if (req.body.url && validator.isURL(req.body.url)) { // url
-    params.url = req.body.url.split('?')[0];
+    params.parameters = JSON.stringify({url: req.body.url.split('?')[0]});
   } else { // malformed url
     return next({ error: 'Malformed URL', code: 400 });
   }
 
+  if (params.images_file) {
+    delete params.parameters;
+  } else {
+    delete params.images_file;
+  }
+
   async.parallel(['classify', 'detectFaces', 'recognizeText'].map(function(method) {
-    return visualRecognition[method].bind(null, params);
+    return async.reflect(visualRecognition[method].bind(visualRecognition, params));
   }), function(err, results) {
     if (req.file) { // delete the recognized file
-      fs.unlink(params.file.path);
+      fs.unlink(req.file.path.path);
     }
     if (err) {
       return next(err);
     }
-    res.json(extend(true, {}, results[0], results[1], results[2]));
+    var combine = results.reduce(function(prev, cur) {
+      return extend(true, prev, cur);
+    });
+    res.json(combine.value[0]);
   });
 });
 
