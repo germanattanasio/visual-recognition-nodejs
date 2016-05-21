@@ -3,6 +3,13 @@
     font-weight: normal;
     font-size: 24px;
 }
+
+.select_all  {
+  color: #315d80;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 ._training--examples {
     display: flex;
     justify-content: flex-start;
