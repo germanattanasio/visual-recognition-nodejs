@@ -108,7 +108,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     fs.writeFileSync(temp, resource.data);
     params.images_file = fs.createReadStream(temp);
   } else if (req.body.url && validator.isURL(req.body.url)) { // url
-    params.parameters = JSON.stringify({url: req.body.url.split('?')[0]});
+    params.url = req.body.url;
   } else { // malformed url
     return next({ error: 'Malformed URL', code: 400 });
   }
@@ -118,7 +118,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   } else {
     delete params.images_file;
   }
-
+  console.log('params-sdk:', params);
   var methods = [];
   if (req.body.classifier_id) {
     params.classifier_ids = [req.body.classifier_id];
@@ -145,7 +145,6 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     var combine = results.reduce(function(prev, cur) {
       return extend(true, prev, cur);
     });
-
     if (combine.value) {
       // save the classifier_id as part of the response
       if (req.body.classifier_id) {
@@ -153,6 +152,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
       }
       res.json(combine.value[0]);
     } else {
+      console.log('error:', JSON.stringify(combine, null, 2));
       res.status(400).json(combine.error);
     }
   });

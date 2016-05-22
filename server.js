@@ -6,8 +6,8 @@ require('dotenv').config({silent: true});
 if (process.env.GOOGLE_ANALYTICS) {
   process.env.GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS.replace(/\"/g, '');
 }
-if (process.env.ALCHEMY_KEY) {
-  process.env.ALCHEMY_KEY = process.env.ALCHEMY_KEY.replace(/\"/g, '');
+if (process.env.API_KEY) {
+  process.env.API_KEY = process.env.API_KEY.replace(/\"/g, '');
 }
 
 // Deployment tracking
