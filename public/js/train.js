@@ -48,7 +48,9 @@ $(document).ready(function() {
     }
     $(this).parent().toggleClass('_examples--class__selected');
 
-    if ($('.showing ._examples--class__selected._positive').length >= 2) {
+    if ($('.showing ._examples--class__selected._positive').length > 2 ||
+      ($('.showing ._examples--class__selected._positive').length > 0 && $('.showing ._examples--class__selected._negative').length === 1 )
+     ) {
       $('.train--train-button.base--button').removeClass('disabled');
       $('.train--train-button.base--button').prop('disabled', false);
     } else {
