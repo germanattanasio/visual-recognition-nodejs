@@ -46,7 +46,6 @@ var visualRecognition = watson.visual_recognition({
 
 app.get('/', function(req, res) {
   res.render('use', {
-    datasets: datasets,
     ct: req._csrfToken,
     ga: process.env.GOOGLE_ANALYTICS
   });
@@ -54,17 +53,15 @@ app.get('/', function(req, res) {
 
 app.get('/train', function(req, res) {
   res.render('train', {
-    datasets: datasets,
     ct: req._csrfToken,
     ga: process.env.GOOGLE_ANALYTICS
   });
 });
 
 app.get('/test', function(req, res) {
-  console.log('Cookies: ', req.cookies)
-
   res.render('test', {
-    datasets: datasets,
+    bundle: JSON.parse(req.cookies.bundle || '{}'),
+    classifier: JSON.parse(req.cookies.classifier || '{}'),
     ct: req._csrfToken,
     ga: process.env.GOOGLE_ANALYTICS
   });
@@ -146,7 +143,15 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     delete params.images_file;
   }
 
-  async.parallel(['classify', 'detectFaces', 'recognizeText'].map(function(method) {
+  var methods = ['classify'];
+  if (req.body.classifier_id) {
+    params.classifier_ids = [req.body.classifier_id];
+  } else {
+    methods.push('detectFaces');
+    methods.push('recognizeText');
+  }
+
+  async.parallel(methods.map(function(method) {
     return async.reflect(visualRecognition[method].bind(visualRecognition, params));
   }), function(err, results) {
     if (req.file) { // delete the recognized file

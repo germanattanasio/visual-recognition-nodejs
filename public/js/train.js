@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* global Cookies:true, nextHour, currentPage */
+/* global Cookies:true, nextHour, currentPage, setupUse */
 
 'use strict';
 
@@ -151,25 +151,7 @@ $(document).ready(function() {
 
   // init pages
   setupUse({ panel: 'use' });
-  setupUse({ panel: 'test', useClassifierId: true });
-
-  /**
-   * Select the test page and configure it with the created classifier
-   * @param  {Object} classifier The created classifier
-   * @return {undefined}
-   */
-  function setupTestPanel(classifier) {
-    CLASSIFIER_ID = classifier.classifier_id;
-    $('.test--classifier-name').text(classifier.name);
-    // reset results
-    $('.test--output').hide();
-  }
-
-  function showTestSamples(id) {
-    console.log(id);
-    $('.test--example-images').hide();
-    $('.test--example-images_' + id).show();
-  }
+  setupUse({ panel: 'test'});
 
   var classifier = Cookies.get('classifier');
   // enable test if there is trained classifier
@@ -178,10 +160,7 @@ $(document).ready(function() {
   }
   // send the user to train if they hit /test without a trained classifier
   if (currentPage() === '/test') {
-    if (classifier) {
-      showTestSamples(JSON.parse(Cookies.get('bundle') || '{}' ));
-      setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
-    } else {
+    if (!classifier) {
       $('.tab-panels--tab[href="/train"]').trigger('click');
     }
   }

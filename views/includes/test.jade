@@ -1,9 +1,9 @@
 include ../mixins/sampleInput.jade
 
-h2.base--h2.test--classifier-name Dogs
+h2.base--h2.test--classifier-name #{classifier.name}
 .test--input-container.toggled
   h3.base--h3.test--header Test your classifier
-  +sampleInput('test')
+  +sampleInput('test', bundle.kind, classifier.classifier_id)
 .loading.test--loading
   img.test--loading-image.loading--image(src='images/loading-indicator.gif')
   p.base--p.test--loading-message.loading--message Visual Recognition is classifying the image to determine a match...
