@@ -364,7 +364,7 @@ function setupUse(params) {
         });
         return {
           resultCategory: 'Words',
-          tooltipText: 'These are potential words recognized from the image.',
+          tooltipText: 'Text recognition returns English-language words found in an image.',
           data: words
         };
       })();
