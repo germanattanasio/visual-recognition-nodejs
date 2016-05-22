@@ -328,7 +328,7 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Faces',
-          tooltipText: 'If Visual Recognition detects a face in the image, it will attempt to identify that face and the age and gender.',
+          tooltipText: 'Face detection returns the estimate age and gender of each face in an image and identifies if the face is a known celebrity.',
           data: faces
         };
       })();
