@@ -19,7 +19,6 @@
 var express = require('express');
 var app = express();
 var fs = require('fs');
-var util = require('util');
 var extend = require('extend');
 var path = require('path');
 var async = require('async');
@@ -31,6 +30,7 @@ var uuid = require('uuid');
 var detectedFaces = require('./data/faces');
 var recognizedText = require('./data/text');
 var classification = require('./data/classify');
+var bundleUtils = require('./config/bundle-utils');
 
 var ONE_HOUR = 3600000;
 
@@ -70,59 +70,39 @@ app.get('/test', function(req, res) {
 
 /**
  * Creates a classifier
- * @param req.body.positives Array of base64 or relative images
- * @param req.body.nevatives Array of base64 or relative images
- * @param req.body.name classifier name
+ * @param req.body.bundles Array of selected bundles
+ * @param req.body.kind The bundle kind
  */
 app.post('/api/classifiers', function(req, res, next) {
-  console.log(req.body.positives);
-  // check the inputs
-  if (!util.isArray(req.body.positives)) {
-    return next({error: 'Missing positives images', code: 400});
-  } else if (!util.isArray(req.body.negatives)) {
-    return next({error: 'Missing negatives images', code: 400});
-  } else if (!util.isString(req.body.name)) {
-    return next({error: 'Missing classifier name', code: 400});
-  } else if (req.body.positives.length < 10) {
-    return next({error: 'Minimum positives images (10) sent:' +
-     req.body.positives.length, code: 400});
-  } else if (req.body.negatives.length < 10) {
-    return next({error: 'Minimum negatives images (10) sent:' +
-      req.body.negatives.length, code: 400});
-  }
+  var params = {
+    bundles: [  'goldenretriever', 'husky', 'dalmation', 'beagle', 'negatives'],
+    kind: 'dogs'
+  };
 
-  console.time('training');
-
-  async.parallel([
-    zipUtils.zipImages.bind(null, req.body.positives), // zip positive images
-    zipUtils.zipImages.bind(null, req.body.negatives)  // zip negative images
-  ], function(zipError, zips) {
-    if (zipError) {
-      return next(zipError);
+  var formData = bundleUtils.createFormData(params);
+  visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
+    if (err) {
+      return next(err);
     }
-
-    var trainingData = {
-      positive_examples: fs.createReadStream(zips[0]),
-      negative_examples: fs.createReadStream(zips[1]),
-      name: req.body.name
-    };
-
-    visualRecognition.createClassifier(trainingData, function createClassifier(err, classifier) {
-      console.timeEnd('training');
-      console.log('deleting positive images:', trainingData.positive_examples.path);
-      fs.unlink(trainingData.positive_examples.path);
-      console.log('deleting negative images:', trainingData.negative_examples.path);
-      fs.unlink(trainingData.negative_examples.path);
-
-      if (err || !classifier) {
-        return next(err);
-      }
-      // deletes the classifier after an hour
-      setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
-      res.json(classifier);
-    });
+    // deletes the classifier after an hour
+    setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
+    res.json(classifier);
   });
 });
+
+/**
+ * Gets the status of a classifier
+ * @param req.params.classifier_id The classifier id
+ */
+app.get('/api/classifiers/:classifier_id', function(req, res, next) {
+  visualRecognition.getClassifier(req.params, function getClassifier(err, classifier) {
+    if (err) {
+      return next(err);
+    }
+    // deletes the classifier after an hour
+    setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
+    res.json(classifier);
+  });});
 
 app.get('/test/classify', function(req, res) {
   setTimeout(function() {
@@ -135,6 +115,7 @@ app.get('/test/classify', function(req, res) {
  * Classifies an image
  * @param req.body.url The URL for an image either.
  *                     images/test.jpg or https://example.com/test.jpg
+ * @param req.file The image file.
  */
 app.post('/api/classify', app.upload.single('images_file'), function(req, res, next) {
   var params = {
