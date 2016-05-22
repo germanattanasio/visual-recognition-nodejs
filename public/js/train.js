@@ -121,9 +121,9 @@ $(document).ready(function() {
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       success: function(classifier) {
-        Cookies.set('bundle', data, { expires: nextHour()});
-        Cookies.set('classifier', classifier, { expires: nextHour()});
         checkClassifier(classifier.classifier_id, function done() {
+          Cookies.set('bundle', data, { expires: nextHour()});
+          Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
           window.location.href = '/test';
         });
@@ -153,6 +153,24 @@ $(document).ready(function() {
   setupUse({ panel: 'use' });
   setupUse({ panel: 'test', useClassifierId: true });
 
+  /**
+   * Select the test page and configure it with the created classifier
+   * @param  {Object} classifier The created classifier
+   * @return {undefined}
+   */
+  function setupTestPanel(classifier) {
+    CLASSIFIER_ID = classifier.classifier_id;
+    $('.test--classifier-name').text(classifier.name);
+    // reset results
+    $('.test--output').hide();
+  }
+
+  function showTestSamples(id) {
+    console.log(id);
+    $('.test--example-images').hide();
+    $('.test--example-images_' + id).show();
+  }
+
   var classifier = Cookies.get('classifier');
   // enable test if there is trained classifier
   if (classifier) {
@@ -161,12 +179,8 @@ $(document).ready(function() {
   // send the user to train if they hit /test without a trained classifier
   if (currentPage() === '/test') {
     if (classifier) {
-      console.log(classifier);
-      // showTestSamples(Cookies.get('bundle') || 'default');
-      // populateTestThumbnails();
-      // square();
-      // $(window).resize(square);
-      // setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
+      showTestSamples(JSON.parse(Cookies.get('bundle') || '{}' ));
+      setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
     } else {
       $('.tab-panels--tab[href="/train"]').trigger('click');
     }

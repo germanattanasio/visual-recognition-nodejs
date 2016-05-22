@@ -61,6 +61,8 @@ app.get('/train', function(req, res) {
 });
 
 app.get('/test', function(req, res) {
+  console.log('Cookies: ', req.cookies)
+
   res.render('test', {
     datasets: datasets,
     ct: req._csrfToken,

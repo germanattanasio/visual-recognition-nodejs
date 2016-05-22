@@ -22,6 +22,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var findRemoveSync = require('find-remove');
 var path = require('path');
+var cookieParser = require('cookie-parser');
 
 module.exports = function(app) {
   // When running in Bluemix add rate-limitation
@@ -32,6 +33,7 @@ module.exports = function(app) {
 
   // Configure Express
   app.set('view engine', 'jade');
+  app.use(cookieParser());
   app.use(bodyParser.urlencoded({
     extended: true,
     limit: '40mb'

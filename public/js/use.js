@@ -16,14 +16,13 @@
 
 'use strict';
 var CLASSIFIER_ID = null;
-/*global $:false, resize */
 
 /**
  * Setups the "Try Out" and "Test" panels.
  * It connects listeners to the DOM elements in the panel to allow
  * users to select an existing image or upload a file.
- * @param params.panel The panel name that will be use to locate the DOM elements.
- * @param params.useClassifierId If true, the classify request with use the global
+ * @param params.panel {String} The panel name that will be use to locate the DOM elements.
+ * @param params.useClassifierId {String} If true, the classify request with use the global
  *                                  variable CLASSIFIER_ID
  */
 function setupUse(params) {
@@ -33,26 +32,26 @@ function setupUse(params) {
   console.log('setupUse()', panel);
 
   // panel ids
-  var pclass = '.'+ panel + '--',
-      pid = '#'+ panel + '--';
+  var pclass = '.' + panel + '--';
+  var pid = '#' + panel + '--';
 
 
   // jquery elements we are using
-  var $loading = $(pclass + 'loading'),
-    $result = $(pclass + 'output'),
-    $error = $(pclass + 'error'),
-    $errorMsg = $(pclass + 'error-message'),
-    $tbody = $(pclass + 'output-tbody'),
-    $image = $(pclass + 'output-image'),
-    $urlInput = $(pclass + 'url-input'),
-    $imageDataInput = $(pclass + 'image-data-input'),
-    $radioImages = $(pclass + 'example-radio'),
-    $invalidImageUrl = $(pclass + 'invalid-image-url').hide(),
-    $invalidUrl = $(pclass + 'invalid-url').show(),
-    $dropzone = $(pclass + 'dropzone'),
-    $fileupload = $(pid + 'fileupload');
+  var $loading = $(pclass + 'loading');
+  var $result = $(pclass + 'output');
+  var $error = $(pclass + 'error');
+  var $errorMsg = $(pclass + 'error-message');
+  var $tbody = $(pclass + 'output-tbody');
+  var $image = $(pclass + 'output-image');
+  var $urlInput = $(pclass + 'url-input');
+  var $imageDataInput = $(pclass + 'image-data-input');
+  var $radioImages = $(pclass + 'example-radio');
+  var $invalidImageUrl = $(pclass + 'invalid-image-url').hide();
+  var $invalidUrl = $(pclass + 'invalid-url').show();
+  var $dropzone = $(pclass + 'dropzone');
+  var $fileupload = $(pid + 'fileupload');
 
-  /**
+  /*
    * Resets the panel
    */
   function reset() {
@@ -74,7 +73,7 @@ function setupUse(params) {
     scrollToElement($loading);
   }
 
-  /**
+  /*
    * Shows the result from classifing an image
    */
   function showResult(results) {
@@ -86,48 +85,11 @@ function setupUse(params) {
       return;
     }
 
-    var scores = results.images[0].scores;
-
-    if (!scores || scores.length === 0) {
-      var message = $('.test--classifier-name').length === 0 ?
-        'The image could not be classified' :
-        'This image is not a match for ' + $('.test--classifier-name').text();
-      if ($('#test').hasClass('active'))
-        message = 'Not a positive match for ' + $('.test--classifier-name').text() +
-        ' with a confidence above 50%';
-      $tbody.html(
-        '<tr class="base--tr use--output-tr" >' +
-        '<td class="base--td use--output-td">' +
-        message +
-        '</td>' +
-        '</tr>');
-    } else {
-      populateTable(scores);
-    }
-
     // populate table
-    console.log(results);
     renderTable(results);
 
     $result.show();
     scrollToElement($result);
-  }
-
-  /**
-   * Populates classifiers in the results table
-   */
-  function populateTable(classifiers) {
-    var top5 = classifiers.slice(0, Math.min(5, classifiers.length));
-    $tbody.html(top5.map(function rowFromClassifier(c) {
-      return '<tr class="base--tr use--output-tr" >' +
-        '<td class="base--td use--output-td">' +
-        c.name +
-        '</td>' +
-        '<td class="base--td use--output-td ' +
-        (c.score > 0.70 ? 'use--output-td_positive' : 'use--output-td_medium') + '">' +
-        percentagify(c.score) + '% </td>' +
-        '</tr>';
-    }).join(''));
   }
 
   function showError(message) {
@@ -138,17 +100,11 @@ function setupUse(params) {
 
   function _error(xhr) {
     $loading.hide();
-    var message = 'Error creating the classifier';
-      if (xhr.responseJSON)
-        message = xhr.responseJSON.error;
+    var message = 'Error classifing the image';
+    if (xhr.responseJSON) {
+      message = xhr.responseJSON.error;
+    }
     showError(message);
-  }
-
-  /*
-   * turns floating decimals into truncated percantages
-   */
-  function percentagify(num) {
-    return Math.floor(parseFloat(num) * 100);
   }
 
   /*

@@ -7,5 +7,3 @@ applications:
   command: npm start
   path: .
   memory: 512M
-  services:
-  - visual-recognition-service

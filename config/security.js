@@ -19,7 +19,6 @@
 // security.js
 var rateLimit = require('express-rate-limit');
 var csrf = require('csurf');
-var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 
 module.exports = function(app) {
@@ -43,11 +42,7 @@ module.exports = function(app) {
     max: 10
   }));
 
-  // 3. setup cookies
-  var secret = Math.random().toString(36).substring(7);
-  app.use(cookieParser(secret));
-
-  // 4. csrf
+  // 3. csrf
   var csrfProtection = csrf({
     cookie: true
   });
