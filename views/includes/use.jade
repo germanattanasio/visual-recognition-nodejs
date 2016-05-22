@@ -16,14 +16,17 @@ h2.base--h2.use--header Try the service
       .use--output-image-container
         img.use--output-image
     .use--output-right
-      table.base--table.use--output-table
-        thead.base--thead.use--output-thead
-          tr.base--tr.use--output-tr
-            td.base--td.use--output-td
-              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Classifier
-            td.base--td.use--output-td 
-              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Confidence Score
-        tbody.use--output-tbody
+      //- table.base--table.use--output-table
+      //-   thead.base--thead.use--output-thead
+      //-     tr.base--tr.use--output-tr
+      //-       td.base--td.use--output-td
+      //-         a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Classifier
+      //-       td.base--td.use--output-td 
+      //-         a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Confidence Score
+      //-   tbody.use--output-tbody
+      table.base--table.use--results-table.classes-table
+      table.base--table.use--results-table.words-table
+      table.base--table.use--results-table.faces-table
   hr.base--hr.use--hr
   .use--output-row
     a(href='/train')

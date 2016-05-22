@@ -2155,3 +2155,98 @@ pre[class*=" language-"] {
               margin-left: 17.02128%;
               float: left;
               display: block; } }
+
+
+/* James updates */
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.2s;
+  position: absolute;
+  background-color: #325c80;
+  color: white;
+  font-weight: 300;
+  bottom: 100%;
+  margin: 0rem 0rem 1rem;
+  padding: 1rem;
+}
+.tooltip:after {
+  border: 0.5rem solid transparent;
+  border-top-color: #325c80;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin: 0rem;
+  margin-left: -0.5rem;
+  width: 0rem;
+  height: 0rem;
+  display: block;
+}
+
+.use--results-table {
+  background-color: #d0d0d0;
+  border: 0.25rem solid #d0d0d0;
+  margin-bottom: 1rem;
+}
+
+.use--results-table .base--h3 {
+  line-height: 1;
+  padding: 0rem;
+}
+
+.use--results-header-classes {
+  position: relative;
+}
+
+.use--results-header-classes:hover .use--tooltip-classes {
+  visibility: visible;
+  opacity: 1;
+}
+
+.use--results-header-words {
+  position: relative;
+}
+
+.use--results-header-words:hover .use--tooltip-words {
+  visibility: visible;
+  opacity: 1;
+}
+
+.use--results-header-faces {
+  position: relative;
+}
+
+.use--results-header-faces:hover .use--tooltip-faces {
+  visibility: visible;
+  opacity: 1;
+}
+
+.use--results-header-score {
+  position: relative;
+}
+
+.use--results-header-score:hover .use--tooltip-score {
+  visibility: visible;
+  opacity: 1;
+}
+
+.use--tooltip-classes {
+  left: -4.75rem;
+  width: 15rem;
+}
+
+.use--tooltip-words {
+  left: -4.75rem;
+  width: 15rem;
+}
+
+.use--tooltip-faces {
+  left: -5.5rem;
+  width: 15rem;
+}
+
+.use--tooltip-score {
+  left: -5.5rem;
+  width: 15rem;
+}
