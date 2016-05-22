@@ -149,6 +149,10 @@ $(document).ready(function() {
     .fail(showTrainingError);
   }
 
+  // init pages
+  setupUse({ panel: 'use' });
+  setupUse({ panel: 'test', useClassifierId: true });
+
   var classifier = Cookies.get('classifier');
   // enable test if there is trained classifier
   if (classifier) {
@@ -157,11 +161,12 @@ $(document).ready(function() {
   // send the user to train if they hit /test without a trained classifier
   if (currentPage() === '/test') {
     if (classifier) {
-      showTestSamples(Cookies.get('bundle') || 'default');
-      populateTestThumbnails();
-      square();
-      $(window).resize(square);
-      setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
+      console.log(classifier);
+      // showTestSamples(Cookies.get('bundle') || 'default');
+      // populateTestThumbnails();
+      // square();
+      // $(window).resize(square);
+      // setupTestPanel(JSON.parse(Cookies.get('classifier') || '{}'));
     } else {
       $('.tab-panels--tab[href="/train"]').trigger('click');
     }
