@@ -297,7 +297,7 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Classes',
-          tooltipText: 'Classes are black boxes, trained to recognize a specific object or quality of the image(s) passed in.',
+          tooltipText: 'Classes are trained to recognize a specific object or quality of an image.',
           data: classes
         };
       })();
