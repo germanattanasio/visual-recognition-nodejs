@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* global _:true, resize:true */
+/* global _:true, resize:true, Cookies:true */
 /* eslint no-unused-vars: "warn"*/
 'use strict';
 
@@ -282,7 +282,11 @@ function setupUse(params) {
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
 
     // classes
-    if ((typeof results.images[0].classifiers[0].classes !== 'undefined') && (results.images[0].classifiers[0].classes.length > 0)) {
+    if ((results.images &&
+      results.images[0].classifiers &&
+      results.images[0].classifiers.length > 0 &&
+      results.images[0].classifiers[0].classes !== 'undefined') &&
+      results.images[0].classifiers[0].classes.length > 0) {
       var classesModel = (function() {
         var classes = results.images[0].classifiers[0].classes.map(function(item) {
           return {
@@ -302,6 +306,10 @@ function setupUse(params) {
       $('.classes-table').html(_.template(useResultsTable_template, {
         items: classesModel
       }));
+    } else if (results.classifier_ids) {
+      var bundle = JSON.parse(Cookies.get('bundle'));
+      $('.classes-table').html('<div>This image is not a match for: ' + bundle.names.join(', ') + '.</div>');
+      $('.classes-table').show();
     } else {
       $('.classes-table').hide();
     }
@@ -332,7 +340,7 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Faces',
-          tooltipText: 'Face detection returns the estimate age and gender of each face in an image and identifies if the face is a known celebrity.',
+          tooltipText: 'Face detection returns the estimate age and gender of each face in an image and identifies if the face is a known celebrity. ',
           data: faces
         };
       })();
@@ -345,6 +353,7 @@ function setupUse(params) {
       $('.faces-table').hide();
     }
 
+    // words
     if ((typeof results.images[0].words !== 'undefined') && (results.images[0].words.length > 0)) {
       var wordsModel = (function() {
         var words = results.images[0].words.map(function(item) {

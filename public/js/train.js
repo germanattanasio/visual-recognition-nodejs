@@ -108,11 +108,18 @@ $(document).ready(function() {
 
     var data = $('.showing div._examples--class__selected')
     .map(function(idx, item) {
-      return {name: $(item).data('name'), kind: $(item).data('kind') };
+      return {
+        name: $(item).data('name'),
+        realname: $(item).data('realname'),
+        kind: $(item).data('kind')
+      };
     })
     .toArray().reduce(function(k, v) {
-      k.bundles.push(v.name); k.kind = v.kind; return k;
-    }, { bundles: []});
+      k.bundles.push(v.name);
+      k.names.push(v.realname);
+      k.kind = v.kind;
+      return k;
+    }, { bundles: [], names: []});
 
     $.ajax({
       type: 'POST',
