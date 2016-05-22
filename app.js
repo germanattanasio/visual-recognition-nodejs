@@ -156,7 +156,12 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     var combine = results.reduce(function(prev, cur) {
       return extend(true, prev, cur);
     });
-    res.json(combine.value[0]);
+    if (combine.value) {
+      res.json(combine.value[0]);
+    } else {
+      console.log('result:', combine);
+      res.status(400).json(combine.error);
+    }
   });
 });
 
