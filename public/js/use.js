@@ -308,7 +308,12 @@ function setupUse(params) {
       }));
     } else if (results.classifier_ids) {
       var bundle = JSON.parse(Cookies.get('bundle'));
-      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for: ' + bundle.names.join(', ') + '.</div>');
+
+      var classifiers = bundle.names[0];
+      if (bundle.names.length > 1) {
+        classifiers = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
+      }
+      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for: ' + classifiers + '.</div>');
       $('.classes-table').show();
     } else {
       $('.classes-table').hide();
