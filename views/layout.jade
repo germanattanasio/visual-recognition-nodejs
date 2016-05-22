@@ -4,7 +4,7 @@ html(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='ct' content='#{ct}')
+    meta(name='ct' content='#{locals.ct}')
     link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
     link(rel='stylesheet', href='css/style.css')
     link(rel='stylesheet', href='css/training.css')
@@ -388,10 +388,10 @@ html(lang='en')
         ._demo--container
           .banner--service-container
             .banner--service-icon-container
-              img.banner--service-icon(src='images/service-icon.svg', alt='Tone Analyzer API Icon')
+              img.banner--service-icon(src='images/service-icon.svg', alt='Visual Recognition API Icon')
             .banner--service-info
               h1.banner--service-title.base--h1
-                img.banner--service-icon_INLINE(src='images/service-icon.svg', alt='Tone Analyzer API Icon')
+                img.banner--service-icon_INLINE(src='images/service-icon.svg', alt='Visual Recognition API Icon')
                 | Visual Recognition
               .banner--service-description
                 | Visual Recognition uses deep learning algorithms to analyze images for scenes, objects, faces, text, and other subjects that can give you insights into your visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
@@ -434,12 +434,12 @@ html(lang='en')
     script(src='js/use.js')
     script(src='js/train.js')
     script(src='js/vendors/tealeaf.js')
-    if ga
+    if locals.ga
       script.
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', '#{ga}', 'auto');
+        ga('create', '#{locals.ga}', 'auto');
         ga('send', 'pageview');

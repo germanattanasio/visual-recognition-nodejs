@@ -37,7 +37,7 @@ module.exports = function(app) {
 
   // 2. rate-limit to /api/
   app.use('/api/', rateLimit({
-    windowMs: 60 * 1000, // seconds
+    windowMs: 30 * 1000, // seconds
     delayMs: 0,
     max: 10
   }));
@@ -48,7 +48,10 @@ module.exports = function(app) {
   });
 
   app.get('/*', csrfProtection, function(req, res, next) {
-    req._csrfToken = req.csrfToken();
+    res.locals = {
+      ga: process.env.GOOGLE_ANALYTICS,
+      ct: req.csrfToken()
+    };
     next();
   });
 };

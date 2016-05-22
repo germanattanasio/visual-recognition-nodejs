@@ -41,25 +41,17 @@ var visualRecognition = watson.visual_recognition({
 });
 
 app.get('/', function(req, res) {
-  res.render('use', {
-    ct: req._csrfToken,
-    ga: process.env.GOOGLE_ANALYTICS
-  });
+  res.render('use');
 });
 
 app.get('/train', function(req, res) {
-  res.render('train', {
-    ct: req._csrfToken,
-    ga: process.env.GOOGLE_ANALYTICS
-  });
+  res.render('train');
 });
 
 app.get('/test', function(req, res) {
   res.render('test', {
     bundle: JSON.parse(req.cookies.bundle || '{}'),
-    classifier: JSON.parse(req.cookies.classifier || '{}'),
-    ct: req._csrfToken,
-    ga: process.env.GOOGLE_ANALYTICS
+    classifier: JSON.parse(req.cookies.classifier || '{}')
   });
 });
 
@@ -127,34 +119,40 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     delete params.images_file;
   }
 
-  var methods = ['classify'];
+  var methods = [];
   if (req.body.classifier_id) {
     params.classifier_ids = [req.body.classifier_id];
+    methods.push('classify');
   } else {
+    methods.push('classify');
     methods.push('detectFaces');
     methods.push('recognizeText');
   }
 
+  // run the 3 classifiers asynchronously and combine the results
   async.parallel(methods.map(function(method) {
     return async.reflect(visualRecognition[method].bind(visualRecognition, params));
   }), function(err, results) {
-    if (req.file) { // delete the recognized file
+    // delete the recognized file
+    if (req.file) {
       fs.unlink(req.file.path.path);
     }
+
     if (err) {
       return next(err);
     }
+    // combine the results
     var combine = results.reduce(function(prev, cur) {
       return extend(true, prev, cur);
     });
 
     if (combine.value) {
+      // save the classifier_id as part of the response
       if (req.body.classifier_id) {
         combine.value[0].classifier_ids = req.body.classifier_id;
       }
       res.json(combine.value[0]);
     } else {
-      console.log('result:', combine);
       res.status(400).json(combine.error);
     }
   });

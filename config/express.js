@@ -25,12 +25,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 
 module.exports = function(app) {
-  // When running in Bluemix add rate-limitation
-  // and some other features around security
-  if (process.env.VCAP_APPLICATION) {
-    require('./security')(app);
-  }
-
   // Configure Express
   app.set('view engine', 'jade');
   app.use(cookieParser());
@@ -66,4 +60,11 @@ module.exports = function(app) {
       console.log('removed:', removed);
     }
   }, 3600000);
+
+  // When running in Bluemix add rate-limitation
+  // and some other features around security
+  if (process.env.VCAP_APPLICATION) {
+    require('./security')(app);
+  }
+
 };
