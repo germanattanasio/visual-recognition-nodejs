@@ -23,13 +23,9 @@ var extend = require('extend');
 var path = require('path');
 var async = require('async');
 var validator = require('validator');
-var datasets = require('./public/data/datasets.json').datasets;
 var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
-var detectedFaces = require('./data/faces');
-var recognizedText = require('./data/text');
-var classification = require('./data/classify');
 var bundleUtils = require('./config/bundle-utils');
 
 var ONE_HOUR = 3600000;
@@ -73,12 +69,7 @@ app.get('/test', function(req, res) {
  * @param req.body.kind The bundle kind
  */
 app.post('/api/classifiers', function(req, res, next) {
-  var params = {
-    bundles: [  'goldenretriever', 'husky', 'dalmation', 'beagle', 'negatives'],
-    kind: 'dogs'
-  };
-
-  var formData = bundleUtils.createFormData(params);
+  var formData = bundleUtils.createFormData(req.body);
   visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
     if (err) {
       return next(err);
@@ -102,13 +93,6 @@ app.get('/api/classifiers/:classifier_id', function(req, res, next) {
     setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
     res.json(classifier);
   });});
-
-app.get('/test/classify', function(req, res) {
-  setTimeout(function() {
-    res.json(extend(true, {}, detectedFaces, recognizedText, classification));
-  }, req.query.s ? req.query.s * 1000 : 1000);
-});
-
 
 /**
  * Classifies an image
@@ -163,7 +147,11 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     var combine = results.reduce(function(prev, cur) {
       return extend(true, prev, cur);
     });
+
     if (combine.value) {
+      if (req.body.classifier_id) {
+        combine.value[0].classifier_ids = req.body.classifier_id;
+      }
       res.json(combine.value[0]);
     } else {
       console.log('result:', combine);
