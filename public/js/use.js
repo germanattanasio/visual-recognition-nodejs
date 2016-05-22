@@ -308,7 +308,7 @@ function setupUse(params) {
       }));
     } else if (results.classifier_ids) {
       var bundle = JSON.parse(Cookies.get('bundle'));
-      $('.classes-table').html('<div>This image is not a match for: ' + bundle.names.join(', ') + '.</div>');
+      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for: ' + bundle.names.join(', ') + '.</div>');
       $('.classes-table').show();
     } else {
       $('.classes-table').hide();

@@ -2259,3 +2259,8 @@ pre[class*=" language-"] {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+.test--mismatch {
+  font-size: 1.2rem;
+  color: #777677;
+}
