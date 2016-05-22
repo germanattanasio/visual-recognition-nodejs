@@ -2250,3 +2250,8 @@ pre[class*=" language-"] {
   left: -5.5rem;
   width: 15rem;
 }
+
+.bottom-banner {
+  max-width: 100%;
+  overflow-x: hidden;
+}

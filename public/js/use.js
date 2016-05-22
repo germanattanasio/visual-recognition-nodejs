@@ -84,6 +84,10 @@ function setupUse(params) {
     renderTable(results);
 
     $result.show();
+    var outputImage = document.querySelector('.use--output-image');
+    if (outputImage.height > outputImage.width) {
+      $(outputImage).addClass('landscape');
+    }
     scrollToElement($result);
   }
 
