@@ -1,11 +1,5 @@
-declared-services:
-  visual-recognition-service:
-    label: visual_recognition
-    plan: free
 applications:
 - name: visual-recognition-demo
   command: npm start
   path: .
   memory: 512M
-  services:
-  - visual-recognition-service

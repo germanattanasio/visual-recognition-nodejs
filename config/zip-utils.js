@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ /* eslint valid-jsdoc: "off"*/
 
 'use strict';
 
-var fs      = require('fs'),
-  path      = require('path'),
-  archiver  = require('archiver'),
-  uuid      = require('uuid');
+var fs      = require('fs');
+var path      = require('path');
+var archiver  = require('archiver');
+var uuid      = require('uuid');
 
 /**
  * Parse a base 64 image and return the extension and buffer
@@ -27,21 +28,22 @@ var fs      = require('fs'),
  * @return {Object}             { type: String, data: Buffer }
  */
 function parseBase64Image(imageString) {
-  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/),
-    resource = {};
+  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
+  var resource = {};
 
   if (matches.length !== 3) {
-   return null;
+    return null;
   }
 
   resource.type = matches[1] === 'jpeg' ? 'jpg' : matches[1];
   resource.data = new Buffer(matches[2], 'base64');
   return resource;
 }
+
 module.exports.parseBase64Image = parseBase64Image;
 
 /**
- * Archives an image uning the @param archive module
+ * Archives an image into archive
  * @param  {Object} archive The archiver module
  * @param  {String} image   The base64 or path to the image for bundles
  */
@@ -52,7 +54,7 @@ function archiveImage(archive, image) {
     });
   } else {
     var resource = parseBase64Image(image);
-    if (resource !== null){
+    if (resource !== null) {
       archive.append(resource.data, {
         name: uuid.v1() + '.' + resource.type
       });
@@ -67,7 +69,7 @@ function archiveImage(archive, image) {
  * @param images The images to zip
  * @param  {Function} callback The callback
  */
-module.exports.zipImages = function (images, callback) {
+module.exports.zipImages = function(images, callback) {
   try {
     var zipFile = path.join(__dirname, '../uploads/training-' + uuid.v1() + '.zip');
 
@@ -75,7 +77,7 @@ module.exports.zipImages = function (images, callback) {
     archive.on('error', callback);
 
     var output = fs.createWriteStream(zipFile);
-    output.on('close', function(){
+    output.on('close', function() {
       callback(null, zipFile);
     });
     archive.pipe(output);

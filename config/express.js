@@ -17,43 +17,54 @@
 'use strict';
 
 // Module dependencies
-var express    = require('express'),
-  bodyParser   = require('body-parser'),
-  multer       = require('multer'),
-  findRemoveSync = require('find-remove');
+var express = require('express');
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var findRemoveSync = require('find-remove');
+var path = require('path');
+var cookieParser = require('cookie-parser');
 
-module.exports = function (app) {
-
-  // When running in Bluemix add rate-limitation
-  // and some other features around security
-  if (process.env.VCAP_APPLICATION)
-    require('./security')(app);
-
-
+module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
-  app.use(bodyParser.urlencoded({ extended: true, limit: '40mb' }));
-  app.use(bodyParser.json({ limit: '40mb' }));
+  app.use(cookieParser());
+  app.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '40mb'
+  }));
+  app.use(bodyParser.json({
+    limit: '40mb'
+  }));
 
   // Setup static public directory
-  app.use(express.static(__dirname + '/../public'));
+  app.use(express.static(path.join(__dirname, '..', 'public')));
 
   // Setup the upload mechanism
   var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
       cb(null, './uploads/');
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname);
     }
   });
 
-  var upload = multer({ storage: storage });
+  var upload = multer({
+    storage: storage
+  });
   app.upload = upload;
   // Remove files older than 1 hour every hour.
   setInterval(function() {
-    var removed = findRemoveSync(__dirname + '/../uploads', {age: {seconds: 3600}});
-    if (removed.length > 0)
+    var removed = findRemoveSync(path.join(__dirname, '..', 'uploads'), { age: { seconds: 3600 } });
+    if (removed.length > 0) {
       console.log('removed:', removed);
+    }
   }, 3600000);
+
+  // When running in Bluemix add rate-limitation
+  // and some other features around security
+  if (process.env.VCAP_APPLICATION) {
+    require('./security')(app);
+  }
+
 };

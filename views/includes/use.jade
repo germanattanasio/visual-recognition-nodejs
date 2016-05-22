@@ -1,7 +1,8 @@
 include ../mixins/sampleInput.jade
 
-h2.base--h2.use--header Select an Image
+h2.base--h2.use--header Try the service
 +sampleInput('use')
+
 .loading.use--loading
   img.use--loading-image.loading--image(src='images/loading-indicator.gif')
   p.base--p.use--loading-message.loading--message Watson is classifying the image to determine a match...
@@ -16,16 +17,9 @@ h2.base--h2.use--header Select an Image
       .use--output-image-container
         img.use--output-image
     .use--output-right
-      table.base--table.use--output-table
-        thead.base--thead.use--output-thead
-          tr.base--tr.use--output-tr
-            td.base--td.use--output-td
-              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Classifier
-            td.base--td.use--output-td 
-              a.base--a(href='https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/overview.shtml', target='_blank') Confidence Score
-        tbody.use--output-tbody
-  .use--output-note Powered by 
-    a.base--a(href='http://www.alchemyapi.com/products/alchemyvision', target='_blank') AlchemyVision
+      table.base--table.use--results-table.classes-table
+      table.base--table.use--results-table.words-table
+      table.base--table.use--results-table.faces-table
   hr.base--hr.use--hr
   .use--output-row
     a(href='/train')

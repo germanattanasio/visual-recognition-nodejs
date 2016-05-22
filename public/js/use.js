@@ -13,46 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+/* global _:true, resize:true, Cookies:true */
+/* eslint no-unused-vars: "warn"*/
 'use strict';
-var CLASSIFIER_ID = null;
-/*global $:false, resize */
 
-/**
+/*
  * Setups the "Try Out" and "Test" panels.
  * It connects listeners to the DOM elements in the panel to allow
  * users to select an existing image or upload a file.
- * @param params.panel The panel name that will be use to locate the DOM elements.
- * @param params.useClassifierId If true, the classify request with use the global
- *                                  variable CLASSIFIER_ID
+ * @param params.panel {String} The panel name that will be use to locate the DOM elements.
  */
 function setupUse(params) {
   var panel = params.panel || 'use';
-  var useClassifierId = params.useClassifierId || 'false';
-
   console.log('setupUse()', panel);
 
   // panel ids
-  var pclass = '.'+ panel + '--',
-      pid = '#'+ panel + '--';
-
+  var pclass = '.' + panel + '--';
+  var pid = '#' + panel + '--';
 
   // jquery elements we are using
-  var $loading = $(pclass + 'loading'),
-    $result = $(pclass + 'output'),
-    $error = $(pclass + 'error'),
-    $errorMsg = $(pclass + 'error-message'),
-    $tbody = $(pclass + 'output-tbody'),
-    $image = $(pclass + 'output-image'),
-    $urlInput = $(pclass + 'url-input'),
-    $imageDataInput = $(pclass + 'image-data-input'),
-    $radioImages = $(pclass + 'example-radio'),
-    $invalidImageUrl = $(pclass + 'invalid-image-url').hide(),
-    $invalidUrl = $(pclass + 'invalid-url').show(),
-    $dropzone = $(pclass + 'dropzone'),
-    $fileupload = $(pid + 'fileupload');
+  var $loading = $(pclass + 'loading');
+  var $result = $(pclass + 'output');
+  var $error = $(pclass + 'error');
+  var $errorMsg = $(pclass + 'error-message');
+  var $tbody = $(pclass + 'output-tbody');
+  var $image = $(pclass + 'output-image');
+  var $urlInput = $(pclass + 'url-input');
+  var $imageDataInput = $(pclass + 'image-data-input');
+  var $radioImages = $(pclass + 'example-radio');
+  var $invalidImageUrl = $(pclass + 'invalid-image-url').hide();
+  var $invalidUrl = $(pclass + 'invalid-url').show();
+  var $dropzone = $(pclass + 'dropzone');
+  var $fileupload = $(pid + 'fileupload');
 
-  /**
+  /*
    * Resets the panel
    */
   function reset() {
@@ -74,7 +68,7 @@ function setupUse(params) {
     scrollToElement($loading);
   }
 
-  /**
+  /*
    * Shows the result from classifing an image
    */
   function showResult(results) {
@@ -86,44 +80,15 @@ function setupUse(params) {
       return;
     }
 
-    var scores = results.images[0].scores;
-
-    if (!scores || scores.length === 0) {
-      var message = $('.test--classifier-name').length === 0 ?
-        'The image could not be classified' :
-        'This image is not a match for ' + $('.test--classifier-name').text();
-      if ($('#test').hasClass('active'))
-        message = 'Not a positive match for ' + $('.test--classifier-name').text() +
-        ' with a confidence above 50%';
-      $tbody.html(
-        '<tr class="base--tr use--output-tr" >' +
-        '<td class="base--td use--output-td">' +
-        message +
-        '</td>' +
-        '</tr>');
-    } else {
-      populateTable(scores);
-    }
+    // populate table
+    renderTable(results);
 
     $result.show();
+    var outputImage = document.querySelector('.use--output-image');
+    if (outputImage && (outputImage.height > outputImage.width)) {
+      $(outputImage).addClass('landscape');
+    }
     scrollToElement($result);
-  }
-
-  /**
-   * Populates classifiers in the results table
-   */
-  function populateTable(classifiers) {
-    var top5 = classifiers.slice(0, Math.min(5, classifiers.length));
-    $tbody.html(top5.map(function rowFromClassifier(c) {
-      return '<tr class="base--tr use--output-tr" >' +
-        '<td class="base--td use--output-td">' +
-        c.name +
-        '</td>' +
-        '<td class="base--td use--output-td ' +
-        (c.score > 0.70 ? 'use--output-td_positive' : 'use--output-td_medium') + '">' +
-        percentagify(c.score) + '% </td>' +
-        '</tr>';
-    }).join(''));
   }
 
   function showError(message) {
@@ -134,17 +99,11 @@ function setupUse(params) {
 
   function _error(xhr) {
     $loading.hide();
-    var message = 'Error creating the classifier';
-      if (xhr.responseJSON)
-        message = xhr.responseJSON.error;
+    var message = 'Error classifing the image';
+    if (xhr.responseJSON) {
+      message = xhr.responseJSON.error;
+    }
     showError(message);
-  }
-
-  /*
-   * turns floating decimals into truncated percantages
-   */
-  function percentagify(num) {
-    return Math.floor(parseFloat(num) * 100);
   }
 
   /*
@@ -159,21 +118,18 @@ function setupUse(params) {
 
     $imageDataInput.val(imageData);
 
-    var url = '/api/classify';
-    if (useClassifierId === true && CLASSIFIER_ID)
-      url += '?classifier_id=' +  CLASSIFIER_ID;
-
     // Grab all form data
-    $.post(url, $(pclass + 'form').serialize())
+    $.post('/api/classify', $(pclass + 'form').serialize())
       .done(showResult)
       .error(function(error) {
         $loading.hide();
         console.log(error);
-        if (error.status === 429)
+        if (error.status === 429) {
           showError('You have entered too many requests at once. Please try again later.');
-        else
+        } else {
           showError('The demo is not available right now. <br/>We are working on ' +
           'getting this back up and running soon.');
+        }
       });
   }
 
@@ -210,8 +166,9 @@ function setupUse(params) {
         imageExists(url, function(exists) {
           if (!exists) {
             $invalidUrl.show();
-            if (!/\.(jpg|png|gif)$/i.test(url))
+            if (!/\.(jpg|png|gif)$/i.test(url)) {
               $invalidImageUrl.show();
+            }
             self.addClass(panel + '--url-input_error');
           } else {
             resetPasteUrl();
@@ -239,8 +196,7 @@ function setupUse(params) {
     dropZone: $dropzone,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
     add: function(e, data) {
-      var path = (useClassifierId && CLASSIFIER_ID) ? '?classifier_id=' + CLASSIFIER_ID : '';
-      data.url = '/api/classify' + path;
+      data.url = '/api/classify';
       if (data.files && data.files[0]) {
         $error.hide();
 
@@ -255,8 +211,6 @@ function setupUse(params) {
           };
         };
         reader.readAsDataURL(data.files[0]);
-        // do not submit the image
-        //data.submit();
       }
     },
     error: _error,
@@ -269,6 +223,7 @@ function setupUse(params) {
    * Async function to validate if an image exists
    * @param  {String}   url      The image URL
    * @param  {Function} callback The callback
+   * @return {void}
    */
   function imageExists(url, callback) {
     var img = new Image();
@@ -287,16 +242,17 @@ function setupUse(params) {
    * @return {Boolean}     True if is a valid url
    */
   function isValidURL(url) {
+    var urlToValidate = url;
     // add the schema if needed
-    if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
-      url = 'http://' + url;
+    if (urlToValidate.indexOf('http://') !== 0 && urlToValidate.indexOf('https://') !== 0) {
+      urlToValidate = 'http://' + urlToValidate;
     }
     // remove training /
-    if (url.substr(url.length - 1, 1) !== '/') {
-      url = url + '/';
+    if (urlToValidate.substr(url.length - 1, 1) !== '/') {
+      urlToValidate = urlToValidate + '/';
     }
     // validate URL with regular expression
-    return /^(https|http|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(url);
+    return /^(https|http|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(urlToValidate);
   }
 
   $(document).on('dragover', function() {
@@ -307,31 +263,122 @@ function setupUse(params) {
     $(pclass + 'dropzone label').removeClass('dragover');
   });
 
-  function convertFileToDataURLviaFileReader(url, callback){
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = function() {
-          var reader  = new FileReader();
-          reader.onloadend = function () {
-            var image = new Image();
-            image.src = reader.result;
-            image.onload = function() {
-              callback(resize(image, 640));
-            };
-          };
-          reader.readAsDataURL(xhr.response);
-      };
-      xhr.open('GET', url);
-      xhr.send();
-  }
-  /**
+  /*
    * scroll animation to element on page
    * @param  {$element}  Jquery element
-   * @return {void}
+   * @return {Void}
    */
   function scrollToElement(element) {
     $('html, body').animate({
       scrollTop: element.offset().top
     }, 300);
+  }
+
+  function roundScore(score) {
+    return Math.round(score * 1000) / 1000;
+  }
+
+  function renderTable(results) {
+    var useResultsTable_template = useResultsTableTemplate.innerHTML;
+
+    // classes
+    if ((results.images &&
+      results.images[0].classifiers &&
+      results.images[0].classifiers.length > 0 &&
+      results.images[0].classifiers[0].classes !== 'undefined') &&
+      results.images[0].classifiers[0].classes.length > 0) {
+      var classesModel = (function() {
+        var classes = results.images[0].classifiers[0].classes.map(function(item) {
+          return {
+            name: results.classifier_ids ? item.class : item.class,
+            score: roundScore(item.score)
+          };
+        });
+
+        return {
+          resultCategory: 'Classes',
+          tooltipText: 'Classes are trained to recognize a specific object or quality of an image.',
+          data: classes
+        };
+      })();
+
+      $('.classes-table').show();
+      $('.classes-table').html(_.template(useResultsTable_template, {
+        items: classesModel
+      }));
+    } else if (results.classifier_ids) {
+      var bundle = JSON.parse(Cookies.get('bundle'));
+      var classes = bundle.names[0];
+      if (bundle.names.length > 1) {
+        classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
+      }
+      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
+      $('.classes-table').show();
+    } else {
+      $('.classes-table').hide();
+    }
+
+    // faces
+    if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
+      var facesModel = (function() {
+        var faces = [];
+        // age
+        faces.push({
+          name: 'Estimated age: ' + results.images[0].faces[0].age.min + ' - ' + results.images[0].faces[0].age.max,
+          score: roundScore(results.images[0].faces[0].age.score)
+        });
+
+        // gender
+        faces.push({
+          name: 'Gender: ' + results.images[0].faces[0].gender.gender.toLowerCase(),
+          score: roundScore(results.images[0].faces[0].gender.score)
+        });
+
+        // identity
+        if (typeof results.images[0].faces[0].identity !== 'undefined') {
+          faces.push({
+            name: 'Identity: ' + results.images[0].faces[0].identity.name,
+            score: roundScore(results.images[0].faces[0].identity.score)
+          });
+        }
+
+        return {
+          resultCategory: 'Faces',
+          tooltipText: 'Face detection returns the estimate age and gender of each face in an image and identifies if the face is a known celebrity. ',
+          data: faces
+        };
+      })();
+
+      $('.faces-table').show();
+      $('.faces-table').html(_.template(useResultsTable_template, {
+        items: facesModel
+      }));
+    } else {
+      $('.faces-table').hide();
+    }
+
+    // words
+    if ((typeof results.images[0].words !== 'undefined') && (results.images[0].words.length > 0)) {
+      var wordsModel = (function() {
+        var words = results.images[0].words.map(function(item) {
+          return {
+            name: item.word,
+            score: roundScore(item.score)
+          };
+        });
+        return {
+          resultCategory: 'Words',
+          tooltipText: 'Text recognition returns English-language words found in an image.',
+          data: words
+        };
+      })();
+
+      $('.words-table').show();
+      $('.words-table').html(_.template(useResultsTable_template, {
+        items: wordsModel
+      }));
+    } else {
+      $('.words-table').hide();
+    }
   }
 }
