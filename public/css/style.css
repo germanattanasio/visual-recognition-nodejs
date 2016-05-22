@@ -2195,6 +2195,10 @@ pre[class*=" language-"] {
   padding: 0rem;
 }
 
+.use--results-table .base--td:nth-of-type(2n) {
+  width: 2rem;
+}
+
 .use--results-header-classes {
   position: relative;
 }
