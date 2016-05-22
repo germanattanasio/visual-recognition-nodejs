@@ -94,7 +94,7 @@ app.get('/api/classifiers/:classifier_id', function(req, res, next) {
  */
 app.post('/api/classify', app.upload.single('images_file'), function(req, res, next) {
   var params = {
-    parameters: null,
+    url: null,
     images_file: null
   };
 
@@ -114,7 +114,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   }
 
   if (params.images_file) {
-    delete params.parameters;
+    delete params.url;
   } else {
     delete params.images_file;
   }
