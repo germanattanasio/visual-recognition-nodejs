@@ -105,6 +105,10 @@ function setupUse(params) {
       populateTable(scores);
     }
 
+    // populate table
+    console.log(results);
+    renderTable(results);
+
     $result.show();
     scrollToElement($result);
   }
@@ -333,5 +337,103 @@ function setupUse(params) {
     $('html, body').animate({
       scrollTop: element.offset().top
     }, 300);
+  }
+
+  function roundScore(score) {
+    return Math.round(score * 1000) / 1000;
+  }
+
+  function renderTable(results) {
+
+    var useResultsTable_template = useResultsTableTemplate.innerHTML;
+
+    // classes
+    if ((typeof results.images[0].classifiers[0].classes !== 'undefined') && (results.images[0].classifiers[0].classes.length > 0)) {
+      var classesModel = (function() {
+        var classes = results.images[0].classifiers[0].classes.map(function(item) {
+          return {
+            name: item.class,
+            score: roundScore(item.score)
+          }
+        });
+
+        return {
+          resultCategory: 'Classes',
+          tooltipText: 'Classes are black boxes, trained to recognize a specific object or quality of the image(s) passed in.',
+          data: classes
+        };
+      })();
+
+      $('.classes-table').show();
+      $('.classes-table').html(_.template(useResultsTable_template, {
+        items: classesModel
+      }));
+    } else {
+      $('.classes-table').hide();
+    }
+
+    // faces
+    if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
+      var facesModel = (function() {
+        var faces = [];
+        // age
+        faces.push({
+          name: 'Estimated age: ' + results.images[0].faces[0].age.min + ' - ' + results.images[0].faces[0].age.max,
+          score: roundScore(results.images[0].faces[0].age.score)
+        });
+
+        // gender
+        faces.push({
+          name: 'Gender: ' + results.images[0].faces[0].gender.gender.toLowerCase(),
+          score: roundScore(results.images[0].faces[0].gender.score)
+        });
+
+        // identity
+        if (typeof results.images[0].faces[0].identity !== 'undefined') {
+          faces.push({
+            name: 'Identity: ' + results.images[0].faces[0].identity.name,
+            score: roundScore(results.images[0].faces[0].identity.score)
+          });
+        }
+
+        return {
+          resultCategory: 'Faces',
+          tooltipText: 'If Visual Recognition detects a face in the image, it will attempt to identify that face and the age and gender.',
+          data: faces
+        };
+      })();
+
+      $('.faces-table').show();
+      $('.faces-table').html(_.template(useResultsTable_template, {
+        items: facesModel
+      }));
+    } else {
+      $('.faces-table').hide();
+    }
+
+    console.log(results.images[0].words);
+    if ((typeof results.images[0].words !== 'undefined') && (results.images[0].words.length > 0)) {
+      var wordsModel = (function() {
+          var words = results.images[0].words.map(function(item) {
+            return {
+              name: item.word,
+              score: roundScore(item.score)
+            }
+          });
+
+          return {
+            resultCategory: 'Words',
+            tooltipText: 'These are potential words recognized from the image.',
+            data: words
+          };
+      })();
+
+      $('.words-table').show();
+      $('.words-table').html(_.template(useResultsTable_template, {
+        items: wordsModel
+      }));
+    } else {
+      $('.words-table').hide();
+    }
   }
 }
