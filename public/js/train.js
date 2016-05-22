@@ -77,7 +77,7 @@ $(document).ready(function() {
     } else {
       $('.showing div._examples--class__selected button').click();
     }
-    $(this).text($(this).text() === 'Select All' ? 'Unselect All' : 'Select All');
+    $(this).text($(this).text() === 'Select All' ? 'Deselect All' : 'Select All');
   });
 
   var $loading = $('.train--loading');
