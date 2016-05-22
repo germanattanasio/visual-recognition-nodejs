@@ -101,6 +101,15 @@ $(document).ready(function() {
     $errorMsg.html(message);
   }
 
+  function lookupName(token) {
+    return {
+      moleskine: 'Moleskine Types',
+      dogs: 'Dogs',
+      insurance: 'Insurance Claims',
+      omniearth: 'Satellite Images'
+    }[token];
+  }
+
   $trainButton.click(function() {
     $trainInput.hide();
     $loading.show();
@@ -116,10 +125,14 @@ $(document).ready(function() {
     })
     .toArray().reduce(function(k, v) {
       k.bundles.push(v.name);
-      k.names.push(v.realname);
+      if (v.realname) {
+        k.names.push(v.realname);
+      }
       k.kind = v.kind;
       return k;
     }, { bundles: [], names: []});
+
+    data.name = lookupName(data.kind);
 
     $.ajax({
       type: 'POST',

@@ -290,7 +290,7 @@ function setupUse(params) {
       var classesModel = (function() {
         var classes = results.images[0].classifiers[0].classes.map(function(item) {
           return {
-            name: item.class,
+            name: results.classifier_ids ? item.class : item.class,
             score: roundScore(item.score)
           };
         });
@@ -308,12 +308,11 @@ function setupUse(params) {
       }));
     } else if (results.classifier_ids) {
       var bundle = JSON.parse(Cookies.get('bundle'));
-
-      var classifiers = bundle.names[0];
+      var classes = bundle.names[0];
       if (bundle.names.length > 1) {
-        classifiers = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
+        classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
       }
-      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for: ' + classifiers + '.</div>');
+      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
       $('.classes-table').show();
     } else {
       $('.classes-table').hide();
