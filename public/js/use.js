@@ -80,6 +80,14 @@ function setupUse(params) {
       return;
     }
 
+    if (results.images[0].error) {
+      var error = results.images[0].error;
+      if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
+        showError('The file size exceeds the limit allowed. The maximum file size is 2 MB.');
+        return;
+      }
+    }
+
     // populate table
     renderTable(results);
 
