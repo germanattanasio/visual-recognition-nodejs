@@ -116,7 +116,6 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   } else {
     delete params.images_file;
   }
-  console.log('params-sdk:', params);
   var methods = [];
   if (req.body.classifier_id) {
     params.classifier_ids = [req.body.classifier_id];
@@ -132,8 +131,8 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     return async.reflect(visualRecognition[method].bind(visualRecognition, params));
   }), function(err, results) {
     // delete the recognized file
-    if (req.file) {
-      fs.unlink(req.file.path);
+    if (params.images_file) {
+      fs.unlink(params.images_file.path);
     }
 
     if (err) {
@@ -150,7 +149,6 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
       }
       res.json(combine.value[0]);
     } else {
-      console.log('error:', JSON.stringify(combine, null, 2));
       res.status(400).json(combine.error);
     }
   });
