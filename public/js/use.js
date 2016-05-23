@@ -207,7 +207,7 @@ function setupUse(params) {
           image.src = reader.result;
           image.onload = function() {
             $image.attr('src', this.src);
-            classifyImage('', resize(image, 640));
+            classifyImage('', resize(image, 2048));
           };
         };
         reader.readAsDataURL(data.files[0]);
