@@ -23,11 +23,13 @@ var multer = require('multer');
 var findRemoveSync = require('find-remove');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var morgan = require('morgan');
 
 module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
   app.use(cookieParser());
+  app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({
     extended: true,
     limit: '40mb'
