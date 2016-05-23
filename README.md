@@ -1,8 +1,8 @@
-# Visual Recognition + AlchemyVision Demo
+# Visual Recognition Demo
 [![Build Status](https://travis-ci.org/watson-developer-cloud/visual-recognition-nodejs.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/visual-recognition-nodejs?branch=master)
 [![codecov.io](https://codecov.io/github/watson-developer-cloud/visual-recognition-nodejs/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/visual-recognition-nodejs?branch=master)
 
-[Visual Recognition][visual_recognition_service] partnered with [Alchemy Vision](http://www.alchemyapi.com/products/alchemyvision), allows you to derive insights from an image based on its visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
+The [Visual Recognition][visual_recognition_service] Service uses deep learning algorithms to analyze images for scenes, objects, faces, text, and other subjects that can give you insights into your visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
 Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on Bluemix.
 
@@ -10,13 +10,13 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 ## Getting Started
 
-1. Create a Bluemix Account
+1. Create a Bluemix Account:
 
-  [Sign up][sign_up] in Bluemix, or use an existing account. Watson Services in Beta are free to use.
+  [Sign up][sign_up] in Bluemix, or use an existing account.
 
 2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool
 
-3. Edit the `manifest.yml` file and change the `<application-name>` to something unique.
+3. Edit the `manifest.yml` file, and change the `<application-name>` to something unique.
   ```none
 applications:
 - services:
@@ -26,7 +26,7 @@ applications:
   path: .
   memory: 512M
   ```
-  The name you use will determine your initial application URL, e.g. `<application-name>.mybluemix.net`.
+  The name you use determines your initial application URL, e.g. `<application-name>.mybluemix.net`.
 
 4. Connect to Bluemix in the command line tool
   ```sh
@@ -39,17 +39,12 @@ applications:
   $ cf create-service visual_recognition free visual-recognition-service
   ```
 
-6. Create the Alchemy service in Bluemix or copy your existing key into `ALCHEMY_KEY` in `app.js`
-  ```sh
-  $ cf create-service alchemy_api free alchemy-service
-  ```
-
 7. Push it live!
   ```sh
   $ cf push
   ```
 
-See the full [Getting Started][getting_started] documentation for more details, including code snippets and references.
+See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition/api/v3/) documentation for more details, including code snippets and references.
 
 ## Running locally
   The application uses [Node.js](http://nodejs.org) and [npm](https://www.npmjs.com) so you will have to download and install them as part of the steps below.
@@ -89,7 +84,7 @@ See the full [Getting Started][getting_started] documentation for more details, 
 
 ## Troubleshooting
 
-To troubleshoot your Bluemix app the main useful source of information are the logs, to see them, run:
+To view your logs and troubleshoot your Bluemix application, run:
 
   ```sh
   $ cf logs <application-name> --recent
