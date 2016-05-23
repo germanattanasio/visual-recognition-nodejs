@@ -81,8 +81,6 @@ app.get('/api/classifiers/:classifier_id', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    // deletes the classifier after an hour
-    setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
     res.json(classifier);
   });});
 
