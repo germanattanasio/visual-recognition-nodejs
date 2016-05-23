@@ -135,7 +135,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   }), function(err, results) {
     // delete the recognized file
     if (req.file) {
-      fs.unlink(req.file.path.path);
+      fs.unlink(req.file.path);
     }
 
     if (err) {
