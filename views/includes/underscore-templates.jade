@@ -38,5 +38,12 @@ script(type='text/html', id='useResultsTableTemplate').
         <td class="base--td"><%= item.name %></td>
         <td class="base--td"><%= item.score %></td>
       </tr>
-    <% });%>
+  <% });%>
+  <% _.each(items.data, function(item, key, list) { %>
+  <% if (item.type_hierarchy && item.type_hierarchy.length > 0) { %>
+    <tr class="base--tr">
+      <td class="base--td" colspan="2">Type Hierarchy: <%= item.type_hierarchy %></td>
+    </tr>
+  <% }});%>
   </tbody>
+
