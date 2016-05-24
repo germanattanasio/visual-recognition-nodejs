@@ -300,7 +300,8 @@ function setupUse(params) {
         var classes = results.images[0].classifiers[0].classes.map(function(item) {
           return {
             name: results.classifier_ids ? item.class : item.class,
-            score: roundScore(item.score)
+            score: roundScore(item.score),
+            type_hierarchy: item.type_hierarchy
           };
         });
 
@@ -347,7 +348,8 @@ function setupUse(params) {
           if (typeof facedat.identity !== 'undefined') {
             acc.push({
               name: 'Identity: ' + facedat.identity.name,
-              score: roundScore(facedat.identity.score)
+              score: roundScore(facedat.identity.score),
+              type_hierarchy: facedat.identity.type_hierarchy ? facedat.identity.type_hierarchy.split(/\//g).filter(function(item) { return item.length > 0; }).join(" > ") : false
             });
           }
           return acc;
