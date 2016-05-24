@@ -329,26 +329,30 @@ function setupUse(params) {
     // faces
     if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
       var facesModel = (function() {
-        var faces = [];
+        var faces = results.images[0].faces.reduce(function(acc, facedat) {
+
+
         // age
-        faces.push({
-          name: 'Estimated age: ' + results.images[0].faces[0].age.min + ' - ' + results.images[0].faces[0].age.max,
-          score: roundScore(results.images[0].faces[0].age.score)
+        acc.push({
+          name: 'Estimated age: ' + facedat.age.min + ' - ' + facedat.age.max,
+          score: roundScore(facedat.age.score)
         });
 
         // gender
-        faces.push({
-          name: 'Gender: ' + results.images[0].faces[0].gender.gender.toLowerCase(),
-          score: roundScore(results.images[0].faces[0].gender.score)
+        acc.push({
+          name: 'Gender: ' + facedat.gender.gender.toLowerCase(),
+          score: roundScore(facedat.gender.score)
         });
 
         // identity
-        if (typeof results.images[0].faces[0].identity !== 'undefined') {
-          faces.push({
-            name: 'Identity: ' + results.images[0].faces[0].identity.name,
-            score: roundScore(results.images[0].faces[0].identity.score)
+        if (typeof facedat.identity !== 'undefined') {
+          acc.push({
+            name: 'Identity: ' + facedat.identity.name,
+            score: roundScore(facedat.identity.score)
           });
         }
+        return acc;
+        }, []);
 
         return {
           resultCategory: 'Faces',
