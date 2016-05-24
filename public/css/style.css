@@ -2264,3 +2264,11 @@ pre[class*=" language-"] {
   font-size: 1.2rem;
   color: #777677;
 }
+
+.use--mismatch {
+  background-color: white;
+  border: 0rem solid white;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #777677;
+}

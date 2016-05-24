@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* global _:true, resize:true, Cookies:true */
+/* global _:true, resize:true, Cookies:true, scrollToElement:true */
 /* eslint no-unused-vars: "warn"*/
 'use strict';
 
@@ -80,10 +80,28 @@ function setupUse(params) {
       return;
     }
 
+    if (results.images[0].error) {
+      var error = results.images[0].error;
+      if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
+        showError('The file size exceeds the limit allowed. The maximum file size is 2 MB.');
+        return;
+      }
+    }
+
     // populate table
     renderTable(results);
-
     $result.show();
+
+    // check if there are results or not
+    if (!$('.classes-table').is(':visible') &&
+        !$('.faces-table').is(':visible') &&
+        !$('.words-table').is(':visible') &&
+        !results.classifier_ids) {
+      $('.classes-table').after(
+        $('<div class="' + panel + '--mismatch" />')
+        .html('No matching classifiers found.'));
+    }
+
     var outputImage = document.querySelector('.use--output-image');
     if (outputImage && (outputImage.height > outputImage.width)) {
       $(outputImage).addClass('landscape');
@@ -207,7 +225,7 @@ function setupUse(params) {
           image.src = reader.result;
           image.onload = function() {
             $image.attr('src', this.src);
-            classifyImage('', resize(image, 640));
+            classifyImage('', resize(image, 2048));
           };
         };
         reader.readAsDataURL(data.files[0]);
@@ -263,22 +281,13 @@ function setupUse(params) {
     $(pclass + 'dropzone label').removeClass('dragover');
   });
 
-  /*
-   * scroll animation to element on page
-   * @param  {$element}  Jquery element
-   * @return {Void}
-   */
-  function scrollToElement(element) {
-    $('html, body').animate({
-      scrollTop: element.offset().top
-    }, 300);
-  }
-
   function roundScore(score) {
     return Math.round(score * 1000) / 1000;
   }
 
   function renderTable(results) {
+    $('.' + panel + '--mismatch').remove();
+
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
 
     // classes
@@ -321,26 +330,28 @@ function setupUse(params) {
     // faces
     if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
       var facesModel = (function() {
-        var faces = [];
-        // age
-        faces.push({
-          name: 'Estimated age: ' + results.images[0].faces[0].age.min + ' - ' + results.images[0].faces[0].age.max,
-          score: roundScore(results.images[0].faces[0].age.score)
-        });
-
-        // gender
-        faces.push({
-          name: 'Gender: ' + results.images[0].faces[0].gender.gender.toLowerCase(),
-          score: roundScore(results.images[0].faces[0].gender.score)
-        });
-
-        // identity
-        if (typeof results.images[0].faces[0].identity !== 'undefined') {
-          faces.push({
-            name: 'Identity: ' + results.images[0].faces[0].identity.name,
-            score: roundScore(results.images[0].faces[0].identity.score)
+        var faces = results.images[0].faces.reduce(function(acc, facedat) {
+          // age
+          acc.push({
+            name: 'Estimated age: ' + facedat.age.min + ' - ' + facedat.age.max,
+            score: roundScore(facedat.age.score)
           });
-        }
+
+          // gender
+          acc.push({
+            name: 'Gender: ' + facedat.gender.gender.toLowerCase(),
+            score: roundScore(facedat.gender.score)
+          });
+
+          // identity
+          if (typeof facedat.identity !== 'undefined') {
+            acc.push({
+              name: 'Identity: ' + facedat.identity.name,
+              score: roundScore(facedat.identity.score)
+            });
+          }
+          return acc;
+        }, []);
 
         return {
           resultCategory: 'Faces',

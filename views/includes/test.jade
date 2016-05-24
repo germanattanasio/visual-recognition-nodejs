@@ -1,6 +1,7 @@
 include ../mixins/sampleInput.jade
 
 h2.base--h2.test--classifier-name #{classifier.name}
+div Test your newly trained demo classifier with a similar image (max 2mb) that was not in the training set.
 .test--input-container.toggled
   h3.base--h3.test--header Test your classifier
   +sampleInput('test', bundle.kind, classifier.classifier_id)

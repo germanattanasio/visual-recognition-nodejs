@@ -1,6 +1,7 @@
 include ../mixins/sampleInput.jade
 
 h2.base--h2.use--header Try the service
+div Choose a sample image or upload your own image (max 2mb) to try out Visual Recognition.
 +sampleInput('use')
 
 .loading.use--loading
@@ -22,5 +23,5 @@ h2.base--h2.use--header Try the service
       table.base--table.use--results-table.faces-table
   hr.base--hr.use--hr
   .use--output-row
-    a(href='/train')
+    a.base--a(href='/train')
       button.base--button.use--train-button Create a custom classifier
