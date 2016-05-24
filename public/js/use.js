@@ -90,8 +90,18 @@ function setupUse(params) {
 
     // populate table
     renderTable(results);
-
     $result.show();
+
+    // check if there are results or not
+    if (!$('.classes-table').is(':visible') &&
+        !$('.faces-table').is(':visible') &&
+        !$('.words-table').is(':visible') &&
+        !results.classifier_ids) {
+      $('.classes-table').after(
+        $('<div class="' + panel + '--mismatch" />')
+        .html('No matching classifiers found.'));
+    }
+
     var outputImage = document.querySelector('.use--output-image');
     if (outputImage && (outputImage.height > outputImage.width)) {
       $(outputImage).addClass('landscape');
@@ -276,6 +286,8 @@ function setupUse(params) {
   }
 
   function renderTable(results) {
+    $('.' + panel + '--mismatch').remove();
+
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
 
     // classes
