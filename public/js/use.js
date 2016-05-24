@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* global _:true, resize:true, Cookies:true */
+/* global _:true, resize:true, Cookies:true, scrollToElement:true */
 /* eslint no-unused-vars: "warn"*/
 'use strict';
 
@@ -271,17 +271,6 @@ function setupUse(params) {
     $(pclass + 'dropzone label').removeClass('dragover');
   });
 
-  /*
-   * scroll animation to element on page
-   * @param  {$element}  Jquery element
-   * @return {Void}
-   */
-  function scrollToElement(element) {
-    $('html, body').animate({
-      scrollTop: element.offset().top
-    }, 300);
-  }
-
   function roundScore(score) {
     return Math.round(score * 1000) / 1000;
   }
@@ -330,28 +319,26 @@ function setupUse(params) {
     if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
       var facesModel = (function() {
         var faces = results.images[0].faces.reduce(function(acc, facedat) {
-
-
-        // age
-        acc.push({
-          name: 'Estimated age: ' + facedat.age.min + ' - ' + facedat.age.max,
-          score: roundScore(facedat.age.score)
-        });
-
-        // gender
-        acc.push({
-          name: 'Gender: ' + facedat.gender.gender.toLowerCase(),
-          score: roundScore(facedat.gender.score)
-        });
-
-        // identity
-        if (typeof facedat.identity !== 'undefined') {
+          // age
           acc.push({
-            name: 'Identity: ' + facedat.identity.name,
-            score: roundScore(facedat.identity.score)
+            name: 'Estimated age: ' + facedat.age.min + ' - ' + facedat.age.max,
+            score: roundScore(facedat.age.score)
           });
-        }
-        return acc;
+
+          // gender
+          acc.push({
+            name: 'Gender: ' + facedat.gender.gender.toLowerCase(),
+            score: roundScore(facedat.gender.score)
+          });
+
+          // identity
+          if (typeof facedat.identity !== 'undefined') {
+            acc.push({
+              name: 'Identity: ' + facedat.identity.name,
+              score: roundScore(facedat.identity.score)
+            });
+          }
+          return acc;
         }, []);
 
         return {

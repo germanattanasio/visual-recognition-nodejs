@@ -19,8 +19,9 @@
 
 // if image is landscape, tag it
 function addLandscape(imgElement) {
-  if (imgElement.height < imgElement.width)
+  if (imgElement.height < imgElement.width) {
     imgElement.classList.add('landscape');
+  }
 }
 
 // attach landscape class on image load event
@@ -28,8 +29,9 @@ function landscapify(imgSelector) {
   $(imgSelector).on('load', function() {
     addLandscape(this);
   }).each(function() {
-    if (this.complete)
+    if (this.complete) {
       $(this).load();
+    }
   });
 }
 
@@ -44,14 +46,15 @@ function imageFadeIn(imgSelector) {
   $(imgSelector).on('load', function() {
     $(this).addClass('loaded');
   }).each(function() {
-    if (this.complete)
+    if (this.complete) {
       $(this).load();
+    }
   });
 }
 
 /**
  * scroll animation to element on page
- * @param  {$element}  Jquery element
+ * @param  {Object}  element Jquery element
  * @return {void}
  */
 function scrollToElement(element) {
