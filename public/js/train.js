@@ -108,8 +108,34 @@ $(document).ready(function() {
       moleskine: 'Moleskine Types',
       dogs: 'Dogs',
       insurance: 'Insurance Claims',
-      omniearth: 'Satellite Images'
+      omniearth: 'Satellite Images',
+      
     }[token];
+  }
+  
+  function lookupClassiferRealNameMap() {
+    var classifierNameMapping = {};
+    classifierNameMapping['dogs'] = {};
+    classifierNameMapping['dogs']['goldenretriever']='Golden Retriever';
+    classifierNameMapping['dogs']['husky']='Husky';
+    classifierNameMapping['dogs']['dalmation']='Dalmation';
+    classifierNameMapping['dogs']['beagle']='Beagle';
+    classifierNameMapping['insurance'] = {};
+    classifierNameMapping['insurance']['brokenwinshield']='Broken Windshield';
+    classifierNameMapping['insurance']['flattire']='Flat Tire';
+    classifierNameMapping['insurance']['motorcycleaccident']='Motorcycle Accident';
+    classifierNameMapping['insurance']['vandalism']='Vandalism';
+    classifierNameMapping['moleskine'] = {};
+    classifierNameMapping['moleskine']['journaling']='Journaling';
+    classifierNameMapping['moleskine']['landscape']='Landscape';
+    classifierNameMapping['moleskine']['notebook']='Notebook';
+    classifierNameMapping['moleskine']['portrait']='Portrait';
+    classifierNameMapping['omniearth'] = {};
+    classifierNameMapping['omniearth']['baseball']='Baseball';
+    classifierNameMapping['omniearth']['cars']='Cars';
+    classifierNameMapping['omniearth']['golf']='Golf';
+    classifierNameMapping['omniearth']['tennis']='Tennis';
+    return classifierNameMapping;
   }
 
   $trainButton.click(function() {
@@ -145,6 +171,7 @@ $(document).ready(function() {
       success: function(classifier) {
         checkClassifier(classifier.classifier_id, function done() {
           Cookies.set('bundle', data, { expires: nextHour()});
+          Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
           window.location.href = '/test';

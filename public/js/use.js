@@ -285,10 +285,31 @@ function setupUse(params) {
     return Math.round(score * 1000) / 1000;
   }
 
+  function lookupInMap(mapToCheck,kind, token,defaultValue) {
+    var res = mapToCheck[kind][token];
+    if (res) {
+      return res;
+    } else {
+      return defaultValue;
+    }
+  }
+
+  function getAndParseCookieName(cookieName, defaultValue) {
+    var res = Cookies.get(cookieName);
+    if (res) {
+      return JSON.parse(res);
+    } else {
+      return defaultValue;
+    }
+  }
+
   function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
 
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
+
+    var classNameMap = getAndParseCookieName('classNameMap',{});
+    var bundle = getAndParseCookieName('bundle',{});
 
     // classes
     if ((results.images &&
@@ -299,7 +320,7 @@ function setupUse(params) {
       var classesModel = (function() {
         var classes = results.images[0].classifiers[0].classes.map(function(item) {
           return {
-            name: results.classifier_ids ? item.class : item.class,
+            name: results.classifier_ids ? lookupInMap(classNameMap, bundle.kind, item.class, item.class) : item.class,
             score: roundScore(item.score),
             type_hierarchy: item.type_hierarchy
           };
@@ -317,7 +338,8 @@ function setupUse(params) {
         items: classesModel
       }));
     } else if (results.classifier_ids) {
-      var bundle = JSON.parse(Cookies.get('bundle'));
+
+
       var classes = bundle.names[0];
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
