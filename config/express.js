@@ -68,5 +68,4 @@ module.exports = function(app) {
   if (process.env.VCAP_APPLICATION) {
     require('./security')(app);
   }
-
 };

@@ -23,6 +23,8 @@
  * users to select an existing image or upload a file.
  * @param params.panel {String} The panel name that will be use to locate the DOM elements.
  */
+
+// eslint-disable-next-line no-unused-vars
 function setupUse(params) {
   var panel = params.panel || 'use';
   console.log('setupUse()', panel);
@@ -285,7 +287,7 @@ function setupUse(params) {
     return Math.round(score * 1000) / 1000;
   }
 
-  function lookupInMap(mapToCheck,kind, token,defaultValue) {
+  function lookupInMap(mapToCheck, kind, token, defaultValue) {
     var res = mapToCheck[kind][token];
     if (res) {
       return res;
@@ -306,10 +308,11 @@ function setupUse(params) {
   function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
 
+    // eslint-disable-next-line camelcase
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
 
-    var classNameMap = getAndParseCookieName('classNameMap',{});
-    var bundle = getAndParseCookieName('bundle',{});
+    var classNameMap = getAndParseCookieName('classNameMap', {});
+    var bundle = getAndParseCookieName('bundle', {});
 
     // classes
     if ((results.images &&
@@ -338,8 +341,6 @@ function setupUse(params) {
         items: classesModel
       }));
     } else if (results.classifier_ids) {
-
-
       var classes = bundle.names[0];
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
@@ -371,7 +372,7 @@ function setupUse(params) {
             acc.push({
               name: 'Identity: ' + facedat.identity.name,
               score: roundScore(facedat.identity.score),
-              type_hierarchy: facedat.identity.type_hierarchy ? facedat.identity.type_hierarchy.split(/\//g).filter(function(item) { return item.length > 0; }).join(" > ") : false
+              type_hierarchy: facedat.identity.type_hierarchy ? facedat.identity.type_hierarchy.split(/\//g).filter(function(item) { return item.length > 0; }).join(' > ') : false
             });
           }
           return acc;
