@@ -13,9 +13,7 @@
     "setupUse": true
   },
   "env": {
-    "node": true,
-    "browser": true,
-    "jquery": true
+    "node": true
   },
   "extends": "eslint-config-airbnb-es5",
 }

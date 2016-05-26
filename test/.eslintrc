@@ -1,6 +1,7 @@
-{ extends: '../.eslintrc',
-  env: { 
-     node: true,
-     mocha: true
+{
+  "extends": "../.eslintrc",
+  "env": {
+    "node": true,
+    "mocha": true
   }
 }
