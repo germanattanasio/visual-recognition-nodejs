@@ -9,8 +9,7 @@
   },
   "globals": {
     "useResultsTable_template": false,
-    "useResultsTableTemplate" : true,
-    "setupUse": true
+    "useResultsTableTemplate" : true
   },
   "env": {
     "node": true
