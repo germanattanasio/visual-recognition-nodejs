@@ -57,6 +57,7 @@ function imageFadeIn(imgSelector) {
  * @param  {Object}  element Jquery element
  * @return {void}
  */
+// eslint-disable-next-line no-unused-vars
 function scrollToElement(element) {
   $('html, body').animate({
     scrollTop: element.offset().top
