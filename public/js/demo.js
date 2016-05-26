@@ -53,6 +53,17 @@ function imageFadeIn(imgSelector) {
 }
 
 /**
+ * scroll animation to element on page
+ * @param  {Object}  element Jquery element
+ * @return {void}
+ */
+function scrollToElement(element) {
+  $('html, body').animate({
+    scrollTop: element.offset().top
+  }, 300);
+}
+
+/**
  * Returns the current page
  * @return {String} the current page: test, train or use
  */
