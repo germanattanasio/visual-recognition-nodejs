@@ -34,8 +34,8 @@
     "dev": "gulp",
     "test-unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit",
     "test-integration": "casperjs test ./test/test.thermometer.js",
-    "test-integration-runner" : "node casper-runner.js",
-    "test" : "npm run lint && npm run test-unit && npm run test-integration-runner",
+    "test-integration-runner": "node casper-runner.js",
+    "test": "npm run lint && npm run test-unit && npm run test-integration-runner",
     "lint": "eslint .",
     "autofix": "eslint --fix .",
     "codecov": "npm run test && (codecov || true)"
@@ -59,7 +59,7 @@
     "request": "^2.72.0",
     "uuid": "^2.0.2",
     "validator": "^5.2.0",
-    "watson-developer-cloud": "git+https://github.com/watson-developer-cloud/node-sdk#visual-recognition"
+    "watson-developer-cloud": "^1.9.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.4",
