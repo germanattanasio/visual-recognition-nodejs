@@ -1,2 +1,3 @@
 coverage
 public/js/vendors
+test/test.thermometer.js

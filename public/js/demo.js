@@ -57,6 +57,7 @@ function imageFadeIn(imgSelector) {
  * @param  {Object}  element Jquery element
  * @return {void}
  */
+// eslint-disable-next-line no-unused-vars
 function scrollToElement(element) {
   $('html, body').animate({
     scrollTop: element.offset().top
@@ -72,36 +73,7 @@ function currentPage() {
   return href.substr(href.lastIndexOf('/'));
 }
 
-/**
- * Returns the next hour as Date
- * @return {Date} the next hour
- */
-function nextHour() {
-  var oneHour = new Date();
-  oneHour.setHours(oneHour.getHours() + 1);
-  return oneHour;
-}
-
-/**
- * Resizes an image
- * @param  {String} image   The base64 image
- * @param  {int} maxSize maximum size
- * @return {String}         The base64 resized image
- */
-function resize(image, maxSize) {
-  var c = window.document.createElement('canvas'),
-    ctx = c.getContext('2d'),
-    ratio = image.width / image.height;
-
-  c.width = (ratio > 1 ? maxSize : maxSize * ratio);
-  c.height = (ratio > 1 ? maxSize / ratio : maxSize);
-
-  ctx.drawImage(image, 0, 0, c.width, c.height);
-  return c.toDataURL('image/jpeg');
-}
-
-$(document).ready(function () {
-
+$(document).ready(function() {
   // tagging which images are landscape
   landscapify('.use--example-image');
   landscapify('.use--output-image');
@@ -114,14 +86,15 @@ $(document).ready(function () {
 
   $(window).resize(square);
 
-  //tab listener
-  $('.tab-panels--tab').click(function(e){
+  // tab listener
+  $('.tab-panels--tab').click(function(e) {
     e.preventDefault();
     if (!$(this).hasClass('disabled')) {
       var self = $(this);
       var newPanel = self.attr('href');
-      if (newPanel !== currentPage())
+      if (newPanel !== currentPage()) {
         window.location = newPanel;
+      }
     }
   });
 
