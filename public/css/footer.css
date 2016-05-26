@@ -47,7 +47,7 @@
 }
 
 .arrowup {
-    background-image: url('../images/icons/arrowup.svg');
+    background-image: url('images/icons/arrowup.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 98% 50%;
@@ -56,14 +56,14 @@
 }
 
 .code {
-    background-image: url('../images/icons/code.svg');
+    background-image: url('images/icons/code.svg');
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-attachment: inherit;
 }
 
 .arrowdown {
-    background-image: url('../images/icons/arrowdown.svg');
+    background-image: url('images/icons/arrowdown.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 98% 50%;
@@ -72,7 +72,7 @@
 }
 
 .arrowup-main {
-    background-image: url('../images/icons/arrowup.svg');
+    background-image: url('images/icons/arrowup.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 95% 50%;
@@ -84,7 +84,7 @@
 }
 
 .arrowdown-main {
-    background-image: url('../images/icons/arrowdown.svg');
+    background-image: url('images/icons/arrowdown.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 88% 50%;
@@ -220,6 +220,7 @@
 .footer-container {
     margin-bottom: 4em;
     margin-top: 4em;
+    padding: 1rem;
 }
 
 .bottom-links {
@@ -316,7 +317,6 @@ img.icons {
     background-position: right;
     background-repeat: no-repeat;
     background-size: 30em;
-    width: 992px;
     margin: auto;
 }
 
@@ -352,8 +352,26 @@ img.icons {
         font-size: 1.5em;
         color: #2e2e2e;
     }
-    .footer-container {
-        margin-left: 2em;
-        margin-top: 1em;
-    }
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    margin: 0rem;
+  }
+  .bottom-links.base--a {
+    width: 100%;
+    margin: 0rem;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .bottom-links {
+    width: 49%;
+    margin-right: 2%;
+    text-align: center;
+  }
+  .bottom-links:nth-of-type(2n) {
+    margin-right: 0rem;
+  }
 }
