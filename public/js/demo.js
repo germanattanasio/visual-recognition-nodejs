@@ -17,6 +17,36 @@
  /* global $:false, setupUse */
 'use strict';
 
+/**
+ * Returns the next hour as Date
+ * @return {Date} the next hour
+ */
+// eslint-disable-next-line no-unused-vars
+function nextHour() {
+  var oneHour = new Date();
+  oneHour.setHours(oneHour.getHours() + 1);
+  return oneHour;
+}
+
+/**
+ * Resizes an image
+ * @param  {String} image   The base64 image
+ * @param  {int} maxSize maximum size
+ * @return {String}         The base64 resized image
+ */
+// eslint-disable-next-line no-unused-vars
+function resize(image, maxSize) {
+  var c = window.document.createElement('canvas');
+  var ctx = c.getContext('2d');
+  var ratio = image.width / image.height;
+
+  c.width = (ratio > 1 ? maxSize : maxSize * ratio);
+  c.height = (ratio > 1 ? maxSize / ratio : maxSize);
+
+  ctx.drawImage(image, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg');
+}
+
 // if image is landscape, tag it
 function addLandscape(imgElement) {
   if (imgElement.height < imgElement.width) {
