@@ -44,6 +44,28 @@ app.get('/', function(req, res) {
   res.render('use');
 });
 
+var scoreData = function(score) {
+  var scoreColor;
+  if (score >= 0.8) {
+    scoreColor = '#b9e7c9';
+  } else if (score >= 0.6) {
+    scoreColor = '#f5d5bb';
+  } else {
+    scoreColor = '#f4bac0';
+  }
+  return { score: score, xloc: (score * 312.0), scoreColor: scoreColor};
+};
+
+app.get('/thermometer', function(req, res, next) {
+  let score = parseFloat(req.param('score'));
+  if (score >= 0.0 && score <= 1.0) {
+    res.set('Content-type', 'image/svg+xml');
+    res.render('thermometer', scoreData(score));
+  } else {
+    return next({ error: 'Score value invalid', code: 400 });
+  }
+});
+
 app.get('/train', function(req, res) {
   res.render('train');
 });

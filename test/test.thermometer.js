@@ -14,5 +14,4 @@ casper.thenOpen('http://localhost:3000/thermometer?score=-1', function(result, b
 
 casper.run(function() {
   this.test.done();
-}
-);
+});

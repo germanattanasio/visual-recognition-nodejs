@@ -17,6 +17,10 @@
       "email": "evaluo_xhl@us.ibm.com"
     },
     {
+      "name": "Joshua B. Smith",
+      "email": "joshua.b.smith@us.ibm.com"
+    },
+    {
       "name": "German Attanasio Ruiz",
       "email": "germanatt@us.ibm.com"
     }
@@ -30,7 +34,8 @@
     "dev": "gulp",
     "test-unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit",
     "test-integration": "casperjs test ./test/test.thermometer.js",
-    "test" : "npm run lint && npm run test-unit && npm run test-integration",
+    "test-integration-runner" : "node casper-runner.js",
+    "test" : "npm run lint && npm run test-unit && npm run test-integration-runner",
     "lint": "eslint .",
     "autofix": "eslint --fix .",
     "codecov": "npm run test && (codecov || true)"
