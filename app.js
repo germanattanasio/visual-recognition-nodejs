@@ -66,6 +66,19 @@ app.get('/thermometer', function(req, res, next) {
   }
 });
 
+app.get('/ready/:classifier_id', function(req, res, next) {
+  visualRecognition.getClassifier(req.params, function getClassifier(err, classifier) {
+    if (err) {
+      return next(err);
+    }
+    if (classifier.status && classifier.status === 'ready') {
+      res.json(classifier);
+    } else {
+      return next({ error: 'Not ready', code: 404 });
+    }
+  });
+});
+
 app.get('/train', function(req, res) {
   res.render('train');
 });
