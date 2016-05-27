@@ -24,6 +24,7 @@ var findRemoveSync = require('find-remove');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
+var expressBrowserify = require('express-browserify');
 
 module.exports = function(app) {
   // Configure Express
@@ -37,6 +38,10 @@ module.exports = function(app) {
   app.use(bodyParser.json({
     limit: '40mb'
   }));
+
+  // automatically bundle the front-end js on the fly
+  // note: this should come before the express.static since bundle.js is in the public folder
+  app.get('/js/bundle.js', expressBrowserify(path.join(__dirname, '../public/js/bundle.js')));
 
   // Setup static public directory
   app.use(express.static(path.join(__dirname, '..', 'public')));

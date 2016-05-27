@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* global _:true, resize:true, Cookies:true, scrollToElement:true */
+/* global _:true, Cookies:true*/
 /* eslint no-unused-vars: "warn"*/
 'use strict';
+
+var resize = require('./demo.js').resize;
+var scrollToElement = require('./demo.js').scrollToElement;
 
 /*
  * Setups the "Try Out" and "Test" panels.
@@ -24,7 +27,6 @@
  * @param params.panel {String} The panel name that will be use to locate the DOM elements.
  */
 
-// eslint-disable-next-line no-unused-vars
 function setupUse(params) {
   var panel = params.panel || 'use';
   console.log('setupUse()', panel);
@@ -418,3 +420,5 @@ function setupUse(params) {
     }
   }
 }
+
+module.exports = setupUse;

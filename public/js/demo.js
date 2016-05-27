@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
- /* global $:false, setupUse */
+ /* global $:false */
 'use strict';
 
 /**
  * Returns the next hour as Date
  * @return {Date} the next hour
  */
-// eslint-disable-next-line no-unused-vars
-function nextHour() {
+module.exports.nextHour = function nextHour() {
   var oneHour = new Date();
   oneHour.setHours(oneHour.getHours() + 1);
   return oneHour;
-}
+};
 
 /**
  * Resizes an image
@@ -34,8 +33,7 @@ function nextHour() {
  * @param  {int} maxSize maximum size
  * @return {String}         The base64 resized image
  */
-// eslint-disable-next-line no-unused-vars
-function resize(image, maxSize) {
+module.exports.resize = function(image, maxSize) {
   var c = window.document.createElement('canvas');
   var ctx = c.getContext('2d');
   var ratio = image.width / image.height;
@@ -50,7 +48,7 @@ function resize(image, maxSize) {
 
   ctx.drawImage(image, 0, 0, c.width, c.height);
   return c.toDataURL('image/jpeg');
-}
+};
 
 // if image is landscape, tag it
 function addLandscape(imgElement) {
@@ -92,12 +90,11 @@ function imageFadeIn(imgSelector) {
  * @param  {Object}  element Jquery element
  * @return {void}
  */
-// eslint-disable-next-line no-unused-vars
-function scrollToElement(element) {
+module.exports.scrollToElement = function scrollToElement(element) {
   $('html, body').animate({
     scrollTop: element.offset().top
   }, 300);
-}
+};
 
 /**
  * Returns the current page
@@ -107,6 +104,7 @@ function currentPage() {
   var href = $(window.location).attr('href');
   return href.substr(href.lastIndexOf('/'));
 }
+module.exports.currentPage = currentPage;
 
 $(document).ready(function() {
   // tagging which images are landscape

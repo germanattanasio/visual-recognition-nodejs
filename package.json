@@ -49,6 +49,7 @@
     "csurf": "^1.8.3",
     "dotenv": "^2.0.0",
     "express": "^4.13.4",
+    "express-browserify": "^1.0.2",
     "express-rate-limit": "^2.3.1",
     "extend": "^3.0.0",
     "find-remove": "^0.2.11",
