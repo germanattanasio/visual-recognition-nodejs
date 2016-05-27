@@ -40,8 +40,13 @@ function resize(image, maxSize) {
   var ctx = c.getContext('2d');
   var ratio = image.width / image.height;
 
-  c.width = (ratio > 1 ? maxSize : maxSize * ratio);
-  c.height = (ratio > 1 ? maxSize / ratio : maxSize);
+  if (image.width < maxSize && image.width < maxSize) {
+    c.width = image.width;
+    c.height = image.height;
+  } else {
+    c.width = (ratio > 1 ? maxSize : maxSize * ratio);
+    c.height = (ratio > 1 ? maxSize / ratio : maxSize);
+  }
 
   ctx.drawImage(image, 0, 0, c.width, c.height);
   return c.toDataURL('image/jpeg');
