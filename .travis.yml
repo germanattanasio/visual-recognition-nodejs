@@ -15,3 +15,6 @@ deploy:
     repo: watson-developer-cloud/visual-recognition-nodejs
     branch: master
   skip_cleanup: true
+env:
+  global:
+    secure: EnD9T5I47tq7O919jm1tQi4rg5osUinvmzz6Yv8Kbxrp1Dmvj5kVGNLvN4D1N3b64BZtZ79rOegN6FXYwzhld0+vidz8j8YJiEz5UTTK2IvVxyvq5jhzc3YbLIz8Ns10n4bTOmXKA5wEYzZnE/5LzO1jMPK5YYo6EiwHGee+mjM=
