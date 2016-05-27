@@ -40,7 +40,7 @@ function resize(image, maxSize) {
   var ctx = c.getContext('2d');
   var ratio = image.width / image.height;
 
-  if (image.width < maxSize && image.width < maxSize) {
+  if (image.width < maxSize && image.height < maxSize) {
     c.width = image.width;
     c.height = image.height;
   } else {
