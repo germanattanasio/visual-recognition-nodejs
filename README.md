@@ -36,7 +36,7 @@ applications:
 
 5. Create the Visual Recognition service in Bluemix
   ```sh
-  $ cf create-service visual_recognition free visual-recognition-service
+  $ cf create-service watson_vision_combined standard visual-recognition-service
   ```
 
 7. Push it live!
@@ -59,7 +59,7 @@ See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/de
     System-Provided:
     {
     "VCAP_SERVICES": {
-      "visual_recognition": [{
+      "watson_vision_combined": [{
           "credentials": {
             "url": "<url>",
             "password": "<password>",
@@ -67,13 +67,13 @@ See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/de
           },
         "label": "visual_recognition",
         "name": "visual-recognition-service",
-        "plan": "free"
+        "plan": "standard"
      }]
     }
     }
     ```
 
-    You need to copy `username`, `password` and `url`.
+    You need to copy `api_key`.
 
 2. Install [Node.js](http://nodejs.org/)
 3. Go to the project folder in a terminal and run:
