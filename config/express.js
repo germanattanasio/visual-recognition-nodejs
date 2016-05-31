@@ -30,7 +30,11 @@ module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
   app.use(cookieParser());
-  app.use(morgan('dev'));
+  if (!process.env.VCAP_APPLICATION) {
+    // set up request logging for local development and non-bluemix servers
+    // (bluemix's router automatically logs all requests there)
+    app.use(morgan('dev'));
+  }
   app.use(bodyParser.urlencoded({
     extended: true,
     limit: '40mb'
