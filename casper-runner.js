@@ -19,7 +19,10 @@ var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 
 var toclose = server.listen(port, function() {
   console.log('Server running on port: %d', port);
+  setTimeout(runTests(), 10000);
+});
 
+var runTests = function() {
   const casper = spawn('npm', ['run', 'test-integration']);
   casper.stdout.pipe(process.stdout);
 
@@ -36,5 +39,5 @@ var toclose = server.listen(port, function() {
       process.exit(code);
     });
   });
-});
+};
 
