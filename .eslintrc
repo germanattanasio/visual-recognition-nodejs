@@ -9,7 +9,8 @@
   },
   "globals": {
     "useResultsTable_template": false,
-    "useResultsTableTemplate" : true
+    "useResultsTableTemplate" : true,
+    "casper": false
   },
   "env": {
     "node": true

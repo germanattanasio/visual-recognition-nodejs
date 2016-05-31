@@ -19,21 +19,25 @@ var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 
 var toclose = server.listen(port, function() {
   console.log('Server running on port: %d', port);
+  setTimeout(runTests, 10000);
 });
 
-const casper = spawn('npm', ['run', 'test-integration']);
-casper.stdout.pipe(process.stdout);
+var runTests = function() {
+  const casper = spawn('npm', ['run', 'test-integration']);
+  casper.stdout.pipe(process.stdout);
 
-casper.on('error', (error) => {
-  console.log('ERROR: ' + error);
-  toclose.close(function() {
-    process.exit(1);
+  casper.on('error', (error) => {
+    console.log('ERROR: ' + error);
+    toclose.close(function() {
+      process.exit(1);
+    });
   });
-});
 
-casper.on('close', (code) => {
-  toclose.close(function() {
-    // eslint-disable-next-line no-process-exit
-    process.exit(code);
+  casper.on('close', (code) => {
+    toclose.close(function() {
+      // eslint-disable-next-line no-process-exit
+      process.exit(code);
+    });
   });
-});
+};
+

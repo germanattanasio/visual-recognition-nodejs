@@ -69,6 +69,15 @@ app.get('/thermometer', function(req, res) {
   }
 });
 
+app.get('/ready/:classifier_id', function(req, res) {
+  visualRecognition.getClassifier(req.params, function getClassifier(err, classifier) {
+    if (err) {
+      return res.status(err.code || 500).json(err);
+    }
+    res.json(classifier);
+  });
+});
+
 app.get('/train', function(req, res) {
   res.render('train');
 });
@@ -89,7 +98,7 @@ app.post('/api/classifiers', function(req, res) {
   var formData = bundleUtils.createFormData(req.body);
   visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
     if (err) {
-      return res.status(500).json(err);
+      return res.status(err.code || 500).json(err);
     }
     // deletes the classifier after an hour
     setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
@@ -104,7 +113,7 @@ app.post('/api/classifiers', function(req, res) {
 app.get('/api/classifiers/:classifier_id', function(req, res) {
   visualRecognition.getClassifier(req.params, function getClassifier(err, classifier) {
     if (err) {
-      return res.status(500).json(err);
+      return res.status(err.code || 500).json(err);
     }
     res.json(classifier);
   });});
@@ -165,7 +174,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     }
 
     if (err) {
-      return res.status(500).json(err);
+      return res.status(err.code || 500).json(err);
     }
     // combine the results
     var combine = results.reduce(function(prev, cur) {
