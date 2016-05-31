@@ -56,13 +56,16 @@ var scoreData = function(score) {
   return { score: score, xloc: (score * 312.0), scoreColor: scoreColor};
 };
 
-app.get('/thermometer', function(req, res, next) {
-  let score = parseFloat(req.param('score'));
+app.get('/thermometer', function(req, res) {
+  if (typeof req.query.score === 'undefined') {
+    return res.status(400).json({ error: 'Missing required parameter: score', code: 400 });
+  }
+  let score = parseFloat(req.query.score);
   if (score >= 0.0 && score <= 1.0) {
     res.set('Content-type', 'image/svg+xml');
     res.render('thermometer', scoreData(score));
   } else {
-    return next({ error: 'Score value invalid', code: 400 });
+    return res.status(400).json({ error: 'Score value invalid', code: 400 });
   }
 });
 
@@ -82,11 +85,11 @@ app.get('/test', function(req, res) {
  * @param req.body.bundles Array of selected bundles
  * @param req.body.kind The bundle kind
  */
-app.post('/api/classifiers', function(req, res, next) {
+app.post('/api/classifiers', function(req, res) {
   var formData = bundleUtils.createFormData(req.body);
   visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
     if (err) {
-      return next(err);
+      return res.status(500).json(err);
     }
     // deletes the classifier after an hour
     setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
@@ -98,10 +101,10 @@ app.post('/api/classifiers', function(req, res, next) {
  * Gets the status of a classifier
  * @param req.params.classifier_id The classifier id
  */
-app.get('/api/classifiers/:classifier_id', function(req, res, next) {
+app.get('/api/classifiers/:classifier_id', function(req, res) {
   visualRecognition.getClassifier(req.params, function getClassifier(err, classifier) {
     if (err) {
-      return next(err);
+      return res.status(500).json(err);
     }
     res.json(classifier);
   });});
@@ -112,7 +115,7 @@ app.get('/api/classifiers/:classifier_id', function(req, res, next) {
  *                     images/test.jpg or https://example.com/test.jpg
  * @param req.file The image file.
  */
-app.post('/api/classify', app.upload.single('images_file'), function(req, res, next) {
+app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   var params = {
     url: null,
     images_file: null
@@ -130,7 +133,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   } else if (req.body.url && validator.isURL(req.body.url)) { // url
     params.url = req.body.url;
   } else { // malformed url
-    return next({ error: 'Malformed URL', code: 400 });
+    return res.status(400).json({ error: 'Malformed URL', code: 400 });
   }
 
   if (params.images_file) {
@@ -162,7 +165,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
     }
 
     if (err) {
-      return next(err);
+      return res.status(500).json(err);
     }
     // combine the results
     var combine = results.reduce(function(prev, cur) {
