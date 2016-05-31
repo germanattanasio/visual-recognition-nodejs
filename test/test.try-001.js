@@ -1,3 +1,5 @@
+casper.options.waitTimeout = 20000;
+
 casper.start('http://localhost:3000', function(result) {
   casper.test.assert(result.status === 200, 'Front page opens');
   casper.test.assertSelectorHasText('h2.base--h2.use--header', 'Try the service');
