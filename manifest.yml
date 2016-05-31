@@ -4,4 +4,4 @@ applications:
   path: .
   memory: 512M
   env:
-  - NODE_ENV: production
+    NODE_ENV: production
