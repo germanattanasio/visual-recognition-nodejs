@@ -193,7 +193,4 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res, n
   });
 });
 
-// error-handler settings
-require('./config/error-handler')(app);
-
 module.exports = app;

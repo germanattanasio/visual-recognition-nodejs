@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-/* global Cookies:true, nextHour, currentPage, setupUse */
+/* global Cookies:true */
 
 'use strict';
+
+var setupUse = require('./use.js');
+var nextHour = require('./demo.js').nextHour;
+var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
   $('._training--example').click(function() {
