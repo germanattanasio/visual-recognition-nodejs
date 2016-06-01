@@ -89,6 +89,9 @@ function setupUse(params) {
       if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
         showError('The file size exceeds the limit allowed. The maximum file size is 2 MB.');
         return;
+      } else if (results.images[0].error.error_id === 'input_error') {
+        showError("We couldn't not retrieve that URL, please check your URL and try again.");
+        return;
       }
     }
 
@@ -146,11 +149,14 @@ function setupUse(params) {
       .error(function(error) {
         $loading.hide();
         console.log(error);
+
         if (error.status === 429) {
           showError('You have entered too many requests at once. Please try again later.');
+        } else if (error.responseJSON && error.responseJSON.error) {
+          showError('We had a problem classifying that image because ' + error.responseJSON.error);
         } else {
           showError('The demo is not available right now. <br/>We are working on ' +
-          'getting this back up and running soon.');
+              'getting this back up and running soon.');
         }
       });
   }
@@ -178,27 +184,11 @@ function setupUse(params) {
     var self = $(this);
 
     if (e.keyCode === 13) {
-      if (!isValidURL(url)) {
-        $invalidImageUrl.hide();
-        $invalidUrl.show();
-        self.addClass(panel + '--url-input_error');
-      } else {
-        $invalidUrl.hide();
-        $invalidImageUrl.hide();
-        imageExists(url, function(exists) {
-          if (!exists) {
-            $invalidUrl.show();
-            if (!/\.(jpg|png|gif)$/i.test(url)) {
-              $invalidImageUrl.show();
-            }
-            self.addClass(panel + '--url-input_error');
-          } else {
-            resetPasteUrl();
-            classifyImage(url);
-            self.blur();
-          }
-        });
-      }
+      $invalidUrl.hide();
+      $invalidImageUrl.hide();
+      resetPasteUrl();
+      classifyImage(url);
+      self.blur();
     }
 
     $(self).focus();
@@ -241,42 +231,6 @@ function setupUse(params) {
     }
   });
 
-  /**
-   * Async function to validate if an image exists
-   * @param  {String}   url      The image URL
-   * @param  {Function} callback The callback
-   * @return {void}
-   */
-  function imageExists(url, callback) {
-    var img = new Image();
-    img.onload = function() {
-      callback(true);
-    };
-    img.onerror = function() {
-      callback(false);
-    };
-    img.src = url;
-  }
-
-  /**
-   * url validation with or without http://
-   * @param  {String}  url The URL
-   * @return {Boolean}     True if is a valid url
-   */
-  function isValidURL(url) {
-    var urlToValidate = url;
-    // add the schema if needed
-    if (urlToValidate.indexOf('http://') !== 0 && urlToValidate.indexOf('https://') !== 0) {
-      urlToValidate = 'http://' + urlToValidate;
-    }
-    // remove training /
-    if (urlToValidate.substr(url.length - 1, 1) !== '/') {
-      urlToValidate = urlToValidate + '/';
-    }
-    // validate URL with regular expression
-    return /^(https|http|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(urlToValidate);
-  }
-
   $(document).on('dragover', function() {
     $(pclass + 'dropzone label').addClass('dragover');
   });
@@ -309,6 +263,12 @@ function setupUse(params) {
 
   function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
+
+    if (results.images && results.images.length > 0) {
+      if (results.images[0].resolved_url) {
+        $image.attr('src', results.images[0].resolved_url);
+      }
+    }
 
     // eslint-disable-next-line camelcase
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
