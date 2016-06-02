@@ -1,7 +1,6 @@
 casper.options.waitTimeout = 25000;
 
 casper.start('http://localhost:3000/train', function(result) {
-
   casper.test.assert(result.status === 200, 'Front page opens');
   casper.test.assertSelectorHasText('h1.base--h2.use--header', 'Train a demo classifier');
 

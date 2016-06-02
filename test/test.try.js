@@ -4,8 +4,7 @@ casper.start('http://localhost:3000', function(result) {
   casper.test.assert(result.status === 200, 'Front page opens');
   casper.test.assertSelectorHasText('h2.base--h2.use--header', 'Try the service');
 
-  
-  //whoopi
+  // whoopi
   casper.then(function() {
     this.click('#use--image0_default');
   });
@@ -26,7 +25,7 @@ casper.start('http://localhost:3000', function(result) {
     casper.test.assertSelectorHasText('table.faces-table tbody .base--tr:nth-child(4) .base--td:first-child', 'Type Hierarchy: people > women > celebrities > whoopi goldberg');
   });
 
-  //lego
+  // lego
   casper.then(function() {
     this.click('#use--image1_default');
   });
@@ -39,8 +38,8 @@ casper.start('http://localhost:3000', function(result) {
 });
 
 
-casper.start('http://localhost:3000', function(result) {
-  //google logo
+casper.start('http://localhost:3000', function() {
+  // google logo
   casper.then(function() {
     this.sendKeys('input.use--url-input', 'https://visual-recognition-demo.mybluemix.net/images/samples/3.jpg');
     this.sendKeys('input.use--url-input', casper.page.event.key.Enter);
