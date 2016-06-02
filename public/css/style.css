@@ -2296,3 +2296,23 @@ pre[class*=" language-"] {
   font-size: 1.2rem;
   color: #777677;
 }
+
+td.thermometer img {
+  width: 7rem;
+  float: right;
+}
+
+.base--tr:nth-of-type(even), .base--tr:nth-of-type(odd) {
+  background: white;
+}
+
+tr.type_hierarchy {
+  border-top: 1px solid lightgrey;
+}
+
+ul.type_hierarchy {
+  padding-top: 1rem;
+}
+
+
+

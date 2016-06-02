@@ -24,7 +24,7 @@ script(type='text/html', id='useResultsTableTemplate').
           <div class="tooltip use--tooltip-<%= items.resultCategory.toLowerCase() %>"><%= items.tooltipText %></div>
         </div>
       </td>
-      <td class="base--td">
+      <td class="base--td" colspan=2>
         <div class="use--results-header-score">
           <h3 class="base--h3">Score</h3>
           <div class="tooltip use--tooltip-score">The score measures correlation, ranging from 0 to 1. Higher scores indicate greater correlation.</div>
@@ -36,14 +36,20 @@ script(type='text/html', id='useResultsTableTemplate').
     <% _.each(items.data, function(item, key, list) { %>
       <tr class="base--tr">
         <td class="base--td"><%= item.name %></td>
-        <td class="base--td"><%= item.score %></td>
+        <td class="base--td"><%= item.score.toFixed(3) %></td>
+        <td class="base--td thermometer"><img src="/thermometer?score=<%= item.score %>"</td>
       </tr>
   <% });%>
-  <% _.each(items.data, function(item, key, list) { %>
-  <% if (item.type_hierarchy && item.type_hierarchy.length > 0) { %>
-    <tr class="base--tr">
-      <td class="base--td" colspan="2">Type Hierarchy: <%= item.type_hierarchy %></td>
+  <% if (_.filter(items.data, function(item) { return item.type_hierarchy && item.type_hierarchy.length > 0; }).length > 0) { %>
+    <tr class="base--tr type_hierarchy">
+      <td class="base--td" colspan="3">Type Hierarchy
+        <ul class="type_hierarchy">
+          <% _.each(_.filter(items.data, function(item) { return item.type_hierarchy && item.type_hierarchy.length > 0; }), function(item, key, list) { %>
+            <li><%= item.type_hierarchy %></li>
+          <% }); %>
+        </ul>
+      </td>
     </tr>
-  <% }});%>
+  <% };%>
   </tbody>
 
