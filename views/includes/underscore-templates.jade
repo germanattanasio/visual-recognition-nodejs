@@ -65,19 +65,28 @@ script(type='text/html', id='useResultsTableTemplate').
             <td class="base--td results-table--score-cell">
               <div class="results-table--score-item">
                 
-                <!-- results-table--score-value_good -->
-                <!-- results-table--score-value_ok -->
-                <!-- results-table--score-value_bad -->
+                <% if (item.score > 0.75) { %>
+                  <div class="results-table--score-value results-table--score-value_good"><%= item.score.toString() %></div>
+                <% } %>
+                <% if (item.score < 0.5) { %>
+                  <div class="results-table--score-value results-table--score-value_bad"><%= item.score.toString() %></div>
+                <% } %>
+                <% if (item.score >= 0.5 && item.score <= 0.75) { %>
+                  <div class="results-table--score-value results-table--score-value_ok"><%= item.score.toString() %></div>
+                <% } %>
                 
-                <div class="results-table--score-value "><%= item.score.toString() %></div>
                 <div class="results-table--meter-container"><span class="results-table--meter-number results-table--meter-number_lower">0</span>
                   <div class="results-table--meter">
                     
-                    <!-- results-table--meter-fill_good -->
-                    <!-- results-table--meter-fill_ok -->
-                    <!-- results-table--meter-fill_bad -->
-                    
-                    <div class="results-table--meter-fill" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% if (item.score > 0.75) { %>
+                      <div class="results-table--meter-fill results-table--meter-fill_good" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% } %>
+                    <% if (item.score < 0.5) { %>
+                      <div class="results-table--meter-fill results-table--meter-fill_bad" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% } %>
+                    <% if (item.score >= 0.5 && item.score <= 0.75) { %>
+                      <div class="results-table--meter-fill results-table--meter-fill_ok" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% } %>
                   </div><span class="results-table--meter-number results-table--meter-number_higher">1</span>
                 </div>
               </div>

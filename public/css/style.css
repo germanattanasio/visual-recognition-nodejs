@@ -2257,6 +2257,15 @@ pre[class*=" language-"] {
   width: 20%;
   margin-right: 0.7rem;
 }
+.results-table--score-value_good {
+  color: green;
+}
+.results-table--score-value_ok {
+  color: orange;
+}
+.results-table--score-value_bad {
+  color: red;
+}
 .results-table--meter-container {
   display: flex;
   align-items: center;
@@ -2284,6 +2293,15 @@ pre[class*=" language-"] {
   background-color: red;
   width: 50%;
   transition: 0.2s;
+}
+.results-table--meter-fill_good {
+  background-color: green;
+}
+.results-table--meter-fill_ok {
+  background-color: orange;
+}
+.results-table--meter-fill_bad {
+  background-color: red;
 }
 .results-table--line-break {
   border-color: #cfd2d2;
