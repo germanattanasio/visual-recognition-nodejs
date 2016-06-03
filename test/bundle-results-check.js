@@ -223,7 +223,7 @@ async.eachLimit(permutations, CONCURRENCY, function(perm, done) {
           
           console.log('%s (%s: %s) Test image %s should have class %s', success ? '✓' : 'x', perm.category, perm.classes, test.filename, test.class );
           if (!success) {
-            console.log(res.images[0].classifiers[0].classes);
+            console.log(res.images[0].classifiers.length && res.images[0].classifiers[0].classes);
           }
           next();
         });
