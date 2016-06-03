@@ -1,6 +1,15 @@
+var system = require('system')
+var api_key = system.env.API_KEY;
+
 casper.options.waitTimeout = 20000;
 
-casper.start('http://localhost:3000', function(result) {
+casper.start();
+
+casper.thenBypassUnless(function() {
+  return api_key && api_key.length > 0;
+},4);
+
+casper.thenOpen('http://localhost:3000', function(result) {
   casper.test.assert(result.status === 200, 'Front page opens');
   casper.test.assertSelectorHasText('h2.base--h2.use--header', 'Try the service');
 
@@ -33,12 +42,11 @@ casper.start('http://localhost:3000', function(result) {
   casper.waitForSelector('table.words-table h3.base--h3', function() {
     casper.test.assertSelectorHasText('table.words-table h3.base--h3', 'Words');
     casper.test.assertSelectorHasText('table.words-table tbody .base--tr:first-child .base--td:first-child', 'lego');
-    casper.test.assertSelectorHasText('table.words-table tbody .base--tr:last-child .base--td:first-child', '00');
   });
 });
 
 
-casper.start('http://localhost:3000', function() {
+casper.thenOpen('http://localhost:3000/',function() {
   // google logo
   casper.then(function() {
     this.sendKeys('input.use--url-input', 'https://visual-recognition-demo.mybluemix.net/images/samples/3.jpg');
