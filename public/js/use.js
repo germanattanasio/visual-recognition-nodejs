@@ -122,10 +122,10 @@ function setupUse(params) {
     console.log($error, $errorMsg);
   }
 
-  function _error(xhr) {
+  function _error(xhr, responseMessage) {
     $loading.hide();
-    var message = 'Error classifing the image';
-    if (xhr.responseJSON) {
+    var message = responseMessage || 'Error classifying the image';
+    if (xhr && xhr.responseJSON) {
       message = xhr.responseJSON.error;
     }
     showError(message);
@@ -220,6 +220,9 @@ function setupUse(params) {
           image.onload = function() {
             $image.attr('src', this.src);
             classifyImage('', resize(image, 2048));
+          };
+          image.onerror = function() {
+            _error(null, 'Error loading the image file. I can only work with images.');
           };
         };
         reader.readAsDataURL(data.files[0]);
