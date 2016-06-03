@@ -233,12 +233,12 @@ function setupUse(params) {
 
   $(document).on('dragover', function() {
     $(pclass + 'dropzone label').addClass('dragover');
-    $("form#use--fileupload").addClass('dragover');
+    $('form#use--fileupload').addClass('dragover');
   });
 
   $(document).on('dragleave', function() {
     $(pclass + 'dropzone label').removeClass('dragover');
-    $("form#use--fileupload").removeClass('dragover');
+    $('form#use--fileupload').removeClass('dragover');
   });
 
   function roundScore(score) {
