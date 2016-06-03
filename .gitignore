@@ -1,6 +1,7 @@
 node_modules
 coverage
 .DS_Store
+.idea
 .env
 npm-debug.log
 uploads/*
