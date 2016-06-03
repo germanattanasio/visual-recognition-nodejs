@@ -22,13 +22,13 @@ var visualRecognition = watson.visual_recognition({
 var testImages = {
     // this maps to public/images/bundles/dogs/test/{index}.jpg
   dogs: [
-    'huskey',
+    'husky',
     false,
     'dalmation',
     false,
     'beagle',
     'goldenretriever',
-    'huskey' // same as 0 except with wrong proportions
+    'husky' // same as 0 except with wrong proportions
   ],
   fruit: [
     'peach',
