@@ -246,8 +246,8 @@ function setupUse(params) {
     return Math.round(score * 100) / 100;
   }
 
-  function slashesToArrows(type_hierarchy) {
-    var results = type_hierarchy;
+  function slashesToArrows(typeHierarchy) {
+    var results = typeHierarchy;
     results = results.replace(/^\/|\/$/g, ''); // trim first / and last /
     results = results.replace(/\//g, ' > ');  // change slashes to >'s
     return results;
@@ -294,7 +294,6 @@ function setupUse(params) {
       results.images[0].classifiers[0].classes.length > 0) {
       var classesModel = (function() {
         var classes = results.images[0].classifiers[0].classes.map(function(item) {
-
           return {
             name: results.classifier_ids ? lookupInMap(classNameMap, bundle.kind, item.class, item.class) : item.class,
             score: roundScore(item.score),
@@ -328,7 +327,6 @@ function setupUse(params) {
       var facesModel = (function() {
         var identities = [];
         var faces = results.images[0].faces.reduce(function(acc, facedat) {
-
           // gender
           acc.push({
             name: facedat.gender.gender.toLowerCase(),
