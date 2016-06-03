@@ -1,13 +1,13 @@
-var system = require('system')
-var api_key = system.env.API_KEY;
+var system = require('system');
+var apiKey = system.env.APIKEY;
 
 casper.options.waitTimeout = 25000;
 
 casper.start();
 
 casper.thenBypassUnless(function() {
-  return api_key && api_key.length > 0;
-},2);
+  return apiKey && apiKey.length > 0;
+}, 2);
 
 casper.thenOpen('http://localhost:3000/train', function(result) {
   casper.test.assert(result.status === 200, 'Front page opens');

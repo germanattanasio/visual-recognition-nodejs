@@ -1,13 +1,13 @@
-var system = require('system')
-var api_key = system.env.API_KEY;
+var system = require('system');
+var apiKey = system.env.APIKEY;
 
 casper.options.waitTimeout = 20000;
 
 casper.start();
 
 casper.thenBypassUnless(function() {
-  return api_key && api_key.length > 0;
-},4);
+  return apiKey && apiKey.length > 0;
+}, 4);
 
 casper.thenOpen('http://localhost:3000', function(result) {
   casper.test.assert(result.status === 200, 'Front page opens');
@@ -46,7 +46,7 @@ casper.thenOpen('http://localhost:3000', function(result) {
 });
 
 
-casper.thenOpen('http://localhost:3000/',function() {
+casper.thenOpen('http://localhost:3000/', function() {
   // google logo
   casper.then(function() {
     this.sendKeys('input.use--url-input', 'https://visual-recognition-demo.mybluemix.net/images/samples/3.jpg');
