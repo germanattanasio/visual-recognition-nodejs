@@ -23,16 +23,16 @@ var testImages = {
     // this maps to public/images/bundles/dogs/test/{index}.jpg
   dogs: [
     'husky',
-    false,
+    'negatives',
     'dalmation',
-    false,
+    'negatives',
     'beagle',
     'goldenretriever',
     'husky' // same as 0 except with wrong proportions
   ],
   fruit: [
     'peach',
-    false,
+    'negatives',
     'apple',
     'grapes',
     'banana',
@@ -41,9 +41,9 @@ var testImages = {
   ],
   insurance: [
     'motorcycleaccident',
-    false,
+    'negatives',
     'vandalism',
-    false,
+    'negatives',
     'motorcycleaccident',
     'flattire',
     'vandalism',
@@ -63,30 +63,30 @@ var testImages = {
         // sufficient to do that reliably
 
     'journaling', // watson incorrectly classifies this one - sometimes it's both jouraling and notebook, other times it's neither
-    false,
+    'negatives',
     'landscape',
     'landscape',
-    false,
+    'negatives',
     'landscape',
-    false,
+    'negatives',
     'journaling',
     'journaling', // ?
     'journaling',
     'landscape', // 10.jpg
-    false,
+    'negatives',
     'portrait',
-    false,
+    'negatives',
     'portrait',
     'portrait', // 15.jpg
     null,
-    false,
+    'negatives',
     'landscape'
   ],
   omniearth: [
     'baseball',
     'baseball',
     'cars',
-    false, // I think this might actually be a car, but I'm honestly not sure
+    'negatives', // I think this might actually be a car, but I'm honestly not sure
     'tennis',
     'golf', // 5.jpg
     'cars',
