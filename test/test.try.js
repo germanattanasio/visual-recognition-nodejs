@@ -1,5 +1,5 @@
 var system = require('system');
-var apiKey = system.env.APIKEY;
+var apiKey = system.env.API_KEY;
 
 casper.options.waitTimeout = 20000;
 
