@@ -1,6 +1,7 @@
 'use strict';
 // this file is to validate that the test images we supply get proper results with the various class bundles
 // it simply creates every permutation of classifiers (only 20 per category since we require a minimum of 3 selected) and then checks every image to ensure it's getting the expected classification
+
 /* eslint no-console: 0, no-shadow: 0, no-param-reassign: 0, padded-blocks: 0 */
 
 var fs = require('fs');
@@ -219,7 +220,8 @@ async.eachLimit(permutations, CONCURRENCY, function(perm, done) {
           } else {
             success = res.images[0].classifiers.length === 0;
           }
-          console.log('%s (%s: %s) Test image %s should have class %s', success ? '\u2713' : '\u274C', perm.category, perm.classes, test.filename, test.class );
+          
+          console.log('%s (%s: %s) Test image %s should have class %s', success ? '✓' : 'x', perm.category, perm.classes, test.filename, test.class );
           if (!success) {
             console.log(res.images[0].classifiers[0].classes);
           }
