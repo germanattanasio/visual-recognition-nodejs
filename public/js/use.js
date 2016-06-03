@@ -49,6 +49,7 @@ function setupUse(params) {
   var $invalidUrl = $(pclass + 'invalid-url').show();
   var $dropzone = $(pclass + 'dropzone');
   var $fileupload = $(pid + 'fileupload');
+  var $outputData = $(pclass + 'output-data');
 
   /*
    * Resets the panel
@@ -61,6 +62,7 @@ function setupUse(params) {
     $urlInput.val('');
     $tbody.empty();
     $dropzone.find('label').removeClass('dragover');
+    $outputData.empty();
   }
 
   // init reset
@@ -170,6 +172,7 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
+    console.log('clicked');
     resetPasteUrl();
     var imgPath = $(this).next('label').find('img').attr('src');
     classifyImage(imgPath);
@@ -240,7 +243,14 @@ function setupUse(params) {
   });
 
   function roundScore(score) {
-    return Math.round(score * 1000) / 1000;
+    return Math.round(score * 100) / 100;
+  }
+
+  function slashesToArrows(type_hierarchy) {
+    var results = type_hierarchy;
+    results = results.replace(/^\/|\/$/g, ''); // trim first / and last /
+    results = results.replace(/\//g, ' > ');  // change slashes to >'s
+    return results;
   }
 
   function lookupInMap(mapToCheck, kind, token, defaultValue) {
@@ -284,22 +294,22 @@ function setupUse(params) {
       results.images[0].classifiers[0].classes.length > 0) {
       var classesModel = (function() {
         var classes = results.images[0].classifiers[0].classes.map(function(item) {
+
           return {
             name: results.classifier_ids ? lookupInMap(classNameMap, bundle.kind, item.class, item.class) : item.class,
             score: roundScore(item.score),
-            type_hierarchy: item.type_hierarchy
+            type_hierarchy: slashesToArrows(item.type_hierarchy)
           };
         });
 
         return {
           resultCategory: 'Classes',
-          tooltipText: 'Classes are trained to recognize a specific object or quality of an image.',
           data: classes
         };
       })();
 
-      $('.classes-table').show();
-      $('.classes-table').html(_.template(useResultsTable_template, {
+      // $('.classes-table').show();
+      $outputData.append(_.template(useResultsTable_template, {
         items: classesModel
       }));
     } else if (results.classifier_ids) {
@@ -316,25 +326,27 @@ function setupUse(params) {
     // faces
     if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
       var facesModel = (function() {
+        var identities = [];
         var faces = results.images[0].faces.reduce(function(acc, facedat) {
-          // age
-          acc.push({
-            name: 'Estimated age: ' + facedat.age.min + ' - ' + facedat.age.max,
-            score: roundScore(facedat.age.score)
-          });
 
           // gender
           acc.push({
-            name: 'Gender: ' + facedat.gender.gender.toLowerCase(),
+            name: facedat.gender.gender.toLowerCase(),
             score: roundScore(facedat.gender.score)
+          });
+
+          // age
+          acc.push({
+            name: 'age ' + facedat.age.min + ' - ' + facedat.age.max,
+            score: roundScore(facedat.age.score)
           });
 
           // identity
           if (typeof facedat.identity !== 'undefined') {
-            acc.push({
-              name: 'Identity: ' + facedat.identity.name,
+            identities.push({
+              name: facedat.identity.name,
               score: roundScore(facedat.identity.score),
-              type_hierarchy: facedat.identity.type_hierarchy ? facedat.identity.type_hierarchy.split(/\//g).filter(function(item) { return item.length > 0; }).join(' > ') : false
+              type_hierarchy: facedat.identity.type_hierarchy ? slashesToArrows(facedat.identity.type_hierarchy) : false
             });
           }
           return acc;
@@ -342,13 +354,15 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Faces',
-          tooltipText: 'Face detection returns the estimate age and gender of each face in an image and identifies if the face is a known celebrity. ',
+          identities: identities,
           data: faces
         };
       })();
 
-      $('.faces-table').show();
-      $('.faces-table').html(_.template(useResultsTable_template, {
+      console.log(facesModel);
+
+      // $('.faces-table').show();
+      $outputData.append(_.template(useResultsTable_template, {
         items: facesModel
       }));
     } else {
@@ -366,13 +380,12 @@ function setupUse(params) {
         });
         return {
           resultCategory: 'Words',
-          tooltipText: 'Text recognition returns English-language words found in an image.',
           data: words
         };
       })();
 
-      $('.words-table').show();
-      $('.words-table').html(_.template(useResultsTable_template, {
+      // $('.words-table').show();
+      $outputData.append(_.template(useResultsTable_template, {
         items: wordsModel
       }));
     } else {
