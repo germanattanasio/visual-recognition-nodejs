@@ -8,7 +8,7 @@ mixin sampleInput(className, bundle, classifierId)
   each val in [0, 1, 2, 3, 4, 5]
     - bundleImages.push('images/bundles/' + bundle + '/test/' + val + '.jpg')
 
-  form(id='#{className}--fileupload', class='#{className}--form', data-upload-template-id='template-upload-#{className}')
+  form(id='#{className}--fileupload', class='#{className}--form #{className}--dropzone', data-upload-template-id='template-upload-#{className}')
     input(id='classifier_id', type='hidden', name='classifier_id', value='#{classifierId || ""}')
     if className == 'use'
       div(class='#{className}--example-images #{className}--example-images_default')
