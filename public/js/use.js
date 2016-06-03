@@ -20,6 +20,14 @@
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
 
+const errorMessages = {
+  ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
+  LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
+  URL_FETCH_PROBLEM: 'This is an invalid image URL.',
+  TOO_MANY_REQUESTS: 'You have entered too many requests at once. Please try again later.',
+  SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!'
+};
+
 /*
  * Setups the "Try Out" and "Test" panels.
  * It connects listeners to the DOM elements in the panel to allow
@@ -82,17 +90,17 @@ function setupUse(params) {
     $error.hide();
 
     if (!results || !results.images || !results.images[0]) {
-      showError('Error processing the request, please try again later.');
+      showError(errorMessages.ERROR_PROCESSING_REQUEST);
       return;
     }
 
     if (results.images[0].error) {
       var error = results.images[0].error;
       if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
-        showError('The file size exceeds the limit allowed. The maximum file size is 2 MB.');
+        showError(errorMessages.LIMIT_FILE_SIZE);
         return;
       } else if (results.images[0].error.error_id === 'input_error') {
-        showError("We couldn't not retrieve that URL, please check your URL and try again.");
+        showError(errorMessages.URL_FETCH_PROBLEM);
         return;
       }
     }
@@ -153,12 +161,11 @@ function setupUse(params) {
         console.log(error);
 
         if (error.status === 429) {
-          showError('You have entered too many requests at once. Please try again later.');
+          showError(errorMessages.TOO_MANY_REQUESTS);
         } else if (error.responseJSON && error.responseJSON.error) {
           showError('We had a problem classifying that image because ' + error.responseJSON.error);
         } else {
-          showError('The demo is not available right now. <br/>We are working on ' +
-              'getting this back up and running soon.');
+          showError(errorMessages.SITE_IS_DOWN);
         }
       });
   }
