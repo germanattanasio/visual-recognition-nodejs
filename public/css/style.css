@@ -1193,7 +1193,7 @@ pre[class*=" language-"] {
     }
   }
 
-.use--dropzone {
+div.use--dropzone {
   width: calc(50% - 0.15rem);
   float: left;
   display: inline-block;
@@ -1202,7 +1202,7 @@ pre[class*=" language-"] {
   text-align: center;
 }
 @media (min-width: 768px) {
-  .use--dropzone {
+  div.use--dropzone {
     width: calc(12.5% - 0.2625rem);
   }
 }
@@ -2330,6 +2330,13 @@ pre[class*=" language-"] {
   color: #777677;
 }
 
+<<<<<<< HEAD
 .use--results-table-header-name {
 
+=======
+form.dragover {
+  border-color: #5596e6;
+  background-color: #c0e6ff;
+  opacity: 0.5;
+>>>>>>> v3-issues
 }

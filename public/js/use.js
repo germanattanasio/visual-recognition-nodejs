@@ -61,8 +61,12 @@ function setupUse(params) {
     resetPasteUrl();
     $urlInput.val('');
     $tbody.empty();
+<<<<<<< HEAD
     $dropzone.find('label').removeClass('dragover');
     $outputData.empty();
+=======
+    $('.dragover').removeClass('dragover');
+>>>>>>> v3-issues
   }
 
   // init reset
@@ -124,10 +128,10 @@ function setupUse(params) {
     console.log($error, $errorMsg);
   }
 
-  function _error(xhr) {
+  function _error(xhr, responseMessage) {
     $loading.hide();
-    var message = 'Error classifing the image';
-    if (xhr.responseJSON) {
+    var message = responseMessage || 'Error classifying the image';
+    if (xhr && xhr.responseJSON) {
       message = xhr.responseJSON.error;
     }
     showError(message);
@@ -224,6 +228,9 @@ function setupUse(params) {
             $image.attr('src', this.src);
             classifyImage('', resize(image, 2048));
           };
+          image.onerror = function() {
+            _error(null, 'Error loading the image file. I can only work with images.');
+          };
         };
         reader.readAsDataURL(data.files[0]);
       }
@@ -236,10 +243,12 @@ function setupUse(params) {
 
   $(document).on('dragover', function() {
     $(pclass + 'dropzone label').addClass('dragover');
+    $('form#use--fileupload').addClass('dragover');
   });
 
   $(document).on('dragleave', function() {
     $(pclass + 'dropzone label').removeClass('dragover');
+    $('form#use--fileupload').removeClass('dragover');
   });
 
   function roundScore(score) {
