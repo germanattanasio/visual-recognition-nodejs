@@ -2258,13 +2258,13 @@ pre[class*=" language-"] {
   margin-right: 0.7rem;
 }
 .results-table--score-value_good {
-  color: green;
+  color: #00b040;
 }
 .results-table--score-value_ok {
-  color: orange;
+  color: #f97402;
 }
 .results-table--score-value_bad {
-  color: red;
+  color: #da2839;
 }
 .results-table--meter-container {
   display: flex;
@@ -2290,18 +2290,18 @@ pre[class*=" language-"] {
 .results-table--meter-fill {
   position: absolute;
   height: 100%;
-  background-color: red;
+  background-color: #f5d5bb;
   width: 50%;
   transition: 0.2s;
 }
 .results-table--meter-fill_good {
-  background-color: green;
+  background-color: #b9e7c9;
 }
 .results-table--meter-fill_ok {
-  background-color: orange;
+  background-color: #f5d5bb;
 }
 .results-table--meter-fill_bad {
-  background-color: red;
+  background-color: #f4bac0;
 }
 .results-table--line-break {
   border-color: #cfd2d2;
