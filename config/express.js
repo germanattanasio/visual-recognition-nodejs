@@ -45,7 +45,10 @@ module.exports = function(app) {
 
   // automatically bundle the front-end js on the fly
   // note: this should come before the express.static since bundle.js is in the public folder
-  app.get('/js/bundle.js', expressBrowserify(path.join(__dirname, '../public/js/bundle.js')));
+  app.get('/js/bundle.js', expressBrowserify('./public/js/bundle.js', {
+    watch: (process.env.NODE_ENV !== 'production')
+  }));
+
 
   // Setup static public directory
   app.use(express.static(path.join(__dirname, '..', 'public')));
