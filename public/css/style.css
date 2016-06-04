@@ -2311,6 +2311,10 @@ div.use--dropzone {
 .results-table .base--td.results-table--feedback {
   padding-bottom: 1.5em;
 }
+.results-table--feedback-thanks {
+  margin-left: 2rem;
+  display: none;
+}
 
 .bottom-banner {
   max-width: 100%;

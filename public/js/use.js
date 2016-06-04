@@ -302,7 +302,7 @@ function setupUse(params) {
           return {
             name: results.classifier_ids ? lookupInMap(classNameMap, bundle.kind, item.class, item.class) : item.class,
             score: roundScore(item.score),
-            type_hierarchy: slashesToArrows(item.type_hierarchy)
+            type_hierarchy: item.type_hierarchy ? slashesToArrows(item.type_hierarchy) : false
           };
         });
 
@@ -394,6 +394,16 @@ function setupUse(params) {
     } else {
       $('.words-table').hide();
     }
+
+    $(document).on('click', '.results-table--input-no', function() {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.results-table--feedback-thanks').show();
+    });
+
+    $(document).on('click', '.results-table--input-yes', function() {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.results-table--feedback-thanks').show();
+    });
   }
 }
 

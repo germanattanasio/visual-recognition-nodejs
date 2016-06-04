@@ -53,7 +53,7 @@ script(type='text/html', id='useResultsTableTemplate').
     <table class="base--table results-table">
       <thead class="base--thead">
         <tr class="base--tr">
-          <th class="base--th results-table--header">Faces</th>
+          <th class="base--th results-table--header"><%= items.resultCategory %></th>
           <th class="base--th results-table--header">Score</th>
         </tr>
       </thead>
@@ -124,11 +124,15 @@ script(type='text/html', id='useResultsTableTemplate').
         <% } %>
         
         <tr class="base--tr">
-          <td colspan="2" class="base--td results-table--feedback"><em class="base--em">Did we wow you?</em>
-            <input role="radio" type="radio" id="classes-yes" name="classes-group" value="classes-yes" class="base--radio results-table--input-yes"/>
-            <label for="classes-yes" class="base--inline-label results-table--input-yes-label">Yes</label>
-            <input role="radio" type="radio" id="classes-no" name="classes-group" value="classes-no" class="base--radio results-table--input-no"/>
-            <label for="classes-no" class="base--inline-label results-table--input-no-label">No</label>
+          <td colspan="2" class="base--td results-table--feedback">
+            <em class="base--em">Did we wow you?</em>
+            <span class="results-table--feedback-inputs">
+              <input role="radio" type="radio" id="<%= items.resultCategory.toLowerCase() %>-yes" name="<%= items.resultCategory.toLowerCase() %>-group" value="<%= items.resultCategory.toLowerCase() %>-yes" class="base--radio results-table--input-yes"/>
+              <label for="<%= items.resultCategory.toLowerCase() %>-yes" class="base--inline-label results-table--input-yes-label">Yes</label>
+              <input role="radio" type="radio" id="<%= items.resultCategory.toLowerCase() %>-no" name="<%= items.resultCategory.toLowerCase() %>-group" value="<%= items.resultCategory.toLowerCase() %>-no" class="base--radio results-table--input-no"/>
+              <label for="<%= items.resultCategory.toLowerCase() %>-no" class="base--inline-label results-table--input-no-label">No</label>
+            </span>
+            <span class="results-table--feedback-thanks"><em class="base--em">Thanks!</em></span>
           </td>
         </tr>
         
