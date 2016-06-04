@@ -61,12 +61,8 @@ function setupUse(params) {
     resetPasteUrl();
     $urlInput.val('');
     $tbody.empty();
-<<<<<<< HEAD
-    $dropzone.find('label').removeClass('dragover');
     $outputData.empty();
-=======
     $('.dragover').removeClass('dragover');
->>>>>>> v3-issues
   }
 
   // init reset
