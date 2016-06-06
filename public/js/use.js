@@ -20,7 +20,7 @@
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
 
-const errorMessages = {
+var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
   URL_FETCH_PROBLEM: 'This is an invalid image URL.',
