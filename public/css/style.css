@@ -2339,3 +2339,14 @@ form.dragover {
   background-color: #c0e6ff;
   opacity: 0.5;
 }
+
+.results-table--feedback-wowed {
+  -webkit-transition: background-color 1s, color 1s;
+  -moz-transition: background-color 1s, color 1s;
+  -ms-transition: background-color 1s, color 1s;
+  -o-transition: background-color 1s, color 1s;
+  transition: background-color 1s, color 1s;
+  width: inherit;
+  background-color: #00b040;
+  color: white;
+}
