@@ -1,9 +1,17 @@
+var system = require('system');
+var apiKey = system.env.API_KEY;
+
 casper.options.waitTimeout = 25000;
 
-casper.start('http://localhost:3000/train', function(result) {
+casper.start();
+
+casper.thenBypassUnless(function() {
+  return apiKey && apiKey.length > 0;
+}, 2);
+
+casper.thenOpen('http://localhost:3000/train', function(result) {
   casper.test.assert(result.status === 200, 'Front page opens');
   casper.test.assertSelectorHasText('h1.base--h2.use--header', 'Train a demo classifier');
-
 
   // dog breeds
   casper.then(function() {
@@ -52,6 +60,36 @@ casper.start('http://localhost:3000/train', function(result) {
   // el tigre no a dog
   casper.waitForSelector('h2.base--h2.test--output-header', function() {
     casper.test.assertSelectorHasText('h2.base--h2.test--output-header', 'Results');
+  });
+
+
+  casper.thenOpen('http://localhost:3000/train', function() {
+    // Moleskine
+    casper.then(function() {
+      this.click('div._training--example:nth-child(2)');
+    });
+
+    // dog type examples
+    casper.waitForSelector('div._examples[data-kind="moleskine"]', function() {
+
+    });
+
+    // 1 pro and one -non
+    casper.then(function() {
+      this.click('button._positive[data-name="portrait"]');
+    });
+    casper.then(function() {
+      this.click('button._negative[data-name="negative"]');
+    });
+    // train
+    casper.then(function() {
+      this.click('button.train--train-button');
+    });
+
+    // Moleskines test page
+    casper.waitForSelector('h2.base--h2.test--classifier-name', function() {
+      casper.test.assertSelectorHasText('h2.base--h2.test--classifier-name', 'Moleskine Types');
+    });
   });
 });
 

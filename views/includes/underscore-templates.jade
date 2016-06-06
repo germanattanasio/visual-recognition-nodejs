@@ -15,35 +15,127 @@ script(type='text/html', id='trainPreviewImagesTemplate').
     </div>
   <% });%>
 
-script(type='text/html', id='useResultsTableTemplate').
-  <thead class="base--thead">
-    <tr class="base--tr">
-      <td class="base--td">
-        <div class="use--results-header-<%= items.resultCategory.toLowerCase() %>">
-          <h3 class="base--h3"><%= items.resultCategory %></h3>
-          <div class="tooltip use--tooltip-<%= items.resultCategory.toLowerCase() %>"><%= items.tooltipText %></div>
-        </div>
-      </td>
-      <td class="base--td">
-        <div class="use--results-header-score">
-          <h3 class="base--h3">Score</h3>
-          <div class="tooltip use--tooltip-score">The score measures correlation, ranging from 0 to 1. Higher scores indicate greater correlation.</div>
-        </div>
-      </td>
-    </tr>
-  </thead>
-  <tbody class="base--tbody">
-    <% _.each(items.data, function(item, key, list) { %>
-      <tr class="base--tr">
-        <td class="base--td"><%= item.name %></td>
-        <td class="base--td"><%= item.score %></td>
-      </tr>
-  <% });%>
-  <% _.each(items.data, function(item, key, list) { %>
-  <% if (item.type_hierarchy && item.type_hierarchy.length > 0) { %>
-    <tr class="base--tr">
-      <td class="base--td" colspan="2">Type Hierarchy: <%= item.type_hierarchy %></td>
-    </tr>
-  <% }});%>
-  </tbody>
+//- script(type='text/html', id='useResultsTableTemplate').
+//-   <thead class="base--thead">
+//-     <tr class="base--tr">
+//-       <td class="base--td">
+//-         <div class="use--results-header-<%= items.resultCategory.toLowerCase() %>">
+//-           <h3 class="base--h3"><%= items.resultCategory %></h3>
+//-           <div class="tooltip use--tooltip-<%= items.resultCategory.toLowerCase() %>"><%= items.tooltipText %></div>
+//-         </div>
+//-       </td>
+//-       <td class="base--td">
+//-         <div class="use--results-header-score">
+//-           <h3 class="base--h3">Score</h3>
+//-           <div class="tooltip use--tooltip-score">The score measures correlation, ranging from 0 to 1. Higher scores indicate greater correlation.</div>
+//-         </div>
+//-       </td>
+//-     </tr>
+//-   </thead>
+//-   <tbody class="base--tbody">
+//-     <% _.each(items.data, function(item, key, list) { %>
+//-       <tr class="base--tr">
+//-         <td class="base--td"><%= item.name %></td>
+//-         <td class="base--td"><%= item.score %></td>
+//-       </tr>
+//-   <% });%>
+//-   <% _.each(items.data, function(item, key, list) { %>
+//-   <% if (item.type_hierarchy && item.type_hierarchy.length > 0) { %>
+//-     <tr class="base--tr">
+//-       <td class="base--td" colspan="2">Type Hierarchy: <%= item.type_hierarchy %></td>
+//-     </tr>
+//-   <% }});%>
+//-   </tbody>
 
+script(type='text/html', id='useResultsTableTemplate').
+  <div class="results-table--container">
+    <a href="javascript:void(0)" class="base--a results-table--json">JSON</a>
+    <table class="base--table results-table">
+      <thead class="base--thead">
+        <tr class="base--tr">
+          <th class="base--th results-table--header"><%= items.resultCategory %></th>
+          <th class="base--th results-table--header">Score</th>
+        </tr>
+      </thead>
+      <tbody class="base--tbody">
+        
+        <% _.each(items.data, function(item, key, list) { %>
+          <tr class="base--tr">
+            <td class="base--td"><%= item.name %></td>
+            <td class="base--td results-table--score-cell">
+              <div class="results-table--score-item">
+                
+                <% if (item.score > 0.75) { %>
+                  <div class="results-table--score-value results-table--score-value_good"><%= item.score.toString() %></div>
+                <% } %>
+                <% if (item.score < 0.5) { %>
+                  <div class="results-table--score-value results-table--score-value_bad"><%= item.score.toString() %></div>
+                <% } %>
+                <% if (item.score >= 0.5 && item.score <= 0.75) { %>
+                  <div class="results-table--score-value results-table--score-value_ok"><%= item.score.toString() %></div>
+                <% } %>
+                
+                <div class="results-table--meter-container"><span class="results-table--meter-number results-table--meter-number_lower">0</span>
+                  <div class="results-table--meter">
+                    
+                    <% if (item.score > 0.75) { %>
+                      <div class="results-table--meter-fill results-table--meter-fill_good" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% } %>
+                    <% if (item.score < 0.5) { %>
+                      <div class="results-table--meter-fill results-table--meter-fill_bad" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% } %>
+                    <% if (item.score >= 0.5 && item.score <= 0.75) { %>
+                      <div class="results-table--meter-fill results-table--meter-fill_ok" style="<%= 'width: ' + item.score * 100 + '%' %>"></div>
+                    <% } %>
+                  </div><span class="results-table--meter-number results-table--meter-number_higher">1</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% });%>
+        
+        <% if (items.identities !== undefined && items.identities.length > 0) { %>
+          <tr class="base--tr">
+            <th colspan="2" class="base--th">
+              <hr class="base--hr results-table--line-break"/>
+            </th>
+          </tr>
+          <tr class="base--tr">
+            <th colspan="2" class="base--th">Celebrity Match</th>
+          </tr>
+          <tr class="base--tr">
+            <td class="base--td"><%= items.identities[0].name %></td>
+            <td class="base--td results-table--score-cell">
+              <div class="results-table--score-item">
+                <div class="results-table--score-value"><%= items.identities[0].score.toString() %></div>
+                <div class="results-table--meter-container"><span class="results-table--meter-number results-table--meter-number_lower">0</span>
+                  <div class="results-table--meter">
+                    <div class="results-table--meter-fill" style="<%= 'width: ' + items.identities[0].score * 100 + '%' %>"></div>
+                  </div><span class="results-table--meter-number results-table--meter-number_higher">1</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <% if (items.identities[0].type_hierarchy) { %>
+            <tr class="base--tr">
+              <td colspan="2" class="base--td"><%= items.identities[0].type_hierarchy %></td>
+            </tr>
+          <% } %>
+        <% } %>
+        
+        <tr class="base--tr">
+          <td colspan="2" class="base--td results-table--feedback">
+            <em class="base--em">Did we wow you?</em>
+            <span class="results-table--feedback-inputs">
+              <input role="radio" type="radio" id="<%= items.resultCategory.toLowerCase() %>-yes" name="<%= items.resultCategory.toLowerCase() %>-group" value="<%= items.resultCategory.toLowerCase() %>-yes" class="base--radio results-table--input-yes"/>
+              <label for="<%= items.resultCategory.toLowerCase() %>-yes" class="base--inline-label results-table--input-yes-label">Yes</label>
+              <input role="radio" type="radio" id="<%= items.resultCategory.toLowerCase() %>-no" name="<%= items.resultCategory.toLowerCase() %>-group" value="<%= items.resultCategory.toLowerCase() %>-no" class="base--radio results-table--input-no"/>
+              <label for="<%= items.resultCategory.toLowerCase() %>-no" class="base--inline-label results-table--input-no-label">No</label>
+            </span>
+            <span class="results-table--feedback-thanks"><em class="base--em">Thanks!</em></span>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
