@@ -398,11 +398,25 @@ function setupUse(params) {
     $(document).on('click', '.results-table--input-no', function() {
       $(this).parent().hide();
       $(this).parent().parent().find('.results-table--feedback-thanks').show();
+      $(this).parent().parent().addClass('results-table--feedback-wowed');
+      var originalElement = $(this);
+      setTimeout(function() {
+        originalElement.parent().show();
+        originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
+        originalElement.parent().parent().removeClass('results-table--feedback-wowed');
+      },2000);
     });
 
     $(document).on('click', '.results-table--input-yes', function() {
       $(this).parent().hide();
       $(this).parent().parent().find('.results-table--feedback-thanks').show();
+      $(this).parent().parent().addClass('results-table--feedback-wowed');
+      var originalElement = $(this);
+      setTimeout(function() {
+        originalElement.parent().show();
+        originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
+        originalElement.parent().parent().removeClass('results-table--feedback-wowed');
+      },2000);
     });
   }
 }
