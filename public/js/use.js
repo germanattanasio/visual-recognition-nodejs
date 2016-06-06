@@ -110,11 +110,8 @@ function setupUse(params) {
     $result.show();
 
     // check if there are results or not
-    if (!$('.classes-table').is(':visible') &&
-        !$('.faces-table').is(':visible') &&
-        !$('.words-table').is(':visible') &&
-        !results.classifier_ids) {
-      $('.classes-table').after(
+    if ($outputData.html() === '') {
+      $outputData.after(
         $('<div class="' + panel + '--mismatch" />')
         .html('No matching classifiers found.'));
     }
@@ -319,7 +316,6 @@ function setupUse(params) {
         };
       })();
 
-      // $('.classes-table').show();
       $outputData.append(_.template(useResultsTable_template, {
         items: classesModel
       }));
@@ -328,10 +324,7 @@ function setupUse(params) {
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
       }
-      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
-      $('.classes-table').show();
-    } else {
-      $('.classes-table').hide();
+      $outputData.html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
     }
 
     // faces
@@ -369,14 +362,9 @@ function setupUse(params) {
         };
       })();
 
-      console.log(facesModel);
-
-      // $('.faces-table').show();
       $outputData.append(_.template(useResultsTable_template, {
         items: facesModel
       }));
-    } else {
-      $('.faces-table').hide();
     }
 
     // words
@@ -394,12 +382,9 @@ function setupUse(params) {
         };
       })();
 
-      // $('.words-table').show();
       $outputData.append(_.template(useResultsTable_template, {
         items: wordsModel
       }));
-    } else {
-      $('.words-table').hide();
     }
 
     $(document).on('click', '.results-table--input-no', function() {
