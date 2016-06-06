@@ -2206,6 +2206,9 @@ div.use--dropzone {
   margin-left: 1rem;
   margin-top: 0rem;
 }
+.test--output-data .results-table--container {
+  max-width: none;
+}
 .results-table--container:first-child {
   margin-left: 0rem;
 }
