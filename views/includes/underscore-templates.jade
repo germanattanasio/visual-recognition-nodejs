@@ -138,3 +138,7 @@ script(type='text/html', id='useResultsTableTemplate').
       </tbody>
     </table>
   </div>
+script(type='text/html', id='imageBoxesTemplate').
+  <% _.each(items, function(item, key, list) { %>
+    <div class="box-location" style="height: <%= item.height %>px; left: <%= item.left %>px; top: <%= item.top %>px; width: <%= item.width %>px;"></div>
+  <% }) %>
