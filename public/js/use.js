@@ -49,6 +49,7 @@ function setupUse(params) {
   var $invalidUrl = $(pclass + 'invalid-url').show();
   var $dropzone = $(pclass + 'dropzone');
   var $fileupload = $(pid + 'fileupload');
+  var $outputData = $(pclass + 'output-data');
 
   /*
    * Resets the panel
@@ -60,7 +61,8 @@ function setupUse(params) {
     resetPasteUrl();
     $urlInput.val('');
     $tbody.empty();
-    $dropzone.find('label').removeClass('dragover');
+    $outputData.empty();
+    $('.dragover').removeClass('dragover');
   }
 
   // init reset
@@ -88,6 +90,9 @@ function setupUse(params) {
       var error = results.images[0].error;
       if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
         showError('The file size exceeds the limit allowed. The maximum file size is 2 MB.');
+        return;
+      } else if (results.images[0].error.error_id === 'input_error') {
+        showError("We couldn't not retrieve that URL, please check your URL and try again.");
         return;
       }
     }
@@ -119,10 +124,10 @@ function setupUse(params) {
     console.log($error, $errorMsg);
   }
 
-  function _error(xhr) {
+  function _error(xhr, responseMessage) {
     $loading.hide();
-    var message = 'Error classifing the image';
-    if (xhr.responseJSON) {
+    var message = responseMessage || 'Error classifying the image';
+    if (xhr && xhr.responseJSON) {
       message = xhr.responseJSON.error;
     }
     showError(message);
@@ -146,11 +151,14 @@ function setupUse(params) {
       .error(function(error) {
         $loading.hide();
         console.log(error);
+
         if (error.status === 429) {
           showError('You have entered too many requests at once. Please try again later.');
+        } else if (error.responseJSON && error.responseJSON.error) {
+          showError('We had a problem classifying that image because ' + error.responseJSON.error);
         } else {
           showError('The demo is not available right now. <br/>We are working on ' +
-          'getting this back up and running soon.');
+              'getting this back up and running soon.');
         }
       });
   }
@@ -164,6 +172,7 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
+    console.log('clicked');
     resetPasteUrl();
     var imgPath = $(this).next('label').find('img').attr('src');
     classifyImage(imgPath);
@@ -178,27 +187,11 @@ function setupUse(params) {
     var self = $(this);
 
     if (e.keyCode === 13) {
-      if (!isValidURL(url)) {
-        $invalidImageUrl.hide();
-        $invalidUrl.show();
-        self.addClass(panel + '--url-input_error');
-      } else {
-        $invalidUrl.hide();
-        $invalidImageUrl.hide();
-        imageExists(url, function(exists) {
-          if (!exists) {
-            $invalidUrl.show();
-            if (!/\.(jpg|png|gif)$/i.test(url)) {
-              $invalidImageUrl.show();
-            }
-            self.addClass(panel + '--url-input_error');
-          } else {
-            resetPasteUrl();
-            classifyImage(url);
-            self.blur();
-          }
-        });
-      }
+      $invalidUrl.hide();
+      $invalidImageUrl.hide();
+      resetPasteUrl();
+      classifyImage(url);
+      self.blur();
     }
 
     $(self).focus();
@@ -231,6 +224,9 @@ function setupUse(params) {
             $image.attr('src', this.src);
             classifyImage('', resize(image, 2048));
           };
+          image.onerror = function() {
+            _error(null, 'Error loading the image file. I can only work with images.');
+          };
         };
         reader.readAsDataURL(data.files[0]);
       }
@@ -241,52 +237,25 @@ function setupUse(params) {
     }
   });
 
-  /**
-   * Async function to validate if an image exists
-   * @param  {String}   url      The image URL
-   * @param  {Function} callback The callback
-   * @return {void}
-   */
-  function imageExists(url, callback) {
-    var img = new Image();
-    img.onload = function() {
-      callback(true);
-    };
-    img.onerror = function() {
-      callback(false);
-    };
-    img.src = url;
-  }
-
-  /**
-   * url validation with or without http://
-   * @param  {String}  url The URL
-   * @return {Boolean}     True if is a valid url
-   */
-  function isValidURL(url) {
-    var urlToValidate = url;
-    // add the schema if needed
-    if (urlToValidate.indexOf('http://') !== 0 && urlToValidate.indexOf('https://') !== 0) {
-      urlToValidate = 'http://' + urlToValidate;
-    }
-    // remove training /
-    if (urlToValidate.substr(url.length - 1, 1) !== '/') {
-      urlToValidate = urlToValidate + '/';
-    }
-    // validate URL with regular expression
-    return /^(https|http|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(urlToValidate);
-  }
-
   $(document).on('dragover', function() {
     $(pclass + 'dropzone label').addClass('dragover');
+    $('form#use--fileupload').addClass('dragover');
   });
 
   $(document).on('dragleave', function() {
     $(pclass + 'dropzone label').removeClass('dragover');
+    $('form#use--fileupload').removeClass('dragover');
   });
 
   function roundScore(score) {
-    return Math.round(score * 1000) / 1000;
+    return Math.round(score * 100) / 100;
+  }
+
+  function slashesToArrows(typeHierarchy) {
+    var results = typeHierarchy;
+    results = results.replace(/^\/|\/$/g, ''); // trim first / and last /
+    results = results.replace(/\//g, ' > ');  // change slashes to >'s
+    return results;
   }
 
   function lookupInMap(mapToCheck, kind, token, defaultValue) {
@@ -310,6 +279,12 @@ function setupUse(params) {
   function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
 
+    if (results.images && results.images.length > 0) {
+      if (results.images[0].resolved_url) {
+        $image.attr('src', results.images[0].resolved_url);
+      }
+    }
+
     // eslint-disable-next-line camelcase
     var useResultsTable_template = useResultsTableTemplate.innerHTML;
 
@@ -327,19 +302,18 @@ function setupUse(params) {
           return {
             name: results.classifier_ids ? lookupInMap(classNameMap, bundle.kind, item.class, item.class) : item.class,
             score: roundScore(item.score),
-            type_hierarchy: item.type_hierarchy
+            type_hierarchy: item.type_hierarchy ? slashesToArrows(item.type_hierarchy) : false
           };
         });
 
         return {
           resultCategory: 'Classes',
-          tooltipText: 'Classes are trained to recognize a specific object or quality of an image.',
           data: classes
         };
       })();
 
-      $('.classes-table').show();
-      $('.classes-table').html(_.template(useResultsTable_template, {
+      // $('.classes-table').show();
+      $outputData.append(_.template(useResultsTable_template, {
         items: classesModel
       }));
     } else if (results.classifier_ids) {
@@ -356,25 +330,26 @@ function setupUse(params) {
     // faces
     if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
       var facesModel = (function() {
+        var identities = [];
         var faces = results.images[0].faces.reduce(function(acc, facedat) {
-          // age
-          acc.push({
-            name: 'Estimated age: ' + facedat.age.min + ' - ' + facedat.age.max,
-            score: roundScore(facedat.age.score)
-          });
-
           // gender
           acc.push({
-            name: 'Gender: ' + facedat.gender.gender.toLowerCase(),
+            name: facedat.gender.gender.toLowerCase(),
             score: roundScore(facedat.gender.score)
+          });
+
+          // age
+          acc.push({
+            name: 'age ' + facedat.age.min + ' - ' + facedat.age.max,
+            score: roundScore(facedat.age.score)
           });
 
           // identity
           if (typeof facedat.identity !== 'undefined') {
-            acc.push({
-              name: 'Identity: ' + facedat.identity.name,
+            identities.push({
+              name: facedat.identity.name,
               score: roundScore(facedat.identity.score),
-              type_hierarchy: facedat.identity.type_hierarchy ? facedat.identity.type_hierarchy.split(/\//g).filter(function(item) { return item.length > 0; }).join(' > ') : false
+              type_hierarchy: facedat.identity.type_hierarchy ? slashesToArrows(facedat.identity.type_hierarchy) : false
             });
           }
           return acc;
@@ -382,13 +357,15 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Faces',
-          tooltipText: 'Face detection returns the estimate age and gender of each face in an image and identifies if the face is a known celebrity. ',
+          identities: identities,
           data: faces
         };
       })();
 
-      $('.faces-table').show();
-      $('.faces-table').html(_.template(useResultsTable_template, {
+      console.log(facesModel);
+
+      // $('.faces-table').show();
+      $outputData.append(_.template(useResultsTable_template, {
         items: facesModel
       }));
     } else {
@@ -406,18 +383,27 @@ function setupUse(params) {
         });
         return {
           resultCategory: 'Words',
-          tooltipText: 'Text recognition returns English-language words found in an image.',
           data: words
         };
       })();
 
-      $('.words-table').show();
-      $('.words-table').html(_.template(useResultsTable_template, {
+      // $('.words-table').show();
+      $outputData.append(_.template(useResultsTable_template, {
         items: wordsModel
       }));
     } else {
       $('.words-table').hide();
     }
+
+    $(document).on('click', '.results-table--input-no', function() {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.results-table--feedback-thanks').show();
+    });
+
+    $(document).on('click', '.results-table--input-yes', function() {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.results-table--feedback-thanks').show();
+    });
   }
 }
 

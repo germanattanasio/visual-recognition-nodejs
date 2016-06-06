@@ -49,7 +49,6 @@ module.exports = function(app) {
     watch: (process.env.NODE_ENV !== 'production')
   }));
 
-
   // Setup static public directory
   app.use(express.static(path.join(__dirname, '..', 'public')));
 
