@@ -404,7 +404,7 @@ function setupUse(params) {
         originalElement.parent().show();
         originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
         originalElement.parent().parent().removeClass('results-table--feedback-wowed');
-      },2000);
+      }, 2000);
     });
 
     $(document).on('click', '.results-table--input-yes', function() {
@@ -416,7 +416,7 @@ function setupUse(params) {
         originalElement.parent().show();
         originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
         originalElement.parent().parent().removeClass('results-table--feedback-wowed');
-      },2000);
+      }, 2000);
     });
   }
 }
