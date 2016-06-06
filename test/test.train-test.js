@@ -40,7 +40,7 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     this.click('button._positive[data-name="husky"]');
   });
   casper.then(function() {
-    this.click('button._positive[data-name="dalmation"]');
+    this.click('button._positive[data-name="dalmatian"]');
   });
   // TRAAAAIIIIIN!
   casper.then(function() {

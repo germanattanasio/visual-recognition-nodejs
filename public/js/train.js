@@ -122,7 +122,7 @@ $(document).ready(function() {
     classifierNameMapping.dogs = {};
     classifierNameMapping.dogs.goldenretriever = 'Golden Retriever';
     classifierNameMapping.dogs.husky = 'Husky';
-    classifierNameMapping.dogs.dalmation = 'Dalmation';
+    classifierNameMapping.dogs.dalmatian = 'Dalmatian';
     classifierNameMapping.dogs.beagle = 'Beagle';
     classifierNameMapping.insurance = {};
     classifierNameMapping.insurance.brokenwinshield = 'Broken Windshield';
