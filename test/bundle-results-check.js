@@ -155,7 +155,43 @@ function classifierDone(id, next) {
 var CONCURRENCY = 5;
 console.log('Running test images against %s classifier permutations with concurrency %s', permutations.length, CONCURRENCY);
 async.eachLimit(permutations, CONCURRENCY, function(perm, done) {
-    // first create the classifier
+
+  // don't pass errors back to async, just log them (we want
+  function cleanup(err) {
+    if (err) {
+      perm.error = err.message || err;
+      console.log(perm, err);
+    }
+    if (perm.classifier) {
+      visualRecognition.deleteClassifier(perm.classifier, function(delerr) {
+        if (delerr) {
+          perm.classifier.error = delerr.message || err;
+          console.log('error deleting classifier', perm.classifier, delerr);
+        }
+        perm.classifier.deleted = !delerr;
+        done();
+      });
+      perm.complete = true;
+    } else {
+      done();
+    }
+  }
+
+  // match the test image files to the expected class
+  perm.tests = perm.testImages.map(function(tag, index) {
+    if (tag === null) {
+      return tag;
+    }
+    return {
+      'class': tag,
+      filename: index + '.jpg'
+    };
+  }).filter(function(test) {
+    return test; // filter out the nulls (we need them up until now to keep the indexes lined up with the filenames)
+  });
+
+
+  // create the classifier
   var classifierOptions = {
     name: [perm.category].concat(perm.classes).join('_')
   };
@@ -165,52 +201,27 @@ async.eachLimit(permutations, CONCURRENCY, function(perm, done) {
   });
   visualRecognition.createClassifier(classifierOptions, function(err, classifier) {
     if (err) {
-      err.permutation = perm;
-      return done(err);
+      return cleanup(err);
     }
+    perm.classifier = classifier;
 
-    function cleanup(err) {
-      visualRecognition.deleteClassifier(classifier, function(delerr) {
-        if (err && delerr) {
-          err.delerr = delerr;
-        }
-        if (!err && delerr) {
-          err = delerr;
-        }
-        if (err) {
-          err.perm = perm;
-        }
-        done(err || delerr);
-      });
-    }
-
-        // wait until it's finished processing
+    // wait until it's finished processing
     classifierDone(classifier.classifier_id, function(err) {
       if (err) {
         return cleanup(err);
       }
 
-      var tests = perm.testImages.map(function(tag, index) {
-        if (tag === null) {
-          return tag;
-        }
-        return {
-          'class': tag,
-          filename: index + '.jpg'
-        };
-      }).filter(function(test) {
-        return test; // filter out the nulls (we need them up until now to keep the indexes lined up with the filenames)
-      });
-
-      async.eachLimit(tests, CONCURRENCY, function(test, next) {
+      async.eachLimit(perm.tests, CONCURRENCY, function(test, next) {
         visualRecognition.classify({
           classifier_ids: [classifier.classifier_id],
           images_file: fs.createReadStream(path.join(basedir, perm.category, 'test', test.filename))
         }, function(err, res) {
           if (err) {
-            err.test = test;
+            test.error = err.message || err;
             return next(err);
           }
+
+          test.results = res;
 
           var expected = (test.class && perm.classes.indexOf(test.class) > -1) ? test.class : false;
 
@@ -221,10 +232,13 @@ async.eachLimit(permutations, CONCURRENCY, function(perm, done) {
             success = res.images[0].classifiers.length === 0;
           }
 
+          test.success = success;
+
           console.log('%s (%s: %s) Test image %s should have class %s', success ? '✓' : 'x', perm.category, perm.classes, test.filename, test.class );
           if (!success) {
             console.log(res.images[0].classifiers.length  ? res.images[0].classifiers[0].classes : '[no classifications returned]');
           }
+          test.complete = true;
           next();
         });
       }, cleanup);
@@ -234,6 +248,11 @@ async.eachLimit(permutations, CONCURRENCY, function(perm, done) {
   });
 }, function(err) {
   if (err) {
-    console.log(err);
+    console.log('fatal error', err);
+  } else {
+    console.log('Completed.');
   }
+  var outfile = './bundle-permutations.json';
+  fs.writeFileSync(outfile, JSON.stringify(permutations));
+  console.log('details written to %s', outfile);
 });
