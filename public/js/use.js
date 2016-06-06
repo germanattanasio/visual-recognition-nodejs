@@ -50,6 +50,7 @@ function setupUse(params) {
   var $dropzone = $(pclass + 'dropzone');
   var $fileupload = $(pid + 'fileupload');
   var $outputData = $(pclass + 'output-data');
+  var $boxes = $('.boxes');
 
   /*
    * Resets the panel
@@ -63,6 +64,7 @@ function setupUse(params) {
     $tbody.empty();
     $outputData.empty();
     $('.dragover').removeClass('dragover');
+    $boxes.empty();
   }
 
   // init reset
@@ -100,6 +102,14 @@ function setupUse(params) {
     // populate table
     renderTable(results);
     $result.show();
+
+    setTimeout(function() {
+      renderEntities(results);
+    }, 100);
+    $(window).resize(function() {
+      $boxes.empty();
+      renderEntities(results);
+    });
 
     // check if there are results or not
     if (!$('.classes-table').is(':visible') &&
@@ -274,6 +284,81 @@ function setupUse(params) {
     } else {
       return defaultValue;
     }
+  }
+
+  // need to add on resize event listener for faces
+  // need to offset and position itself and scale properly with physical image location
+  // need to calculate ratio of image
+  // get ratio
+  // get starting image position
+  // get transformed positions of face
+  //  = ratio * original positions + offset
+  function renderEntities(results) {
+
+    if (results.images[0].faces) {
+      var imageBoxes_template = imageBoxesTemplate.innerHTML;
+      var faceLocations = results.images[0].faces.map(function(face) {
+        return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
+      });
+
+      console.log(faceLocations);
+
+      $boxes.append(_.template(imageBoxes_template, {
+        items: faceLocations
+      }));
+    }
+
+    if (results.images[0].words) {
+      var imageBoxes_template = imageBoxesTemplate.innerHTML;
+      var locations = results.images[0].words.map(function(word) {
+        return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
+      });
+
+      console.log(locations);
+
+      $boxes.append(_.template(imageBoxes_template, {
+        items: locations
+      }));
+    }
+
+    console.log(results.images[0].words);
+  }
+
+  function transformBoxLocations(faceLocation, image) {
+    var newFaceLocation = faceLocation;
+    var ratio = image.getBoundingClientRect().width / image.naturalWidth;
+    var coordinates = getCoords(image);
+    console.log(image.getBoundingClientRect());
+    newFaceLocation = {
+      width: faceLocation.width * ratio,
+      height: faceLocation.height * ratio,
+      top: coordinates.top + faceLocation.top * ratio,
+      left: coordinates.left + faceLocation.left * ratio,
+    };
+    console.log(image.getBoundingClientRect(), ratio, image.getBoundingClientRect().width, faceLocation.width);
+    return newFaceLocation;
+  }
+
+  /**
+   * Solution found here:
+   * http://stackoverflow.com/questions/5598743/finding-elements-position-relative-to-the-document#answer-26230989
+   */
+  function getCoords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
   }
 
   function renderTable(results) {
