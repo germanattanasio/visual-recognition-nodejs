@@ -66,6 +66,7 @@
     "babel-eslint": "^6.0.4",
     "casperjs": "^1.1.1",
     "codecov": "^1.0.1",
+    "combinations": "^0.1.0",
     "eslint": "^2.8.0",
     "eslint-config-airbnb-es5": "^1.0.9",
     "eslint-plugin-react": "^5.1.1",
