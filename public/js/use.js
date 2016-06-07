@@ -20,6 +20,14 @@
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
 
+var errorMessages = {
+  ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
+  LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
+  URL_FETCH_PROBLEM: 'This is an invalid image URL.',
+  TOO_MANY_REQUESTS: 'You have entered too many requests at once. Please try again later.',
+  SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!'
+};
+
 /*
  * Setups the "Try Out" and "Test" panels.
  * It connects listeners to the DOM elements in the panel to allow
@@ -82,17 +90,17 @@ function setupUse(params) {
     $error.hide();
 
     if (!results || !results.images || !results.images[0]) {
-      showError('Error processing the request, please try again later.');
+      showError(errorMessages.ERROR_PROCESSING_REQUEST);
       return;
     }
 
     if (results.images[0].error) {
       var error = results.images[0].error;
       if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
-        showError('The file size exceeds the limit allowed. The maximum file size is 2 MB.');
+        showError(errorMessages.LIMIT_FILE_SIZE);
         return;
       } else if (results.images[0].error.error_id === 'input_error') {
-        showError("We couldn't not retrieve that URL, please check your URL and try again.");
+        showError(errorMessages.URL_FETCH_PROBLEM);
         return;
       }
     }
@@ -102,11 +110,8 @@ function setupUse(params) {
     $result.show();
 
     // check if there are results or not
-    if (!$('.classes-table').is(':visible') &&
-        !$('.faces-table').is(':visible') &&
-        !$('.words-table').is(':visible') &&
-        !results.classifier_ids) {
-      $('.classes-table').after(
+    if ($outputData.html() === '') {
+      $outputData.after(
         $('<div class="' + panel + '--mismatch" />')
         .html('No matching classifiers found.'));
     }
@@ -153,12 +158,11 @@ function setupUse(params) {
         console.log(error);
 
         if (error.status === 429) {
-          showError('You have entered too many requests at once. Please try again later.');
+          showError(errorMessages.TOO_MANY_REQUESTS);
         } else if (error.responseJSON && error.responseJSON.error) {
           showError('We had a problem classifying that image because ' + error.responseJSON.error);
         } else {
-          showError('The demo is not available right now. <br/>We are working on ' +
-              'getting this back up and running soon.');
+          showError(errorMessages.SITE_IS_DOWN);
         }
       });
   }
@@ -312,7 +316,6 @@ function setupUse(params) {
         };
       })();
 
-      // $('.classes-table').show();
       $outputData.append(_.template(useResultsTable_template, {
         items: classesModel
       }));
@@ -321,10 +324,7 @@ function setupUse(params) {
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
       }
-      $('.classes-table').html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
-      $('.classes-table').show();
-    } else {
-      $('.classes-table').hide();
+      $outputData.html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
     }
 
     // faces
@@ -362,14 +362,9 @@ function setupUse(params) {
         };
       })();
 
-      console.log(facesModel);
-
-      // $('.faces-table').show();
       $outputData.append(_.template(useResultsTable_template, {
         items: facesModel
       }));
-    } else {
-      $('.faces-table').hide();
     }
 
     // words
@@ -387,22 +382,33 @@ function setupUse(params) {
         };
       })();
 
-      // $('.words-table').show();
       $outputData.append(_.template(useResultsTable_template, {
         items: wordsModel
       }));
-    } else {
-      $('.words-table').hide();
     }
 
     $(document).on('click', '.results-table--input-no', function() {
       $(this).parent().hide();
       $(this).parent().parent().find('.results-table--feedback-thanks').show();
+      $(this).parent().parent().addClass('results-table--feedback-wowed');
+      var originalElement = $(this);
+      setTimeout(function() {
+        originalElement.parent().show();
+        originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
+        originalElement.parent().parent().removeClass('results-table--feedback-wowed');
+      }, 2000);
     });
 
     $(document).on('click', '.results-table--input-yes', function() {
       $(this).parent().hide();
       $(this).parent().parent().find('.results-table--feedback-thanks').show();
+      $(this).parent().parent().addClass('results-table--feedback-wowed');
+      var originalElement = $(this);
+      setTimeout(function() {
+        originalElement.parent().show();
+        originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
+        originalElement.parent().parent().removeClass('results-table--feedback-wowed');
+      }, 2000);
     });
   }
 }

@@ -2195,16 +2195,31 @@ div.use--dropzone {
 
 .use--output-data {
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  display: block;
+}
+@media (min-width: 768px) {
+  .use--output-data {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
 }
 
 .results-table--container {
   width: 100%;
-  max-width: 33.333333333%;
-  margin-left: 1rem;
+  max-width: none;
   margin-top: 0rem;
+}
+
+@media (min-width: 768px) {
+  .results-table--container {
+    max-width: 33.333333333%;
+    margin-left: 1rem;
+  }
+}
+
+.test--output-data .results-table--container {
+  max-width: none;
 }
 .results-table--container:first-child {
   margin-left: 0rem;
@@ -2338,4 +2353,15 @@ form.dragover {
   border-color: #5596e6;
   background-color: #c0e6ff;
   opacity: 0.5;
+}
+
+.results-table--feedback-wowed {
+  -webkit-transition: background-color 1s, color 1s;
+  -moz-transition: background-color 1s, color 1s;
+  -ms-transition: background-color 1s, color 1s;
+  -o-transition: background-color 1s, color 1s;
+  transition: background-color 1s, color 1s;
+  width: inherit;
+  background-color: #00b040;
+  color: white;
 }
