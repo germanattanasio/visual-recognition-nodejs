@@ -41,8 +41,6 @@ $(document).ready(function() {
         $('._container--bundle-form').addClass('active');
       }, 100);
     }
-
-
   });
 
   $('._examples--class button').click(function() {
@@ -65,7 +63,7 @@ $(document).ready(function() {
       $('.train--train-button.base--button').prop('disabled', true);
     }
 
-    if ($.map($('._examples--class[data-kind=' + $(this).parent().data('kind') + '] button'), function(item) { return $(item).text(); }).reduce(function(k,v) { return k || v === 'Select'; }, false)) {
+    if ($.map($('._examples--class[data-kind=' + $(this).parent().data('kind') + '] button'), function(item) { return $(item).text(); }).reduce(function(k, v) { return k || v === 'Select'; }, false)) {
       $('a.select_all').text('Select All');
     }
 
@@ -84,13 +82,13 @@ $(document).ready(function() {
   });
 
   $('a.select_all').click(function() {
-    var current_text = $(this).text();
+    var currentText = $(this).text();
     if ($('.showing div._examples--class:not(._examples--class__selected)').length > 0) {
       $('.showing div._examples--class:not(._examples--class__selected) button').click();
     } else {
       $('.showing div._examples--class__selected button').click();
     }
-    $(this).text(current_text === 'Select All' ? 'Deselect All' : 'Select All');
+    $(this).text(currentText === 'Select All' ? 'Deselect All' : 'Select All');
   });
 
   var $loading = $('.train--loading');
