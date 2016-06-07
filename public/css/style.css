@@ -2325,6 +2325,11 @@ div.use--dropzone {
 }
 .results-table .base--td.results-table--feedback {
   padding-bottom: 1.5em;
+  -webkit-transition: background-color 1s, color 1s;
+  -moz-transition: background-color 1s, color 1s;
+  -ms-transition: background-color 1s, color 1s;
+  -o-transition: background-color 1s, color 1s;
+  transition: background-color 1s, color 1s;
 }
 .results-table--feedback-thanks {
   margin-left: 2rem;
