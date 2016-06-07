@@ -26,6 +26,7 @@ $(document).ready(function() {
   $('._training--example').click(function() {
     $('.showing div._examples--class__selected button').click();
     var kind = $(this).data('kind');
+
     if ($('._examples[data-kind=' + kind + ']').hasClass('showing')) {
       $('.showing').removeClass('showing');
       $('._container--bundle-form').removeClass('active');
@@ -61,6 +62,11 @@ $(document).ready(function() {
       $('.train--train-button.base--button').addClass('disabled');
       $('.train--train-button.base--button').prop('disabled', true);
     }
+
+    if ($.map($('._examples--class[data-kind=' + $(this).parent().data('kind') + '] button'), function(item) { return $(item).text(); }).reduce(function(k, v) { return k || v === 'Select'; }, false)) {
+      $('a.select_all').text('Select All');
+    }
+
     return false;
   });
 
@@ -76,12 +82,13 @@ $(document).ready(function() {
   });
 
   $('a.select_all').click(function() {
+    var currentText = $(this).text();
     if ($('.showing div._examples--class:not(._examples--class__selected)').length > 0) {
       $('.showing div._examples--class:not(._examples--class__selected) button').click();
     } else {
       $('.showing div._examples--class__selected button').click();
     }
-    $(this).text($(this).text() === 'Select All' ? 'Deselect All' : 'Select All');
+    $(this).text(currentText === 'Select All' ? 'Deselect All' : 'Select All');
   });
 
   var $loading = $('.train--loading');
