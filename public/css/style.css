@@ -921,12 +921,13 @@ pre[class*=" language-"] {
   text-decoration: underline;
   padding: 0rem;
   margin: 0rem;
-  color: #a53725; }
+  font-size: 1rem;
+  color: #315d80; }
   .icon-hyperlink--button_BLANK:hover, .icon-hyperlink--button_BLANK:focus {
     color: #aeaeae; }
 
 .icon-hyperlink .icon {
-  color: #a53725; }
+  color: #315d80; }
 
 .icon-hyperlink .icon-reset {
   font-size: 1.5em; }
@@ -1007,18 +1008,19 @@ pre[class*=" language-"] {
           border-bottom: 0.25em solid #5596E6; } }
 
 .icon-hyperlink {
-  float: right; }
+  float: left; }
   .icon-hyperlink button[type="reset"] {
     background-color: transparent;
     border: none;
     text-decoration: underline;
     padding: 0rem;
     margin: 0rem;
-    color: #a53725; }
+    width: 4rem;
+    color: #315d80; }
     .icon-hyperlink button[type="reset"]:hover, .icon-hyperlink button[type="reset"]:focus {
       color: #aeaeae; }
   .icon-hyperlink .icon {
-    color: #a53725; }
+    color: #315d80; }
   .icon-hyperlink .icon-reset {
     font-size: 1.5em; }
 

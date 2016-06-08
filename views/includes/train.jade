@@ -27,6 +27,43 @@
     ._training--example.clickable(data-kind='omniearth')
       h3 Satellite Imagery
       img(src='/images/bundles/omniearth/thumbnail.png')
+    ._training--example.clickable(data-kind='omniearth')
+      h3 Use Your Own
+      ._training--use-your-own.square
+        ._training--use-your-own-plus +
+  ._examples--user-input
+    ._examples--full-background
+    ._examples--user-input-left
+      h2 Positive images
+      p.base--p Upload your own images in zipped folders to the spaces below.
+      ._examples--user-input-classifiers
+        ._examples--user-input-classifier._examples--user-input-classifier_1
+          ._examples--user-input-dropzone
+            | Select or drag a zipped folder with at least 50 images
+            img._examples--zip-icon(src="images/VR zip icon.svg")
+          input.base--input(type='text', placeholder='Name this class')
+          button._examples--clear(type='reset') Clear
+        ._examples--user-input-classifier._examples--user-input-classifier_2
+          ._examples--user-input-dropzone
+            | Select or drag a zipped folder with at least 50 images
+            img._examples--zip-icon(src="images/VR zip icon.svg")
+          input.base--input(type='text', placeholder='Name this class')
+          button._examples--clear(type='reset') Clear
+        ._examples--user-input-classifier._examples--user-input-classifier_3
+          ._examples--user-input-dropzone
+            | Select or drag a zipped folder with at least 50 images
+            img._examples--zip-icon(src="images/VR zip icon.svg")
+          input.base--input(type='text', placeholder='Name this class')
+          button._examples--clear(type='reset') Clear
+      ._examples--error
+        | Upload at least two image bundles.
+    ._examples--user-input-right
+      h2 Negative Images
+      ._examples--user-input-dropzone
+        | Select or drag a zipped folder with at least 50 images
+        img._examples--zip-icon(src="images/VR zip icon.svg")
+      button._examples--clear(type='reset') Clear
+      p.base--p._examples--negative-text Use images that may seem like the bundles but are different.
   ._examples(data-kind='dogs')
     a.select_all(data-kind='dogs') Select All
     ._examples--classes
@@ -128,4 +165,11 @@
     .license Images courtesy of IBM Watson partner 
       a(class="base--a", href='http://omniearth.net/' target='_blank') OmniEarth.
   .train--row
-    button.train--train-button.base--button(disabled='true') Train your classifier
+    .train--column-1
+      input.base--input._examples--input-name(type='text', placeholder='Name this class')
+      button.train--train-button.base--button(disabled='true') Train your classifier
+    .train--column-2
+      .icon-hyperlink.train--reset
+        span.icon.icon-reset
+        button.base--a.icon-hyperlink--button.icon-hyperlink--button_BLANK(type='reset')
+          | Reset
