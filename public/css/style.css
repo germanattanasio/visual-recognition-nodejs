@@ -1255,12 +1255,16 @@ div.use--dropzone {
   color: #777677;
   -webkit-transition: 0.2s;
   transition: 0.2s;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-size: 0.65rem; }
   .use--file-input-button:hover {
     background-color: transparent;
     color: #777677; }
   .use--file-input-button .base--a {
+    margin-top: 0px;
     text-decoration: underline; }
   .use--file-input-button.dragover {
     border-color: #5596e6;
