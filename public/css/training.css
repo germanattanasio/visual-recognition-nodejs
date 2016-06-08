@@ -25,6 +25,11 @@
     padding: 1rem;
     background-color: #f4f4f4;
     border: 2px solid #ececec;
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    transition: opacity 0.5s;
 }
 ._training--example:nth-of-type(2) {
   margin-right: 0rem;
