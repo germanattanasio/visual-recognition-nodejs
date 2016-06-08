@@ -10,6 +10,7 @@
   "globals": {
     "useResultsTable_template": false,
     "useResultsTableTemplate" : true,
+    "imageBoxesTemplate": true,
     "casper": false
   },
   "env": {

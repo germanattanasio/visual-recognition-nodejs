@@ -22,20 +22,17 @@
     margin-bottom: 1rem;
     float: left;
     display: block;
-    padding: 1rem;
-    background-color: #f4f4f4;
-    border: 2px solid #ececec;
 }
 ._training--example:nth-of-type(2) {
   margin-right: 0rem;
 }
 @media (min-width: 600px) {
   ._training--example {
-    width: 23.40426%;
-    margin-right: 2.12766%;
+    width: calc(20% - 0.8rem);
+    margin-right: 1rem;
   }
   ._training--example:nth-of-type(2) {
-    margin-right: 2.12766%;
+    margin-right: 1rem;
   }
 }
 
@@ -46,10 +43,86 @@
 ._training--example h3 {
     color: #d74108;
     padding-bottom: 1vh;
-    margin-bottom: 3vh;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    height: 1.5rem;
+}
+
+._training--use-your-own {
+  background-color: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.train--column-1 {
+  width: 48.93617%;
+  margin-right: 2.12766%;
+  float: left;
+}
+.train--column-2 {
+  width: 48.93617%;
+  margin-right: 0rem;
+  float: left;
+}
+
+._training--use-your-own-plus {
+  font-size: 5rem;
+  height: 5rem;
+  font-weight: lighter;
+  color: #3a5274;
+  line-height: 0.8;
+}
+
+._examples--user-input {
+  /*background-color: #f1f1f1;*/
+  position: relative;
+}
+._examples--full-background {
+  background-color: #f1f1f1;
+  width: 100vw;
+  height: 26rem;
+  z-index: -1;
+  position: absolute;
+  top: 0rem;
+  left: -16vw;
+}
+
+._examples--user-input-left {
+  width: 80%;
+  float: left;
+  margin-top: 2rem;
+}
+
+._examples--user-input-right {
+  margin: 0rem;
+  width: 20%;
+  float: left;
+  padding: 0rem 0rem 0rem 1rem;
+  border-left: 1px solid gray;
+  margin-top: 2rem;
+}
+
+._examples--negative-text {
+  margin-top: 1rem;
+}
+
+._examples--error {
+  float: left;
+  color: #d43718;
+}
+
+._examples--user-input-classifier {
+  width: 25%;
+  float: left;
+  padding: 0rem 1rem 0rem 0rem;
+  margin-top: 0rem;
+}
+
+._examples--user-input-dropzone {
+  border: 2px dashed #3a5274;
+  border-style: dashed;
+  padding: 0.5rem;
 }
 
 ._examples--classes {
@@ -295,3 +368,22 @@ form.trained input[type=text] {
     width: 100%;
     margin-top: 0px;
 }
+
+.icon-hyperlink.train--reset {
+  float: left;
+  margin-top: 3rem;
+}
+
+._examples--clear {
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  text-decoration: underline;
+  padding: 0rem;
+  margin: 0rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #315d80; }
+
+._examples--clear:hover, ._examples--clear:focus {
+  color: #aeaeae; }
