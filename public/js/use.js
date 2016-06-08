@@ -298,9 +298,11 @@ function setupUse(params) {
   // get transformed positions of face
   //  = ratio * original positions + offset
   function renderEntities(results) {
-
+    // eslint-disable-next-line camelcase
+    var imageBoxes_template;
     if (results.images[0].faces) {
-      var imageBoxes_template = imageBoxesTemplate.innerHTML;
+      // eslint-disable-next-line camelcase
+      imageBoxes_template = imageBoxesTemplate.innerHTML;
       var faceLocations = results.images[0].faces.map(function(face) {
         return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
       });
@@ -313,7 +315,8 @@ function setupUse(params) {
     }
 
     if (results.images[0].words) {
-      var imageBoxes_template = imageBoxesTemplate.innerHTML;
+      // eslint-disable-next-line camelcase
+      imageBoxes_template = imageBoxesTemplate.innerHTML;
       var locations = results.images[0].words.map(function(word) {
         return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
       });
@@ -337,13 +340,13 @@ function setupUse(params) {
       width: faceLocation.width * ratio,
       height: faceLocation.height * ratio,
       top: coordinates.top + faceLocation.top * ratio,
-      left: coordinates.left + faceLocation.left * ratio,
+      left: coordinates.left + faceLocation.left * ratio
     };
     console.log(image.getBoundingClientRect(), ratio, image.getBoundingClientRect().width, faceLocation.width);
     return newFaceLocation;
   }
 
-  /**
+  /*
    * Solution found here:
    * http://stackoverflow.com/questions/5598743/finding-elements-position-relative-to-the-document#answer-26230989
    */
