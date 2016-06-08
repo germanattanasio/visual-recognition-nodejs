@@ -24,13 +24,25 @@ var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
   $('._training--example').click(function() {
+    var currentExample = $(this);
+
     $('.showing div._examples--class__selected button').click();
     var kind = $(this).data('kind');
 
     if ($('._examples[data-kind=' + kind + ']').hasClass('showing')) {
       $('.showing').removeClass('showing');
       $('._container--bundle-form').removeClass('active');
+      $('._training--example').map(function(index, item) {
+        $(item).css('opacity', '1.0');
+      });
     } else {
+      $('._training--example').map(function(index, item) {
+        if (!$(item).is(currentExample)) {
+          $(item).css('opacity', '0.5');
+        } else {
+          $(item).css('opacity', '1.0');
+        }
+      });
       $('.showing').removeClass('showing');
       $('._examples[data-kind=' + kind + ']').removeClass('removed');
       $('._container--bundle-form input[type=submit]').addClass('disabled');
