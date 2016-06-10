@@ -31,7 +31,6 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "gulp",
     "test-unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit",
     "test-integration": "casperjs test ./test/test.*.js",
     "test-integration-runner": "node casper-runner.js",

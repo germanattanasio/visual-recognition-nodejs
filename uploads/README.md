@@ -1,1 +1,1 @@
-This folder contains the uploaded pictures.
+- This folder contains the uploaded pictures.
