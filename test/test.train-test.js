@@ -61,6 +61,36 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
   casper.waitForSelector('h2.base--h2.test--output-header', function() {
     casper.test.assertSelectorHasText('h2.base--h2.test--output-header', 'Results');
   });
+
+
+  casper.thenOpen('http://localhost:3000/train', function() {
+    // Moleskine
+    casper.then(function() {
+      this.click('div._training--example:nth-child(2)');
+    });
+
+    // dog type examples
+    casper.waitForSelector('div._examples[data-kind="moleskine"]', function() {
+
+    });
+
+    // 1 pro and one -non
+    casper.then(function() {
+      this.click('button._positive[data-name="portrait"]');
+    });
+    casper.then(function() {
+      this.click('button._negative[data-name="negative"]');
+    });
+    // train
+    casper.then(function() {
+      this.click('button.train--train-button');
+    });
+
+    // Moleskines test page
+    casper.waitForSelector('h2.base--h2.test--classifier-name', function() {
+      casper.test.assertSelectorHasText('h2.base--h2.test--classifier-name', 'Moleskine Types');
+    });
+  });
 });
 
 casper.run(function() {
