@@ -103,6 +103,24 @@ $(document).ready(function() {
     $(this).text(currentText === 'Select All' ? 'Deselect All' : 'Select All');
   });
 
+  $('.classifier .text').on('click', function(e) {
+    e.preventDefault();
+    $(this).parent().find('input[type=file]').click();
+  });
+  
+  $('.classifier input[type=file]').on('change',function(e) {
+    var nameInput = $(e.target).parent().find('input[type=text]');
+    if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
+      var baseFileName = $(e.target)[0].files[0].name;
+      nameInput.val(baseFileName.split('.')[0]);
+    }
+  });
+
+  $('.classifier a').on('click', function(e) {
+    e.preventDefault();
+    $(e.target).parent().find('input').val("");
+  });
+
   var $loading = $('.train--loading');
   var $error = $('.train--error');
   var $errorMsg = $('.train--error-message');

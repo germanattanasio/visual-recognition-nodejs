@@ -395,3 +395,56 @@ form.trained input[type=text] {
 
 ._examples--clear:hover, ._examples--clear:focus {
   color: #aeaeae; }
+
+.user-submitted {
+    background-color: #f3f3f3;
+}
+
+form.upload {
+    display: flex;
+    flex-direction: row;
+
+}
+
+form.upload input[type=file] {
+    display: none;
+}
+
+.positive, .negative, .seperator {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+}
+
+.seperator {
+    background-color: black;
+    margin-left: auto;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 1px;
+}
+
+.classifiers {
+    display: flex;
+    flex-direction: row;
+}
+
+.classifier {
+    display: flex;
+    flex-direction: column;
+    max-width: 12rem;
+    margin-top: 0px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: smaller;
+}
+
+.classifier .text {
+    border: 2px dashed black;
+    padding: 1rem;
+}
+
+.classifiers:first-child {
+    margin-right: 0px;
+}

@@ -32,38 +32,38 @@
       ._training--use-your-own.square
         ._training--use-your-own-plus +
   ._examples--user-input
-    ._examples--full-background
-    ._examples--user-input-left
-      h2 Positive images
-      p.base--p Upload your own images in zipped folders to the spaces below.
-      ._examples--user-input-classifiers
-        ._examples--user-input-classifier._examples--user-input-classifier_1
-          ._examples--user-input-dropzone
-            | Select or drag a zipped folder with at least 50 images
-            img._examples--zip-icon(src="images/VR zip icon.svg")
-          input.base--input(type='text', placeholder='Name this class')
-          button._examples--clear(type='reset') Clear
-        ._examples--user-input-classifier._examples--user-input-classifier_2
-          ._examples--user-input-dropzone
-            | Select or drag a zipped folder with at least 50 images
-            img._examples--zip-icon(src="images/VR zip icon.svg")
-          input.base--input(type='text', placeholder='Name this class')
-          button._examples--clear(type='reset') Clear
-        ._examples--user-input-classifier._examples--user-input-classifier_3
-          ._examples--user-input-dropzone
-            | Select or drag a zipped folder with at least 50 images
-            img._examples--zip-icon(src="images/VR zip icon.svg")
-          input.base--input(type='text', placeholder='Name this class')
-          button._examples--clear(type='reset') Clear
-      ._examples--error
-        | Upload at least two image bundles.
-    ._examples--user-input-right
-      h2 Negative Images
-      ._examples--user-input-dropzone
-        | Select or drag a zipped folder with at least 50 images
-        img._examples--zip-icon(src="images/VR zip icon.svg")
-      button._examples--clear(type='reset') Clear
-      p.base--p._examples--negative-text Use images that may seem like the bundles but are different.
+    .user-submitted
+      form.upload.training_dropzone
+        .positive
+          h2 Positive Classes
+          p.text Upload your own images in zipped folders to the spaces below.
+          .classifiers
+            .classifier
+              .text Select or drag a zipped folder with at least 50 images
+              input(type="file",accept="application/zip")
+              input(type="text",placeholder="Name of This Class")
+              a(href="") Clear
+            .classifier
+              .text Select or drag a zipped folder with at least 50 images
+              input(type="file",accept="application/zip")
+              input(type="text",placeholder="Name of This Class")
+              a(href="") Clear
+            .classifier
+              .text Select or drag a zipped folder with at least 50 images
+              input(type="file",accept="application/zip")
+              input(type="text",placeholder="Name of This Class")
+              a(href="") Clear
+        .seperator
+        .negative
+          h2 Negative Classes
+          p.text &nbsp;
+          .classifiers
+            .classifier.negative
+              .text Select or drag a zipped folder with at least 50 images
+              input(type="file",accept="application/zip")
+              input(type="text",placeholder="Name of This Class")
+              a(href="") Clear
+              p Use images that may seem like the bundles but are different.
   ._examples(data-kind='dogs')
     a.select_all(data-kind='dogs') Select All
     ._examples--classes
@@ -166,7 +166,7 @@
       a(class="base--a", href='http://omniearth.net/' target='_blank') OmniEarth.
   .train--row
     .train--column-1
-      input.base--input._examples--input-name(type='text', placeholder='Name this class')
+      input.base--input._examples--input-name(type='text', placeholder='Name this class',required)
       button.train--train-button.base--button(disabled='true') Train your classifier
     .train--column-2
       .icon-hyperlink.train--reset
