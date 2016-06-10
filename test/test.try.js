@@ -6,7 +6,6 @@ casper.options.waitTimeout = 20000;
 casper.start();
 
 casper.thenBypassUnless(function() {
-  console.log(apiKey);
   return apiKey && apiKey.length > 0;
 }, 4);
 
