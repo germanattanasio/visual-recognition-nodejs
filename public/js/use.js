@@ -280,8 +280,6 @@ function setupUse(params) {
     }
   }
 
-
-
   function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
 
@@ -388,13 +386,13 @@ function setupUse(params) {
       })();
 
       $outputData.append(_.template(useResultsTable_template, {
-        items: wordsModel,
+        items: wordsModel
       }));
     }
 
     $('a.json').on('click', function() {
       var rawJsonData = $(this).parent().find('.json_raw').data('raw');
-      window.open("data:application/json,"+rawJsonData,"_blank");
+      window.open('data:application/json,' + rawJsonData, '_blank');
     });
 
     $(document).on('click', '.results-table--input-no', function() {
