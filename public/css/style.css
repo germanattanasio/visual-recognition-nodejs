@@ -2374,3 +2374,19 @@ form.dragover {
   background-color: #00b040;
   color: white;
 }
+
+.results--json {
+  text-align: right;
+  color: #315d80;
+}
+
+.results--json a {
+  padding-right: 0.5rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+a.json img {
+  float: right;
+  max-width: 1rem;
+}

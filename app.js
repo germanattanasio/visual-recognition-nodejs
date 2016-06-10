@@ -189,6 +189,11 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
       if (req.body.classifier_id) {
         combine.value[0].classifier_ids = req.body.classifier_id;
       }
+
+      combine.value[0].raw = {}
+      methods.map(function(methodName, idx) {
+        combine.value[0].raw[methodName] = encodeURIComponent(JSON.stringify(results[idx].value[0]));
+      });
       res.json(combine.value[0]);
     } else {
       res.status(400).json(combine.error);
