@@ -5,7 +5,9 @@ node_js:
 script:
 - npm test
 deploy:
-  provider: cloudfoundry
+# main demo is auto-deployed from master
+# http://visual-recognition-demo-stage.mybluemix.net/
+- provider: cloudfoundry
   api: https://api.ng.bluemix.net
   username: $CF_USERNAME
   password: $CF_PASSWORD
@@ -14,6 +16,18 @@ deploy:
   on:
     repo: watson-developer-cloud/visual-recognition-nodejs
     branch: master
+  skip_cleanup: true
+# staging demo is auto-deployed from v3-issues
+# this url is http://visual-recognition-demo-stage.mybluemix.net/
+- provider: cloudfoundry
+  api: https://api.ng.bluemix.net
+  username: $CF_USERNAME
+  password: $CF_PASSWORD
+  organization: WatsonPlatformServices
+  space: demos-staging
+  on:
+    repo: watson-developer-cloud/visual-recognition-nodejs
+    branch: v3-issues
   skip_cleanup: true
 env:
   global:
