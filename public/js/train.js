@@ -269,11 +269,13 @@ $(document).ready(function() {
   }
 
   function uploadUserClass() {
+    var formElement = document.querySelector('form#user_upload');
+    var form = new FormData(formElement);
 
     $.ajax({
       type: 'POST',
       url: '/api/classifiers',
-      data: $('form.upload.training_dropzone').serialize(),
+      data: form,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       success: function(classifier) {
