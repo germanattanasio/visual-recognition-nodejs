@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     $('.showing div._examples--class__selected button').click();
     // clear all user classifier info
-    $('.classifier').attr('data-hasfile','0');
+    $('.classifier').attr('data-hasfile', '0');
 
     var kind = $(this).data('kind');
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
           $('input.base--input._examples--input-name').val(lookupName(kind));
           $('input.base--input._examples--input-name').prop('readonly', true);
         } else {
-          $('input.base--input._examples--input-name').val("");
+          $('input.base--input._examples--input-name').val('');
           $('input.base--input._examples--input-name').prop('readonly', false);
         }
         $('._container--bundle-form').addClass('active');
@@ -86,7 +86,7 @@ $(document).ready(function() {
       $('.showing div._examples--class__selected button').click();
     } else {
       $('form.upload')[0].reset();
-      $('input.base--input._examples--input-name').val("");
+      $('input.base--input._examples--input-name').val('');
       $('input.base--input._examples--input-name').prop('readonly', false);
     }
     enableTrainClassifier();
@@ -136,21 +136,21 @@ $(document).ready(function() {
     e.preventDefault();
     $(this).parent().find('input[type=file]').click();
   });
-  
-  $('.classifier input[type=file]').on('change',function(e) {
+
+  $('.classifier input[type=file]').on('change', function(e) {
     var nameInput = $(e.target).parent().find('input[type=text]');
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
       var baseFileName = $(e.target)[0].files[0].name;
       nameInput.val(baseFileName.split('.')[0]);
-      $(e.target).parent().attr('data-hasfile',1);
+      $(e.target).parent().attr('data-hasfile', 1);
       console.log($(e.target).parent().attr('data-hasfile'));
     }
   });
 
   $('.classifier a.clear_link').on('click', function(e) {
     e.preventDefault();
-    $(e.target).parent().find('input').val("");
-    $(e.target).parent().attr('data-hasfile','0');
+    $(e.target).parent().find('input').val('');
+    $(e.target).parent().attr('data-hasfile', '0');
     enableTrainClassifier();
   });
 
@@ -159,13 +159,12 @@ $(document).ready(function() {
     enableTrainClassifier();
   });
 
-  $('form.upload.training_dropzone').on('change',function(e) {
+  $('form.upload.training_dropzone').on('change', function() {
     enableTrainClassifier();
   });
 
-  $('._examples--user-input').on('drop',function(e) {
+  $('._examples--user-input').on('drop', function(e) {
     e.preventDefault();
-
   });
 
   var $loading = $('.train--loading');
@@ -226,8 +225,8 @@ $(document).ready(function() {
     return classifierNameMapping;
   }
 
-  function uploadBundledClass() {
-    var data = $('.showing div._examples--class__selected')
+  function getExamplesData() {
+    return $('.showing div._examples--class__selected')
         .map(function(idx, item) {
           return {
             name: $(item).data('name'),
@@ -242,7 +241,11 @@ $(document).ready(function() {
           }
           k.kind = v.kind;
           return k;
-        }, { bundles: [], names: []});
+        }, {bundles: [], names: []});
+  }
+
+  function uploadBundledClass() {
+    var data = getExamplesData();
 
     data.name = lookupName(data.kind);
 
@@ -266,7 +269,7 @@ $(document).ready(function() {
   }
 
   function uploadUserClass() {
-    
+    var data = getExamplesData();
     $.ajax({
       type: 'POST',
       url: '/api/classifiers',
