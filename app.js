@@ -132,6 +132,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     url: null,
     images_file: null
   };
+  console.log(images_file);
 
   if (req.file) { // file image
     params.images_file = fs.createReadStream(req.file.path);

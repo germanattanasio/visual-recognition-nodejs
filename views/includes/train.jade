@@ -27,42 +27,42 @@
     ._training--example.clickable(data-kind='omniearth')
       h3 Satellite Imagery
       img(src='/images/bundles/omniearth/thumbnail.png')
-    ._training--example.clickable(data-kind='omniearth')
+    ._training--example.clickable(data-kind='user')
       h3 Use Your Own
       ._training--use-your-own.square
         ._training--use-your-own-plus +
-  ._examples--user-input
+  ._examples(data-kind="user")
     .user-submitted
       form.upload.training_dropzone
+        input(type="hidden",name="classifiername",value="")
         .positive
           h2 Positive Classes
           p.text Upload your own images in zipped folders to the spaces below.
           .classifiers
-            .classifier
+            .classifier(data-hasfile=0)
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",accept="application/zip")
               input(type="text",placeholder="Name of This Class")
-              a(href="") Clear
-            .classifier
+              a(href="").clear_link Clear
+            .classifier(data-hasfile=0)
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",accept="application/zip")
               input(type="text",placeholder="Name of This Class")
-              a(href="") Clear
-            .classifier
+              a(href="").clear_link Clear
+            .classifier(data-hasfile=0)
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",accept="application/zip")
               input(type="text",placeholder="Name of This Class")
-              a(href="") Clear
+              a(href="").clear_link Clear
         .seperator
         .negative
           h2 Negative Classes
           p.text &nbsp;
           .classifiers
-            .classifier.negative
+            .classifier(data-hasfile=0).negative
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",accept="application/zip")
-              input(type="text",placeholder="Name of This Class")
-              a(href="") Clear
+              a(href="").clear_link Clear
               p Use images that may seem like the bundles but are different.
   ._examples(data-kind='dogs')
     a.select_all(data-kind='dogs') Select All

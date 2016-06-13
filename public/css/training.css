@@ -183,7 +183,7 @@ img {
     min-height: 18pt;
 }
 
-._examples {
+._examples , .train--row {
     transition: opacity 1s ease-out, height 1s linear;
     opacity: 0;
     height: 0;
@@ -194,7 +194,7 @@ img {
     margin-top: 0px;
 }
 
-._examples.showing {
+._examples.showing, .train--row.showing {
     opacity: 1;
     height: auto;
     display: block;

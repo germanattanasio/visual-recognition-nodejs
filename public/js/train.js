@@ -27,6 +27,9 @@ $(document).ready(function() {
     var currentExample = $(this);
 
     $('.showing div._examples--class__selected button').click();
+    // clear all user classifier info
+    $('.classifier').attr('data-hasfile','0');
+
     var kind = $(this).data('kind');
 
     if ($('._examples[data-kind=' + kind + ']').hasClass('showing')) {
@@ -50,9 +53,43 @@ $(document).ready(function() {
       setTimeout(function() {
         $('.showing').addClass('removed');
         $('._examples[data-kind=' + kind + ']').addClass('showing');
+        $('.train--row').addClass('showing');
+        if (lookupName(kind)) {
+          $('input.base--input._examples--input-name').val(lookupName(kind));
+          $('input.base--input._examples--input-name').prop('readonly', true);
+        } else {
+          $('input.base--input._examples--input-name').val("");
+          $('input.base--input._examples--input-name').prop('readonly', false);
+        }
         $('._container--bundle-form').addClass('active');
       }, 100);
     }
+  });
+
+  function enableTrainClassifier() {
+    var enable = $('.showing ._examples--class__selected._positive').length > 2;
+    enable = enable || ($('.showing ._examples--class__selected._positive').length > 0 && $('.showing ._examples--class__selected._negative').length === 1 );
+    enable = enable || $('.classifier[data-hasfile=1]').length > 1;
+
+    // the name has to be filled out, too
+    if (enable && $('.base--input._examples--input-name').val().length) {
+      $('.train--train-button.base--button').removeClass('disabled');
+      $('.train--train-button.base--button').prop('disabled', false);
+    } else {
+      $('.train--train-button.base--button').addClass('disabled');
+      $('.train--train-button.base--button').prop('disabled', true);
+    }
+  }
+
+  $('button[type=reset]').click(function() {
+    if ($('.showing div._examples--class__selected button').length > 0) {
+      $('.showing div._examples--class__selected button').click();
+    } else {
+      $('form.upload')[0].reset();
+      $('input.base--input._examples--input-name').val("");
+      $('input.base--input._examples--input-name').prop('readonly', false);
+    }
+    enableTrainClassifier();
   });
 
   $('._examples--class button').click(function() {
@@ -65,15 +102,7 @@ $(document).ready(function() {
     }
     $(this).parent().toggleClass('_examples--class__selected');
 
-    if ($('.showing ._examples--class__selected._positive').length > 2 ||
-      ($('.showing ._examples--class__selected._positive').length > 0 && $('.showing ._examples--class__selected._negative').length === 1 )
-     ) {
-      $('.train--train-button.base--button').removeClass('disabled');
-      $('.train--train-button.base--button').prop('disabled', false);
-    } else {
-      $('.train--train-button.base--button').addClass('disabled');
-      $('.train--train-button.base--button').prop('disabled', true);
-    }
+    enableTrainClassifier();
 
     if ($.map($('._examples--class[data-kind=' + $(this).parent().data('kind') + '] button'), function(item) { return $(item).text(); }).reduce(function(k, v) { return k || v === 'Select'; }, false)) {
       $('a.select_all').text('Select All');
@@ -113,12 +142,30 @@ $(document).ready(function() {
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
       var baseFileName = $(e.target)[0].files[0].name;
       nameInput.val(baseFileName.split('.')[0]);
+      $(e.target).parent().attr('data-hasfile',1);
+      console.log($(e.target).parent().attr('data-hasfile'));
     }
   });
 
-  $('.classifier a').on('click', function(e) {
+  $('.classifier a.clear_link').on('click', function(e) {
     e.preventDefault();
     $(e.target).parent().find('input').val("");
+    $(e.target).parent().attr('data-hasfile','0');
+    enableTrainClassifier();
+  });
+
+  $('input[type=text].base--input._examples--input-name').on('input', function() {
+    $('form.upload input[type=hidden][name=classifiername]').val($(this).val());
+    enableTrainClassifier();
+  });
+
+  $('form.upload.training_dropzone').on('change',function(e) {
+    enableTrainClassifier();
+  });
+
+  $('._examples--user-input').on('drop',function(e) {
+    e.preventDefault();
+
   });
 
   var $loading = $('.train--loading');
@@ -179,27 +226,23 @@ $(document).ready(function() {
     return classifierNameMapping;
   }
 
-  $trainButton.click(function() {
-    $trainInput.hide();
-    $loading.show();
-    $error.hide();
-
+  function uploadBundledClass() {
     var data = $('.showing div._examples--class__selected')
-    .map(function(idx, item) {
-      return {
-        name: $(item).data('name'),
-        realname: $(item).data('realname'),
-        kind: $(item).data('kind')
-      };
-    })
-    .toArray().reduce(function(k, v) {
-      k.bundles.push(v.name);
-      if (v.realname) {
-        k.names.push(v.realname);
-      }
-      k.kind = v.kind;
-      return k;
-    }, { bundles: [], names: []});
+        .map(function(idx, item) {
+          return {
+            name: $(item).data('name'),
+            realname: $(item).data('realname'),
+            kind: $(item).data('kind')
+          };
+        })
+        .toArray().reduce(function(k, v) {
+          k.bundles.push(v.name);
+          if (v.realname) {
+            k.names.push(v.realname);
+          }
+          k.kind = v.kind;
+          return k;
+        }, { bundles: [], names: []});
 
     data.name = lookupName(data.kind);
 
@@ -220,6 +263,39 @@ $(document).ready(function() {
       },
       error: showTrainingError
     });
+  }
+
+  function uploadUserClass() {
+    
+    $.ajax({
+      type: 'POST',
+      url: '/api/classifiers',
+      data: JSON.stringify(data),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      success: function(classifier) {
+        checkClassifier(classifier.classifier_id, function done() {
+          Cookies.set('bundle', data, { expires: nextHour()});
+          Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
+          Cookies.set('classifier', classifier, { expires: nextHour()});
+          resetPage();
+          window.location.href = '/test';
+        });
+      },
+      error: showTrainingError
+    });
+  }
+
+  $trainButton.click(function() {
+    $trainInput.hide();
+    $loading.show();
+    $error.hide();
+
+    if ($('.showing').data('kind') === 'user') {
+      uploadUserClass();
+    } else {
+      uploadBundledClass();
+    }
   });
 
   var classifierCheckPollInterval = 5000;
