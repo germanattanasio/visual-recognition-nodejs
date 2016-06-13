@@ -280,7 +280,7 @@ $(document).ready(function() {
       dataType: 'json',
       success: function(classifier) {
         checkClassifier(classifier.classifier_id, function done() {
-          Cookies.set('bundle', data, { expires: nextHour()});
+          Cookies.set('bundle', getExamplesData(), { expires: nextHour()});
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
