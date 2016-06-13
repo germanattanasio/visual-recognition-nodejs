@@ -276,7 +276,8 @@ $(document).ready(function() {
       type: 'POST',
       url: '/api/classifiers',
       data: form,
-      contentType: 'application/json; charset=utf-8',
+      contentType: false,
+      processData: false,
       dataType: 'json',
       success: function(classifier) {
         checkClassifier(classifier.classifier_id, function done() {
