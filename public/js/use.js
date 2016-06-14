@@ -312,6 +312,7 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Classes',
+          classes_raw: results.raw.classify,
           data: classes
         };
       })();
@@ -358,6 +359,7 @@ function setupUse(params) {
         return {
           resultCategory: 'Faces',
           identities: identities,
+          classes_raw: results.raw.detectFaces,
           data: faces
         };
       })();
@@ -378,6 +380,7 @@ function setupUse(params) {
         });
         return {
           resultCategory: 'Words',
+          classes_raw: results.raw.recognizeText,
           data: words
         };
       })();
@@ -386,6 +389,11 @@ function setupUse(params) {
         items: wordsModel
       }));
     }
+
+    $('a.json').on('click', function() {
+      var rawJsonData = $(this).parent().find('.json_raw').data('raw');
+      window.open('data:application/json,' + rawJsonData, '_blank');
+    });
 
     $(document).on('click', '.results-table--input-no', function() {
       $(this).parent().hide();
