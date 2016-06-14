@@ -42,28 +42,27 @@
             .classifier(data-hasfile=0)
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",name="classupload",accept="application/zip")
-              input(type="text",name="classname",placeholder="Name of This Class")
-              a(href="").clear_link Clear
+              input.base--input(type="text",name="classname",placeholder="Name of This Class")
+              a(href="").base--a.clear_link Clear
             .classifier(data-hasfile=0)
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",name="classupload",accept="application/zip")
-              input(type="text",name="classname",placeholder="Name of This Class")
-              a(href="").clear_link Clear
+              input.base--input(type="text",name="classname",placeholder="Name of This Class")
+              a(href="").base--a.clear_link Clear
             .classifier(data-hasfile=0)
               .text Select or drag a zipped folder with at least 50 images
               input(type="file",name="classupload",accept="application/zip")
-              input(type="text",name="classname",placeholder="Name of This Class")
-              a(href="").clear_link Clear
+              input.base--input(type="text",name="classname",placeholder="Name of This Class")
+              a(href="").base--a.clear_link Clear
         .seperator
         .negative
-          h2 Negative Classes
-          p.text &nbsp;
+          h2.negative-header Negative Classes
           .classifiers
             .classifier(data-hasfile=0).negative
               .text Select or drag a zipped folder with at least 50 images
               input(type="hidden",name="classname",value="negative")
               input(type="file",name="negativeclassupload",accept="application/zip")
-              a(href="").clear_link Clear
+              a(href="").base--a.clear_link Clear
               p Use images that may seem like the bundles but are different.
   ._examples(data-kind='dogs')
     a.select_all(data-kind='dogs') Select All

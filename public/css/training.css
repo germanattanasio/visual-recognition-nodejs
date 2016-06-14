@@ -22,9 +22,6 @@
     margin-bottom: 1rem;
     float: left;
     display: block;
-    padding: 1rem;
-    background-color: #f4f4f4;
-    border: 2px solid #ececec;
     -webkit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;
     -ms-transition: opacity 0.5s;
@@ -403,7 +400,8 @@ form.trained input[type=text] {
 form.upload {
     display: flex;
     flex-direction: row;
-
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 form.upload input[type=file] {
@@ -418,7 +416,7 @@ form.upload input[type=file] {
 
 .seperator {
     background-color: black;
-    margin-left: auto;
+    margin-left: 1rem;
     margin-right: 2rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -435,9 +433,20 @@ form.upload input[type=file] {
     flex-direction: column;
     max-width: 12rem;
     margin-top: 0px;
-    margin-left: 1rem;
     margin-right: 1rem;
     font-size: smaller;
+}
+
+.classifier .base--input {
+  border-color: #cfd2d2;
+}
+
+.classifier.negative {
+    margin: 0rem;
+}
+
+._container--training h2.negative-header {
+    height: 4.75rem;
 }
 
 .classifier .text {
