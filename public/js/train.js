@@ -276,7 +276,7 @@ $(document).ready(function() {
   function uploadUserClass() {
     var formElement = document.querySelector('form#user_upload');
     var form = new FormData(formElement);
-    var allFiles = form.getAll('classupload').concat(form.getAll('negativeclassupload'))
+    var allFiles = form.getAll('classupload').concat(form.getAll('negativeclassupload'));
     var classnames = form.getAll('classname').filter(function(item, idx) {
       return allFiles[idx].size > 0;
     });
