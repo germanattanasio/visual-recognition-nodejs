@@ -276,7 +276,11 @@ $(document).ready(function() {
   function uploadUserClass() {
     var formElement = document.querySelector('form#user_upload');
     var form = new FormData(formElement);
-    var data = { name: form.getAll('classifiername')[0], kind: 'user', names: form.getAll('classname') };
+    var allFiles = form.getAll('classupload').concat(form.getAll('negativeclassupload'))
+    var classnames = form.getAll('classname').filter(function(item, idx) {
+      return allFiles[idx].size > 0;
+    });
+    var data = { name: form.getAll('classifiername')[0], kind: 'user', names: classnames };
 
     $.ajax({
       type: 'POST',
