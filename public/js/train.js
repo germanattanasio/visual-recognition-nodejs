@@ -271,6 +271,7 @@ $(document).ready(function() {
   function uploadUserClass() {
     var formElement = document.querySelector('form#user_upload');
     var form = new FormData(formElement);
+    var data = { name: form.getAll('classifiername')[0], kind: 'user', names: form.getAll('classname') };
 
     $.ajax({
       type: 'POST',
@@ -281,7 +282,7 @@ $(document).ready(function() {
       dataType: 'json',
       success: function(classifier) {
         checkClassifier(classifier.classifier_id, function done() {
-          Cookies.set('bundle', getExamplesData(), { expires: nextHour()});
+          Cookies.set('bundle', data, { expires: nextHour()});
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();

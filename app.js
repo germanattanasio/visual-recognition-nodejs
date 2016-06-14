@@ -95,8 +95,22 @@ app.get('/test', function(req, res) {
  * @param req.body.bundles Array of selected bundles
  * @param req.body.kind The bundle kind
  */
-app.post('/api/classifiers', function(req, res) {
-  var formData = bundleUtils.createFormData(req.body);
+app.post('/api/classifiers', app.upload.fields([{ name: 'classupload', maxCount: 3 }, { name: 'negativeclassupload', maxCount: 1 }]), function(req, res) {
+  var formData;
+
+  if (!req.files) {
+    formData = bundleUtils.createFormData(req.body);
+  } else {
+    formData = { name: req.body.classifiername };
+    req.files.classupload.map(function(fileobj, idx) {
+      formData[req.body.classname[idx] + '_positive_examples'] = fs.createReadStream(fileobj.path);
+    });
+
+    if (req.files.negativeclassupload && req.files.negativeclassupload.length > 0) {
+      formData.negative_examples = fs.createReadStream(req.files.negativeclassupload[0].path);
+    }
+  }
+
   visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
     if (err) {
       console.log(err);
