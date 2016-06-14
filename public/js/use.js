@@ -273,7 +273,11 @@ function setupUse(params) {
   }
 
   function lookupInMap(mapToCheck, kind, token, defaultValue) {
-    var res = mapToCheck[kind][token];
+    if (!mapToCheck) {
+      return defaultValue;
+    }
+
+    var res = mapToCheck[kind] && mapToCheck[kind][token] ? mapToCheck[kind][token] : false;
     if (res) {
       return res;
     } else {
