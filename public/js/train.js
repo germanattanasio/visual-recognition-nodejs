@@ -144,6 +144,9 @@ $(document).ready(function() {
       nameInput.val(baseFileName.split('.')[0]);
       $(e.target).parent().attr('data-hasfile', 1);
       console.log($(e.target).parent().attr('data-hasfile'));
+
+      $(e.target).parent().find('.text-label').hide();
+      $(e.target).parent().find('.text-zip-image').css('display', 'block');
     }
   });
 
@@ -151,6 +154,8 @@ $(document).ready(function() {
     e.preventDefault();
     $(e.target).parent().find('input').val('');
     $(e.target).parent().attr('data-hasfile', '0');
+    $(e.target).parent().find('.text').find('.text-label').show();
+    $(e.target).parent().find('.text').find('.text-zip-image').hide();
     enableTrainClassifier();
   });
 

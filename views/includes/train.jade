@@ -40,17 +40,23 @@
           p.text Upload your own images in zipped folders to the spaces below.
           .classifiers
             .classifier(data-hasfile=0)
-              .text Select or drag a zipped folder with at least 50 images
+              .text
+                span.text-label Select or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
             .classifier(data-hasfile=0)
-              .text Select or drag a zipped folder with at least 50 images
+              .text
+                span.text-label Select or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
             .classifier(data-hasfile=0)
-              .text Select or drag a zipped folder with at least 50 images
+              .text
+                span.text-label Select or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
@@ -59,7 +65,9 @@
           h2.negative-header Negative Classes
           .classifiers
             .classifier(data-hasfile=0).negative
-              .text Select or drag a zipped folder with at least 50 images
+              .text
+                span.text-label Select or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
               input(type="hidden",name="classname",value="negative")
               input(type="file",name="negativeclassupload",accept="application/zip")
               a(href="").base--a.clear_link Clear

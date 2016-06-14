@@ -446,12 +446,37 @@ form.upload input[type=file] {
 }
 
 ._container--training h2.negative-header {
-    height: 4.75rem;
+  height: 6.25rem;
+}
+
+@media (min-width: 600px) {
+  ._container--training h2.negative-header {
+      height: 6.25rem;
+  }
+}
+
+@media (min-width: 674px) {
+  ._container--training h2.negative-header {
+      height: 4.75rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  ._container--training h2.negative-header {
+      height: 4.75rem;
+  }
 }
 
 .classifier .text {
     border: 2px dashed black;
     padding: 1rem;
+    cursor: pointer;
+}
+
+.classifier .text-zip-image {
+  display: none;
+  width: 6rem;
+  margin: auto;
 }
 
 .classifiers:first-child {
