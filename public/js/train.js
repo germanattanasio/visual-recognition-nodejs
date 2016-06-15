@@ -20,7 +20,7 @@
 
 var setupUse = require('./use.js');
 var nextHour = require('./demo.js').nextHour;
-var currentPage = require('./demo.js').currentPage;
+// var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
   $('._training--example').click(function() {
