@@ -28,7 +28,7 @@
     -o-transition: opacity 0.5s;
     transition: opacity 0.5s;
 }
-._training--example:nth-of-type(2) {
+._training--example:nth-of-type(2n) {
   margin-right: 0rem;
 }
 @media (min-width: 600px) {
@@ -36,7 +36,7 @@
     width: calc(20% - 0.8rem);
     margin-right: 1rem;
   }
-  ._training--example:nth-of-type(2) {
+  ._training--example:nth-of-type(2n) {
     margin-right: 1rem;
   }
 }
@@ -77,6 +77,16 @@
   font-weight: lighter;
   color: #3a5274;
   line-height: 0.8;
+}
+
+[data-kind="user"] {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  [data-kind="user"] {
+    display: block;
+  }
 }
 
 ._examples--user-input {
@@ -400,10 +410,22 @@ form.trained input[type=text] {
 }
 
 form.upload {
+  display: none;
+  flex-direction: column;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 600px) {
+  form.upload {
     display: flex;
-    flex-direction: row;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  form.upload {
+      flex-direction: row;
+  }
 }
 
 form.upload input[type=file] {
@@ -413,16 +435,26 @@ form.upload input[type=file] {
 .positive, .negative, .seperator {
     display: flex;
     flex-direction: column;
-    margin-top: 0px;
+    margin-top: 1rem;
 }
 
 .seperator {
+    display: none;
     background-color: black;
     margin-left: 1rem;
     margin-right: 2rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
     width: 1px;
+}
+
+@media (min-width: 1200px) {
+  .seperator {
+    display: flex;
+  }
+  .negative {
+    margin-top: 0rem;
+  }
 }
 
 .classifiers {
@@ -449,18 +481,18 @@ form.upload input[type=file] {
 }
 
 ._container--training h2.negative-header {
-  height: 6.25rem;
+  height: auto;
 }
 
 @media (min-width: 600px) {
   ._container--training h2.negative-header {
-      height: 6.25rem;
+
   }
 }
 
 @media (min-width: 674px) {
   ._container--training h2.negative-header {
-      height: 4.75rem;
+
   }
 }
 
