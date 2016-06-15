@@ -212,6 +212,7 @@ img {
     width: 3vw;
     margin: 1em;
     display: flex;
+    transition: 0.2s;
 }
 
 button {
@@ -223,13 +224,14 @@ button {
     width: 100%;
     font-weight: normal;
     font-style: normal;
-    padding: 0.5em;
+    padding: 0.2em 0em;
     transition: 0.2s;
 }
 
 ._examples--class__selected button {
-    background-color: lightgrey;
+    background-color: transparent;
     color: #2f6fad;
+    box-shadow: 0px 0px 0px 2px #336588;
 }
 
 ._training--form {
@@ -247,7 +249,7 @@ button {
 
 ._examples--contact-sheet img {
   width: auto;
-  margin: auto;
+  transition: 0.2s;
 }
 
 ._container--bundle-form {
@@ -468,7 +470,7 @@ form.upload input[type=file] {
 }
 
 .classifier .text {
-    border: 2px dashed black;
+    border: 2px dashed #336588;
     padding: 1rem;
     cursor: pointer;
 }
