@@ -338,7 +338,7 @@ $(document).ready(function() {
   }
 
   setupUse({ panel: 'use' });
-  setupUse({ panel: 'test'});
+  setupUse({ panel: 'test' });
 
   function showTestPanel() {
     console.log('showing test');

@@ -549,3 +549,19 @@ form.upload input[type=file] {
 .test--form {
   display: block;
 }
+
+.test--url-input {
+  width: 20rem;
+}
+
+.test--file-input-button {
+  width: 20rem;
+}
+
+.test--output-row {
+  margin-top: 4rem;
+}
+.test--description {
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
