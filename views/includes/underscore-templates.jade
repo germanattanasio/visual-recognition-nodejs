@@ -15,38 +15,6 @@ script(type='text/html', id='trainPreviewImagesTemplate').
     </div>
   <% });%>
 
-//- script(type='text/html', id='useResultsTableTemplate').
-//-   <thead class="base--thead">
-//-     <tr class="base--tr">
-//-       <td class="base--td">
-//-         <div class="use--results-header-<%= items.resultCategory.toLowerCase() %>">
-//-           <h3 class="base--h3"><%= items.resultCategory %></h3>
-//-           <div class="tooltip use--tooltip-<%= items.resultCategory.toLowerCase() %>"><%= items.tooltipText %></div>
-//-         </div>
-//-       </td>
-//-       <td class="base--td">
-//-         <div class="use--results-header-score">
-//-           <h3 class="base--h3">Score</h3>
-//-           <div class="tooltip use--tooltip-score">The score measures correlation, ranging from 0 to 1. Higher scores indicate greater correlation.</div>
-//-         </div>
-//-       </td>
-//-     </tr>
-//-   </thead>
-//-   <tbody class="base--tbody">
-//-     <% _.each(items.data, function(item, key, list) { %>
-//-       <tr class="base--tr">
-//-         <td class="base--td"><%= item.name %></td>
-//-         <td class="base--td"><%= item.score %></td>
-//-       </tr>
-//-   <% });%>
-//-   <% _.each(items.data, function(item, key, list) { %>
-//-   <% if (item.type_hierarchy && item.type_hierarchy.length > 0) { %>
-//-     <tr class="base--tr">
-//-       <td class="base--td" colspan="2">Type Hierarchy: <%= item.type_hierarchy %></td>
-//-     </tr>
-//-   <% }});%>
-//-   </tbody>
-
 script(type='text/html', id='useResultsTableTemplate').
   <div class="results-table--container">
     <div class="results--json">
