@@ -354,4 +354,8 @@ $(document).ready(function() {
       $('.tab-panels--tab[href="/train"]').trigger('click');
     }
   }
+
+  setTimeout(function() {
+    $('.train--trained-successfully').removeClass('showing');
+  }, 3000);
 });

@@ -484,3 +484,31 @@ form.upload input[type=file] {
 .classifiers:first-child {
     margin-right: 0px;
 }
+
+.train--trained-successfully {
+  background-color: #336588;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+  transition: 0.2s;
+  height: 0rem;
+  padding: 0rem;
+}
+
+.train--trained-successfully.showing {
+  height: 4.85rem;
+  padding: 1rem 0rem;
+}
+
+.train--trained-successfully img {
+  width: 3rem;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 1rem;
+  margin-top: -0.75rem;
+}
+
+.train--trained-successfully-text {
+  display: inline-block;
+  margin-top: 1rem;
+}
