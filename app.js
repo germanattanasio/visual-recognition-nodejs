@@ -23,7 +23,6 @@ var extend = require('extend');
 var path = require('path');
 var async = require('async');
 var validator = require('validator');
-var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
@@ -154,6 +153,24 @@ app.get('/api/classifiers/:classifier_id', function(req, res) {
   });});
 
 /**
+ * Parse a base 64 image and return the extension and buffer
+ * @param  {String} imageString The image data as base65 string
+ * @return {Object}             { type: String, data: Buffer }
+ */
+function parseBase64Image(imageString) {
+  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
+  var resource = {};
+
+  if (matches.length !== 3) {
+    return null;
+  }
+
+  resource.type = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+  resource.data = new Buffer(matches[2], 'base64');
+  return resource;
+}
+
+/**
  * Classifies an image
  * @param req.body.url The URL for an image either.
  *                     images/test.jpg or https://example.com/test.jpg
@@ -169,8 +186,9 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     params.images_file = fs.createReadStream(req.file.path);
   } else if (req.body.url && req.body.url.indexOf('images') === 0) { // local image
     params.images_file = fs.createReadStream(path.join('public', req.body.url));
-  } else if (req.body.image_data) {  // write the base64 image to a temp file
-    var resource = zipUtils.parseBase64Image(req.body.image_data);
+  } else if (req.body.image_data) {
+    // write the base64 image to a temp file
+    var resource = parseBase64Image(req.body.image_data);
     var temp = path.join(os.tmpdir(), uuid.v1() + '.' + resource.type);
     fs.writeFileSync(temp, resource.data);
     params.images_file = fs.createReadStream(temp);
