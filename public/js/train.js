@@ -344,15 +344,9 @@ $(document).ready(function() {
   setupUse({ panel: 'test'});
 
   var classifier = Cookies.get('classifier');
-  // enable test if there is trained classifier
+
   if (classifier) {
-    $('.tab-panels--tab[href="/test"]').removeClass('disabled');
-  }
-  // send the user to train if they hit /test without a trained classifier
-  if (currentPage() === '/test') {
-    if (!classifier) {
-      $('.tab-panels--tab[href="/train"]').trigger('click');
-    }
+    console.log('show the test UI');
   }
 
   setTimeout(function() {
