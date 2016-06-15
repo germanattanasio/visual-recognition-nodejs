@@ -545,3 +545,7 @@ form.upload input[type=file] {
   display: inline-block;
   margin-top: 1rem;
 }
+
+.test--form {
+  display: block;
+}
