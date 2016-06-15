@@ -187,7 +187,6 @@ $(document).ready(function() {
   var $trainInput = $('._container--training');
 
   function resetPage() {
-    $trainInput.show();
     $loading.hide();
     $error.hide();
   }
@@ -274,7 +273,7 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          window.location.href = '/test';
+          showTestPanel();
         });
       },
       error: showTrainingError
@@ -303,7 +302,7 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          window.location.href = '/test';
+          showTestPanel();
         });
       },
       error: showTrainingError
@@ -311,7 +310,6 @@ $(document).ready(function() {
   }
 
   $trainButton.click(function() {
-    $trainInput.hide();
     $loading.show();
     $error.hide();
 
@@ -339,17 +337,17 @@ $(document).ready(function() {
     .fail(showTrainingError);
   }
 
-  // init pages
   setupUse({ panel: 'use' });
   setupUse({ panel: 'test'});
 
-  var classifier = Cookies.get('classifier');
-
-  if (classifier) {
-    console.log('show the test UI');
+  function showTestPanel() {
+    console.log('showing test');
+    $('.test--section').show();
   }
 
-  setTimeout(function() {
-    $('.train--trained-successfully').removeClass('showing');
-  }, 3000);
+  var classifier = Cookies.get('classifier');
+  if (classifier) {
+    console.log('show the test UI');
+    showTestPanel();
+  }
 });
