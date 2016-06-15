@@ -20,11 +20,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var multer = require('multer');
-var findRemoveSync = require('find-remove');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var expressBrowserify = require('express-browserify');
+var os = require('os');
 
 module.exports = function(app) {
   // Configure Express
@@ -55,7 +55,7 @@ module.exports = function(app) {
   // Setup the upload mechanism
   var storage = multer.diskStorage({
     destination: function(req, file, cb) {
-      cb(null, './uploads/');
+      cb(null, os.tmpdir());
     },
     filename: function(req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname);
@@ -66,13 +66,6 @@ module.exports = function(app) {
     storage: storage
   });
   app.upload = upload;
-  // Remove files older than 1 hour every hour.
-  setInterval(function() {
-    var removed = findRemoveSync(path.join(__dirname, '..', 'uploads'), { age: { seconds: 3600 } });
-    if (removed.length > 0) {
-      console.log('removed:', removed);
-    }
-  }, 3600000);
 
   // When running in Bluemix add rate-limitation
   // and some other features around security
