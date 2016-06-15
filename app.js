@@ -27,6 +27,7 @@ var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
+var os = require('os');
 
 var ONE_HOUR = 3600000;
 
@@ -90,6 +91,15 @@ app.get('/test', function(req, res) {
   });
 });
 
+
+function deleteUploadedFile(readStream) {
+  fs.unlink(readStream.path, function(e) {
+    if (e) {
+      console.log('error deleting %s: %s', readStream.path, e);
+    }
+  });
+}
+
 /**
  * Creates a classifier
  * @param req.body.bundles Array of selected bundles
@@ -103,16 +113,23 @@ app.post('/api/classifiers', app.upload.fields([{ name: 'classupload', maxCount:
   } else {
     formData = { name: req.body.classifiername };
     req.files.classupload.map(function(fileobj, idx) {
-      formData[req.body.classname[idx] + '_positive_examples'] = fs.createReadStream(fileobj.destination + fileobj.filename);
+      formData[req.body.classname[idx] + '_positive_examples'] = fs.createReadStream(path.join(fileobj.destination, fileobj.filename));
     });
 
     if (req.files.negativeclassupload && req.files.negativeclassupload.length > 0) {
-      var negpath = req.files.negativeclassupload[0].destination + req.files.negativeclassupload[0].filename;
+      var negpath = path.join(req.files.negativeclassupload[0].destination, req.files.negativeclassupload[0].filename);
       formData.negative_examples = fs.createReadStream(negpath);
     }
   }
 
   visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
+    if (req.files) {
+      req.files.classupload.map(deleteUploadedFile);
+      if (req.files.negativeclassupload) {
+        req.files.negativeclassupload.map(deleteUploadedFile);
+      }
+    }
+
     if (err) {
       console.log(err);
       return res.status(err.code || 500).json(err);
@@ -154,7 +171,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     params.images_file = fs.createReadStream(path.join('public', req.body.url));
   } else if (req.body.image_data) {  // write the base64 image to a temp file
     var resource = zipUtils.parseBase64Image(req.body.image_data);
-    var temp = path.join(__dirname, 'uploads', uuid.v1() + '.' + resource.type);
+    var temp = path.join(os.tmpdir(), uuid.v1() + '.' + resource.type);
     fs.writeFileSync(temp, resource.data);
     params.images_file = fs.createReadStream(temp);
   } else if (req.body.url && validator.isURL(req.body.url)) { // url
@@ -184,11 +201,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   }), function(err, results) {
     // delete the recognized file
     if (params.images_file && !req.body.url) {
-      try {
-        fs.unlink(params.images_file.path);
-      } catch (e) {
-        console.log('error deleting the file', e);
-      }
+      deleteUploadedFile(params.images_file);
     }
 
     if (err) {

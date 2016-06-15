@@ -71,7 +71,7 @@ function archiveImage(archive, image) {
  */
 module.exports.zipImages = function(images, callback) {
   try {
-    var zipFile = path.join(__dirname, '../uploads/training-' + uuid.v1() + '.zip');
+    var zipFile = path.join(os.tmpdir(), 'training-' + uuid.v1() + '.vr.zip');
 
     var archive = archiver('zip');
     archive.on('error', callback);

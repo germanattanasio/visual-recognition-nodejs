@@ -51,7 +51,6 @@
     "express-browserify": "^1.0.2",
     "express-rate-limit": "^2.3.1",
     "extend": "^3.0.0",
-    "find-remove": "^0.2.11",
     "helmet": "^2.1.0",
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
