@@ -40,7 +40,6 @@
     "codecov": "npm run test && (codecov || true)"
   },
   "dependencies": {
-    "archiver": "^1.0.0",
     "async": "^2.0.0-rc.5",
     "body-parser": "^1.15.1",
     "cf-deployment-tracker-client": "0.0.8",
@@ -51,7 +50,6 @@
     "express-browserify": "^1.0.2",
     "express-rate-limit": "^2.3.1",
     "extend": "^3.0.0",
-    "find-remove": "^0.2.11",
     "helmet": "^2.1.0",
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
