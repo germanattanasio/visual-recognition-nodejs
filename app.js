@@ -103,11 +103,12 @@ app.post('/api/classifiers', app.upload.fields([{ name: 'classupload', maxCount:
   } else {
     formData = { name: req.body.classifiername };
     req.files.classupload.map(function(fileobj, idx) {
-      formData[req.body.classname[idx] + '_positive_examples'] = fs.createReadStream(fileobj.path);
+      formData[req.body.classname[idx] + '_positive_examples'] = fs.createReadStream(fileobj.destination + fileobj.filename);
     });
 
     if (req.files.negativeclassupload && req.files.negativeclassupload.length > 0) {
-      formData.negative_examples = fs.createReadStream(req.files.negativeclassupload[0].path);
+      var negpath = req.files.negativeclassupload[0].destination + req.files.negativeclassupload[0].filename;
+      formData.negative_examples = fs.createReadStream(negpath);
     }
   }
 
