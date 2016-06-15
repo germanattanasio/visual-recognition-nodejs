@@ -565,3 +565,7 @@ form.upload input[type=file] {
   margin-bottom: 2rem;
   margin-top: 1rem;
 }
+
+.test--section {
+  display: none;
+}

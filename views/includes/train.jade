@@ -1,13 +1,6 @@
 .train--trained-successfully.showing
   img(src="images/watson-logo-white.svg", alt="watson logo")
   .train--trained-successfully-text Your classifier has been trained successfully.
-.loading.train--loading
-  img.loading--image(src='images/loading-indicator.gif')
-  p.base--p.loading--message Watson is training your new classifier. 
-  p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
-.error.train--error
-  img.train--error-image.error--image(src='images/icons/alert.svg')
-  p.base--p.train--error-message.error--message Visual Recognition is not available right now...
 ._container--training
   h1.base--h2.use--header Train a demo classifier
   div
@@ -192,3 +185,11 @@
         span.icon.icon-reset
         button.base--a.icon-hyperlink--button.icon-hyperlink--button_BLANK(type='reset')
           | Reset
+
+.loading.train--loading
+  img.loading--image(src='images/loading-indicator.gif')
+  p.base--p.loading--message Watson is training your new classifier. 
+  p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
+.error.train--error
+  img.train--error-image.error--image(src='images/icons/alert.svg')
+  p.base--p.train--error-message.error--message Visual Recognition is not available right now...

@@ -184,7 +184,7 @@ $(document).ready(function() {
   var $error = $('.train--error');
   var $errorMsg = $('.train--error-message');
   var $trainButton = $('.train--train-button');
-  var $trainInput = $('._container--training');
+  var $testSection = $('.test--section');
 
   function resetPage() {
     $loading.hide();
@@ -193,7 +193,6 @@ $(document).ready(function() {
 
   function showTrainingError(err) {
     $loading.hide();
-    $trainInput.hide();
     $error.show();
     var message = 'Error creating the classifier';
     if (err.responseJSON) {
@@ -342,7 +341,7 @@ $(document).ready(function() {
 
   function showTestPanel() {
     console.log('showing test');
-    $('.test--section').show();
+    $testSection.show();
   }
 
   var classifier = Cookies.get('classifier');
