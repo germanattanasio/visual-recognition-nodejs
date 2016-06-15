@@ -341,7 +341,7 @@ $(document).ready(function() {
 
   // init pages
   setupUse({ panel: 'use' });
-  setupUse({ panel: 'test'});
+  setupUse({ panel: 'test' });
 
   var classifier = Cookies.get('classifier');
 

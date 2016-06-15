@@ -1,13 +1,20 @@
 .test--section
   h2.base--h2.test--classifier [Some Classifier]
-  p.base--p Test your newly trained demo classifier with a similar image that was not in the training set.
+  p.base--p.test--description Test your newly trained demo classifier with a similar image that was not in the training set.
   a.base--a.test--random-test-image(href="javascript:void(0)") Use a random Dog Breed image
 
   form(id='test--fileupload', class='test--form test--dropzone', data-upload-template-id='template-upload-test')
-    input.base--input(type='text', placeholder='Or paste an image URL')
+    input.base--input.test--url-input(type='text', placeholder='Or paste an image URL')
     div(class='test--dropzone')
       label(class='test--file-input-button base--button', for='test--file')
-        div(class='test--file-input-button-big-plus') +
-        span.base--a Select
+        div(class='test--file-input-button-big-plus')
+        | Or 
+        span.base--a select
         |  or drag your own image
       input(id='test--file', class='test--file-input', type='file', name='images_file', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+  
+  .test--output-row
+    .test--output-left
+      .test--output-image-container
+        img.test--output-image.landscape(src='images/bundles/dogs/test/0.jpg')
+    .test--output-right.test--output-data
