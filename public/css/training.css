@@ -434,6 +434,7 @@ form.upload input[type=file] {
     display: flex;
     flex-direction: column;
     max-width: 12rem;
+    width: 12rem;
     margin-top: 0px;
     margin-right: 1rem;
     font-size: smaller;
