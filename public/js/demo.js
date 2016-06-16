@@ -113,7 +113,7 @@ module.exports.getAndParseCookieName = function getAndParseCookieName(cookieName
   } else {
     return defaultValue;
   }
-}
+};
 
 /**
  * Returns the current page
