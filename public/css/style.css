@@ -1135,6 +1135,7 @@ pre[class*=" language-"] {
     margin-left: -1rem;
     width: calc(100% + 2rem);
     position: absolute;
+    z-index: 100;
     background-color: #e5e5e6;
     text-align: center;
     border: none; }
