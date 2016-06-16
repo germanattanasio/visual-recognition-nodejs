@@ -19,7 +19,8 @@
 
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
-
+var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+var getRandomInt = require('./demo.js').getRandomInt;
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
@@ -194,6 +195,16 @@ function setupUse(params) {
   });
 
   /*
+   * Random image submission
+   */
+  $('.test--random-test-image').click(function() {
+    console.log('clicked');
+    resetPasteUrl();
+    classifyImage('images/samples/' + getRandomInt(0, 5) + '.jpg');
+    $urlInput.val('');
+  });
+
+  /*
    * Image url submission
    */
   $urlInput.keypress(function(e) {
@@ -280,15 +291,6 @@ function setupUse(params) {
     var res = mapToCheck[kind] && mapToCheck[kind][token] ? mapToCheck[kind][token] : false;
     if (res) {
       return res;
-    } else {
-      return defaultValue;
-    }
-  }
-
-  function getAndParseCookieName(cookieName, defaultValue) {
-    var res = Cookies.get(cookieName);
-    if (res) {
-      return JSON.parse(res);
     } else {
       return defaultValue;
     }

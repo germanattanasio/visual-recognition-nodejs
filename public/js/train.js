@@ -20,6 +20,8 @@
 
 var setupUse = require('./use.js');
 var nextHour = require('./demo.js').nextHour;
+var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+
 // var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
@@ -301,7 +303,11 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          showTestPanel();
+          $('.train--trained-successfully').addClass('showing');
+          setTimeout(function() {
+            $('.train--trained-successfully').removeClass('showing');
+          }, 3000);
+          showTestPanel(classifier);
         });
       },
       error: showTrainingError
@@ -339,14 +345,16 @@ $(document).ready(function() {
   setupUse({ panel: 'use' });
   setupUse({ panel: 'test' });
 
-  function showTestPanel() {
+  function showTestPanel(classifier) {
+    // TODO: send classifier-id
+    $('#classifier_id').val(classifier.classifier_id);
     console.log('showing test');
     $testSection.show();
   }
 
-  var classifier = Cookies.get('classifier');
+  var classifier = getAndParseCookieName('classifier');
   if (classifier) {
     console.log('show the test UI');
-    showTestPanel();
+    showTestPanel(classifier);
   }
 });

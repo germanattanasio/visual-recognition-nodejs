@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
- /* global $:false */
+ /* global _, Cookies, _ */
 'use strict';
 
 /**
@@ -25,6 +24,17 @@ module.exports.nextHour = function nextHour() {
   var oneHour = new Date();
   oneHour.setHours(oneHour.getHours() + 1);
   return oneHour;
+};
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ * @param {Number} min The minium value
+ * @param {Number} max The maximum value
+ * @return {Number} random number
+ */
+module.exports.getRandomInt = function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 /**
@@ -95,6 +105,15 @@ module.exports.scrollToElement = function scrollToElement(element) {
     scrollTop: element.offset().top
   }, 300);
 };
+
+module.exports.getAndParseCookieName = function getAndParseCookieName(cookieName, defaultValue) {
+  var res = Cookies.get(cookieName);
+  if (res) {
+    return JSON.parse(res);
+  } else {
+    return defaultValue;
+  }
+}
 
 /**
  * Returns the current page
