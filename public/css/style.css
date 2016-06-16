@@ -1133,7 +1133,7 @@ pre[class*=" language-"] {
       padding: 0rem 1rem 1rem; } }
   .tab-views--tab-list {
     margin-left: -1rem;
-    width: calc(100% + 2rem);
+    width: 100%;
     position: absolute;
     z-index: 100;
     background-color: #e5e5e6;

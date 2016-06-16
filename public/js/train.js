@@ -276,15 +276,19 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          $('.train--trained-successfully').addClass('showing');
-          setTimeout(function() {
-            $('.train--trained-successfully').removeClass('showing');
-          }, 3000);
+          flashTrainedClassifer();
           showTestPanel(classifier);
         });
       },
       error: showTrainingError
     });
+  }
+
+  function flashTrainedClassifer() {
+    $('.train--trained-successfully').addClass('showing');
+    setTimeout(function() {
+      $('.train--trained-successfully').removeClass('showing');
+    }, 3000);
   }
 
   function uploadUserClass() {
@@ -309,10 +313,7 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          $('.train--trained-successfully').addClass('showing');
-          setTimeout(function() {
-            $('.train--trained-successfully').removeClass('showing');
-          }, 3000);
+          flashTrainedClassifer();
           showTestPanel(classifier);
         });
       },
