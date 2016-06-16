@@ -406,10 +406,12 @@ form.trained input[type=text] {
   color: #aeaeae; }
 
 .user-submitted {
-    background-color: #f3f3f3;
+  background-color: #f3f3f3;
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
 }
 
-form.upload {
+form.upload ._demo--container {
   display: none;
   flex-direction: column;
   padding-top: 2rem;
@@ -417,13 +419,13 @@ form.upload {
 }
 
 @media (min-width: 600px) {
-  form.upload {
+  form.upload ._demo--container {
     display: flex;
   }
 }
 
 @media (min-width: 1200px) {
-  form.upload {
+  form.upload ._demo--container {
       flex-direction: row;
   }
 }
@@ -480,24 +482,24 @@ form.upload input[type=file] {
     margin: 0rem;
 }
 
-._container--training h2.negative-header {
+.training_dropzone h2.negative-header {
   height: auto;
 }
 
 @media (min-width: 600px) {
-  ._container--training h2.negative-header {
+  .training_dropzone h2.negative-header {
 
   }
 }
 
 @media (min-width: 674px) {
-  ._container--training h2.negative-header {
+  .training_dropzone h2.negative-header {
 
   }
 }
 
 @media (min-width: 1200px) {
-  ._container--training h2.negative-header {
+  .training_dropzone h2.negative-header {
       height: 4.75rem;
   }
 }
@@ -526,6 +528,8 @@ form.upload input[type=file] {
   transition: 0.2s;
   height: 0rem;
   padding: 0rem;
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
 }
 
 .train--trained-successfully.showing {
@@ -544,4 +548,32 @@ form.upload input[type=file] {
 .train--trained-successfully-text {
   display: inline-block;
   margin-top: 1rem;
+}
+
+.clear_link {
+  display: none;
+}
+
+.test--form {
+  display: block;
+}
+
+.test--url-input {
+  width: 20rem;
+}
+
+.test--file-input-button {
+  width: 20rem;
+}
+
+.test--output-row {
+  margin-top: 4rem;
+}
+.test--description {
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+.test--section {
+  display: none;
 }

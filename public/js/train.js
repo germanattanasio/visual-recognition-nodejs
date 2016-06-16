@@ -20,7 +20,9 @@
 
 var setupUse = require('./use.js');
 var nextHour = require('./demo.js').nextHour;
-var currentPage = require('./demo.js').currentPage;
+var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+
+// var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
   $('._training--example').click(function() {
@@ -151,10 +153,9 @@ $(document).ready(function() {
       var baseFileName = $(e.target)[0].files[0].name;
       nameInput.val(baseFileName.split('.')[0]);
       $(e.target).parent().attr('data-hasfile', 1);
-      console.log($(e.target).parent().attr('data-hasfile'));
-
       $(e.target).parent().find('.text-label').hide();
       $(e.target).parent().find('.text-zip-image').css('display', 'block');
+      $(e.target).parent().find('.clear_link').show();
     }
   });
 
@@ -164,6 +165,7 @@ $(document).ready(function() {
     $(e.target).parent().attr('data-hasfile', '0');
     $(e.target).parent().find('.text').find('.text-label').show();
     $(e.target).parent().find('.text').find('.text-zip-image').hide();
+    $(e.target).parent().find('.clear_link').hide();
     enableTrainClassifier();
   });
 
@@ -184,17 +186,15 @@ $(document).ready(function() {
   var $error = $('.train--error');
   var $errorMsg = $('.train--error-message');
   var $trainButton = $('.train--train-button');
-  var $trainInput = $('._container--training');
+  var $testSection = $('.test--section');
 
   function resetPage() {
-    $trainInput.show();
     $loading.hide();
     $error.hide();
   }
 
   function showTrainingError(err) {
     $loading.hide();
-    $trainInput.hide();
     $error.show();
     var message = 'Error creating the classifier';
     if (err.responseJSON) {
@@ -274,11 +274,19 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          window.location.href = '/test';
+          flashTrainedClassifer();
+          showTestPanel(classifier);
         });
       },
       error: showTrainingError
     });
+  }
+
+  function flashTrainedClassifer() {
+    $('.train--trained-successfully').addClass('showing');
+    setTimeout(function() {
+      $('.train--trained-successfully').removeClass('showing');
+    }, 3000);
   }
 
   function uploadUserClass() {
@@ -303,7 +311,8 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          window.location.href = '/test';
+          flashTrainedClassifer();
+          showTestPanel(classifier);
         });
       },
       error: showTrainingError
@@ -311,7 +320,6 @@ $(document).ready(function() {
   }
 
   $trainButton.click(function() {
-    $trainInput.hide();
     $loading.show();
     $error.hide();
 
@@ -329,7 +337,7 @@ $(document).ready(function() {
     $.get('/api/classifiers/' + classifierId)
     .success(function(data) {
       if (data.status === 'ready') {
-        done(classifier);
+        done(data);
       } else if (data.status === 'failed') {
         showTrainingError();
       } else {
@@ -339,23 +347,18 @@ $(document).ready(function() {
     .fail(showTrainingError);
   }
 
-  // init pages
   setupUse({ panel: 'use' });
-  setupUse({ panel: 'test'});
+  setupUse({ panel: 'test' });
 
-  var classifier = Cookies.get('classifier');
-  // enable test if there is trained classifier
+  function showTestPanel(classifier) {
+    // TODO: send classifier-id
+    $('#test_classifier_id').val(classifier.classifier_id);
+    $('.base--h2.test--classifier').text(classifier.name);
+    $testSection.show();
+  }
+
+  var classifier = getAndParseCookieName('classifier');
   if (classifier) {
-    $('.tab-panels--tab[href="/test"]').removeClass('disabled');
+    showTestPanel(classifier);
   }
-  // send the user to train if they hit /test without a trained classifier
-  if (currentPage() === '/test') {
-    if (!classifier) {
-      $('.tab-panels--tab[href="/train"]').trigger('click');
-    }
-  }
-
-  setTimeout(function() {
-    $('.train--trained-successfully').removeClass('showing');
-  }, 3000);
 });

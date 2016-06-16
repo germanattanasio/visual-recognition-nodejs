@@ -19,7 +19,8 @@
 
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
-
+var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+var getRandomInt = require('./demo.js').getRandomInt;
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
@@ -59,6 +60,7 @@ function setupUse(params) {
   var $fileupload = $(pid + 'fileupload');
   var $outputData = $(pclass + 'output-data');
   var $boxes = $('.boxes');
+  var $randomImage = $(pclass + 'random-test-image');
 
   /*
    * Resets the panel
@@ -186,10 +188,20 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
-    console.log('clicked');
     resetPasteUrl();
     var imgPath = $(this).next('label').find('img').attr('src');
     classifyImage(imgPath);
+    $urlInput.val('');
+  });
+
+  /*
+   * Random image submission
+   */
+  $randomImage.click(function() {
+    resetPasteUrl();
+    var kind = getAndParseCookieName('bundle').kind;
+    var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
+    classifyImage('images' + path +  getRandomInt(0, 5) + '.jpg');
     $urlInput.val('');
   });
 
@@ -285,15 +297,6 @@ function setupUse(params) {
     }
   }
 
-  function getAndParseCookieName(cookieName, defaultValue) {
-    var res = Cookies.get(cookieName);
-    if (res) {
-      return JSON.parse(res);
-    } else {
-      return defaultValue;
-    }
-  }
-
   // need to add on resize event listener for faces
   // need to offset and position itself and scale properly with physical image location
   // need to calculate ratio of image
@@ -311,8 +314,6 @@ function setupUse(params) {
         return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
       });
 
-      console.log(faceLocations);
-
       $boxes.append(_.template(imageBoxes_template, {
         items: faceLocations
       }));
@@ -325,28 +326,22 @@ function setupUse(params) {
         return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
       });
 
-      console.log(locations);
-
       $boxes.append(_.template(imageBoxes_template, {
         items: locations
       }));
     }
-
-    console.log(results.images[0].words);
   }
 
   function transformBoxLocations(faceLocation, image) {
     var newFaceLocation = faceLocation;
     var ratio = image.getBoundingClientRect().width / image.naturalWidth;
     var coordinates = getCoords(image);
-    console.log(image.getBoundingClientRect());
     newFaceLocation = {
       width: faceLocation.width * ratio,
       height: faceLocation.height * ratio,
       top: coordinates.top + faceLocation.top * ratio,
       left: coordinates.left + faceLocation.left * ratio
     };
-    console.log(image.getBoundingClientRect(), ratio, image.getBoundingClientRect().width, faceLocation.width);
     return newFaceLocation;
   }
 
