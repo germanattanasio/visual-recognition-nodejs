@@ -1,3 +1,6 @@
+.train--trained-successfully.showing
+  img(src="images/watson-logo-white.svg", alt="watson logo")
+  .train--trained-successfully-text Your classifier has been trained successfully.
 .test--section
   h2.base--h2.test--classifier [Some Classifier]
   p.base--p.test--description Test your newly trained demo classifier with a similar image that was not in the training set.
@@ -12,7 +15,6 @@
         span.base--a select
         |  or drag your own image
       input(id='test--file', class='test--file-input', type='file', name='images_file', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
-  
   .test--output-row
     .test--output-left
       .test--output-image-container

@@ -155,6 +155,7 @@ $(document).ready(function() {
 
       $(e.target).parent().find('.text-label').hide();
       $(e.target).parent().find('.text-zip-image').css('display', 'block');
+      $(e.target).parent().find('.clear_link').show();
     }
   });
 
@@ -164,6 +165,7 @@ $(document).ready(function() {
     $(e.target).parent().attr('data-hasfile', '0');
     $(e.target).parent().find('.text').find('.text-label').show();
     $(e.target).parent().find('.text').find('.text-zip-image').hide();
+    $(e.target).parent().find('.clear_link').hide();
     enableTrainClassifier();
   });
 
