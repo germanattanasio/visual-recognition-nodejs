@@ -44,19 +44,19 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     this.click('button.train--train-button');
   });
 
-  // dogs test page
-  casper.waitUntilVisible('test--section', function() {
-    casper.test.assertSelectorHasText('base--h2 test--classifier', 'Dogs');
-  });
-
-  // click on the cat
-  casper.then(function() {
-    this.click('.test--random-test-image');
-  });
-
-  // random picture
-  casper.waitUntilVisible('test--output-image.landscape', function() {
-  });
+  // // dogs test page
+  // casper.waitUntilVisible('test--section', function() {
+  //   casper.test.assertSelectorHasText('base--h2 test--classifier', 'Dogs');
+  // });
+  //
+  // // click on the cat
+  // casper.then(function() {
+  //   this.click('.test--random-test-image');
+  // });
+  //
+  // // random picture
+  // casper.waitUntilVisible('test--output-image.landscape', function() {
+  // });
 
 
   casper.thenOpen('http://localhost:3000/train', function() {
