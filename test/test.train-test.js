@@ -83,9 +83,9 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     });
 
     // Moleskines test page
-    casper.waitUntilVisible('test--section', function() {
-      casper.test.assertSelectorHasText('base--h2 test--classifier', 'Moleskine Types');
-    });
+    // casper.waitUntilVisible('test--section', function() {
+    //   casper.test.assertSelectorHasText('base--h2 test--classifier', 'Moleskine Types');
+    // });
   });
 });
 
