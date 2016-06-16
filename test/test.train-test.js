@@ -45,7 +45,7 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
   });
 
   // dogs test page
-  casper.waitForSelector('test--section', function() {
+  casper.waitUntilVisible('test--section', function() {
     casper.test.assertSelectorHasText('base--h2 test--classifier', 'Dogs');
   });
 
@@ -55,7 +55,7 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
   });
 
   // random picture
-  casper.waitForSelector('test--output-image.landscape', function() {
+  casper.waitUntilVisible('test--output-image.landscape', function() {
   });
 
 
