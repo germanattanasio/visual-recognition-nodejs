@@ -153,8 +153,6 @@ $(document).ready(function() {
       var baseFileName = $(e.target)[0].files[0].name;
       nameInput.val(baseFileName.split('.')[0]);
       $(e.target).parent().attr('data-hasfile', 1);
-      console.log($(e.target).parent().attr('data-hasfile'));
-
       $(e.target).parent().find('.text-label').hide();
       $(e.target).parent().find('.text-zip-image').css('display', 'block');
       $(e.target).parent().find('.clear_link').show();
@@ -193,7 +191,6 @@ $(document).ready(function() {
   function resetPage() {
     $loading.hide();
     $error.hide();
-    $testSection.hide();
   }
 
   function showTrainingError(err) {
@@ -277,7 +274,6 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          $('.test--classifier').text($('input.base--input._examples--input-name').val());
           flashTrainedClassifer();
           showTestPanel(classifier);
         });
@@ -290,7 +286,7 @@ $(document).ready(function() {
     $('.train--trained-successfully').addClass('showing');
     setTimeout(function() {
       $('.train--trained-successfully').removeClass('showing');
-    }, 4000);
+    }, 3000);
   }
 
   function uploadUserClass() {
@@ -316,7 +312,6 @@ $(document).ready(function() {
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
           flashTrainedClassifer();
-          $('.test--classifier').text($('input.base--input._examples--input-name').val());
           showTestPanel(classifier);
         });
       },
@@ -327,7 +322,6 @@ $(document).ready(function() {
   $trainButton.click(function() {
     $loading.show();
     $error.hide();
-    $testSection.hide();
 
     if ($('.showing').data('kind') === 'user') {
       uploadUserClass();
@@ -360,13 +354,11 @@ $(document).ready(function() {
     // TODO: send classifier-id
     $('#classifier_id').val(classifier.classifier_id);
     $('.base--h2.test--classifier').text(classifier.name);
-    console.log('showing test');
     $testSection.show();
   }
 
   var classifier = getAndParseCookieName('classifier');
   if (classifier) {
-    console.log('show the test UI');
     showTestPanel(classifier);
   }
 });
