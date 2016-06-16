@@ -1,25 +1,26 @@
-include ../mixins/sampleInput.jade
+div._demo--container
+  include ../mixins/sampleInput.jade
 
-h2.base--h2.use--header Try the service
-div Choose a sample image or upload your own image (max 2mb) to try out Visual Recognition.
-+sampleInput('use')
+  h2.base--h2.use--header Try the service
+  div Choose a sample image or upload your own image (max 2mb) to try out Visual Recognition.
+  +sampleInput('use')
 
-.loading.use--loading(style='display:none')
-  img.use--loading-image.loading--image(src='images/loading-indicator.gif')
-  p.base--p.use--loading-message.loading--message Watson is classifying the image to determine a match...
-.error.use--error(style='display:none')
-  img.use--error-image.error--image(src='images/icons/alert.svg')
-  p.base--p.use--error-message.error--message Visual Recognition is not available right now...
-.use--output(style='display:none')
-  hr.base--hr.use--hr
-  h2.base--h2.use--output-header Results
-  .use--output-row
-    .use--output-image-container
-      img.use--output-image
-    .boxes
-    .use--output-data
-  hr.base--hr.use--hr
-  .use--output-row
-    a.base--a(href='/train')
-      button.base--button.use--train-button Create a custom classifier
-  
+  .loading.use--loading(style='display:none')
+    img.use--loading-image.loading--image(src='images/loading-indicator.gif')
+    p.base--p.use--loading-message.loading--message Watson is classifying the image to determine a match...
+  .error.use--error(style='display:none')
+    img.use--error-image.error--image(src='images/icons/alert.svg')
+    p.base--p.use--error-message.error--message Visual Recognition is not available right now...
+  .use--output(style='display:none')
+    hr.base--hr.use--hr
+    h2.base--h2.use--output-header Results
+    .use--output-row
+      .use--output-image-container
+        img.use--output-image
+      .boxes
+      .use--output-data
+    hr.base--hr.use--hr
+    .use--output-row
+      a.base--a(href='/train')
+        button.base--button.use--train-button Create a custom classifier
+    

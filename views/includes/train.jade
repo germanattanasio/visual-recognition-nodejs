@@ -1,35 +1,35 @@
-.train--trained-successfully.showing(style='display:none')
-  img(src="images/watson-logo-white.svg", alt="watson logo")
-  .train--trained-successfully-text Your classifier has been trained successfully.
-._container--training
-  h1.base--h2.use--header Train a demo classifier
-  div
-    | To create a temporary trial classifier, select classes from the example image bundles.
-  h2 Example Image Bundles
-  .license
-    | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed 
-    a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs/tree/master/attributions', target='_blank') here
-    | .
-  ._training--examples
-    ._training--example.clickable(data-kind='dogs')
-      h3 Dog Breeds
-      img(src='/images/bundles/dogs/thumbnail.jpg')
-    ._training--example.clickable(data-kind='moleskine')
-      h3 Moleskine Types
-      img(src='/images/bundles/moleskine/thumbnail.jpg')
-    ._training--example.clickable(data-kind='insurance')
-      h3 Insurance Claims
-      img(src='/images/bundles/insurance/thumbnail.jpg')
-    ._training--example.clickable(data-kind='omniearth')
-      h3 Satellite Imagery
-      img(src='/images/bundles/omniearth/thumbnail.png')
-    ._training--example.clickable(data-kind='user')
-      h3 Use Your Own
-      ._training--use-your-own.square
-        ._training--use-your-own-plus +
-  ._examples(data-kind="user")
-    .user-submitted
-      form#user_upload.upload.training_dropzone
+div._demo--container
+  ._container--training
+    h1.base--h2.use--header Train a demo classifier
+    div
+      | To create a temporary trial classifier, select classes from the example image bundles.
+    h2 Example Image Bundles
+    .license
+      | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed 
+      a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs/tree/master/attributions', target='_blank') here
+      | .
+    ._training--examples
+      ._training--example.clickable(data-kind='dogs')
+        h3 Dog Breeds
+        img(src='/images/bundles/dogs/thumbnail.jpg')
+      ._training--example.clickable(data-kind='moleskine')
+        h3 Moleskine Types
+        img(src='/images/bundles/moleskine/thumbnail.jpg')
+      ._training--example.clickable(data-kind='insurance')
+        h3 Insurance Claims
+        img(src='/images/bundles/insurance/thumbnail.jpg')
+      ._training--example.clickable(data-kind='omniearth')
+        h3 Satellite Imagery
+        img(src='/images/bundles/omniearth/thumbnail.png')
+      ._training--example.clickable(data-kind='user')
+        h3 Use Your Own
+        ._training--use-your-own.square
+          ._training--use-your-own-plus +
+
+._examples(data-kind="user")
+  .user-submitted
+    form#user_upload.upload.training_dropzone
+      div._demo--container
         input(type="hidden",name="classifiername",value="")
         .positive
           h2 Positive Classes
@@ -76,6 +76,8 @@
               input(type="file",name="negativeclassupload",accept="application/zip")
               a(href="").base--a.clear_link Clear
               p Use images that may seem like the bundles but are different.
+
+div._demo--container
   ._examples(data-kind='dogs')
     a.select_all(data-kind='dogs') Select All
     ._examples--classes
@@ -186,10 +188,10 @@
         button.base--a.icon-hyperlink--button.icon-hyperlink--button_BLANK(type='reset')
           | Reset
 
-.loading.train--loading
-  img.loading--image(src='images/loading-indicator.gif')
-  p.base--p.loading--message Watson is training your new classifier. 
-  p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
-.error.train--error
-  img.train--error-image.error--image(src='images/icons/alert.svg')
-  p.base--p.train--error-message.error--message Visual Recognition is not available right now...
+  .loading.train--loading
+    img.loading--image(src='images/loading-indicator.gif')
+    p.base--p.loading--message Watson is training your new classifier. 
+    p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
+  .error.train--error
+    img.train--error-image.error--image(src='images/icons/alert.svg')
+    p.base--p.train--error-message.error--message Visual Recognition is not available right now...

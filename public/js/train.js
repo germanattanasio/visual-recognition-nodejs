@@ -157,6 +157,7 @@ $(document).ready(function() {
 
       $(e.target).parent().find('.text-label').hide();
       $(e.target).parent().find('.text-zip-image').css('display', 'block');
+      $(e.target).parent().find('.clear_link').show();
     }
   });
 
@@ -166,6 +167,7 @@ $(document).ready(function() {
     $(e.target).parent().attr('data-hasfile', '0');
     $(e.target).parent().find('.text').find('.text-label').show();
     $(e.target).parent().find('.text').find('.text-zip-image').hide();
+    $(e.target).parent().find('.clear_link').hide();
     enableTrainClassifier();
   });
 
@@ -274,7 +276,11 @@ $(document).ready(function() {
           Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
-          showTestPanel();
+          $('.train--trained-successfully').addClass('showing');
+          setTimeout(function() {
+            $('.train--trained-successfully').removeClass('showing');
+          }, 3000);
+          showTestPanel(classifier);
         });
       },
       error: showTrainingError
@@ -332,7 +338,7 @@ $(document).ready(function() {
     $.get('/api/classifiers/' + classifierId)
     .success(function(data) {
       if (data.status === 'ready') {
-        done(classifier);
+        done(data);
       } else if (data.status === 'failed') {
         showTrainingError();
       } else {

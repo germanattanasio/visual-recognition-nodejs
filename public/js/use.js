@@ -60,6 +60,7 @@ function setupUse(params) {
   var $fileupload = $(pid + 'fileupload');
   var $outputData = $(pclass + 'output-data');
   var $boxes = $('.boxes');
+  var $randomImage = $(pclass + 'random-test-image');
 
   /*
    * Resets the panel
@@ -197,10 +198,12 @@ function setupUse(params) {
   /*
    * Random image submission
    */
-  $('.test--random-test-image').click(function() {
+  $randomImage.click(function() {
     console.log('clicked');
     resetPasteUrl();
-    classifyImage('images/samples/' + getRandomInt(0, 5) + '.jpg');
+    var kind = getAndParseCookieName('bundle').kind;
+    var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
+    classifyImage('images' + path +  getRandomInt(0, 5) + '.jpg');
     $urlInput.val('');
   });
 

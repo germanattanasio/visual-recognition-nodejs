@@ -102,7 +102,7 @@ function imageFadeIn(imgSelector) {
  */
 module.exports.scrollToElement = function scrollToElement(element) {
   $('html, body').animate({
-    scrollTop: element.offset().top
+    scrollTop: element.offset().top - 75
   }, 300);
 };
 
@@ -155,4 +155,18 @@ $(document).ready(function() {
       'csrf-token': $('meta[name="ct"]').attr('content')
     }
   });
+});
+
+var positioning = document.querySelector('.positioning-offset');
+var top;
+$(window).scroll(function() {
+  top = positioning.getBoundingClientRect().top;
+
+  if (typeof positioning.getBoundingClientRect() !== 'undefined') {
+    if (top < 0) {
+      $('.tab-views--tab-list').addClass('stickied');
+    } else {
+      $('.tab-views--tab-list').removeClass('stickied');
+    }
+  }
 });

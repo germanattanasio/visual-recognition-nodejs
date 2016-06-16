@@ -546,6 +546,10 @@ form.upload input[type=file] {
   margin-top: 1rem;
 }
 
+.clear_link {
+  display: none;
+}
+
 .test--form {
   display: block;
 }
