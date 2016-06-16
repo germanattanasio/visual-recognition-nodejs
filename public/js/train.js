@@ -355,6 +355,7 @@ $(document).ready(function() {
   function showTestPanel(classifier) {
     // TODO: send classifier-id
     $('#classifier_id').val(classifier.classifier_id);
+    $('.base--h2.test--classifier').text(classifier.name);
     console.log('showing test');
     $testSection.show();
   }
