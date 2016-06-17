@@ -1657,8 +1657,7 @@ div.use--dropzone {
   display: block;
   width: 100%;
   font-weight: 300;
-  margin-top: 1rem;
-  margin-bottom: 1rem; }
+  margin-top: 1.5rem; }
   .train--train-button:hover, .train--train-button:focus {
     color: #fff;
     background-color: #325c80; }
@@ -1935,12 +1934,12 @@ div.use--dropzone {
       margin: 0rem; } }
 
 .test--output-image {
-  position: absolute;
+  /*position: absolute;*/
   left: -9999px;
   right: -9999px;
   top: -9999px;
   bottom: -9999px;
-  margin: auto;
+  /*margin: auto;*/
   max-width: initial;
   display: block;
   width: 100%; }
@@ -2065,6 +2064,7 @@ div.use--dropzone {
 .test--form {
   display: none; }
   .toggled .test--form {
+    margin-top: 2rem;
     display: block; }
 
 .test--header {
