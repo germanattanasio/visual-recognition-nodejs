@@ -17,7 +17,7 @@ mixin sampleInput(className, bundle, classifierId)
           label(class='#{className}--file-input-button base--button', for='#{className}--file')
             div(class='#{className}--file-input-button-big-plus') +
             span.base--a Select
-            |  or drag your own image
+            |  or drag
           input(id='#{className}--file', class='#{className}--file-input', type='file', name='images_file', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
     else
       div(class='#{className}--example-images #{className}--example-images_#{bundle}')

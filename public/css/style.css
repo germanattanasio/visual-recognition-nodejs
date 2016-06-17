@@ -1289,7 +1289,7 @@ div.use--dropzone {
 
 .use--file-input-button {
   cursor: pointer;
-  border: 2px dashed #c7c7c7;
+  border: 2px dashed #315d80;
   padding: 0.25rem;
   font-weight: 400;
   height: 100%;
@@ -1301,7 +1301,7 @@ div.use--dropzone {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem; }
+  font-size: 1em; }
   .use--file-input-button:hover {
     background-color: transparent;
     color: #777677; }
@@ -1314,10 +1314,12 @@ div.use--dropzone {
   .use--file-input-button-big-plus {
     font-size: 3.5em;
     font-weight: 300;
+    color: #315d80;
     line-height: 1;
     margin-bottom: 0.25rem; }
 
 .use--url {
+  margin-bottom: 3.1rem;
   margin-top: 1.5rem; }
 
 .use--url-input {
@@ -1357,6 +1359,10 @@ div.use--dropzone {
 .use--invalid-url {
   color: #e71d32;
   margin-bottom: 1rem; }
+
+.use--output-header {
+  color: #121212;
+  font-size: 2.25rem; }
 
 .use--output-image-container {
   width: 100%;
