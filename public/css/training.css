@@ -50,7 +50,8 @@
     padding-bottom: 1vh;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 1.5rem;
+    height: 1.8rem;
+    font-size: 1.3rem;
 }
 
 ._training--use-your-own {
@@ -63,6 +64,7 @@
 .train--column-1 {
   width: 48.93617%;
   margin-right: 2.12766%;
+  margin-top: 1rem;
   float: left;
 }
 .train--column-2 {
@@ -184,10 +186,17 @@ img {
 ._examples--class h4 {
     text-align: left;
     height: 3rem;
+    font-size: 1rem;
+    color: #121212;
+    font-weight: 400;
 }
 
 .placeholder {
     min-height: 18pt;
+}
+
+._examples {
+    margin-top: 3.125rem;
 }
 
 ._examples , .train--row {
@@ -388,7 +397,7 @@ form.trained input[type=text] {
 
 .icon-hyperlink.train--reset {
   float: left;
-  margin-top: 3rem;
+  margin-top: 4.5rem;
 }
 
 ._examples--clear {
@@ -571,7 +580,7 @@ form.upload input[type=file] {
 }
 .test--description {
   margin-bottom: 2rem;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
 }
 
 .test--section {
