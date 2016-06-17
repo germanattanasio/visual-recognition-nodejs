@@ -98,11 +98,12 @@ function imageFadeIn(imgSelector) {
 /**
  * scroll animation to element on page
  * @param  {Object}  element Jquery element
+ * @param  {Number}  offset position to scroll to
  * @return {void}
  */
-module.exports.scrollToElement = function scrollToElement(element) {
+module.exports.scrollToElement = function scrollToElement(element, offset) {
   $('html, body').animate({
-    scrollTop: element.offset().top - 75
+    scrollTop: element.offset().top - (typeof offset !== 'undefined' ? offset : 75)
   }, 300);
 };
 

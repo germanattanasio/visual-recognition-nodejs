@@ -1132,13 +1132,16 @@ pre[class*=" language-"] {
     .tab-views {
       padding: 0rem 1rem 1rem; } }
   .tab-views--tab-list {
-    margin-left: -1rem;
+    margin-left: 0rem;
     width: 100%;
     position: absolute;
     z-index: 100;
     background-color: #e5e5e6;
     text-align: center;
     border: none; }
+    @media (min-width: 768px) {
+      .tab-views--tab-list {
+        margin-left: -1rem; } }
   .tab-views--tab-list-item {
     text-align: center;
     border: none;
@@ -1202,10 +1205,27 @@ pre[class*=" language-"] {
     box-shadow: 0px 0px 0px 3px #336588; }
   @media (min-width: 768px) {
     .use--example-thumb {
-      width: calc(12.5% - 0.2625rem);
-      margin-right: 0.3rem;
+      width: calc(25% - 0.75rem);
+      margin-right: 1rem;
+      margin-bottom: 1rem;
     }
     .use--example-thumb:nth-of-type(2n) {
+      margin-right: 1rem;
+    }
+    .use--example-thumb:nth-of-type(4n) {
+      margin-right: 0rem;
+    }
+  }
+  @media (min-width: 1200px) {
+    .use--example-thumb {
+      width: calc(12.5% - 0.2625rem);
+      margin-right: 0.3rem;
+      margin-bottom: 0.3rem;
+    }
+    .use--example-thumb:nth-of-type(2n) {
+      margin-right: 0.3rem;
+    }
+    .use--example-thumb:nth-of-type(4n) {
       margin-right: 0.3rem;
     }
   }
@@ -1219,6 +1239,11 @@ div.use--dropzone {
   text-align: center;
 }
 @media (min-width: 768px) {
+  div.use--dropzone {
+    width: calc(25% - 0.75rem);
+  }
+}
+@media (min-width: 1200px) {
   div.use--dropzone {
     width: calc(12.5% - 0.2625rem);
   }

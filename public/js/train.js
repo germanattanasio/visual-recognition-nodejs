@@ -20,6 +20,7 @@
 
 var setupUse = require('./use.js');
 var nextHour = require('./demo.js').nextHour;
+var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 
 // var currentPage = require('./demo.js').currentPage;
@@ -275,6 +276,8 @@ $(document).ready(function() {
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
           flashTrainedClassifer();
+          scrollToElement($('.train--trained-successfully'), 65);
+          $('.test--section').show();
           showTestPanel(classifier);
         });
       },
@@ -312,6 +315,9 @@ $(document).ready(function() {
           Cookies.set('classifier', classifier, { expires: nextHour()});
           resetPage();
           flashTrainedClassifer();
+          scrollToElement($('.train--trained-successfully'), 65);
+          $('.test--section').show();
+          $('.test--classifier').text($('input.base--input._examples--input-name').val());
           showTestPanel(classifier);
         });
       },
@@ -322,6 +328,8 @@ $(document).ready(function() {
   $trainButton.click(function() {
     $loading.show();
     $error.hide();
+
+    scrollToElement($loading);
 
     if ($('.showing').data('kind') === 'user') {
       uploadUserClass();
