@@ -201,7 +201,7 @@ function setupUse(params) {
     resetPasteUrl();
     var kind = getAndParseCookieName('bundle').kind;
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
-    classifyImage('images' + path +  getRandomInt(0, 5) + '.jpg');
+    classifyImage('images' + path +  getRandomInt(1, 5) + '.jpg');
     $urlInput.val('');
   });
 
@@ -412,7 +412,7 @@ function setupUse(params) {
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
       }
-      $outputData.html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
+      $outputData.html('<div class="' + panel + '--mismatch">This image is not a match for ' + (bundle.name || '' ) + ': ' + classes + '.</div>');
     }
 
     // faces

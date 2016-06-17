@@ -258,33 +258,6 @@ $(document).ready(function() {
         }, {bundles: [], names: []});
   }
 
-  function uploadBundledClass() {
-    var data = getExamplesData();
-
-    data.name = lookupName(data.kind);
-
-    $.ajax({
-      type: 'POST',
-      url: '/api/classifiers',
-      data: JSON.stringify(data),
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      success: function(classifier) {
-        checkClassifier(classifier.classifier_id, function done() {
-          Cookies.set('bundle', data, { expires: nextHour()});
-          Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
-          Cookies.set('classifier', classifier, { expires: nextHour()});
-          resetPage();
-          flashTrainedClassifer();
-          scrollToElement($('.train--trained-successfully'), 65);
-          $('.test--section').show();
-          showTestPanel(classifier);
-        });
-      },
-      error: showTrainingError
-    });
-  }
-
   function flashTrainedClassifer() {
     $('.train--trained-successfully').addClass('showing');
     setTimeout(function() {
@@ -292,34 +265,48 @@ $(document).ready(function() {
     }, 3000);
   }
 
+  function uploadBundledClass() {
+    var data = getExamplesData();
+    data.name = lookupName(data.kind);
+    submitClassifier({
+      data: JSON.stringify(data),
+      bundle: data,
+      contentType: 'application/json; charset=utf-8'
+    });
+  }
+
   function uploadUserClass() {
     var formElement = document.querySelector('form#user_upload');
     var form = new FormData(formElement);
-    var allFiles = form.getAll('classupload').concat(form.getAll('negativeclassupload'));
-    var classnames = form.getAll('classname').filter(function(item, idx) {
-      return allFiles[idx].size > 0;
+    var bundle = { names: [$('.base--input._examples--input-name').val()], kind: 'user' };
+    submitClassifier({
+      data: form,
+      bundle: bundle
     });
-    var data = { name: form.getAll('classifiername')[0], kind: 'user', names: classnames };
+  }
 
+  function submitClassifier(params) {
     $.ajax({
       type: 'POST',
       url: '/api/classifiers',
-      data: form,
-      contentType: false,
+      data: params.data,
+      contentType: params.contentType || false,
       processData: false,
       dataType: 'json',
       success: function(classifier) {
-        checkClassifier(classifier.classifier_id, function done() {
-          Cookies.set('bundle', data, { expires: nextHour()});
-          Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
-          Cookies.set('classifier', classifier, { expires: nextHour()});
-          resetPage();
-          flashTrainedClassifer();
-          scrollToElement($('.train--trained-successfully'), 65);
-          $('.test--section').show();
-          $('.test--classifier').text($('input.base--input._examples--input-name').val());
-          showTestPanel(classifier);
-        });
+        setTimeout(function() {
+          checkClassifier(classifier.classifier_id, function done() {
+            Cookies.set('bundle', params.bundle, { expires: nextHour()});
+            Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
+            Cookies.set('classifier', classifier, { expires: nextHour()});
+            resetPage();
+            flashTrainedClassifer();
+            scrollToElement($('.train--trained-successfully'), 65);
+            $('.test--section').show();
+            $('.test--classifier').text($('input.base--input._examples--input-name').val());
+            showTestPanel(classifier);
+          });
+        }, 5000);
       },
       error: showTrainingError
     });
@@ -328,6 +315,7 @@ $(document).ready(function() {
   $trainButton.click(function() {
     $loading.show();
     $error.hide();
+    $testSection.hide();
 
     scrollToElement($loading);
 
