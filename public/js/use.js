@@ -188,7 +188,6 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
-    console.log('clicked');
     resetPasteUrl();
     var imgPath = $(this).next('label').find('img').attr('src');
     classifyImage(imgPath);
@@ -199,7 +198,6 @@ function setupUse(params) {
    * Random image submission
    */
   $randomImage.click(function() {
-    console.log('clicked');
     resetPasteUrl();
     var kind = getAndParseCookieName('bundle').kind;
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
@@ -316,8 +314,6 @@ function setupUse(params) {
         return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
       });
 
-      console.log(faceLocations);
-
       $boxes.append(_.template(imageBoxes_template, {
         items: faceLocations
       }));
@@ -330,28 +326,22 @@ function setupUse(params) {
         return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
       });
 
-      console.log(locations);
-
       $boxes.append(_.template(imageBoxes_template, {
         items: locations
       }));
     }
-
-    console.log(results.images[0].words);
   }
 
   function transformBoxLocations(faceLocation, image) {
     var newFaceLocation = faceLocation;
     var ratio = image.getBoundingClientRect().width / image.naturalWidth;
     var coordinates = getCoords(image);
-    console.log(image.getBoundingClientRect());
     newFaceLocation = {
       width: faceLocation.width * ratio,
       height: faceLocation.height * ratio,
       top: coordinates.top + faceLocation.top * ratio,
       left: coordinates.left + faceLocation.left * ratio
     };
-    console.log(image.getBoundingClientRect(), ratio, image.getBoundingClientRect().width, faceLocation.width);
     return newFaceLocation;
   }
 

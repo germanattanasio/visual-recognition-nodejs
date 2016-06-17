@@ -233,14 +233,13 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     if (combine.value) {
       // save the classifier_id as part of the response
       if (req.body.classifier_id) {
-        combine.value[0].classifier_ids = req.body.classifier_id;
+        combine.value.classifier_ids = req.body.classifier_id;
       }
-
-      combine.value[0].raw = {};
+      combine.value.raw = {};
       methods.map(function(methodName, idx) {
-        combine.value[0].raw[methodName] = encodeURIComponent(JSON.stringify(results[idx].value[0]));
+        combine.value.raw[methodName] = encodeURIComponent(JSON.stringify(results[idx].value));
       });
-      res.json(combine.value[0]);
+      res.json(combine.value);
     } else {
       res.status(400).json(combine.error);
     }
