@@ -100,9 +100,9 @@ function imageFadeIn(imgSelector) {
  * @param  {Object}  element Jquery element
  * @return {void}
  */
-module.exports.scrollToElement = function scrollToElement(element) {
+module.exports.scrollToElement = function scrollToElement(element, offset) {
   $('html, body').animate({
-    scrollTop: element.offset().top - 75
+    scrollTop: element.offset().top - (offset ? offset : 75)
   }, 300);
 };
 
