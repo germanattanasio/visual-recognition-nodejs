@@ -1244,7 +1244,7 @@ div.use--dropzone {
   }
 }
 @media (min-width: 1200px) {
-  .use--example-thumb {
+  div.use--dropzone {
     width: calc(12.5% - 0.2625rem);
   }
 }
