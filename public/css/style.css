@@ -980,10 +980,12 @@ pre[class*=" language-"] {
       margin-right: 0; } }
   .heading-nav--li {
     display: block;
+    margin-bottom: 1rem;
     margin-top: 1rem; }
     @media (min-width: 700px) {
       .heading-nav--li {
         margin-top: 0rem;
+        margin-bottom: 0rem;
         display: inline-block; } }
   .heading-nav--item {
     color: #c7c7c7;
@@ -1109,6 +1111,7 @@ pre[class*=" language-"] {
       font-weight: 700;
       border-bottom: 6px solid #a53725; }
   .tab-panels--tab-content {
+    padding: 0rem 1rem;
     margin-top: 6rem; }
   .tab-panels--tab-content .base--textarea {
     min-height: 11.7rem;
@@ -1127,6 +1130,7 @@ pre[class*=" language-"] {
   background-color: transparent;
   border: none;
   margin-top: 0rem;
+  margin-bottom: 1.25rem;
   padding: 0rem; }
   @media (min-width: 768px) {
     .tab-views {
@@ -1153,7 +1157,8 @@ pre[class*=" language-"] {
   .tab-views--tab {
     display: inline-block;
     padding: 0 1rem 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
+    height: 2.1rem;
     color: #121212; }
     .tab-views--tab:focus, .tab-views--tab:hover {
       border-bottom: 5px solid #336588;
@@ -1187,9 +1192,9 @@ pre[class*=" language-"] {
 
 .use--example-thumb {
   margin-top: 0rem;
-  width: calc(50% - 0.15rem);
-  margin-right: 0.3rem;
-  margin-bottom: 0.3rem;
+  width: calc(50% - 0.5rem);
+  margin-right: 1rem;
+  margin-bottom: 1rem;
   float: left;
   position: relative;
   display: inline-block;
@@ -1203,7 +1208,7 @@ pre[class*=" language-"] {
   .use--example-thumb:hover {
     z-index: 1;
     box-shadow: 0px 0px 0px 3px #336588; }
-  @media (min-width: 768px) {
+  @media (min-width: 500px) {
     .use--example-thumb {
       width: calc(25% - 0.75rem);
       margin-right: 1rem;
@@ -1231,14 +1236,14 @@ pre[class*=" language-"] {
   }
 
 div.use--dropzone {
-  width: calc(50% - 0.15rem);
+  width: calc(50% - 0.5rem);
   float: left;
   display: inline-block;
   margin-right: 0rem;
   margin-top: 0rem;
   text-align: center;
 }
-@media (min-width: 768px) {
+@media (min-width: 500px) {
   div.use--dropzone {
     width: calc(25% - 0.75rem);
   }
@@ -1312,11 +1317,25 @@ div.use--dropzone {
     border-color: #5596e6;
     background-color: #c0e6ff; }
   .use--file-input-button-big-plus {
+    font-size: 4.5em;
     font-size: 3.5em;
     font-weight: 300;
     color: #315d80;
     line-height: 1;
     margin-bottom: 0.25rem; }
+  @media (min-width: 500px) {
+    .use--file-input-button-big-plus {
+      font-size: 3.5em; } }
+  .use--file-input-button-text {
+    margin: 0rem;
+    line-height: 1.25;
+    display: none; }
+    @media (min-width: 500px) {
+      .use--file-input-button-text {
+        display: block; } }
+  .use--file-input-button-text span {
+    display: block;
+  }
 
 .use--url {
   margin-bottom: 3.1rem;
@@ -2266,19 +2285,28 @@ div.use--dropzone {
 .use--output-data {
   width: 100%;
   display: block;
+  flex-wrap: nowrap;
 }
-@media (min-width: 768px) {
+@media (min-width: 500px) {
   .use--output-data {
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+@media (min-width: 1200px) {
+  .use--output-data {
+    flex-wrap: nowrap;
   }
 }
 
 .results-table--container {
   width: 100%;
   max-width: none;
+  min-width: 19rem;
   margin-top: 0rem;
+  flex-wrap: wrap;
 }
 
 @media (min-width: 768px) {
@@ -2395,6 +2423,7 @@ div.use--dropzone {
 }
 .results-table .base--td.results-table--feedback {
   padding-bottom: 1.5em;
+  padding-top: 1.5em;
   -webkit-transition: background-color 1s, color 1s;
   -moz-transition: background-color 1s, color 1s;
   -ms-transition: background-color 1s, color 1s;
