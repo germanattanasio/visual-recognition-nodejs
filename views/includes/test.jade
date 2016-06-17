@@ -1,21 +1,34 @@
-include ../mixins/sampleInput.jade
+.train--trained-successfully
+  img(src="images/watson-logo-white.svg", alt="watson logo")
+  .train--trained-successfully-text Your classifier has been trained successfully.
+.test--section
+  ._demo--container
+    h2.base--h2.test--classifier
+    p.base--p.test--description Test your newly trained demo classifier with a similar image that was not in the training set.
+    a.base--a.test--random-test-image(href="javascript:void(0)") Use a random image
 
-h2.base--h2.test--classifier-name #{classifier.name}
-div Test your newly trained demo classifier with a similar image (max 2mb) that was not in the training set.
-.test--input-container.toggled
-  h3.base--h3.test--header Test your classifier
-  +sampleInput('test', bundle.kind, classifier.classifier_id)
-.loading.test--loading
-  img.test--loading-image.loading--image(src='images/loading-indicator.gif')
-  p.base--p.test--loading-message.loading--message Visual Recognition is classifying the image to determine a match...
-.error.test--error
-  img.test--error-image.error--image(src='images/icons/alert.svg')
-  p.base--p.test--error-message.error--message Visual Recognition is not available right now...
-.test--output
-  hr.base--hr.test--hr
-  h2.base--h2.test--output-header Results
-  .test--output-row
-    .test--output-left
-      .test--output-image-container
-        img.test--output-image
-    .test--output-right.test--output-data
+    form(id='test--fileupload', class='test--form test--dropzone', data-upload-template-id='template-upload-test')
+      input(id='test_classifier_id', type='hidden', name='classifier_id')
+      div(class='test--url')
+        div(class='test--invalid-url', style='display:none') Invalid URL
+        div(class='test--invalid-image-url', style='display:none') The URL must end with .JPG, .GIF, or .PNG.
+        input(class='test--url-input base--input', type='text', placeholder='Or paste an image URL', name='url')
+        input(class='test--image-data-input base--input', type='hidden', name='image_data')
+      div(class='test--dropzone')
+        label(class='test--file-input-button base--button', for='test--file')
+          div(class='test--file-input-button-big-plus')
+          | Or 
+          span.base--a select
+          |  or drag your own image
+        input(id='test--file', class='test--file-input', type='file', name='images_file', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
+    .loading.test--loading(style='display:none')
+      img.test--loading-image.loading--image(src='images/loading-indicator.gif')
+      p.base--p.test--loading-message.loading--message Watson is classifying the image to determine a match...
+    .error.test--error(style='display:none')
+      img.test--error-image.error--image(src='images/icons/alert.svg')
+      p.base--p.test--error-message.error--message Visual Recognition is not available right now...
+    .test--output.test--output-row(style='display:none')
+      .test--output-left
+        .test--output-image-container
+          img.test--output-image.landscape
+      .test--output-right.test--output-data

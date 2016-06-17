@@ -19,7 +19,8 @@
 
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
-
+var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+var getRandomInt = require('./demo.js').getRandomInt;
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
@@ -58,6 +59,8 @@ function setupUse(params) {
   var $dropzone = $(pclass + 'dropzone');
   var $fileupload = $(pid + 'fileupload');
   var $outputData = $(pclass + 'output-data');
+  var $boxes = $('.boxes');
+  var $randomImage = $(pclass + 'random-test-image');
 
   /*
    * Resets the panel
@@ -71,6 +74,7 @@ function setupUse(params) {
     $tbody.empty();
     $outputData.empty();
     $('.dragover').removeClass('dragover');
+    $boxes.empty();
   }
 
   // init reset
@@ -108,6 +112,14 @@ function setupUse(params) {
     // populate table
     renderTable(results);
     $result.show();
+
+    setTimeout(function() {
+      renderEntities(results);
+    }, 100);
+    $(window).resize(function() {
+      $boxes.empty();
+      renderEntities(results);
+    });
 
     // check if there are results or not
     if ($outputData.html() === '') {
@@ -176,10 +188,20 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
-    console.log('clicked');
     resetPasteUrl();
     var imgPath = $(this).next('label').find('img').attr('src');
     classifyImage(imgPath);
+    $urlInput.val('');
+  });
+
+  /*
+   * Random image submission
+   */
+  $randomImage.click(function() {
+    resetPasteUrl();
+    var kind = getAndParseCookieName('bundle').kind;
+    var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
+    classifyImage('images' + path +  getRandomInt(0, 5) + '.jpg');
     $urlInput.val('');
   });
 
@@ -263,7 +285,11 @@ function setupUse(params) {
   }
 
   function lookupInMap(mapToCheck, kind, token, defaultValue) {
-    var res = mapToCheck[kind][token];
+    if (!mapToCheck) {
+      return defaultValue;
+    }
+
+    var res = mapToCheck[kind] && mapToCheck[kind][token] ? mapToCheck[kind][token] : false;
     if (res) {
       return res;
     } else {
@@ -271,13 +297,74 @@ function setupUse(params) {
     }
   }
 
-  function getAndParseCookieName(cookieName, defaultValue) {
-    var res = Cookies.get(cookieName);
-    if (res) {
-      return JSON.parse(res);
-    } else {
-      return defaultValue;
+  // need to add on resize event listener for faces
+  // need to offset and position itself and scale properly with physical image location
+  // need to calculate ratio of image
+  // get ratio
+  // get starting image position
+  // get transformed positions of face
+  //  = ratio * original positions + offset
+  function renderEntities(results) {
+    // eslint-disable-next-line camelcase
+    var imageBoxes_template;
+    if (results.images[0].faces) {
+      // eslint-disable-next-line camelcase
+      imageBoxes_template = imageBoxesTemplate.innerHTML;
+      var faceLocations = results.images[0].faces.map(function(face) {
+        return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
+      });
+
+      $boxes.append(_.template(imageBoxes_template, {
+        items: faceLocations
+      }));
     }
+
+    if (results.images[0].words) {
+      // eslint-disable-next-line camelcase
+      imageBoxes_template = imageBoxesTemplate.innerHTML;
+      var locations = results.images[0].words.map(function(word) {
+        return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
+      });
+
+      $boxes.append(_.template(imageBoxes_template, {
+        items: locations
+      }));
+    }
+  }
+
+  function transformBoxLocations(faceLocation, image) {
+    var newFaceLocation = faceLocation;
+    var ratio = image.getBoundingClientRect().width / image.naturalWidth;
+    var coordinates = getCoords(image);
+    newFaceLocation = {
+      width: faceLocation.width * ratio,
+      height: faceLocation.height * ratio,
+      top: coordinates.top + faceLocation.top * ratio,
+      left: coordinates.left + faceLocation.left * ratio
+    };
+    return newFaceLocation;
+  }
+
+  /*
+   * Solution found here:
+   * http://stackoverflow.com/questions/5598743/finding-elements-position-relative-to-the-document#answer-26230989
+   */
+  function getCoords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
   }
 
   function renderTable(results) {
@@ -312,6 +399,7 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Classes',
+          classes_raw: results.raw.classify,
           data: classes
         };
       })();
@@ -358,6 +446,7 @@ function setupUse(params) {
         return {
           resultCategory: 'Faces',
           identities: identities,
+          classes_raw: results.raw.detectFaces,
           data: faces
         };
       })();
@@ -378,6 +467,7 @@ function setupUse(params) {
         });
         return {
           resultCategory: 'Words',
+          classes_raw: results.raw.recognizeText,
           data: words
         };
       })();
@@ -386,6 +476,11 @@ function setupUse(params) {
         items: wordsModel
       }));
     }
+
+    $('a.json').on('click', function() {
+      var rawJsonData = $(this).parent().find('.json_raw').data('raw');
+      window.open('data:application/json,' + rawJsonData, '_blank');
+    });
 
     $(document).on('click', '.results-table--input-no', function() {
       $(this).parent().hide();

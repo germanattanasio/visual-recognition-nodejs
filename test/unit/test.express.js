@@ -28,10 +28,6 @@ describe('express', function() {
     request(app).get('/train').expect(200, done);
   });
 
-  it('load home page when GET /test', function(done) {
-    request(app).get('/test').expect(200, done);
-  });
-
   it('404 when page not found', function(done) {
     request(app).get('/foo/bar').expect(404, done);
   });
