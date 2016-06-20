@@ -21,9 +21,9 @@ var fs = require('fs');
 function lookupName(token) {
   return {
     moleskine: 'Moleskine Types',
-    dogs: 'Dogs',
-    insurance: 'Insurance',
-    omniearth: 'Satellite Images'
+    dogs: 'Dog Breeds',
+    insurance: 'Insurance Claims',
+    omniearth: 'Satellite Imagery'
   }[token];
 }
 

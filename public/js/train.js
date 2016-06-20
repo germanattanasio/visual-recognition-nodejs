@@ -222,10 +222,9 @@ $(document).ready(function() {
   function lookupName(token) {
     return {
       moleskine: 'Moleskine Types',
-      dogs: 'Dogs',
+      dogs: 'Dog Breeds',
       insurance: 'Insurance Claims',
-      omniearth: 'Satellite Images'
-
+      omniearth: 'Satellite Imagery'
     }[token];
   }
 
@@ -309,6 +308,7 @@ $(document).ready(function() {
       processData: false,
       dataType: 'json',
       success: function(classifier) {
+        console.log(classifier);
         setTimeout(function() {
           checkClassifier(classifier.classifier_id, function done() {
             Cookies.set('bundle', params.bundle, { expires: nextHour()});

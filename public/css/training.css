@@ -577,8 +577,8 @@ form.upload input[type=file] {
   transition: 0.2s;
   height: 0rem;
   padding: 0rem;
-  width: calc(100% + 2rem);
-  margin-left: -1rem;
+  width: calc(100% + 4rem);
+  margin-left: -2rem;
 }
 
 .train--trained-successfully.showing {
