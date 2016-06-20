@@ -224,6 +224,12 @@ img {
     margin-top: 4.5rem;
 }
 
+.positive h2, .negative h2 {
+    font-size: 1.5em;
+    font-weight: normal;
+    color: #121212;
+}
+
 @media (max-width: 600px) {
 
     .train--row.showing {
@@ -473,7 +479,7 @@ form.upload input[type=file] {
 .positive, .negative, .seperator {
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 0rem;
 }
 
 .seperator {
