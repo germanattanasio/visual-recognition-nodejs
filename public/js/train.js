@@ -95,8 +95,10 @@ $(document).ready(function() {
       $('.showing div._examples--class__selected button').click();
     } else {
       $('form.upload')[0].reset();
-      $('input.base--input._examples--input-name').val('');
-      $('input.base--input._examples--input-name').prop('readonly', false);
+      if (!$('input.base--input._examples--input-name').prop('readonly')) {
+        $('input.base--input._examples--input-name').val('');
+        $('input.base--input._examples--input-name').prop('readonly', false);
+      }
     }
     enableTrainClassifier();
   });
