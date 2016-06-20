@@ -2486,3 +2486,7 @@ a.json img {
   float: right;
   max-width: 1rem;
 }
+
+.dim {
+  opacity: 0.5;
+}

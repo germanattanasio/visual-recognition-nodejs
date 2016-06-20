@@ -190,6 +190,8 @@ function setupUse(params) {
   $radioImages.click(function() {
     resetPasteUrl();
     var imgPath = $(this).next('label').find('img').attr('src');
+    $(this).parent().find('label').addClass('dim');
+    $(this).parent().find('label[for=' + $(this).attr('id') + ']').removeClass('dim');
     classifyImage(imgPath);
     $urlInput.val('');
   });
