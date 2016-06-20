@@ -153,8 +153,8 @@ img {
 
 ._examples--class {
     margin: 0rem;
-    width: 48.93617%;
-    margin-right: 2.12766%;
+    width: calc(50% - 0.5rem);
+    margin-right: 1rem;
     margin-bottom: 1rem;
     float: left;
     padding: 0rem;
@@ -605,19 +605,36 @@ form.upload input[type=file] {
 
 .test--form {
   display: block;
+  margin-bottom: 2.5rem;
 }
 
 .test--url-input {
-  width: 20rem;
+  width: 100%;
+}
+@media (min-width: 500px) {
+  .test--url-input {
+    width: 20rem;
+  }
 }
 
 .test--file-input-button {
-  width: 20rem;
+  width: 100%;
+}
+@media (min-width: 500px) {
+  .test--file-input-button {
+    width: 20rem;
+  }
 }
 
-.test--output-row {
-  margin-top: 4rem;
+.test--file-input-button-drag-text {
+  display: none;
 }
+@media (min-width: 500px) {
+  .test--file-input-button-drag-text {
+    display: inline;
+  }
+}
+
 .test--description {
   margin-bottom: 2rem;
   margin-top: 2.5rem;
