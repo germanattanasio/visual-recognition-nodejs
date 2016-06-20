@@ -94,7 +94,9 @@ div._demo--container
         img(src='/images/bundles/dogs/beagle-thumbnail.png', data-kind='dogs', data-name='beagle')
         button._positive(data-name='beagle') Select
       ._examples--class._negative(data-name='negatives', data-kind='dogs')
-        h4 Non-Dogs
+        h4 Negative:
+          br
+          | Non-Dogs
         img(src='/images/bundles/dogs/negatives-thumbnail.png', data-kind='dogs', data-name='negatives')
         button._negative(data-name='negatives') Select
     ._examples--contact-sheet(data-kind='dogs')
@@ -144,7 +146,9 @@ div._demo--container
         img(src='/images/bundles/moleskine/portrait-thumbnail.png', data-kind='moleskine', data-name='portrait')
         button._positive(data-name='portrait') Select
       ._examples--class._negative(data-name='negative', data-kind='moleskine')
-        h4 Non-Moleskine
+        h4 Negative:
+          br
+          | Non-Moleskine
         img(src='/images/bundles/moleskine/negative-thumbnail.png', data-kind='moleskine', data-name='negative')
         button._negative(data-name='negative') Select
     ._examples--contact-sheet(data-kind='moleskine')
@@ -187,9 +191,10 @@ div._demo--container
     | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed 
     a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs/tree/master/attributions', target='_blank') here
     | .
-
   .loading.train--loading
-    img.loading--image(src='images/loading-indicator.gif')
+    .loader-container
+      svg.loader(viewBox='25 25 50 50')
+        circle.loader__path(cx='50', cy='50', r='20')
     p.base--p.loading--message Watson is training your new classifier. 
     p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
   .error.train--error

@@ -6,7 +6,9 @@ div._demo--container
   +sampleInput('use')
 
   .loading.use--loading(style='display:none')
-    img.use--loading-image.loading--image(src='images/loading-indicator.gif')
+    .loader-container
+      svg.loader(viewBox='25 25 50 50')
+        circle.loader__path(cx='50', cy='50', r='20')
     p.base--p.use--loading-message.loading--message Watson is classifying the image to determine a match...
   .error.use--error(style='display:none')
     img.use--error-image.error--image(src='images/icons/alert.svg')
