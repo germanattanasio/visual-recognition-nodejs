@@ -72,6 +72,10 @@ $(document).ready(function() {
         }
         $('._container--bundle-form').addClass('active');
       }, 100);
+
+      setTimeout(function() {
+        scrollToElement($('._examples.showing'));
+      }, 100);
     }
   });
 
@@ -126,11 +130,17 @@ $(document).ready(function() {
     $(this).data('name');
     $('._examples--contact-sheet[data-kind=' + $(this).data('kind') + '] img').attr('src', '/images/bundles/' + $(this).data('kind') + '/' + $(this).data('name') + '-contact.jpg');
     $('._examples--contact-sheet[data-kind=' + $(this).data('kind') + ']').css('display', 'flex');
+
+    setTimeout(function() {
+      scrollToElement($('._examples--contact-sheet'));
+    }, 100);
   });
 
   $('._examples--contact-sheet img').click(function() {
     $(this).attr('src', '');
     $(this).parent().css('display', 'none');
+
+    scrollToElement($('._examples.showing'));
   });
 
   $('a.select_all').click(function() {

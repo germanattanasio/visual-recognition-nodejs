@@ -153,8 +153,8 @@ img {
 
 ._examples--class {
     margin: 0rem;
-    width: 48.93617%;
-    margin-right: 2.12766%;
+    width: calc(50% - 0.5rem);
+    margin-right: 1rem;
     margin-bottom: 1rem;
     float: left;
     padding: 0rem;
@@ -616,7 +616,7 @@ form.upload input[type=file] {
 }
 
 .test--output-row {
-  margin-top: 4rem;
+  margin-top: 4.7rem;
 }
 .test--description {
   margin-bottom: 2rem;

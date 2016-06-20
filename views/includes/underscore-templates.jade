@@ -17,10 +17,6 @@ script(type='text/html', id='trainPreviewImagesTemplate').
 
 script(type='text/html', id='useResultsTableTemplate').
   <div class="results-table--container">
-    <div class="results--json">
-      <a target="_blank" class="json">JSON <img src="/images/link_image.png"></a>
-      <div class="json_raw" style="display: none" data-raw="<%= items.classes_raw %>"/>
-    </div>
     <table class="base--table results-table">
       <thead class="base--thead">
         <tr class="base--tr">
@@ -125,6 +121,10 @@ script(type='text/html', id='useResultsTableTemplate').
         
       </tbody>
     </table>
+    <div class="results--json">
+      <a target="_blank" class="json">JSON <img src="/images/link_image.png"></a>
+      <div class="json_raw" style="display: none" data-raw="<%= items.classes_raw %>"/>
+    </div>
   </div>
 script(type='text/html', id='imageBoxesTemplate').
   <% _.each(items, function(item, key, list) { %>
