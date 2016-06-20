@@ -30,7 +30,7 @@ module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
   app.use(cookieParser());
-  if (!process.env.VCAP_APPLICATION) {
+  if (app.get('env') === 'development') {
     // set up request logging for local development and non-bluemix servers
     // (bluemix's router automatically logs all requests there)
     app.use(morgan('dev'));
@@ -46,7 +46,7 @@ module.exports = function(app) {
   // automatically bundle the front-end js on the fly
   // note: this should come before the express.static since bundle.js is in the public folder
   app.get('/js/bundle.js', expressBrowserify('./public/js/bundle.js', {
-    watch: (process.env.NODE_ENV !== 'production')
+    watch: (app.get('env') === 'development')
   }));
 
   // Setup static public directory
