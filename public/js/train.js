@@ -76,6 +76,10 @@ $(document).ready(function() {
       setTimeout(function() {
         scrollToElement($('._examples.showing'));
       }, 100);
+
+      if ($(this).css('opacity') === '0.5') {
+        $testSection.hide();
+      }
     }
   });
 
@@ -102,6 +106,7 @@ $(document).ready(function() {
       $('input.base--input._examples--input-name').val('');
       $('input.base--input._examples--input-name').prop('readonly', false);
     }
+    $testSection.hide();
     enableTrainClassifier();
   });
 
