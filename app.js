@@ -227,7 +227,15 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
       return res.status(err.code || 500).json(err);
     }
     // combine the results
-    var combine = results.reduce(function(prev, cur) {
+    var combine = results.map(function(result) {
+      if (result.value && result.value.length) {
+        // value is an array of arguments passed to the callback (excluding the error).
+        // In this case, it's the result and then the request object.
+        // We only want the result.
+        result.value = result.value[0];
+      }
+      return result;
+    }).reduce(function(prev, cur) {
       return extend(true, prev, cur);
     });
     if (combine.value) {
