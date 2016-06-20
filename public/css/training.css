@@ -62,15 +62,15 @@
 }
 
 .train--column-1 {
-  width: 48.93617%;
-  margin-right: 2.12766%;
-  margin-top: 1rem;
-  float: left;
+    width: 48.93617%;
+    margin-right: 2.12766%;
+    margin-top: 1rem;
+    float: left;
 }
 .train--column-2 {
-  width: 48.93617%;
-  margin-right: 0rem;
-  float: left;
+    width: 48.93617%;
+    margin-right: 0rem;
+    float: left;
 }
 
 ._training--use-your-own-plus {
@@ -214,9 +214,39 @@ img {
     opacity: 1;
     height: auto;
     display: block;
-    flex-flow: column;
+    flex-direction: column;
     align-content: flex-start;
     align-items: center;
+}
+
+.icon-hyperlink.train--reset {
+    float: left;
+    margin-top: 4.5rem;
+}
+
+@media (max-width: 600px) {
+
+    .train--row.showing {
+        display: flex;
+        align-content: center;
+    }
+
+    .train--column-1 {
+        width: 100%;
+        margin-right: 2.12766%;
+        margin-top: 1rem;
+        float: none;
+    }
+    .train--column-2 {
+        width: 100%;
+        margin-right: 0rem;
+        float: none;
+    }
+
+    .icon-hyperlink.train--reset {
+        float: none;
+        margin-top: 0rem;
+    }
 }
 
 ._example--class button {
@@ -395,10 +425,7 @@ form.trained input[type=text] {
     margin-top: 0px;
 }
 
-.icon-hyperlink.train--reset {
-  float: left;
-  margin-top: 4.5rem;
-}
+
 
 ._examples--clear {
   background-color: transparent;
