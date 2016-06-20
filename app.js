@@ -228,7 +228,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     }
     // combine the results
     var combine = results.map(function(result) {
-      if (result.value.length) {
+      if (result.value && result.value.length) {
         // value is an array of arguments passed to the callback (excluding the error), in this case, it's the result and then the request object
         // we only want the result
         result.value = result.value[0];
