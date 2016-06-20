@@ -1381,7 +1381,8 @@ div.use--dropzone {
 
 .use--output-header {
   color: #121212;
-  font-size: 2.25rem; }
+  font-size: 2.25rem;
+  font-weight: normal; }
 
 .use--output-image-container {
   width: 100%;
