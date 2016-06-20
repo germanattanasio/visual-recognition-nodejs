@@ -303,8 +303,15 @@ button {
 }
 
 ._examples--contact-sheet img {
-  width: auto;
-  transition: 0.2s;
+    width: auto;
+    transition: 0.2s;
+}
+
+@media (max-width: 600px) {
+    ._examples--contact-sheet img {
+        max-width: 100%;
+        max-height: 185px;
+    }
 }
 
 ._container--bundle-form {
