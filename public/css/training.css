@@ -605,19 +605,36 @@ form.upload input[type=file] {
 
 .test--form {
   display: block;
+  margin-bottom: 2.5rem;
 }
 
 .test--url-input {
-  width: 20rem;
+  width: 100%;
+}
+@media (min-width: 500px) {
+  .test--url-input {
+    width: 20rem;
+  }
 }
 
 .test--file-input-button {
-  width: 20rem;
+  width: 100%;
+}
+@media (min-width: 500px) {
+  .test--file-input-button {
+    width: 20rem;
+  }
 }
 
-.test--output-row {
-  margin-top: 4.7rem;
+.test--file-input-button-drag-text {
+  display: none;
 }
+@media (min-width: 500px) {
+  .test--file-input-button-drag-text {
+    display: inline;
+  }
+}
+
 .test--description {
   margin-bottom: 2rem;
   margin-top: 2.5rem;
