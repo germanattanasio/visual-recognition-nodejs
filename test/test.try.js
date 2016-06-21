@@ -16,7 +16,7 @@ casper.thenOpen('http://localhost:3000', function(result) {
   testDemoImages();
 
   testPastedDemoImage();
-  
+
   testUploadedImage();
 });
 
@@ -120,7 +120,7 @@ function testUploadedImage() {
   casper.thenOpen('http://localhost:3000', function() {
     // pasted demo pic
     this.fill('#use--fileupload', {
-      'images_file':    'public/images/samples/1.jpg'
+      'images_file': 'public/images/samples/1.jpg'
     }, true);
     // class stuff
     casper.waitForSelector('.results-table--container:first-child table.results-table th.base--th', function() {
