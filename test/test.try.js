@@ -16,6 +16,8 @@ casper.thenOpen('http://localhost:3000', function(result) {
   testDemoImages();
 
   testPastedDemoImage();
+
+  testUploadedImage();
 });
 
 function testDemoImages() {
@@ -110,6 +112,28 @@ function testPastedDemoImage() {
       casper.test.assertSelectorHasText('.results-table--container:last-child tbody .base--tr:nth-child(2) .base--td:first-child', 'age 25 - 34');
       casper.test.assertSelectorHasText('.results-table--container:last-child tbody .base--tr:nth-child(3) .base--td:first-child', 'female');
       casper.test.assertSelectorHasText('.results-table--container:last-child tbody .base--tr:nth-child(4) .base--td:first-child', 'age 18 - 24');
+    });
+  });
+}
+
+function testUploadedImage() {
+  casper.thenOpen('http://localhost:3000', function() {
+    // pasted demo pic
+    this.fill('#use--fileupload', {
+      'images_file': 'public/images/samples/1.jpg'
+    }, true);
+    // class stuff
+    casper.waitForSelector('.results-table--container:first-child table.results-table th.base--th', function() {
+      casper.test.assertSelectorHasText('.results-table--container:first-child table.results-table th.base--th', 'Classes');
+      casper.test.assertSelectorHasText('.results-table--container:first-child table.results-table tbody .base--tr:first-child .base--td:first-child', 'person');
+    });
+    // face stuff
+    casper.waitForSelector('.results-table--container:last-child table.results-table th.base--th', function() {
+      casper.test.assertSelectorHasText('.results-table--container:last-child table.results-table th.base--th', 'Faces');
+      casper.test.assertSelectorHasText('.results-table--container:last-child table.results-table tbody .base--tr:nth-child(1) .base--td:first-child', 'female');
+      casper.test.assertSelectorHasText('.results-table--container:last-child table.results-table tbody .base--tr:nth-child(2) .base--td:first-child', 'age 55 - 64');
+      casper.test.assertSelectorHasText('.results-table--container:last-child table.results-table tbody .base--tr:nth-child(5) .base--td:first-child', 'Whoopi Goldberg');
+      casper.test.assertSelectorHasText('.results-table--container:last-child table.results-table tbody .base--tr:nth-child(6) .base--td:first-child', 'people > women > celebrities > whoopi goldberg');
     });
   });
 }
