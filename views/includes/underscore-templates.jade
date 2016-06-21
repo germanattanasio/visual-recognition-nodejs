@@ -27,6 +27,7 @@ script(type='text/html', id='useResultsTableTemplate').
       <tbody class="base--tbody">
         
         <% _.each(items.data, function(item, key, list) { %>
+          <% if (!item.name.match(/^\s+$/)) { %>
           <tr class="base--tr">
             <td class="base--td"><%= item.name %></td>
             <td class="base--td results-table--score-cell">
@@ -59,6 +60,7 @@ script(type='text/html', id='useResultsTableTemplate').
               </div>
             </td>
           </tr>
+        <% } %>
         <% });%>
         
         <% if (items.identities !== undefined && items.identities.length > 0) { %>
