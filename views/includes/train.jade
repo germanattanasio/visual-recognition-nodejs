@@ -29,7 +29,7 @@ div._demo--container
         input(type="hidden",name="classifiername",value="")
         .positive
           h2 Positive Classes
-          p.text Upload your own images in zipped folders to the spaces below.
+          p.text Upload your own images in zipped folders to the spaces below. <br/> Zipfile size must not exceed 5 MB.
           .classifiers
             .classifier(data-hasfile=0)
               .text
@@ -58,6 +58,7 @@ div._demo--container
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
+          .upload_message Upload at least two image bundles.
         .seperator
         .negative
           h2.negative-header Optional Negative Classes
@@ -72,6 +73,7 @@ div._demo--container
               input(type="file",name="negativeclassupload",accept="application/zip")
               a(href="").base--a.clear_link Clear
               p Use images that may seem like the bundles but are different.
+
 
 div._demo--container
   ._examples(data-kind='dogs')
@@ -178,13 +180,16 @@ div._demo--container
     .train--column-1
       input.base--input._examples--input-name(type='text', placeholder='Name this class',required)
       button.train--train-button.base--button(disabled='true') Train your classifier
+      .license
+        | This is a demo. For full functionality, try out the &nbsp;
+        a.base--a(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/', target='_balnk') API
     .train--column-2
       .icon-hyperlink.train--reset
         span.icon.icon-reset
         button.base--a.icon-hyperlink--button.icon-hyperlink--button_BLANK(type='reset')
           | Reset
   .license
-    | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed 
+    | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed &nbsp;
     a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs/tree/master/attributions', target='_blank') here
     | .
 
