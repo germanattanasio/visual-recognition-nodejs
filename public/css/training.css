@@ -221,7 +221,7 @@ img {
 
 .icon-hyperlink.train--reset {
     float: left;
-    margin-top: 4.5rem;
+    margin-top: 5.5rem;
 }
 
 .positive h2, .negative h2 {
@@ -569,6 +569,10 @@ form.upload input[type=file] {
     margin-right: 0px;
 }
 
+.negative .classifiers {
+  margin-top: 2.5rem;
+}
+
 .train--trained-successfully {
   background-color: #336588;
   text-align: center;
@@ -642,4 +646,19 @@ form.upload input[type=file] {
 
 .test--section {
   display: none;
+}
+
+.upload_message {
+  color: #de4f3a;
+}
+
+input.base--input._examples--input-name {
+  font-size: 1.5em;
+  font-weight: normal;
+  color: #121212;
+}
+
+.bundle {
+  padding: 0px;
+  border: none;
 }

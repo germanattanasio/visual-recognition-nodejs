@@ -64,11 +64,13 @@ $(document).ready(function() {
         $('._examples[data-kind=' + kind + ']').addClass('showing');
         $('.train--row').addClass('showing');
         if (lookupName(kind)) {
-          $('input.base--input._examples--input-name').val(lookupName(kind));
+          $('input.base--input._examples--input-name').val('Name of classifier: ' + lookupName(kind));
           $('input.base--input._examples--input-name').prop('readonly', true);
+          $('input.base--input._examples--input-name').addClass('bundle');
         } else {
           $('input.base--input._examples--input-name').val('');
           $('input.base--input._examples--input-name').prop('readonly', false);
+          $('input.base--input._examples--input-name').removeClass('bundle');
         }
         $('._container--bundle-form').addClass('active');
       }, 100);
@@ -79,10 +81,20 @@ $(document).ready(function() {
     }
   });
 
+  function warningMessagesVisability() {
+    if ($('.classifier[data-hasfile=1]').length > 1) {
+      $('.upload_message').hide();
+      return true;
+    } else {
+      $('.upload_message').show();
+      return false;
+    }
+  }
+
   function enableTrainClassifier() {
     var enable = $('.showing ._examples--class__selected._positive').length > 2;
     enable = enable || ($('.showing ._examples--class__selected._positive').length > 0 && $('.showing ._examples--class__selected._negative').length === 1 );
-    enable = enable || $('.classifier[data-hasfile=1]').length > 1;
+    enable = enable || warningMessagesVisability();
 
     // the name has to be filled out, too
     if (enable && $('.base--input._examples--input-name').val().length) {
@@ -161,6 +173,10 @@ $(document).ready(function() {
   $('.classifier input[type=file]').on('change', function(e) {
     var nameInput = $(e.target).parent().find('input[type=text]');
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
+      if ($(e.target)[0].files[0].size > (5 * 1024 * 1024)) {
+        // eslint-disable-line no-alert
+        alert('This file exceeds the maximum size of 5 MB. Please choose another file');
+      }
       var baseFileName = $(e.target)[0].files[0].name;
       nameInput.val(baseFileName.split('.')[0]);
       $(e.target).parent().attr('data-hasfile', 1);
@@ -217,7 +233,7 @@ $(document).ready(function() {
   function lookupName(token) {
     return {
       moleskine: 'Moleskine Types',
-      dogs: 'Dogs',
+      dogs: 'Dog Breeds',
       insurance: 'Insurance Claims',
       omniearth: 'Satellite Images'
 
