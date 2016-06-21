@@ -186,7 +186,7 @@ $(document).ready(function() {
     var nameInput = $(e.target).parent().find('input[type=text]');
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
       if ($(e.target)[0].files[0].size > (5 * 1024 * 1024)) {
-        // eslint-disable-line no-alert
+        // eslint-disable-next-line no-alert
         alert('This file exceeds the maximum size of 5 MB. Please choose another file');
       }
       var baseFileName = $(e.target)[0].files[0].name;
