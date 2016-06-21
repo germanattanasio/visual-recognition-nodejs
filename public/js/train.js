@@ -78,6 +78,10 @@ $(document).ready(function() {
       setTimeout(function() {
         scrollToElement($('._examples.showing'));
       }, 100);
+
+      if ($(this).css('opacity') === '0.5') {
+        $testSection.hide();
+      }
     }
   });
 
@@ -116,6 +120,7 @@ $(document).ready(function() {
         $('input.base--input._examples--input-name').prop('readonly', false);
       }
     }
+    $testSection.hide();
     enableTrainClassifier();
   });
 
@@ -139,15 +144,20 @@ $(document).ready(function() {
   });
 
   $('._examples--class img').click(function() {
-    $('._examples--class img').css('box-shadow', '0px 0px 0px 0px transparent');
-    $(this).css('box-shadow', '0px 0px 0px 3px #336588');
-    $(this).data('name');
-    $('._examples--contact-sheet[data-kind=' + $(this).data('kind') + '] img').attr('src', '/images/bundles/' + $(this).data('kind') + '/' + $(this).data('name') + '-contact.jpg');
-    $('._examples--contact-sheet[data-kind=' + $(this).data('kind') + ']').css('display', 'flex');
+    var contactSheet = $('._examples--contact-sheet[data-kind=' + $(this).data('kind') + ']');
+    if ( $(this).css('box-shadow') === 'rgb(51, 101, 136) 0px 0px 0px 3px' && contactSheet.css('display') === 'flex') {
+      contactSheet.hide();
+    } else {
+      $('._examples--class img').css('box-shadow', '0px 0px 0px 0px transparent');
+      $(this).css('box-shadow', '0px 0px 0px 3px #336588');
+      $(this).data('name');
+      $('._examples--contact-sheet[data-kind=' + $(this).data('kind') + '] img').attr('src', '/images/bundles/' + $(this).data('kind') + '/' + $(this).data('name') + '-contact.jpg');
+      contactSheet.css('display', 'flex');
 
-    setTimeout(function() {
-      scrollToElement($('._examples--contact-sheet'));
-    }, 100);
+      setTimeout(function() {
+        scrollToElement(contactSheet);
+      }, 100);
+    }
   });
 
   $('._examples--contact-sheet img').click(function() {
@@ -237,8 +247,7 @@ $(document).ready(function() {
       moleskine: 'Moleskine Types',
       dogs: 'Dog Breeds',
       insurance: 'Insurance Claims',
-      omniearth: 'Satellite Images'
-
+      omniearth: 'Satellite Imagery'
     }[token];
   }
 

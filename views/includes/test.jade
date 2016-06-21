@@ -23,7 +23,9 @@
           |  your own image
         input(id='test--file', class='test--file-input', type='file', name='images_file', accept='image/x-png, image/jpg, image/gif, image/jpeg, image/png', title='Choose an image to upload')
     .loading.test--loading(style='display:none')
-      img.test--loading-image.loading--image(src='images/loading-indicator.gif')
+      .loader-container
+        svg.loader(viewBox='25 25 50 50')
+          circle.loader__path(cx='50', cy='50', r='20')
       p.base--p.test--loading-message.loading--message Watson is classifying the image to determine a match...
     .error.test--error(style='display:none')
       img.test--error-image.error--image(src='images/icons/alert.svg')

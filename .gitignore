@@ -8,3 +8,4 @@ uploads/*
 !uploads/README.md
 .jshintignore
 .jshintrc
+delete-all.js
