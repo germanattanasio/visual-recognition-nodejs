@@ -230,6 +230,7 @@ $(document).ready(function() {
   function resetPage() {
     $loading.hide();
     $error.hide();
+    $('.test--output.test--output-row').hide();
   }
 
   function showTrainingError(err) {
