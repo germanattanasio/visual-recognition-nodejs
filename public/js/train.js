@@ -262,7 +262,7 @@ $(document).ready(function() {
     classifierNameMapping.insurance = {};
     classifierNameMapping.insurance.brokenwinshield = 'Broken Windshield';
     classifierNameMapping.insurance.flattire = 'Flat Tire';
-    classifierNameMapping.insurance.motorcycleaccident = 'Motorcycle Accident';
+    classifierNameMapping.insurance.motorcycleaccident = 'Motorcycle Involved';
     classifierNameMapping.insurance.vandalism = 'Vandalism';
     classifierNameMapping.moleskine = {};
     classifierNameMapping.moleskine.journaling = 'Journaling';
