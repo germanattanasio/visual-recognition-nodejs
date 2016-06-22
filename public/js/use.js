@@ -29,6 +29,21 @@ var errorMessages = {
   SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!'
 };
 
+var lockState = {};
+
+function lock(lockName) {
+  if (lockState[lockName] === 1) {
+    return false;
+  } else {
+    lockState[lockName] = 1;
+    return true;
+  }
+}
+
+function unlock(lockName) {
+  lockState[lockName] = 0;
+}
+
 /*
  * Setups the "Try Out" and "Test" panels.
  * It connects listeners to the DOM elements in the panel to allow
@@ -153,7 +168,13 @@ function setupUse(params) {
   /*
    * submit event
    */
-  function classifyImage(imgPath, imageData) {
+  function classifyImage(imgPath, imageData, beforeFunction, afterFunction) {
+    if (!lock('classify')) {
+      return;
+    }
+
+    beforeFunction ? beforeFunction() : false;
+
     processImage();
     if (imgPath !== '') {
       $image.attr('src', imgPath);
@@ -176,6 +197,9 @@ function setupUse(params) {
         } else {
           showError(errorMessages.SITE_IS_DOWN);
         }
+      }).always(function() {
+        afterFunction ? afterFunction() : false;
+        unlock('classify');
       });
   }
 
@@ -188,12 +212,18 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
-    resetPasteUrl();
-    var imgPath = $(this).next('label').find('img').attr('src');
-    $(this).parent().find('label').addClass('dim');
-    $(this).parent().find('label[for=' + $(this).attr('id') + ']').removeClass('dim');
-    classifyImage(imgPath);
-    $urlInput.val('');
+    var rI = $(this);
+    var imgPath = rI.next('label').find('img').attr('src');
+
+    classifyImage(imgPath, null, function() {
+      $('input[type=radio][name=use--example-images]').prop('disabled', true);
+      resetPasteUrl();
+      rI.parent().find('label').addClass('dim');
+      rI.parent().find('label[for=' + rI.attr('id') + ']').removeClass('dim');
+    }, function() {
+      $urlInput.val('');
+      $('input[type=radio][name=use--example-images]').prop('disabled', false);
+    });
   });
 
   /*
