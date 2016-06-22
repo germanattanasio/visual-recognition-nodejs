@@ -72,7 +72,7 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     // casper.then(function() {
     //   this.capture('./husky.png');
     // });
-    
+
     // Dalmatian image by file upload
     this.fill('#test--fileupload', {
       'images_file': 'public/images/bundles/dogs/test/2.jpg'
@@ -92,7 +92,7 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     casper.waitWhileVisible('.test--loading');
     casper.then(function() {
       this.capture('./random.jpg');
-      casper.test.assertVisible('.test--output', "random image gets some output ");
+      casper.test.assertVisible('.test--output', 'random image gets some output ');
       // can't really validate much more for a random image
     });
   }, null, 3 * 60 * 1000);
