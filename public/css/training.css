@@ -230,6 +230,7 @@ img {
     color: #121212;
 }
 
+
 @media (max-width: 600px) {
 
     .train--row.showing {
@@ -660,5 +661,10 @@ input.base--input._examples--input-name {
 
 .bundle {
   padding-left: 0px;
+  width: 100%;
   border: none;
+}
+
+.bundle:focus {
+    outline: none;
 }
