@@ -2,6 +2,7 @@ var system = require('system');
 var apiKey = system.env.API_KEY;
 
 casper.options.waitTimeout = 60000;
+
 casper.start();
 
 casper.thenBypassUnless(function() {
@@ -44,49 +45,57 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     this.click('button.train--train-button');
   });
 
-  // // dogs test page
-  // casper.waitUntilVisible('test--section', function() {
-  //   casper.test.assertSelectorHasText('base--h2 test--classifier', 'Dogs');
-  // });
-  //
-  // // click on the cat
-  // casper.then(function() {
-  //   this.click('.test--random-test-image');
-  // });
-  //
-  // // random picture
-  // casper.waitUntilVisible('test--output-image.landscape', function() {
-  // });
-
-
-  casper.thenOpen('http://localhost:3000/train', function() {
-    // Moleskine
-    casper.then(function() {
-      this.click('div._training--example:nth-child(2)');
-    });
-
-    // dog type examples
-    casper.waitForSelector('div._examples[data-kind="moleskine"]', function() {
-
-    });
-
-    // 1 pro and one -non
-    casper.then(function() {
-      this.click('button._positive[data-name="portrait"]');
-    });
-    casper.then(function() {
-      this.click('button._negative[data-name="negative"]');
-    });
-    // train
-    casper.then(function() {
-      this.click('button.train--train-button');
-    });
-
-    // Moleskines test page
-    // casper.waitUntilVisible('test--section', function() {
-    //   casper.test.assertSelectorHasText('base--h2 test--classifier', 'Moleskine Types');
-    // });
+  casper.then(function() {
+    casper.test.assertVisible('.train--loading', 'animation displayed during training');
   });
+
+  casper.waitWhileVisible('.train--loading', function() {
+    casper.test.assertTextExist('Test your newly trained demo classifier');
+
+    // husky image by url
+    // commenting for now because it sometimes gets marked as a dalmation (?)
+    // casper.then(function() {
+    //   this.sendKeys('input.test--url-input', 'https://watson-test-resources.mybluemix.net/resources/husky.jpg');
+    //   this.sendKeys('input.test--url-input', casper.page.event.key.Enter);
+    // });
+    // //casper.waitForResource('http://localhost:3000/api/classify');
+    // // casper.waitUntilVisible('.test--loading', function() {
+    // //   this.echo('loading animation for husky url displayed')
+    // // });
+    // // casper.waitWhileVisible('.test--loading', function() {
+    // //   this.echo('loading animation for husky hidden');
+    // //   this.capture('husky-post-load.png');
+    // // });
+    // casper.waitUntilVisible('.results-table', function() {
+    //   casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Husky');
+    // });
+    // casper.then(function() {
+    //   this.capture('./husky.png');
+    // });
+
+    // Dalmatian image by file upload
+    this.fill('#test--fileupload', {
+      'images_file': 'public/images/bundles/dogs/test/2.jpg'
+    }, true);
+    casper.waitForResource('http://localhost:3000/api/classify');
+    casper.waitUntilVisible('.results-table', function() {
+      casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Dalmatian');
+    });
+
+    // click on the random picture link
+    casper.then(function() {
+      this.clickLabel('Use a random image', 'a');
+    });
+    casper.then(function() {
+      casper.test.assertVisible('.test--loading', 'animation displayed during image processing');
+    });
+    casper.waitWhileVisible('.test--loading');
+    casper.then(function() {
+      this.capture('./random.jpg');
+      casper.test.assertVisible('.test--output', 'random image gets some output ');
+      // can't really validate much more for a random image
+    });
+  }, null, 3 * 60 * 1000);
 });
 
 casper.run(function() {
