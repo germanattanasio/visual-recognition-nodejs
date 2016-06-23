@@ -54,29 +54,23 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
 
     // husky image by url
     // commenting for now because it sometimes gets marked as a dalmation (?)
-    // casper.then(function() {
-    //   this.sendKeys('input.test--url-input', 'https://watson-test-resources.mybluemix.net/resources/husky.jpg');
-    //   this.sendKeys('input.test--url-input', casper.page.event.key.Enter);
-    // });
-    // //casper.waitForResource('http://localhost:3000/api/classify');
-    // // casper.waitUntilVisible('.test--loading', function() {
-    // //   this.echo('loading animation for husky url displayed')
-    // // });
-    // // casper.waitWhileVisible('.test--loading', function() {
-    // //   this.echo('loading animation for husky hidden');
-    // //   this.capture('husky-post-load.png');
-    // // });
-    // casper.waitUntilVisible('.results-table', function() {
-    //   casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Husky');
-    // });
-    // casper.then(function() {
-    //   this.capture('./husky.png');
-    // });
+    casper.then(function() {
+      this.sendKeys('input.test--url-input', 'https://watson-test-resources.mybluemix.net/resources/husky.jpg');
+      this.sendKeys('input.test--url-input', casper.page.event.key.Enter);
+    });
+    // casper.waitForResource('http://localhost:3000/api/classify');
+    casper.waitUntilVisible('.test--loading');
+    casper.waitWhileVisible('.test--loading');
+    casper.waitUntilVisible('.results-table', function() {
+      casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Husky');
+    });
 
     // Dalmatian image by file upload
-    this.fill('#test--fileupload', {
-      'images_file': 'public/images/bundles/dogs/test/2.jpg'
-    }, true);
+    casper.then(function() {
+      this.fill('#test--fileupload', {
+        'images_file': 'public/images/bundles/dogs/test/2.jpg'
+      }, true);
+    });
     casper.waitForResource('http://localhost:3000/api/classify');
     casper.waitUntilVisible('.results-table', function() {
       casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Dalmatian');
@@ -91,7 +85,6 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     });
     casper.waitWhileVisible('.test--loading');
     casper.then(function() {
-      this.capture('./random.jpg');
       casper.test.assertVisible('.test--output', 'random image gets some output ');
       // can't really validate much more for a random image
     });
