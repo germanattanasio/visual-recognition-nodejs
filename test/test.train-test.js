@@ -84,7 +84,7 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
 
     // click on the random picture link
     casper.then(function() {
-      this.clickLabel('Use a random image', 'a');
+      this.clickLabel('Use a system test image', 'a');
     });
     casper.then(function() {
       casper.test.assertVisible('.test--loading', 'animation displayed during image processing');
