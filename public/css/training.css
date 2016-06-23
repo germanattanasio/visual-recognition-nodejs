@@ -584,6 +584,10 @@ form.upload input[type=file] {
   padding: 0rem;
   width: calc(100% + 4rem);
   margin-left: -2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .train--trained-successfully.showing {
@@ -600,8 +604,14 @@ form.upload input[type=file] {
 }
 
 .train--trained-successfully-text {
-  display: inline-block;
-  margin-top: 1rem;
+  text-align: left;
+}
+
+@media (max-width: 500px) {
+  .train--trained-successfully-text {
+    text-align: center;
+    max-width: 35%;
+  }
 }
 
 .clear_link {
