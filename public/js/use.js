@@ -444,7 +444,9 @@ function setupUse(params) {
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
       }
-      $outputData.html('<div class="' + panel + '--mismatch">This image is not a match for ' + (bundle.name || '' ) + ': ' + classes + '.</div>');
+      $outputData.html('<div class="' + panel + '--mismatch">' +
+          'The score for this image is not above the threshold of 0.5 for ' + (bundle.name || '' ) + ': ' + classes +
+          ', based on the training data provided.</div>');
     }
 
     // faces
