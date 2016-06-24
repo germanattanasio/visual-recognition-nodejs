@@ -1,37 +1,22 @@
 language: node_js
 sudo: true
-node_js:
-- stable
+node_js: 4
 script:
 - npm test
-deploy:
-# main demo is auto-deployed from master
-# http://visual-recognition-demo-stage.mybluemix.net/
-- provider: cloudfoundry
-  api: https://api.ng.bluemix.net
-  username: $CF_USERNAME
-  password: $CF_PASSWORD
-  organization: WatsonPlatformServices
-  space: demos
-  on:
-    repo: watson-developer-cloud/visual-recognition-nodejs
-    branch: master
-  skip_cleanup: true
-  edge: true # https://docs.travis-ci.com/user/deployment/cloudfoundry/
-# staging demo is auto-deployed from v3-issues
-# this url is http://visual-recognition-demo-stage.mybluemix.net/
-- provider: cloudfoundry
-  api: https://api.ng.bluemix.net
-  username: nfriedly@us.ibm.com
-  password:
-    secure: AO0368ShN2EoZKOyS/aQlsPEjh+MlfNfZewloe0q6neC6D/4GZEiaWvyquNcx0bs/cX4V6TPIBfPlnkiB5i5DXVtb6cOdypf1TKdg960/2HuwHQGnW8AynZglmlArwhr7008olF2kpPIWER7vKkgSmltLDA7WSd2GcS7upIrdSo=
-  organization: WatsonPlatformServices
-  space: demos-staging
-  on:
-    repo: watson-developer-cloud/visual-recognition-nodejs
-    branch: v3-issues
-  skip_cleanup: true
-  edge: true # https://docs.travis-ci.com/user/deployment/cloudfoundry/
 env:
   global:
-    secure: EnD9T5I47tq7O919jm1tQi4rg5osUinvmzz6Yv8Kbxrp1Dmvj5kVGNLvN4D1N3b64BZtZ79rOegN6FXYwzhld0+vidz8j8YJiEz5UTTK2IvVxyvq5jhzc3YbLIz8Ns10n4bTOmXKA5wEYzZnE/5LzO1jMPK5YYo6EiwHGee+mjM=
+  - CF_APP=visual-recognition-demo
+  - CF_API=https://api.ng.bluemix.net
+  - CF_ORGANIZATION=WatsonPlatformServices
+  - CF_SPACE=demos
+before_deploy: npm install -g cf-blue-green
+deploy:
+  provider: script
+  script:
+    - cf-blue-green-travis
+  on:
+    branch: master
+    repo: watson-developer-cloud/visual-recognition-nodejs
+  skip_cleanup: true
+notifications:
+  email: false
