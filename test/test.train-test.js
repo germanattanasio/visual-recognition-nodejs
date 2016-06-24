@@ -1,7 +1,7 @@
 var system = require('system');
 var apiKey = system.env.API_KEY;
 
-casper.options.waitTimeout = 25000;
+casper.options.waitTimeout = 60000;
 
 casper.start();
 
@@ -20,7 +20,6 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
 
   // dog type examples
   casper.waitForSelector('div._examples[data-kind="dogs"]', function() {
-
   });
 
   casper.then(function() {
@@ -29,7 +28,6 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
 
   // example shots
   casper.waitForSelector('div._examples--contact-sheet[data-kind="dogs"]', function() {
-
   });
 
   // click three of deez
@@ -47,20 +45,50 @@ casper.thenOpen('http://localhost:3000/train', function(result) {
     this.click('button.train--train-button');
   });
 
-  // dogs test page
-  casper.waitForSelector('h2.base--h2.test--classifier-name', function() {
-    casper.test.assertSelectorHasText('h2.base--h2.test--classifier-name', 'Dogs');
-  });
-
-  // click on the cat
   casper.then(function() {
-    this.click('label.test--example-thumb');
+    casper.test.assertVisible('.train--loading', 'animation displayed during training');
   });
 
-  // el tigre no a dog
-  casper.waitForSelector('h2.base--h2.test--output-header', function() {
-    casper.test.assertSelectorHasText('h2.base--h2.test--output-header', 'Results');
-  });
+  casper.waitWhileVisible('.train--loading', function() {
+    casper.test.assertTextExist('Test your newly trained demo classifier');
+
+    // husky image by url
+    // commenting for now because it sometimes gets marked as a dalmation (?)
+    casper.then(function() {
+      this.sendKeys('input.test--url-input', 'https://watson-test-resources.mybluemix.net/resources/husky.jpg');
+      this.sendKeys('input.test--url-input', casper.page.event.key.Enter);
+    });
+    // casper.waitForResource('http://localhost:3000/api/classify');
+    casper.waitUntilVisible('.test--loading');
+    casper.waitWhileVisible('.test--loading');
+    casper.waitUntilVisible('.results-table', function() {
+      casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Husky');
+    });
+
+    // Dalmatian image by file upload
+    casper.then(function() {
+      this.fill('#test--fileupload', {
+        'images_file': 'public/images/bundles/dogs/test/2.jpg'
+      }, true);
+    });
+    casper.waitForResource('http://localhost:3000/api/classify');
+    casper.waitUntilVisible('.results-table', function() {
+      casper.test.assertSelectorHasText('.results-table--container:first-child tbody .base--tr:first-child .base--td:first-child', 'Dalmatian');
+    });
+
+    // click on the random picture link
+    casper.then(function() {
+      this.clickLabel('Use a system test image', 'a');
+    });
+    casper.then(function() {
+      casper.test.assertVisible('.test--loading', 'animation displayed during image processing');
+    });
+    casper.waitWhileVisible('.test--loading');
+    casper.then(function() {
+      casper.test.assertVisible('.test--output', 'random image gets some output ');
+      // can't really validate much more for a random image
+    });
+  }, null, 3 * 60 * 1000);
 });
 
 casper.run(function() {

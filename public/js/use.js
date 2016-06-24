@@ -19,7 +19,8 @@
 
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
-
+var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+var getRandomInt = require('./demo.js').getRandomInt;
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
@@ -27,6 +28,21 @@ var errorMessages = {
   TOO_MANY_REQUESTS: 'You have entered too many requests at once. Please try again later.',
   SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!'
 };
+
+var lockState = {};
+
+function lock(lockName) {
+  if (lockState[lockName] === 1) {
+    return false;
+  } else {
+    lockState[lockName] = 1;
+    return true;
+  }
+}
+
+function unlock(lockName) {
+  lockState[lockName] = 0;
+}
 
 /*
  * Setups the "Try Out" and "Test" panels.
@@ -59,6 +75,7 @@ function setupUse(params) {
   var $fileupload = $(pid + 'fileupload');
   var $outputData = $(pclass + 'output-data');
   var $boxes = $('.boxes');
+  var $randomImage = $(pclass + 'random-test-image');
 
   /*
    * Resets the panel
@@ -151,7 +168,13 @@ function setupUse(params) {
   /*
    * submit event
    */
-  function classifyImage(imgPath, imageData) {
+  function classifyImage(imgPath, imageData, beforeFunction, afterFunction) {
+    if (!lock('classify')) {
+      return;
+    }
+
+    beforeFunction ? beforeFunction() : false;
+
     processImage();
     if (imgPath !== '') {
       $image.attr('src', imgPath);
@@ -174,6 +197,9 @@ function setupUse(params) {
         } else {
           showError(errorMessages.SITE_IS_DOWN);
         }
+      }).always(function() {
+        afterFunction ? afterFunction() : false;
+        unlock('classify');
       });
   }
 
@@ -186,10 +212,28 @@ function setupUse(params) {
    * Radio image submission
    */
   $radioImages.click(function() {
-    console.log('clicked');
+    var rI = $(this);
+    var imgPath = rI.next('label').find('img').attr('src');
+
+    classifyImage(imgPath, null, function() {
+      $('input[type=radio][name=use--example-images]').prop('disabled', true);
+      resetPasteUrl();
+      rI.parent().find('label').addClass('dim');
+      rI.parent().find('label[for=' + rI.attr('id') + ']').removeClass('dim');
+    }, function() {
+      $urlInput.val('');
+      $('input[type=radio][name=use--example-images]').prop('disabled', false);
+    });
+  });
+
+  /*
+   * Random image submission
+   */
+  $randomImage.click(function() {
     resetPasteUrl();
-    var imgPath = $(this).next('label').find('img').attr('src');
-    classifyImage(imgPath);
+    var kind = getAndParseCookieName('bundle').kind;
+    var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
+    classifyImage('images' + path +  getRandomInt(1, 5) + '.jpg');
     $urlInput.val('');
   });
 
@@ -273,18 +317,13 @@ function setupUse(params) {
   }
 
   function lookupInMap(mapToCheck, kind, token, defaultValue) {
-    var res = mapToCheck[kind][token];
-    if (res) {
-      return res;
-    } else {
+    if (!mapToCheck) {
       return defaultValue;
     }
-  }
 
-  function getAndParseCookieName(cookieName, defaultValue) {
-    var res = Cookies.get(cookieName);
+    var res = mapToCheck[kind] && mapToCheck[kind][token] ? mapToCheck[kind][token] : false;
     if (res) {
-      return JSON.parse(res);
+      return res;
     } else {
       return defaultValue;
     }
@@ -298,14 +337,14 @@ function setupUse(params) {
   // get transformed positions of face
   //  = ratio * original positions + offset
   function renderEntities(results) {
-
+    // eslint-disable-next-line camelcase
+    var imageBoxes_template;
     if (results.images[0].faces) {
-      var imageBoxes_template = imageBoxesTemplate.innerHTML;
+      // eslint-disable-next-line camelcase
+      imageBoxes_template = imageBoxesTemplate.innerHTML;
       var faceLocations = results.images[0].faces.map(function(face) {
         return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
       });
-
-      console.log(faceLocations);
 
       $boxes.append(_.template(imageBoxes_template, {
         items: faceLocations
@@ -313,37 +352,32 @@ function setupUse(params) {
     }
 
     if (results.images[0].words) {
-      var imageBoxes_template = imageBoxesTemplate.innerHTML;
+      // eslint-disable-next-line camelcase
+      imageBoxes_template = imageBoxesTemplate.innerHTML;
       var locations = results.images[0].words.map(function(word) {
         return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
       });
-
-      console.log(locations);
 
       $boxes.append(_.template(imageBoxes_template, {
         items: locations
       }));
     }
-
-    console.log(results.images[0].words);
   }
 
   function transformBoxLocations(faceLocation, image) {
     var newFaceLocation = faceLocation;
     var ratio = image.getBoundingClientRect().width / image.naturalWidth;
     var coordinates = getCoords(image);
-    console.log(image.getBoundingClientRect());
     newFaceLocation = {
       width: faceLocation.width * ratio,
       height: faceLocation.height * ratio,
       top: coordinates.top + faceLocation.top * ratio,
-      left: coordinates.left + faceLocation.left * ratio,
+      left: coordinates.left + faceLocation.left * ratio
     };
-    console.log(image.getBoundingClientRect(), ratio, image.getBoundingClientRect().width, faceLocation.width);
     return newFaceLocation;
   }
 
-  /**
+  /*
    * Solution found here:
    * http://stackoverflow.com/questions/5598743/finding-elements-position-relative-to-the-document#answer-26230989
    */
@@ -397,6 +431,7 @@ function setupUse(params) {
 
         return {
           resultCategory: 'Classes',
+          classes_raw: results.raw.classify,
           data: classes
         };
       })();
@@ -409,7 +444,9 @@ function setupUse(params) {
       if (bundle.names.length > 1) {
         classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
       }
-      $outputData.html('<div class="' + panel + '--mismatch">This image is not a match for ' + bundle.name + ': ' + classes + '.</div>');
+      $outputData.html('<div class="' + panel + '--mismatch">' +
+          'The score for this image is not above the threshold of 0.5 for ' + (bundle.name || '' ) + ': ' + classes +
+          ', based on the training data provided.</div>');
     }
 
     // faces
@@ -443,6 +480,7 @@ function setupUse(params) {
         return {
           resultCategory: 'Faces',
           identities: identities,
+          classes_raw: results.raw.detectFaces,
           data: faces
         };
       })();
@@ -463,6 +501,7 @@ function setupUse(params) {
         });
         return {
           resultCategory: 'Words',
+          classes_raw: results.raw.recognizeText,
           data: words
         };
       })();
@@ -471,6 +510,11 @@ function setupUse(params) {
         items: wordsModel
       }));
     }
+
+    $('a.json').on('click', function() {
+      var rawJsonData = $(this).parent().find('.json_raw').data('raw');
+      window.open('data:application/json,' + rawJsonData, '_blank');
+    });
 
     $(document).on('click', '.results-table--input-no', function() {
       $(this).parent().hide();

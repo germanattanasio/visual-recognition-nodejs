@@ -23,10 +23,10 @@ var extend = require('extend');
 var path = require('path');
 var async = require('async');
 var validator = require('validator');
-var zipUtils = require('./config/zip-utils');
 var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
+var os = require('os');
 
 var ONE_HOUR = 3600000;
 
@@ -90,14 +90,45 @@ app.get('/test', function(req, res) {
   });
 });
 
+
+function deleteUploadedFile(readStream) {
+  fs.unlink(readStream.path, function(e) {
+    if (e) {
+      console.log('error deleting %s: %s', readStream.path, e);
+    }
+  });
+}
+
 /**
  * Creates a classifier
  * @param req.body.bundles Array of selected bundles
  * @param req.body.kind The bundle kind
  */
-app.post('/api/classifiers', function(req, res) {
-  var formData = bundleUtils.createFormData(req.body);
+app.post('/api/classifiers', app.upload.fields([{ name: 'classupload', maxCount: 3 }, { name: 'negativeclassupload', maxCount: 1 }]), function(req, res) {
+  var formData;
+
+  if (!req.files) {
+    formData = bundleUtils.createFormData(req.body);
+  } else {
+    formData = { name: req.body.classifiername };
+    req.files.classupload.map(function(fileobj, idx) {
+      formData[req.body.classname[idx] + '_positive_examples'] = fs.createReadStream(path.join(fileobj.destination, fileobj.filename));
+    });
+
+    if (req.files.negativeclassupload && req.files.negativeclassupload.length > 0) {
+      var negpath = path.join(req.files.negativeclassupload[0].destination, req.files.negativeclassupload[0].filename);
+      formData.negative_examples = fs.createReadStream(negpath);
+    }
+  }
+
   visualRecognition.createClassifier(formData, function createClassifier(err, classifier) {
+    if (req.files) {
+      req.files.classupload.map(deleteUploadedFile);
+      if (req.files.negativeclassupload) {
+        req.files.negativeclassupload.map(deleteUploadedFile);
+      }
+    }
+
     if (err) {
       console.log(err);
       return res.status(err.code || 500).json(err);
@@ -122,6 +153,24 @@ app.get('/api/classifiers/:classifier_id', function(req, res) {
   });});
 
 /**
+ * Parse a base 64 image and return the extension and buffer
+ * @param  {String} imageString The image data as base65 string
+ * @return {Object}             { type: String, data: Buffer }
+ */
+function parseBase64Image(imageString) {
+  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
+  var resource = {};
+
+  if (matches.length !== 3) {
+    return null;
+  }
+
+  resource.type = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+  resource.data = new Buffer(matches[2], 'base64');
+  return resource;
+}
+
+/**
  * Classifies an image
  * @param req.body.url The URL for an image either.
  *                     images/test.jpg or https://example.com/test.jpg
@@ -137,9 +186,10 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     params.images_file = fs.createReadStream(req.file.path);
   } else if (req.body.url && req.body.url.indexOf('images') === 0) { // local image
     params.images_file = fs.createReadStream(path.join('public', req.body.url));
-  } else if (req.body.image_data) {  // write the base64 image to a temp file
-    var resource = zipUtils.parseBase64Image(req.body.image_data);
-    var temp = path.join(__dirname, 'uploads', uuid.v1() + '.' + resource.type);
+  } else if (req.body.image_data) {
+    // write the base64 image to a temp file
+    var resource = parseBase64Image(req.body.image_data);
+    var temp = path.join(os.tmpdir(), uuid.v1() + '.' + resource.type);
     fs.writeFileSync(temp, resource.data);
     params.images_file = fs.createReadStream(temp);
   } else if (req.body.url && validator.isURL(req.body.url)) { // url
@@ -169,11 +219,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   }), function(err, results) {
     // delete the recognized file
     if (params.images_file && !req.body.url) {
-      try {
-        fs.unlink(params.images_file.path);
-      } catch (e) {
-        console.log('error deleting the file', e);
-      }
+      deleteUploadedFile(params.images_file);
     }
 
     if (err) {
@@ -181,15 +227,27 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
       return res.status(err.code || 500).json(err);
     }
     // combine the results
-    var combine = results.reduce(function(prev, cur) {
+    var combine = results.map(function(result) {
+      if (result.value && result.value.length) {
+        // value is an array of arguments passed to the callback (excluding the error).
+        // In this case, it's the result and then the request object.
+        // We only want the result.
+        result.value = result.value[0];
+      }
+      return result;
+    }).reduce(function(prev, cur) {
       return extend(true, prev, cur);
     });
     if (combine.value) {
       // save the classifier_id as part of the response
       if (req.body.classifier_id) {
-        combine.value[0].classifier_ids = req.body.classifier_id;
+        combine.value.classifier_ids = req.body.classifier_id;
       }
-      res.json(combine.value[0]);
+      combine.value.raw = {};
+      methods.map(function(methodName, idx) {
+        combine.value.raw[methodName] = encodeURIComponent(JSON.stringify(results[idx].value));
+      });
+      res.json(combine.value);
     } else {
       res.status(400).json(combine.error);
     }

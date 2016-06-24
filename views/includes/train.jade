@@ -1,32 +1,81 @@
-.loading.train--loading
-  img.loading--image(src='images/loading-indicator.gif')
-  p.base--p.loading--message Watson is training your new classifier. 
-  p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
-.error.train--error
-  img.train--error-image.error--image(src='images/icons/alert.svg')
-  p.base--p.train--error-message.error--message Visual Recognition is not available right now...
-._container--training
-  h1.base--h2.use--header Train a demo classifier
-  div
-    | To create a temporary trial classifier, select classes from the example image bundles.
-  h2 Example Image Bundles
-  .license
-    | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed 
-    a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs/tree/master/attributions', target='_blank') here
-    | .
-  ._training--examples
-    ._training--example.clickable(data-kind='dogs')
-      h3 Dog Breeds
-      img(src='/images/bundles/dogs/thumbnail.jpg')
-    ._training--example.clickable(data-kind='moleskine')
-      h3 Moleskine Types
-      img(src='/images/bundles/moleskine/thumbnail.jpg')
-    ._training--example.clickable(data-kind='insurance')
-      h3 Insurance Claims
-      img(src='/images/bundles/insurance/thumbnail.jpg')
-    ._training--example.clickable(data-kind='omniearth')
-      h3 Satellite Imagery
-      img(src='/images/bundles/omniearth/thumbnail.png')
+div._demo--container
+  ._container--training
+    h1.base--h2.use--header Train a demo classifier
+    div
+      | To create a temporary trial classifier, select at least 3 classes from the example image bundles.
+    h2 Example Image Bundles
+    ._training--examples
+      ._training--example.clickable(data-kind='dogs')
+        h3 Dog Breeds
+        img(src='/images/bundles/dogs/thumbnail.jpg')
+      ._training--example.clickable(data-kind='moleskine')
+        h3 Moleskine Types
+        img(src='/images/bundles/moleskine/thumbnail.jpg')
+      ._training--example.clickable(data-kind='insurance')
+        h3 Insurance Claims
+        img(src='/images/bundles/insurance/thumbnail.jpg')
+      ._training--example.clickable(data-kind='omniearth')
+        h3 Satellite Imagery
+        img(src='/images/bundles/omniearth/thumbnail.png')
+      ._training--example.clickable(data-kind='user')
+        h3 Use Your Own
+        ._training--use-your-own.square
+          ._training--use-your-own-plus +
+
+._examples(data-kind="user")
+  .user-submitted
+    form#user_upload.upload.training_dropzone
+      div._demo--container
+        input(type="hidden",name="classifiername",value="")
+        .positive
+          h2 Positive Classes
+          p.text Upload your own images in zipped folders to the spaces below. <br/> Zipfile size must not exceed 5 MB.
+          .classifiers
+            .classifier(data-hasfile=0,data-idx=0)
+              .text
+                span.text-label
+                  a.base--a(href="javascript:void(0)") Select
+                  |  or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
+              input(type="file",name="classupload",accept="application/zip")
+              input.base--input(type="text",name="classname",placeholder="Name of This Class")
+              a(href="").base--a.clear_link Clear
+            .classifier(data-hasfile=0,data-idx=1)
+              .text
+                span.text-label
+                  a.base--a(href="javascript:void(0)") Select
+                  |  or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
+              input(type="file",name="classupload",accept="application/zip")
+              input.base--input(type="text",name="classname",placeholder="Name of This Class")
+              a(href="").base--a.clear_link Clear
+            .classifier(data-hasfile=0,data-idx=2)
+              .text
+                span.text-label
+                  a.base--a(href="javascript:void(0)") Select
+                  |  or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
+              input(type="file",name="classupload",accept="application/zip")
+              input.base--input(type="text",name="classname",placeholder="Name of This Class")
+              a(href="").base--a.clear_link Clear
+          .upload_message Upload at least two image bundles.
+        .seperator
+        .negative
+          h2.negative-header Optional Negative Classes
+          .classifiers
+            .classifier(data-hasfile=0,data-idx=3).negative
+              .text
+                span.text-label
+                  a.base--a(href="javascript:void(0)") Select
+                  |  or drag a zipped folder with at least 50 images
+                img.text-zip-image(src="images/VR zip icon.svg")
+              input(type="hidden",name="classname",value="negative")
+              input(type="file",name="negativeclassupload",accept="application/zip")
+              a(href="").base--a.clear_link Clear
+              p Use images that may seem like the bundles but are different.
+
+
+div._demo--container
   ._examples(data-kind='dogs')
     a.select_all(data-kind='dogs') Select All
     ._examples--classes
@@ -47,7 +96,9 @@
         img(src='/images/bundles/dogs/beagle-thumbnail.png', data-kind='dogs', data-name='beagle')
         button._positive(data-name='beagle') Select
       ._examples--class._negative(data-name='negatives', data-kind='dogs')
-        h4 Non-Dogs
+        h4 Negative:
+          br
+          | Non-Dogs
         img(src='/images/bundles/dogs/negatives-thumbnail.png', data-kind='dogs', data-name='negatives')
         button._negative(data-name='negatives') Select
     ._examples--contact-sheet(data-kind='dogs')
@@ -63,8 +114,8 @@
         h4 Flat Tire
         img(src='/images/bundles/insurance/flattire-thumbnail.png', data-kind='insurance', data-name='flattire')
         button._positive(data-name='flattire') Select
-      ._examples--class._positive(data-name='motorcycleaccident', data-kind='insurance', data-realname='Motorcycle Accident')
-        h4 Motorcycle Accident
+      ._examples--class._positive(data-name='motorcycleaccident', data-kind='insurance', data-realname='Motorcycle Involved')
+        h4 Motorcycle Involved
         img(src='/images/bundles/insurance/motorcycleaccident-thumbnail.png', data-kind='insurance', data-name='motorcycleaccident')
         button._positive(data-name='motorcycleaccident') Select
       ._examples--class._positive(data-name='vandalism', data-kind='insurance', data-realname='Vandalism')
@@ -97,7 +148,9 @@
         img(src='/images/bundles/moleskine/portrait-thumbnail.png', data-kind='moleskine', data-name='portrait')
         button._positive(data-name='portrait') Select
       ._examples--class._negative(data-name='negative', data-kind='moleskine')
-        h4 Non-Moleskine
+        h4 Negative:
+          br
+          | Non-Moleskine
         img(src='/images/bundles/moleskine/negative-thumbnail.png', data-kind='moleskine', data-name='negative')
         button._negative(data-name='negative') Select
     ._examples--contact-sheet(data-kind='moleskine')
@@ -128,4 +181,28 @@
     .license Images courtesy of IBM Watson partner 
       a(class="base--a", href='http://omniearth.net/' target='_blank') OmniEarth.
   .train--row
-    button.train--train-button.base--button(disabled='true') Train your classifier
+    .train--column-1
+      input.base--input._examples--input-name(type='text', placeholder='Name this class',required)
+      button.train--train-button.base--button(disabled='true') Train your classifier
+      .license
+        | This is a demo. For full functionality, try out the &nbsp;
+        a.base--a(href='http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/', target='_balnk') API
+        span .
+    .train--column-2
+      .icon-hyperlink.train--reset
+        span.icon.icon-reset
+        button.base--a.icon-hyperlink--button.icon-hyperlink--button_BLANK(type='reset')
+          | Reset
+  .license
+    | Images used in this demo are licensed under Creative Commons 2.0 General License and are attributed &nbsp;
+    a.base--a(href='https://github.com/watson-developer-cloud/visual-recognition-nodejs/tree/master/attributions', target='_blank') here
+    | .
+  .loading.train--loading
+    .loader-container
+      svg.loader(viewBox='25 25 50 50')
+        circle.loader__path(cx='50', cy='50', r='20')
+    p.base--p.loading--message Watson is training your new classifier. 
+    p.base--p.loading--message This might take up to 4-5 minutes based on number of images.
+  .error.train--error
+    img.train--error-image.error--image(src='images/icons/alert.svg')
+    p.base--p.train--error-message.error--message Visual Recognition is not available right now...

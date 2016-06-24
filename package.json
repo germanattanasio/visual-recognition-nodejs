@@ -31,20 +31,19 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "gulp",
     "test-unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit",
     "test-integration": "casperjs test ./test/test.*.js",
-    "test-integration-runner": "node casper-runner.js",
+    "test-integration-runner": "NODE_ENV=test node casper-runner.js",
     "test": "npm run lint && npm run test-unit && npm run test-integration-runner",
     "lint": "eslint .",
     "autofix": "eslint --fix .",
-    "codecov": "npm run test && (codecov || true)"
+    "codecov": "npm run test && (codecov || true)",
+    "validate": "npm ls"
   },
   "dependencies": {
-    "archiver": "^1.0.0",
     "async": "^2.0.0-rc.5",
     "body-parser": "^1.15.1",
-    "cf-deployment-tracker-client": "0.0.8",
+    "cf-deployment-tracker-client": "0.1.1",
     "cookie-parser": "^1.4.1",
     "csurf": "^1.8.3",
     "dotenv": "^2.0.0",
@@ -52,7 +51,6 @@
     "express-browserify": "^1.0.2",
     "express-rate-limit": "^2.3.1",
     "extend": "^3.0.0",
-    "find-remove": "^0.2.11",
     "helmet": "^2.1.0",
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
@@ -73,6 +71,11 @@
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "phantomjs": "^2.1.7",
+    "precommit-hook": "^3.0.0",
     "supertest": "^1.2.0"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "validate"
+  ]
 }
