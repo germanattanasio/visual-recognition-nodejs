@@ -28,6 +28,8 @@ var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 $(document).ready(function() {
   $('._training--example').click(function() {
     var currentExample = $(this);
+    window.fileUploader = [];
+    window.fileUploaderNegative = null;
 
     $('.showing div._examples--class__selected button').click();
     // clear all user classifier info
@@ -115,11 +117,14 @@ $(document).ready(function() {
       $('.showing div._examples--class__selected button').click();
     } else {
       $('form.upload')[0].reset();
+
       if (!$('input.base--input._examples--input-name').prop('readonly')) {
         $('input.base--input._examples--input-name').val('');
         $('input.base--input._examples--input-name').prop('readonly', false);
       }
     }
+    window.fileUploader = [];
+    window.fileUploaderNegative = null;
     $testSection.hide();
     enableTrainClassifier();
   });
@@ -192,6 +197,9 @@ $(document).ready(function() {
       var baseFileName = $(e.target)[0].files[0].name;
       nameInput.val(baseFileName.split('.')[0]);
       $(e.target).parent().attr('data-hasfile', 1);
+      var idx = parseInt($(e.target).parent().attr('data-idx'), 10);
+      window.fileUploader[idx] = $(e.target)[0].files[0];
+
       $(e.target).parent().find('.text-label').hide();
       $(e.target).parent().find('.text-zip-image').css('display', 'block');
       $(e.target).parent().find('.clear_link').show();
@@ -200,6 +208,13 @@ $(document).ready(function() {
 
   $('.classifier a.clear_link').on('click', function(e) {
     e.preventDefault();
+    var idx = parseInt($(e.target).parent().attr('data-idx'), 10);
+    if (idx === 3) {
+      window.fileUploaderNegative = null;
+    } else {
+      window.fileUploader[idx] = null;
+    }
+
     $(e.target).parent().find('input').val('');
     $(e.target).parent().attr('data-hasfile', '0');
     $(e.target).parent().find('.text').find('.text-label').show();
@@ -217,8 +232,39 @@ $(document).ready(function() {
     enableTrainClassifier();
   });
 
-  $('._examples--user-input').on('drop', function(e) {
+  $('.positive .classifier, .negative .classifier').on('dragenter', function(e) { e.preventDefault(); });
+  $('.positive .classifier, .negative .classifier').on('dragleave', function(e) { e.preventDefault(); });
+  $('.positive .classifier, .negative .classifier').on('dragover', function(e) { e.preventDefault(); });
+
+  $('.positive .classifier').on('drop', function(e) {
     e.preventDefault();
+    if (!window.fileUploader) {
+      window.fileUploader = [];
+    }
+
+    var maxFiles = $('.positive div.classifiers div[data-hasfile=0].classifier').length;
+    var idx = parseInt($(e.target).parents('.classifier').data('idx'), 10);
+    for (var i = 0; i < e.originalEvent.dataTransfer.files.length; i += 1) {
+      if (maxFiles === 0) {
+        return;
+      } else {
+        var file = e.originalEvent.dataTransfer.files[i];
+        window.fileUploader[idx + i] = file;
+        maxFiles--;
+        var baseFileName = file.name;
+        var target = $(e.target).parents('.classifier')[0];
+        var nameInput = $(target).find('input[type=text]');
+        nameInput.val(baseFileName.split('.')[0]);
+        $(target).attr('data-hasfile', 1);
+        $(target).find('.text-label').hide();
+        $(target).find('.text-zip-image').css('display', 'block');
+        $(target).find('.clear_link').show();
+        enableTrainClassifier();
+      }}});
+
+  $('.negative .classifier').on('drop', function(e) {
+    e.preventDefault();
+    window.fileUploaderNegative = e.originalEvent.dataTransfer.files[0];
   });
 
   var $loading = $('.train--loading');
@@ -316,6 +362,18 @@ $(document).ready(function() {
   function uploadUserClass() {
     var formElement = document.querySelector('form#user_upload');
     var form = new FormData(formElement);
+    form.delete('classupload');
+    form.delete('negativeclassupload');
+
+    window.fileUploader.map(function(file) {
+      if (file) {
+        form.append('classupload', file);
+      }
+    });
+
+    if (window.fileUploaderNegative) {
+      form.append('negativeclassupload', window.fileUploaderNegative);
+    }
     var bundle = { names: [$('.base--input._examples--input-name').val()], kind: 'user' };
     submitClassifier({
       data: form,

@@ -2,7 +2,7 @@ div._demo--container
   ._container--training
     h1.base--h2.use--header Train a demo classifier
     div
-      | To create a temporary trial classifier, select classes from the example image bundles.
+      | To create a temporary trial classifier, select at least 3 classes from the example image bundles.
     h2 Example Image Bundles
     ._training--examples
       ._training--example.clickable(data-kind='dogs')
@@ -31,7 +31,7 @@ div._demo--container
           h2 Positive Classes
           p.text Upload your own images in zipped folders to the spaces below. <br/> Zipfile size must not exceed 5 MB.
           .classifiers
-            .classifier(data-hasfile=0)
+            .classifier(data-hasfile=0,data-idx=0)
               .text
                 span.text-label
                   a.base--a(href="javascript:void(0)") Select
@@ -40,7 +40,7 @@ div._demo--container
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
-            .classifier(data-hasfile=0)
+            .classifier(data-hasfile=0,data-idx=1)
               .text
                 span.text-label
                   a.base--a(href="javascript:void(0)") Select
@@ -49,7 +49,7 @@ div._demo--container
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
-            .classifier(data-hasfile=0)
+            .classifier(data-hasfile=0,data-idx=2)
               .text
                 span.text-label
                   a.base--a(href="javascript:void(0)") Select
@@ -63,7 +63,7 @@ div._demo--container
         .negative
           h2.negative-header Optional Negative Classes
           .classifiers
-            .classifier(data-hasfile=0).negative
+            .classifier(data-hasfile=0,data-idx=3).negative
               .text
                 span.text-label
                   a.base--a(href="javascript:void(0)") Select
