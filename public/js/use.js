@@ -214,7 +214,7 @@ function setupUse(params) {
   $radioImages.click(function() {
     var rI = $(this);
     var imgPath = rI.next('label').find('img').attr('src');
-
+    $urlInput.hide();
     classifyImage(imgPath, null, function() {
       $('input[type=radio][name=use--example-images]').prop('disabled', true);
       resetPasteUrl();
@@ -222,6 +222,7 @@ function setupUse(params) {
       rI.parent().find('label[for=' + rI.attr('id') + ']').removeClass('dim');
     }, function() {
       $urlInput.val('');
+      $urlInput.show();
       $('input[type=radio][name=use--example-images]').prop('disabled', false);
     });
   });
