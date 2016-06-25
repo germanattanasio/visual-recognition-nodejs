@@ -23,12 +23,14 @@ var multer = require('multer');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
+var compression = require('compression');
 var expressBrowserify = require('express-browserify');
 var os = require('os');
 
 module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
+  app.use(compression());
   app.use(cookieParser());
   if (app.get('env') === 'development') {
     // set up request logging for local development and non-bluemix servers
