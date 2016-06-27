@@ -49,7 +49,12 @@ See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/de
 ## Running locally
   The application uses [Node.js](http://nodejs.org) and [npm](https://www.npmjs.com) so you will have to download and install them as part of the steps below.
 
-1. Copy the credentials from your `visual-recognition-service` service in Bluemix to `app.js`, you can see the credentials using:
+1. Create a .env file in the root directory of the project with the following content:
+
+    ```none
+    API_KEY=<api_key>
+    ```
+    You can see the `<api_key>` of your application using the `cf env` command:
 
     ```sh
     $ cf env <application-name>
@@ -62,8 +67,7 @@ See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/de
       "watson_vision_combined": [{
           "credentials": {
             "url": "<url>",
-            "password": "<password>",
-            "username": "<username>"
+            "api_key": "<api_key>",
           },
         "label": "visual_recognition",
         "name": "visual-recognition-service",
@@ -72,8 +76,6 @@ See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/de
     }
     }
     ```
-
-    You need to copy `api_key`.
 
 2. Install [Node.js](http://nodejs.org/)
 3. Go to the project folder in a terminal and run:
