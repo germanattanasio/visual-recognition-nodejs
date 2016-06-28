@@ -198,7 +198,11 @@ $(document).ready(function() {
       nameInput.val(baseFileName.split('.')[0]);
       $(e.target).parent().attr('data-hasfile', 1);
       var idx = parseInt($(e.target).parent().attr('data-idx'), 10);
-      window.fileUploader[idx] = $(e.target)[0].files[0];
+      if (idx === 3) {
+        window.fileUploaderNegative = $(e.target)[0].files[0];
+      } else {
+        window.fileUploader[idx] = $(e.target)[0].files[0];
+      }
 
       $(e.target).parent().find('.text-label').hide();
       $(e.target).parent().find('.text-zip-image').css('display', 'block');
