@@ -190,23 +190,29 @@ $(document).ready(function() {
   $('.classifier input[type=file]').on('change', function(e) {
     var nameInput = $(e.target).parent().find('input[type=text]');
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
+      var validMimeType = {'application/zip': true}[$(e.target)[0].files[0].type];
       if ($(e.target)[0].files[0].size > (5 * 1024 * 1024)) {
         // eslint-disable-next-line no-alert
         alert('This file exceeds the maximum size of 5 MB. Please choose another file');
-      }
-      var baseFileName = $(e.target)[0].files[0].name;
-      nameInput.val(baseFileName.split('.')[0]);
-      $(e.target).parent().attr('data-hasfile', 1);
-      var idx = parseInt($(e.target).parent().attr('data-idx'), 10);
-      if (idx === 3) {
-        window.fileUploaderNegative = $(e.target)[0].files[0];
+      } else if (!validMimeType) {
+        // eslint-disable-next-line no-alert
+        alert('You can only upload Ziped archives of images');
       } else {
-        window.fileUploader[idx] = $(e.target)[0].files[0];
-      }
+        var baseFileName = $(e.target)[0].files[0].name;
+        nameInput.val(baseFileName.split('.')[0]);
+        $(e.target).parent().attr('data-hasfile', 1);
+        var idx = parseInt($(e.target).parent().attr('data-idx'), 10);
 
-      $(e.target).parent().find('.text-label').hide();
-      $(e.target).parent().find('.text-zip-image').css('display', 'block');
-      $(e.target).parent().find('.clear_link').show();
+        if (idx === 3) {
+          window.fileUploaderNegative = $(e.target)[0].files[0];
+        } else {
+          window.fileUploader[idx] = $(e.target)[0].files[0];
+        }
+
+        $(e.target).parent().find('.text-label').hide();
+        $(e.target).parent().find('.text-zip-image').css('display', 'block');
+        $(e.target).parent().find('.clear_link').show();
+      }
     }
   });
 
@@ -253,16 +259,25 @@ $(document).ready(function() {
         return;
       } else {
         var file = e.originalEvent.dataTransfer.files[i];
-        window.fileUploader[idx + i] = file;
-        maxFiles--;
-        var baseFileName = file.name;
-        var target = $(e.target).parents('.classifier')[0];
-        var nameInput = $(target).find('input[type=text]');
-        nameInput.val(baseFileName.split('.')[0]);
-        $(target).attr('data-hasfile', 1);
-        $(target).find('.text-label').hide();
-        $(target).find('.text-zip-image').css('display', 'block');
-        $(target).find('.clear_link').show();
+        var validMimeType = file === 'application/zip';
+        if (file.size > (5 * 1024 * 1024)) {
+          // eslint-disable-next-line no-alert
+          alert('This file exceeds the maximum size of 5 MB. Please choose another file');
+        } else if (!validMimeType) {
+          // eslint-disable-next-line no-alert
+          alert('You can only upload Ziped archives of images');
+        } else {
+          window.fileUploader[idx + i] = file;
+          maxFiles--;
+          var baseFileName = file.name;
+          var target = $(e.target).parents('.classifier')[0];
+          var nameInput = $(target).find('input[type=text]');
+          nameInput.val(baseFileName.split('.')[0]);
+          $(target).attr('data-hasfile', 1);
+          $(target).find('.text-label').hide();
+          $(target).find('.text-zip-image').css('display', 'block');
+          $(target).find('.clear_link').show();
+        }
         enableTrainClassifier();
       }}});
 
