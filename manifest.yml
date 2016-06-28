@@ -1,5 +1,7 @@
 applications:
-- name: visual-recognition-demo-stage
+- name: visual-recognition-demo
   command: npm start
   path: .
   memory: 512M
+  env:
+    NODE_ENV: production
