@@ -60,7 +60,7 @@ app.get('/thermometer', function(req, res) {
   if (typeof req.query.score === 'undefined') {
     return res.status(400).json({ error: 'Missing required parameter: score', code: 400 });
   }
-  let score = parseFloat(req.query.score);
+  var score = parseFloat(req.query.score);
   if (score >= 0.0 && score <= 1.0) {
     res.set('Content-type', 'image/svg+xml');
     res.render('thermometer', scoreData(score));
