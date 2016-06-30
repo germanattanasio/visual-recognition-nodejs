@@ -1411,6 +1411,25 @@ div.use--dropzone {
     height: 100%;
     width: auto; }
 
+.use--output-image, img.checkered-bg {
+    background-image:
+      -moz-linear-gradient(45deg, #ccc 25%, transparent 25%), 
+      -moz-linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      -moz-linear-gradient(45deg, transparent 75%, #ccc 75%),
+      -moz-linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-image:
+      -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #ccc), color-stop(.25, transparent)), 
+      -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #ccc), color-stop(.25, transparent)),
+      -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #ccc)),
+      -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #ccc));
+
+    -moz-background-size:40px 40px;
+    background-size:40px 40px;
+    -webkit-background-size:40px 101px; /* override value for shitty webkit */
+    
+    background-position:0 0, 20px 0, 20px -20px, 0px 20px;
+}
+
 .boxes {
   margin: 0rem;
   height: 0rem;
