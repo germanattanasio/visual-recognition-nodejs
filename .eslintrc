@@ -16,5 +16,5 @@
   "env": {
     "node": true
   },
-  "extends": "eslint-config-airbnb-es5",
+  "extends": "eslint:recommended",
 }

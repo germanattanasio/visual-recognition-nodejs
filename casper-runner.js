@@ -1,6 +1,6 @@
 'use strict';
 
-const spawn = require('child_process').spawn;
+var spawn = require('child_process').spawn;
 
 require('dotenv').config({silent: true});
 
@@ -21,17 +21,17 @@ var toclose = server.listen(port, function() {
 });
 
 var runTests = function() {
-  const casper = spawn('npm', ['run', 'test-integration']);
+  var casper = spawn('npm', ['run', 'test-integration']);
   casper.stdout.pipe(process.stdout);
 
-  casper.on('error', (error) => {
+  casper.on('error', function (error)  {
     console.log('ERROR: ' + error);
     toclose.close(function() {
       process.exit(1);
     });
   });
 
-  casper.on('close', (code) => {
+  casper.on('close', function (code) {
     toclose.close(function() {
       // eslint-disable-next-line no-process-exit
       process.exit(code);
