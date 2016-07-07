@@ -22,6 +22,7 @@ var setupUse = require('./use.js');
 var nextHour = require('./demo.js').nextHour;
 var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+var { renderErrorMessage } = require('./errormsg.jsx');
 
 // var currentPage = require('./demo.js').currentPage;
 
@@ -85,6 +86,7 @@ $(document).ready(function() {
         $testSection.hide();
       }
     }
+    enableTrainClassifier();
   });
 
   function warningMessagesVisability() {
@@ -106,9 +108,11 @@ $(document).ready(function() {
     if (enable && $('.base--input._examples--input-name').val().length) {
       $('.train--train-button.base--button').removeClass('disabled');
       $('.train--train-button.base--button').prop('disabled', false);
+      $('#formStateErrorMessage').text('');
     } else {
       $('.train--train-button.base--button').addClass('disabled');
       $('.train--train-button.base--button').prop('disabled', true);
+      renderErrorMessage('Upload a minimum of 3 (positive) or 2 positive and 1 negative image bundles to train a new classifier.','formStateErrorMessage');
     }
   }
 

@@ -2121,6 +2121,9 @@ div.use--dropzone {
   color: #d74108;
   text-align: center; }
 
+.error--message.train-selection {
+  text-align: left;  }
+
 .square {
   background-color: #e0e0e0; }
   .square img {
