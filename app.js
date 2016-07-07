@@ -133,9 +133,14 @@ app.post('/api/classifiers', app.upload.fields([{ name: 'classupload', maxCount:
       console.log(err);
       return res.status(err.code || 500).json(err);
     }
-    // deletes the classifier after an hour
-    setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
-    res.json(classifier);
+
+    // ENV var prevents classifiers from being destroyed
+    // for users who want that feature
+    if (!process.env.PRESERVE_CLASSIFIERS) {
+      // deletes the classifier after an hour
+      setTimeout(visualRecognition.deleteClassifier.bind(visualRecognition, classifier), ONE_HOUR);
+      res.json(classifier);
+    }
   });
 });
 
@@ -204,8 +209,8 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     delete params.images_file;
   }
   var methods = [];
-  if (req.body.classifier_id) {
-    params.classifier_ids = [req.body.classifier_id];
+  if (req.body.classifier_id || process.env.OVERRIDE_CLASSIFIER_ID) {
+    params.classifier_ids = req.body.classifier_id ? [req.body.classifier_id] : [process.env.OVERRIDE_CLASSIFIER_ID];
     methods.push('classify');
   } else {
     methods.push('classify');
