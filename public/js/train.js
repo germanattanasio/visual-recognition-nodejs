@@ -454,14 +454,26 @@ $(document).ready(function() {
   setupUse({ panel: 'test' });
 
   function showTestPanel(classifier) {
-    // TODO: send classifier-id
     $('#test_classifier_id').val(classifier.classifier_id);
     $('.base--h2.test--classifier').text(classifier.name);
+    $('.base--h2.test--classifier').prop('title',classifier.classifier_id);
+    $('.base--h2.test--classifier').attr('classifier_name',classifier.name);
+    $('.base--h2.test--classifier').on('click',function(e) {
+      e.preventDefault();
+      if ($(this).text() === $(this).prop('title')) {
+	$(this).text($(this).attr('classifier_name'));
+      } else {
+	$(this).text($(this).prop('title'));
+      }
+    });
     $testSection.show();
   }
 
   var classifier = getAndParseCookieName('classifier');
+  
   if (classifier) {
     showTestPanel(classifier);
+  } else if (window.location.hash) {
+    showTestPanel({name: 'Hash Specified', classifier_id: window.location.hash.substring(1), kind: 'user'});
   }
 });

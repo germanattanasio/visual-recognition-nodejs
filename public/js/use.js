@@ -232,7 +232,8 @@ function setupUse(params) {
    */
   $randomImage.click(function() {
     resetPasteUrl();
-    var kind = getAndParseCookieName('bundle').kind;
+    var bundle = getAndParseCookieName('bundle');
+    var kind = bundle ? bundle.kind : 'user'; 
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
     classifyImage('images' + path +  getRandomInt(1, 5) + '.jpg');
     $urlInput.val('');

@@ -209,8 +209,8 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     delete params.images_file;
   }
   var methods = [];
-  if (req.body.classifier_id) {
-    params.classifier_ids = [req.body.classifier_id];
+  if (req.body.classifier_id || process.env.OVERRIDE_CLASSIFIER_ID) {
+    params.classifier_ids = req.body.classifier_id ? [req.body.classifier_id] : [process.env.OVERRIDE_CLASSIFIER_ID];
     methods.push('classify');
   } else {
     methods.push('classify');
