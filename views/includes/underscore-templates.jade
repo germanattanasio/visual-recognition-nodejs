@@ -128,7 +128,3 @@ script(type='text/html', id='useResultsTableTemplate').
       <div class="json_raw" style="display: none" data-raw="<%= items.classes_raw %>"/>
     </div>
   </div>
-script(type='text/html', id='imageBoxesTemplate').
-  <% _.each(items, function(item, key, list) { %>
-    <div class="box-location" style="height: <%= item.height %>px; left: <%= item.left %>px; top: <%= item.top %>px; width: <%= item.width %>px;"></div>
-  <% }) %>
