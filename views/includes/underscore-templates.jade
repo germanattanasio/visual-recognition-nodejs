@@ -1,20 +1,3 @@
-script(type='text/html', id='testClassifierImagesTemplate').
-  <% _.each(items, function(item, key, list) { %>
-    <div class="test--classifier-images-thumb square">
-      <img src="<%= item %>" class="test--classifier-images-image"/>
-      <% if (key === 49 && size > 0) { %>
-        <div class="test--overlay"><div class="test--overlay-more">+<%= size %></div></div>
-      <% } %>
-    </div>
-  <% });%>
-
-script(type='text/html', id='trainPreviewImagesTemplate').
-  <% _.each(items, function(item, key, list) { %>
-    <div class="train--file-preview-thumb square">
-      <img src="<%= item %>" class="train--file-preview-image loaded"/>
-    </div>
-  <% });%>
-
 script(type='text/html', id='useResultsTableTemplate').
   <div class="results-table--container">
     <table class="base--table results-table">
