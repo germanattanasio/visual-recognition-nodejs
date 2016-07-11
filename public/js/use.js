@@ -21,6 +21,9 @@ var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 var getRandomInt = require('./demo.js').getRandomInt;
+var { renderBoxes } = require('./image-boxes.jsx');
+var jpath = require('jpath-query');
+
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
@@ -339,31 +342,17 @@ function setupUse(params) {
   // get transformed positions of face
   //  = ratio * original positions + offset
   function renderEntities(results) {
-    // eslint-disable-next-line camelcase
-    var imageBoxes_template;
-    if (results.images[0].faces) {
-      // eslint-disable-next-line camelcase
-      imageBoxes_template = imageBoxesTemplate.innerHTML;
-      var faceLocations = results.images[0].faces.map(function(face) {
+    var faces = jpath.jpath('/images/0/faces',results,[]);
+    var faceLocations = faces.map(function(face) {
         return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
       });
 
-      $boxes.append(_.template(imageBoxes_template, {
-        items: faceLocations
-      }));
-    }
-
-    if (results.images[0].words) {
-      // eslint-disable-next-line camelcase
-      imageBoxes_template = imageBoxesTemplate.innerHTML;
-      var locations = results.images[0].words.map(function(word) {
+    var words = jpath.jpath('/images/0/words',results,[]);
+    var wordsLocations = words.map(function(word) {
         return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
       });
 
-      $boxes.append(_.template(imageBoxes_template, {
-        items: locations
-      }));
-    }
+    renderBoxes('box',wordsLocations.concat(faceLocations));
   }
 
   function transformBoxLocations(faceLocation, image) {
