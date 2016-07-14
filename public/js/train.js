@@ -76,6 +76,7 @@ $(document).ready(function() {
           $('input.base--input._examples--input-name').removeClass('bundle');
         }
         $('._container--bundle-form').addClass('active');
+        enableTrainClassifier();
       }, 100);
 
       setTimeout(function() {
@@ -86,17 +87,10 @@ $(document).ready(function() {
         $testSection.hide();
       }
     }
-    enableTrainClassifier();
   });
 
   function warningMessagesVisability() {
-    if ($('.classifier[data-hasfile=1]').length > 1) {
-      $('.upload_message').hide();
-      return true;
-    } else {
-      $('.upload_message').show();
-      return false;
-    }
+    return $('.classifier[data-hasfile=1]').length > 1;
   }
 
   function enableTrainClassifier() {
@@ -112,7 +106,8 @@ $(document).ready(function() {
     } else {
       $('.train--train-button.base--button').addClass('disabled');
       $('.train--train-button.base--button').prop('disabled', true);
-      renderErrorMessage('Upload a minimum of 3 (positive) or 2 positive and 1 negative image bundles to train a new classifier.','formStateErrorMessage');
+      let error_message = $('div[data-kind=user]').hasClass('showing') ? 'Upload at least two image bundles.' : 'Upload a minimum of 3 (positive) or 2 positive and 1 negative image bundles to train a new classifier.';
+      renderErrorMessage(error_message,'formStateErrorMessage');
     }
   }
 
