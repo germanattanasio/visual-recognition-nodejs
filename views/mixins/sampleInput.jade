@@ -8,7 +8,7 @@ mixin sampleInput(className, bundle, classifierId)
   each val in [0, 1, 2, 3, 4, 5]
     - bundleImages.push('images/bundles/' + bundle + '/test/' + val + '.jpg')
 
-  form(id='#{className}--fileupload', class='#{className}--form #{className}--dropzone', data-upload-template-id='template-upload-#{className}')
+  form(id='#{className}--fileupload', class='#{className}--form #{className}--dropzone hideload', data-upload-template-id='template-upload-#{className}')
     input(id='classifier_id', type='hidden', name='classifier_id', value='#{classifierId || ""}')
     if className == 'use'
       div(class='#{className}--example-images #{className}--example-images_default')
@@ -29,3 +29,4 @@ mixin sampleInput(className, bundle, classifierId)
       div(class='#{className}--invalid-image-url', style='display:none') The URL must end with .JPG, .GIF, or .PNG.
       input(class='#{className}--url-input base--input', type='text', placeholder='Or paste an image URL', name='url')
       input(class='#{className}--image-data-input base--input', type='hidden', name='image_data')
+

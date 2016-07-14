@@ -52,6 +52,8 @@ function unlock(lockName) {
  */
 
 function setupUse(params) {
+
+  $('.hideload').css('opacity',1.0);
   var panel = params.panel || 'use';
   console.log('setupUse()', panel);
 
