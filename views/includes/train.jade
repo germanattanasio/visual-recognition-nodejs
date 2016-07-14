@@ -58,7 +58,6 @@ div._demo--container
               input(type="file",name="classupload",accept="application/zip")
               input.base--input(type="text",name="classname",placeholder="Name of This Class")
               a(href="").base--a.clear_link Clear
-          .upload_message Upload at least two image bundles.
         .seperator
         .negative
           h2.negative-header Optional Negative Classes
@@ -181,8 +180,8 @@ div._demo--container
     .license Images courtesy of IBM Watson partner 
       a(class="base--a", href='http://omniearth.net/' target='_blank') OmniEarth.
   .train--row
+    #formStateErrorMessage
     .train--column-1
-      #formStateErrorMessage
       input.base--input._examples--input-name(type='text', placeholder='Name this class',required)
       button.train--train-button.base--button(disabled='true') Train your classifier
       .license
