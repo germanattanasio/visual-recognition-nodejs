@@ -129,7 +129,6 @@ function setupUse(params) {
         return;
       }
     }
-    console.log(JSON.stringify(results),null,2);
     // populate table
     renderTable(results);
     $result.show();
@@ -408,30 +407,7 @@ function setupUse(params) {
     if (bundleNames.length > 1) {
       classes = bundleNames.slice(0, -1).join(', ') + ' or ' + bundleNames.slice(-1);
     }
-
-    var tags = jpath.jpath('/images/0/classifiers/0/classes',results);
-
-    if (tags.length) {
-      classifyScoreTable(jpath.jpath('/images/0/classifiers',results),tags,'Classes',$outputData[0]);
-
-      var faces = jpath.jpath('/images/0/faces',results);
-      if (faces.length) {
-        //classifyScoreTable(jpath.jpath('/images/0/faces',results),faces,'Faces',$outputData[0]);
-      }
-
-      var words = jpath.jpath('/images/0/words',results);
-      if (words.length) {
-        //classifyScoreTable(jpath.jpath('/images/0/words',results),words,'Words',$outputData[0]);
-      }
-    } else {
-      $outputData.html('<div class="' + panel + '--mismatch">' +
-          'The score for this image is not above the threshold of 0.5 for ' + jpath.jpath('/name',bundle,'unknown') + ': ' + classes +
-          ', based on the training data provided.</div>');
-    }
-
-
-
-
+    classifyScoreTable(results,$outputData[0]);
   }
 }
 
