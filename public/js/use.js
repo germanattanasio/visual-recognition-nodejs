@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* global _:true */
 /* eslint no-unused-vars: "warn"*/
 'use strict';
 
@@ -313,30 +312,6 @@ function setupUse(params) {
     $('form#use--fileupload').removeClass('dragover');
   });
 
-  function roundScore(score) {
-    return Math.round(score * 100) / 100;
-  }
-
-  function slashesToArrows(typeHierarchy) {
-    var results = typeHierarchy;
-    results = results.replace(/^\/|\/$/g, ''); // trim first / and last /
-    results = results.replace(/\//g, ' > ');  // change slashes to >'s
-    return results;
-  }
-
-  function lookupInMap(mapToCheck, kind, token, defaultValue) {
-    if (!mapToCheck) {
-      return defaultValue;
-    }
-
-    var res = mapToCheck[kind] && mapToCheck[kind][token] ? mapToCheck[kind][token] : false;
-    if (res) {
-      return res;
-    } else {
-      return defaultValue;
-    }
-  }
-
   // need to add on resize event listener for faces
   // need to offset and position itself and scale properly with physical image location
   // need to calculate ratio of image
@@ -400,13 +375,6 @@ function setupUse(params) {
       $image.attr('src', resolved_url);
     }
 
-    var classNameMap = getAndParseCookieName('classNameMap', {});
-    var bundle = getAndParseCookieName('bundle', {});
-    var classes = jpath.jpath('/names/0',bundle,[]);
-    var bundleNames = jpath.jpath('/names',bundle,[]);
-    if (bundleNames.length > 1) {
-      classes = bundleNames.slice(0, -1).join(', ') + ' or ' + bundleNames.slice(-1);
-    }
     classifyScoreTable(results,$outputData[0]);
   }
 }
