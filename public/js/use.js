@@ -22,7 +22,6 @@ var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 var getRandomInt = require('./demo.js').getRandomInt;
 var { renderBoxes } = require('./image-boxes.jsx');
-var { classifyScoreTable } = require('./classresults.jsx');
 var jpath = require('jpath-query');
 
 var errorMessages = {
@@ -129,14 +128,15 @@ function setupUse(params) {
         return;
       }
     }
+
     // populate table
     renderTable(results);
     $result.show();
 
-    setTimeout(function () {
+    setTimeout(function() {
       renderEntities(results);
     }, 100);
-    $(window).resize(function () {
+    $(window).resize(function() {
       $boxes.empty();
       renderEntities(results);
     });
@@ -144,8 +144,8 @@ function setupUse(params) {
     // check if there are results or not
     if ($outputData.html() === '') {
       $outputData.after(
-          $('<div class="' + panel + '--mismatch" />')
-              .html('No matching classifiers found.'));
+        $('<div class="' + panel + '--mismatch" />')
+        .html('No matching classifiers found.'));
     }
 
     var outputImage = document.querySelector('.use--output-image');
@@ -190,22 +190,22 @@ function setupUse(params) {
 
     // Grab all form data
     $.post('/api/classify', $(pclass + 'form').serialize())
-        .done(showResult)
-        .error(function (error) {
-          $loading.hide();
-          console.log(error);
+      .done(showResult)
+      .error(function(error) {
+        $loading.hide();
+        console.log(error);
 
-          if (error.status === 429) {
-            showError(errorMessages.TOO_MANY_REQUESTS);
-          } else if (error.responseJSON && error.responseJSON.error) {
-            showError('We had a problem classifying that image because ' + error.responseJSON.error);
-          } else {
-            showError(errorMessages.SITE_IS_DOWN);
-          }
-        }).always(function () {
-      afterFunction ? afterFunction() : false;
-      unlock('classify');
-    });
+        if (error.status === 429) {
+          showError(errorMessages.TOO_MANY_REQUESTS);
+        } else if (error.responseJSON && error.responseJSON.error) {
+          showError('We had a problem classifying that image because ' + error.responseJSON.error);
+        } else {
+          showError(errorMessages.SITE_IS_DOWN);
+        }
+      }).always(function() {
+        afterFunction ? afterFunction() : false;
+        unlock('classify');
+      });
   }
 
   /*
@@ -216,16 +216,16 @@ function setupUse(params) {
   /*
    * Radio image submission
    */
-  $radioImages.click(function () {
+  $radioImages.click(function() {
     var rI = $(this);
     var imgPath = rI.next('label').find('img').attr('src');
     $urlInput.hide();
-    classifyImage(imgPath, null, function () {
+    classifyImage(imgPath, null, function() {
       $('input[type=radio][name=use--example-images]').prop('disabled', true);
       resetPasteUrl();
       rI.parent().find('label').addClass('dim');
       rI.parent().find('label[for=' + rI.attr('id') + ']').removeClass('dim');
-    }, function () {
+    }, function() {
       $urlInput.val('');
       $urlInput.show();
       $('input[type=radio][name=use--example-images]').prop('disabled', false);
@@ -235,19 +235,19 @@ function setupUse(params) {
   /*
    * Random image submission
    */
-  $randomImage.click(function () {
+  $randomImage.click(function() {
     resetPasteUrl();
     var bundle = getAndParseCookieName('bundle');
-    var kind = bundle ? bundle.kind : 'user';
+    var kind = bundle ? bundle.kind : 'user'; 
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
-    classifyImage('images' + path + getRandomInt(1, 5) + '.jpg');
+    classifyImage('images' + path +  getRandomInt(1, 5) + '.jpg');
     $urlInput.val('');
   });
 
   /*
    * Image url submission
    */
-  $urlInput.keypress(function (e) {
+  $urlInput.keypress(function(e) {
     var url = $(this).val();
     var self = $(this);
 
@@ -267,7 +267,6 @@ function setupUse(params) {
     $invalidUrl.hide();
     $invalidImageUrl.hide();
   }
-
   /**
    * Jquery file upload configuration
    * See details: https://github.com/blueimp/jQuery-File-Upload
@@ -276,21 +275,21 @@ function setupUse(params) {
     dataType: 'json',
     dropZone: $dropzone,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-    add: function (e, data) {
+    add: function(e, data) {
       data.url = '/api/classify';
       if (data.files && data.files[0]) {
         $error.hide();
 
         processImage();
         var reader = new FileReader();
-        reader.onload = function () {
+        reader.onload = function() {
           var image = new Image();
           image.src = reader.result;
-          image.onload = function () {
+          image.onload = function() {
             $image.attr('src', this.src);
             classifyImage('', resize(image, 2048));
           };
-          image.onerror = function () {
+          image.onerror = function() {
             _error(null, 'Error loading the image file. I can only work with images.');
           };
         };
@@ -298,17 +297,17 @@ function setupUse(params) {
       }
     },
     error: _error,
-    done: function (e, data) {
+    done: function(e, data) {
       showResult(data.result);
     }
   });
 
-  $(document).on('dragover', function () {
+  $(document).on('dragover', function() {
     $(pclass + 'dropzone label').addClass('dragover');
     $('form#use--fileupload').addClass('dragover');
   });
 
-  $(document).on('dragleave', function () {
+  $(document).on('dragleave', function() {
     $(pclass + 'dropzone label').removeClass('dragover');
     $('form#use--fileupload').removeClass('dragover');
   });
@@ -345,17 +344,17 @@ function setupUse(params) {
   // get transformed positions of face
   //  = ratio * original positions + offset
   function renderEntities(results) {
-    var faces = jpath.jpath('/images/0/faces', results, []);
-    var faceLocations = faces.map(function (face) {
-      return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
-    });
+    var faces = jpath.jpath('/images/0/faces',results,[]);
+    var faceLocations = faces.map(function(face) {
+        return transformBoxLocations(face.face_location, document.querySelector('.use--output-image'));
+      });
 
-    var words = jpath.jpath('/images/0/words', results, []);
-    var wordsLocations = words.map(function (word) {
-      return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
-    });
+    var words = jpath.jpath('/images/0/words',results,[]);
+    var wordsLocations = words.map(function(word) {
+        return transformBoxLocations(word.location, document.querySelector('.use--output-image'));
+      });
 
-    renderBoxes('box', wordsLocations.concat(faceLocations));
+    renderBoxes('box',wordsLocations.concat(faceLocations));
   }
 
   function transformBoxLocations(faceLocation, image) {
@@ -387,27 +386,152 @@ function setupUse(params) {
     var clientTop = docEl.clientTop || body.clientTop || 0;
     var clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-    var top = box.top + scrollTop - clientTop;
+    var top  = box.top +  scrollTop - clientTop;
     var left = box.left + scrollLeft - clientLeft;
 
-    return {top: Math.round(top), left: Math.round(left)};
+    return { top: Math.round(top), left: Math.round(left) };
   }
 
   function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
-    let resolved_url = jpath.jpath('/images/0/resolved_url',results);
-    if (resolved_url) {
-      $image.attr('src', resolved_url);
+
+    if (results.images && results.images.length > 0) {
+      if (results.images[0].resolved_url) {
+        $image.attr('src', results.images[0].resolved_url);
+      }
     }
+
+    // eslint-disable-next-line camelcase
+    var useResultsTable_template = useResultsTableTemplate.innerHTML;
 
     var classNameMap = getAndParseCookieName('classNameMap', {});
     var bundle = getAndParseCookieName('bundle', {});
-    var classes = jpath.jpath('/names/0',bundle,[]);
-    var bundleNames = jpath.jpath('/names',bundle,[]);
-    if (bundleNames.length > 1) {
-      classes = bundleNames.slice(0, -1).join(', ') + ' or ' + bundleNames.slice(-1);
+
+    // classes
+    if ((results.images &&
+      results.images[0].classifiers &&
+      results.images[0].classifiers.length > 0 &&
+      results.images[0].classifiers[0].classes !== 'undefined') &&
+      results.images[0].classifiers[0].classes.length > 0) {
+      var classesModel = (function() {
+        var classes = results.images[0].classifiers[0].classes.map(function(item) {
+          return {
+            name: results.classifier_ids ? lookupInMap(classNameMap, bundle.kind, item.class, item.class) : item.class,
+            score: roundScore(item.score),
+            type_hierarchy: item.type_hierarchy ? slashesToArrows(item.type_hierarchy) : false
+          };
+        });
+
+        return {
+          resultCategory: 'Classes',
+          classes_raw: results.raw.classify,
+          data: classes
+        };
+      })();
+
+      $outputData.append(_.template(useResultsTable_template, {
+        items: classesModel
+      }));
+    } else if (results.classifier_ids) {
+      var classes = bundle.names[0];
+      if (bundle.names.length > 1) {
+        classes = bundle.names.slice(0, -1).join(', ') + ' or ' + bundle.names.slice(-1);
+      }
+      $outputData.html('<div class="' + panel + '--mismatch">' +
+          'The score for this image is not above the threshold of 0.5 for ' + (bundle.name || '' ) + ': ' + classes +
+          ', based on the training data provided.</div>');
     }
-    classifyScoreTable(results,$outputData[0]);
+
+    // faces
+    if ((typeof results.images[0].faces !== 'undefined') && (results.images[0].faces.length > 0)) {
+      var facesModel = (function() {
+        var identities = [];
+        var faces = results.images[0].faces.reduce(function(acc, facedat) {
+          // gender
+          acc.push({
+            name: facedat.gender.gender.toLowerCase(),
+            score: roundScore(facedat.gender.score)
+          });
+
+          // age
+          acc.push({
+            name: 'age ' + facedat.age.min + ' - ' + facedat.age.max,
+            score: roundScore(facedat.age.score)
+          });
+
+          // identity
+          if (typeof facedat.identity !== 'undefined') {
+            identities.push({
+              name: facedat.identity.name,
+              score: roundScore(facedat.identity.score),
+              type_hierarchy: facedat.identity.type_hierarchy ? slashesToArrows(facedat.identity.type_hierarchy) : false
+            });
+          }
+          return acc;
+        }, []);
+
+        return {
+          resultCategory: 'Faces',
+          identities: identities,
+          classes_raw: results.raw.detectFaces,
+          data: faces
+        };
+      })();
+
+      $outputData.append(_.template(useResultsTable_template, {
+        items: facesModel
+      }));
+    }
+
+    // words
+    if ((typeof results.images[0].words !== 'undefined') && (results.images[0].words.length > 0)) {
+      var wordsModel = (function() {
+        var words = results.images[0].words.map(function(item) {
+          return {
+            name: item.word,
+            score: roundScore(item.score)
+          };
+        });
+        return {
+          resultCategory: 'Words',
+          classes_raw: results.raw.recognizeText,
+          data: words
+        };
+      })();
+
+      $outputData.append(_.template(useResultsTable_template, {
+        items: wordsModel
+      }));
+    }
+
+    $('a.json').on('click', function() {
+      var rawJsonData = $(this).parent().find('.json_raw').data('raw');
+      window.open('data:application/json,' + rawJsonData, '_blank');
+    });
+
+    $(document).on('click', '.results-table--input-no', function() {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.results-table--feedback-thanks').show();
+      $(this).parent().parent().addClass('results-table--feedback-wowed');
+      var originalElement = $(this);
+      setTimeout(function() {
+        originalElement.parent().show();
+        originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
+        originalElement.parent().parent().removeClass('results-table--feedback-wowed');
+      }, 2000);
+    });
+
+    $(document).on('click', '.results-table--input-yes', function() {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.results-table--feedback-thanks').show();
+      $(this).parent().parent().addClass('results-table--feedback-wowed');
+      var originalElement = $(this);
+      setTimeout(function() {
+        originalElement.parent().show();
+        originalElement.parent().parent().find('.results-table--feedback-thanks').hide();
+        originalElement.parent().parent().removeClass('results-table--feedback-wowed');
+      }, 2000);
+    });
   }
 }
 
