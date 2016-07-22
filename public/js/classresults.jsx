@@ -178,8 +178,9 @@ class IdentityTypeHiearchy extends TypeHierarchy {
 
 class ClassifyScoreTable extends React.Component {
   render() {
-    if (this.props.items.length == 0) {
-      return (<div>No Items Found</div>);
+    if (this.props.items && this.props.items.length == 0) {
+      return (<div className="use--mismatch">
+        The score for this image is not above the threshold of 0.5 , based on the training data provided.</div>);
     }
     return (
         <div className="results-table--container">
@@ -297,9 +298,9 @@ export default ClassifyScoreTable;
 export function classifyScoreTable(results, tagid) {
 
   let target = typeof(tagid) === 'string' ? document.getElementById(tagid) : tagid;
-  var tags = jpath.jpath('/images/0/classifiers/0/classes',results);
-    let faces = jpath.jpath('/images/0/faces',results,[]);
-    var words = jpath.jpath('/images/0/words',results, []);
+  let tags = jpath.jpath('/images/0/classifiers/0/classes',results,[]);
+  let faces = jpath.jpath('/images/0/faces',results,[]);
+  let words = jpath.jpath('/images/0/words',results, []);
     ReactDom.render(<ResultsTable classJson={jpath.jpath('/images/0/classifiers',results)} classItems={tags}
                                   faceJson={faces} faceItems={faces}
                                   wordsJson={words} wordsItems={words}/>,target);
