@@ -17,6 +17,7 @@ class Boxes extends React.Component {
   render() {
     return (<div className=".boxes">
       {this.props.boxdata.map(function(item) {
+        console.log(item);
         return <BoxLocation key={Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)} height={item.height} width={item.width} left={item.left} top={item.top}/>
       })}
         </div>
