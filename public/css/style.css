@@ -2450,7 +2450,13 @@ div.use--dropzone {
 }
 .results-table--feedback-thanks {
   margin-left: 2rem;
-  display: none;
+  opacity: 0;
+  color: black;
+  -webkit-transition: opacity 1s, color 1s;
+  -moz-transition: opacity 1s, color 1s;
+  -ms-transition: opacity 1s, color 1s;
+  -o-transition: opacity 1s, color 1s;
+  transition: opacity 1s, color 1s;
 }
 
 .bottom-banner {
@@ -2613,4 +2619,33 @@ a.json img {
     -o-transition: opacity 0.5s ease-in;
     -ms-transition: opacity 0.5s ease-in;
     transition: opacity 0.5s ease-in;
+}
+
+.result--thermometer {
+  display: none;
+  margin: 0px;
+}
+
+tbody.base--tbody tr td:nth-child(1) {
+  width: 50%;
+}
+
+tbody.base--tbody tr td:nth-child(2) {
+  width: 50%;
+}
+
+@media (min-width: 500px) {
+
+  tbody.base--tbody tr td:nth-child(1) {
+    width: 40%;
+  }
+
+  .result--thermometer {
+    width: 60%;
+    display: block;
+  }
+
+  tbody.base--tbody tr td:nth-child(2) {
+    width: 60%;
+  }
 }
