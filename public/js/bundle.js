@@ -5,3 +5,4 @@ require('./demo.js');
 require('./use.js');
 require('./train.js');
 require('./errormsg.jsx');
+require('./testing.js');
