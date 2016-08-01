@@ -1,5 +1,5 @@
-let { exportTable } = require('./retraining.jsx')
+let { displayRetrainingForm } = require('./retraining.jsx')
 
 $(function() {
-  exportTable('SatelliteImagery_558249346');
+  displayRetrainingForm('fruits_639548304','target');
 });

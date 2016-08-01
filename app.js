@@ -148,6 +148,46 @@ app.post('/api/classifiers', app.upload.fields([{ name: 'classupload', maxCount:
   });
 });
 
+app.post('/api/retrain/:classifier_id', app.upload.any(), function(req, res) {
+  let formData = { classifier_id: req.params.classifier_id };
+  if (req.file) {
+    if (req.file.fieldname.match(/^(negative_examples|.*_positive_examples)$/)) {
+      formData[req.file.fieldname] = fs.createReadStream(req.file.path);
+    }
+  }
+  console.log(req.files);
+
+  req.files && req.files.reduce(function (store, item) {
+    console.log(item);
+    if (item.fieldname.match(/^(negative_examples|.*_positive_examples)$/)) {
+      store[item.fieldname] = fs.createReadStream(item.path);
+    }
+    return store;
+  }, formData);
+  console.log(Object.keys(formData));
+
+  visualRecognition.retrainClassifier(formData, function(err, classifier) {
+    if (err) {
+      console.log(err, Object.keys(formData),classifier);
+    }
+    Object.keys(formData).filter(function(item) { return item !== 'classifier_id'; }).map(function (item) {
+      console.log(item, formData[item]);
+      if (formData[item].path.match("public/images/bundles") === null) {
+        fs.unlink(formData[item].path, function (e) {
+          if (e) {
+            console.log("Error removeing " + formData[item].path);
+          }
+        });
+      }
+    });
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(Object.keys(formData));
+    }
+  });
+});
+
 /**
  * Gets the status of a classifier
  * @param req.params.classifier_id The classifier id

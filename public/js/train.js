@@ -23,7 +23,7 @@ var nextHour = require('./demo.js').nextHour;
 var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 var { renderErrorMessage } = require('./errormsg.jsx');
-
+var { displayRetrainingForm } = require('./retraining.jsx');
 // var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
@@ -426,6 +426,7 @@ $(document).ready(function() {
             }
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
             showTestPanel(classifier);
+            displayRetrainingForm(classifier.classifier_id,'retrain--form');
           });
         }, 5000);
       },

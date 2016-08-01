@@ -159,12 +159,9 @@ $(document).ready(function() {
 });
 
 var positioning = document.querySelector('.positioning-offset');
-var top;
 $(window).scroll(function() {
-  top = positioning.getBoundingClientRect().top;
-
-  if (typeof positioning.getBoundingClientRect() !== 'undefined') {
-    if (top < 0) {
+  if (positioning && typeof(positioning.getBoundingClientRect()) !== 'undefined') {
+    if (positioning.getBoundingClientRect().top < 0) {
       $('.tab-views--tab-list').addClass('stickied');
     } else {
       $('.tab-views--tab-list').removeClass('stickied');
