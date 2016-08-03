@@ -197,7 +197,7 @@ function setupUse(params) {
           if (error.status === 429) {
             showError(errorMessages.TOO_MANY_REQUESTS);
           } else if (error.responseJSON && error.responseJSON.error) {
-            showError('We had a problem classifying that image because ' + error.responseJSON.error);
+            showError('We had a problem classifying that image because ' + jpath.jpath('/responseJSON/error/description',error,' of an unknown error'));
           } else {
             showError(errorMessages.SITE_IS_DOWN);
           }
