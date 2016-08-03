@@ -7,6 +7,7 @@ let div_style = {
   padding: '0.5rem',
   marginRight: '1rem',
   marginBottom: '1rem',
+  marginTop: '0px',
   textAlign: 'center',
   width: '20vw',
   border: 'dashed 1px grey',
@@ -36,9 +37,9 @@ class RetrainingIndicator extends React.Component {
 class FormTitleHOne extends React.Component {
   render() {
     return (<div className="retrain--header">
-      <h1 className="title-bar">{this.props.name ? 'Improve classifier: ' + this.props.name : 'Hello'}</h1>
-      <h3>Classifier has status: {this.props.status}</h3>
-      {this.props.status === 'retraining' ? <RetrainingIndicator/> : ''}
+      <h2 className="title-bar base--h2">{this.props.name ? 'Improve classifier: ' + this.props.name : 'Hello'}</h2>
+      <h3 className="status-bar base--h3">Classifier has status: {this.props.status}</h3>
+      {this.props.status === 'retraining' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
     </div>);
   }
 }
@@ -50,9 +51,7 @@ class FormTitleBar extends React.Component {
   }
   componentDidMount() {
     if (this.props.classifier_id) {
-      this.serverRequest = jquery.get('/api/classifiers/' + this.props.classifier_id).done(function (results) {
-        this.setState({classifierData: results});
-      }.bind(this));
+      this.retryRequest();
     }
   }
 
@@ -61,12 +60,23 @@ class FormTitleBar extends React.Component {
       this.serverRequest.abort();
     }
   }
+  retryRequest() {
+    if (this.serverRequest && this.serverRequest.active) {
+      this.serverRequest.abort();
+    }
 
-  afterSubmit() {
+    this.serverRequest = jquery.get('/api/classifiers/' + this.props.classifier_id).done(function (results) {
+      if (this.state.submitted || results.status === 'retraining' || results.status === 'training') {
+        setTimeout(this.retryRequest.bind(this), 5000);
+      }
+      this.setState({classifierData: results, submitted: false});
+    }.bind(this));
+  }
+
+  afterSubmit(newClassifierData) {
     if (this.props.classifier_id) {
-      this.serverRequest = jquery.get('/api/classifiers/' + this.props.classifier_id).done(function (results) {
-        this.setState({classifierData: results});
-      }.bind(this));
+      this.setState({submitted: true, classifierData: newClassifierData});
+      this.retryRequest();
     }
   }
   render() {
@@ -148,7 +158,7 @@ class TrainClassCell extends React.Component {
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
             </h3>
-            { this.state.has_file? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div><span className="text-label">Select</span>
+            { this.state.has_file ? <img style={{maxWidth: '45%'}} className="text-zip-image" src="images/VR zip icon.svg"/> : <div><span className="text-label">Select</span>
             <div>or drag a zipped folder with at least {image_count} images</div></div>}
           </div>
           <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
@@ -175,7 +185,6 @@ class UpdateForm extends React.Component {
     e.preventDefault();
     let q = new FormData(e.target);
     let filtered_form = q.getAll('classname').reduce(function(store, item) { let f = q.get(item) || q.get('New Class');
-      console.log(f);
       if (f.size && !item.match(/Negative Class/)) {
         store.append(item+"_positive_examples",f);
       } else if (f.size && item.match(/Negative Class/)) {
@@ -196,9 +205,9 @@ class UpdateForm extends React.Component {
       dataType: 'json',
       processData: false
     }).done(function(data) {
-      afterSubmitCallback ? afterSubmitCallback() : null;
+      afterSubmitCallback ? afterSubmitCallback(data) : null;
     }.bind(this)).fail(function(jxr, status,error) {
-      afterSubmitCallback ? afterSubmitCallback() : null;
+      afterSubmitCallback ? afterSubmitCallback({error: error}) : null;
     }.bind(this));
   }
 
@@ -218,14 +227,17 @@ class UpdateForm extends React.Component {
     };
 
     let submit_button_style = {
-      padding : "5px 15px",
       width: "100%",
-      background: "#ccc",
-      border: "0 none",
       cursor: "pointer",
-      WebkitBorderRadius: "5px",
-      borderRadius: "5px"
     };
+
+    let submit_button_style_disabled = {
+      width: "100%",
+      cursor: "not-allowed",
+      backgroundColor: '#959595',
+      borderColor: '#959595'
+    };
+
     let self = this;
     let classCount = this.state.classCount;
 
@@ -239,8 +251,11 @@ class UpdateForm extends React.Component {
         <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)} name="New Class"/>
       </div>
       <TrainClassCell key="negative-class" kind='negative' classCount={classCount} parentAction={this.addFile.bind(this)} name='Negative Class'/>
-      {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : ''}
-      <input style={submit_button_style} disabled={this.state.classCount < 1} type="submit" value="Submit"/>
+      {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
+      { this.state.classCount > 0 ?
+          <input className="base--button" style={submit_button_style} type="submit" value="Submit"/> :
+          <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit" value="Submit"/>
+      }
     </form>);
   }
 }

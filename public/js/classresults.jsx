@@ -192,8 +192,8 @@ class ClassifyScoreTable extends React.Component {
               return (<ClassifyScoreRow key={item['class']} name={item['class']} score={item['score'].toFixed(2)}/>);
             })}
             </tbody>
-            {this.props.items.filter(function(item) { return item.type_hierarchy; }).length ?
-                <tbody className="base--tbody">
+
+            <tbody style={this.props.items.filter(function(item) { return item.type_hierarchy; }).length ? {} : {display: 'none'}} className="base--tbody">
             <tr className="base--tr">
               <th colSpan="2" className="base--th">
                 <hr className="base--hr results-table--line-break"/>
@@ -201,7 +201,7 @@ class ClassifyScoreTable extends React.Component {
             </tr>
             <tr className="base--tr">
                 <th colSpan="2" className="base--th">Type Hierarchy</th>
-              </tr></tbody> : ""}
+              </tr></tbody>
             <tbody className="base--tbody">
             {this.props.items.filter(function(item) { return item.type_hierarchy; }).map(function(item) {
               return (<TypeHierarchy key={item.type_hierarchy} type_hierarchy={item.type_hierarchy}/>);
@@ -286,8 +286,8 @@ class ResultsTable extends React.Component {
   render() {
     return (<div className="use--output-data">
           <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems}/>
-          { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : null }
-          { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : null }
+          { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : <div style={{display: 'none'}}></div>}
+          { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
         </div>
     );
   }

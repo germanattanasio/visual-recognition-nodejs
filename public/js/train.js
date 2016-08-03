@@ -482,6 +482,7 @@ $(document).ready(function() {
       }
     });
     $testSection.show();
+    displayRetrainingForm(classifier.classifier_id,'retrain--form');
   }
 
   var classifier = getAndParseCookieName('classifier');
