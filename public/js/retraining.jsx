@@ -3,21 +3,6 @@ import ReactDom from 'react-dom';
 let jpath = require('jpath-query');
 let jquery = require('jquery');
 
-let div_style = {
-  padding: '0.5rem',
-  marginRight: '1rem',
-  marginBottom: '1rem',
-  marginTop: '0px',
-  textAlign: 'center',
-  width: '20vw',
-  border: 'dashed 1px grey',
-  height: '20vw',
-  maxHeight: '20vw',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-};
-
 const image_count = 10;
 
 class RetrainingIndicator extends React.Component {
@@ -37,9 +22,13 @@ class RetrainingIndicator extends React.Component {
 class FormTitleHOne extends React.Component {
   render() {
     return (<div className="retrain--header">
-      <h2 className="title-bar base--h2">{this.props.name ? 'Improve classifier: ' + this.props.name : 'Hello'}</h2>
-      <h3 className="status-bar base--h3">Classifier has status: {this.props.status}</h3>
-      {this.props.status === 'retraining' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
+      <div className="status-bar">Classifier has status: {this.props.status}</div>
+      <h2 className="title-bar base--h2">{this.props.name ? 'Retrain' : 'Hello'}</h2>
+
+      <p>Improve the classiefier by uploading additional images or adding a new class.
+      Paste an image URL</p>
+
+      {this.props.status !== 'ready' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
     </div>);
   }
 }
@@ -73,17 +62,21 @@ class FormTitleBar extends React.Component {
     }.bind(this));
   }
 
-  afterSubmit(newClassifierData) {
+  willSubmit() {
+    this.setState({submitted: true});
+  }
+
+  didSubmit(newClassifierData) {
     if (this.props.classifier_id) {
       this.setState({submitted: true, classifierData: newClassifierData});
-      this.retryRequest();
+      setTimeout(this.retryRequest.bind(this),1000);
     }
   }
   render() {
     if (this.state.classifierData) {
       return (<div className="improve--form">
-        <FormTitleHOne status={this.state.classifierData.status} name={this.state.classifierData.name}/>
-        <UpdateForm classifier_id={this.state.classifierData.classifier_id} classes={this.state.classifierData.classes} afterSubmit={this.afterSubmit.bind(this)}/></div>);
+        <FormTitleHOne status={this.state.submitted ? 'submitted' : this.state.classifierData.status} name={this.state.classifierData.name}/>
+        <UpdateForm status={this.state.submitted ? 'submitted' : this.state.classifierData.status} classifier_id={this.state.classifierData.classifier_id} classes={this.state.classifierData.classes} willSubmit={this.willSubmit.bind(this)} afterSubmit={this.didSubmit.bind(this)}/></div>);
     } else {
       return (<div className="improve--Form"></div>);
     }
@@ -152,7 +145,7 @@ class TrainClassCell extends React.Component {
   }
   render() {
     return (
-        <div id={"top-"+this.props.name} style={div_style} onClick={this.handleClick.bind(this)}>
+        <div id={"top-"+this.props.name} className="base-div" onClick={this.handleClick.bind(this)}>
           <div id={this.props.name}>
             <h3 className="base--h3">
               {this.displayName()}
@@ -192,11 +185,11 @@ class UpdateForm extends React.Component {
       }
       return store;
     },new FormData());
-
+    let beforeSubmitCallBack = this.props.willSubmit;
     let afterSubmitCallback = this.props.afterSubmit;
-
+    beforeSubmitCallBack();
     e.target.reset();
-    this.setState({classCount: 0});
+    this.setState({classCount: 0, submitted: true});
 
     this.submitAction = jquery.ajax({ method: 'POST',
       url: '/api/retrain/' + this.props.classifier_id,
@@ -206,8 +199,10 @@ class UpdateForm extends React.Component {
       processData: false
     }).done(function(data) {
       afterSubmitCallback ? afterSubmitCallback(data) : null;
+      this.setState({submitted: false});
     }.bind(this)).fail(function(jxr, status,error) {
       afterSubmitCallback ? afterSubmitCallback({error: error}) : null;
+      this.setState({submitted: false});
     }.bind(this));
   }
 
@@ -240,23 +235,35 @@ class UpdateForm extends React.Component {
 
     let self = this;
     let classCount = this.state.classCount;
+    let wasSubmitted = this.state.submitted || this.props.status !== 'ready';
 
-    return (<form style={form_style} onSubmit={this.submit.bind(this)}>
+    if (wasSubmitted) {
+      return (<div style={{display: 'none'}}></div>);
+    } else {
 
-      <div style={div_a_style} className="existing">
+      return (<form style={form_style} onSubmit={this.submit.bind(this)}>
 
-        {this.props.classes.map(function(item) {
-          return (<TrainClassCell key={item.class} classCount={classCount} kind='positive' parentAction={self.addFile.bind(self)} name={item.class}/>);
-        })}
-        <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)} name="New Class"/>
-      </div>
-      <TrainClassCell key="negative-class" kind='negative' classCount={classCount} parentAction={this.addFile.bind(this)} name='Negative Class'/>
-      {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
-      { this.state.classCount > 0 ?
-          <input className="base--button" style={submit_button_style} type="submit" value="Submit"/> :
-          <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit" value="Submit"/>
-      }
-    </form>);
+        <div style={div_a_style} className="existing">
+
+          {this.props.classes.map(function (item) {
+            return (<TrainClassCell key={item.class} classCount={classCount} kind='positive'
+                                    parentAction={self.addFile.bind(self)} name={item.class}/>);
+          })}
+          <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)}
+                          name="New Class"/>
+        </div>
+        <TrainClassCell key="negative-class" kind='negative' classCount={classCount}
+                        parentAction={this.addFile.bind(this)} name='Negative Class'/>
+        {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
+        { this.state.classCount > 0 ?
+            <input className="base--button" style={submit_button_style} type="submit"
+                   value="Retrain your classifier"/> :
+            <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit"
+                   value="Retrain your classifier"/>
+        }
+        <p>This is a demo. For full functionality, try out the API.</p>
+      </form>);
+    }
   }
 }
 
