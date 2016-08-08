@@ -22,8 +22,9 @@ class RetrainingIndicator extends React.Component {
 class FormTitleHOne extends React.Component {
   render() {
     return (<div className="retrain--header">
+      <h2 className="title-bar base--h2">{this.props.name ? 'Retrain' : 'Hello'}
       <div className="status-bar">Classifier has status: {this.props.status}</div>
-      <h2 className="title-bar base--h2">{this.props.name ? 'Retrain' : 'Hello'}</h2>
+      </h2>
 
       <p>Improve the classiefier by uploading additional images or adding a new class.
       Paste an image URL</p>
@@ -126,7 +127,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '80%'},
+    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' }
     }[this.props.kind];

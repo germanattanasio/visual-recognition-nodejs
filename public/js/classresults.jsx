@@ -9,11 +9,14 @@ let base64Object = function(arg) {
 }
 
 class GreatCF extends React.Component {
+  bluemixURL() {
+    return "http://aws.amazon.com";
+  }
   render() {
     return (<div className="greatcf">
-      <p>Great! Now try the service with your own data <a href="http://aws.amazon.com">on Bluemix</a></p>
+      <p>Great! Now try the service with your own data <a href={this.bluemixURL()}>on Bluemix</a></p>
       <div className="buttonZone">
-        <button className="bottomButton">Go To Bluemix</button>
+        <button className="bottomButton" onClick={function() { window.location=this.bluemixURL();}.bind(this)}>Go To Bluemix</button>
       </div>
     </div>);
   }
@@ -68,7 +71,7 @@ class MaybeCF extends React.Component {
 class NoCF extends React.Component {
   onClick(e) {
     e.preventDefault();
-    window.scrollBy(0,e.target.getBoundingClientRect().bottom);
+    scrollWindowBySmoothly(e.target.getBoundingClientRect().bottom, 0.5);
   }
   render() {
     return (<div className="nocf">
@@ -106,7 +109,9 @@ class CorrectForm extends React.Component {
   render() {
     return (<tr className="base--tr">
       <td className="base--td" colSpan="2">
+        <hr/>
         <div className="correctForm">
+          <h3 className="iscorrect base--h3">Is this correct?</h3>
           <div className="correctButtons">
             <button className={this.state.selected === 'yes' ? 'selected' : 'unselected'} onClick={this.handleClick.bind(this,'yes')}>Yes</button>
             <button className={this.state.selected === 'maybe' ? 'selected' : 'unselected'} onClick={this.handleClick.bind(this,'maybe')}>Maybe</button>
