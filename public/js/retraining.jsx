@@ -214,13 +214,6 @@ class UpdateForm extends React.Component {
       justifyItems: 'center'
     };
 
-    let div_a_style = {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyItems: 'center'
-    };
-
     let submit_button_style = {
       width: "100%",
       cursor: "pointer",
@@ -243,7 +236,7 @@ class UpdateForm extends React.Component {
 
       return (<form style={form_style} onSubmit={this.submit.bind(this)}>
 
-        <div style={div_a_style} className="existing">
+        <div className="existing">
 
           {this.props.classes.map(function (item) {
             return (<TrainClassCell key={item.class} classCount={classCount} kind='positive'
@@ -251,9 +244,9 @@ class UpdateForm extends React.Component {
           })}
           <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)}
                           name="New Class"/>
-        </div>
         <TrainClassCell key="negative-class" kind='negative' classCount={classCount}
                         parentAction={this.addFile.bind(this)} name='Negative Class'/>
+          </div>
         {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
         { this.state.classCount > 0 ?
             <input className="base--button" style={submit_button_style} type="submit"
@@ -270,5 +263,8 @@ class UpdateForm extends React.Component {
 export default FormTitleBar;
 
 export function displayRetrainingForm(classifier_id, targetid) {
-  ReactDom.render(<FormTitleBar classifier_id={classifier_id}/>, document.getElementById(targetid));
+  let target = document.getElementById(targetid);
+  if (target) {
+    ReactDom.render(<FormTitleBar classifier_id={classifier_id}/>, target);
+  }
 }

@@ -24,6 +24,7 @@ var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 var { renderErrorMessage } = require('./errormsg.jsx');
 var { displayRetrainingForm } = require('./retraining.jsx');
+var { customClassifyScoreTable } = require('./classresults.jsx');
 // var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {

@@ -21,7 +21,7 @@ var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 var getRandomInt = require('./demo.js').getRandomInt;
 var { renderBoxes } = require('./image-boxes.jsx');
-var { classifyScoreTable } = require('./classresults.jsx');
+var { classifyScoreTable, customClassifyScoreTable } = require('./classresults.jsx');
 var jpath = require('jpath-query');
 
 var errorMessages = {
@@ -129,7 +129,7 @@ function setupUse(params) {
       }
     }
     // populate table
-    renderTable(results);
+    renderTable(results,null);
     $result.show();
 
     setTimeout(function () {
@@ -187,8 +187,10 @@ function setupUse(params) {
 
     $imageDataInput.val(imageData);
 
+    let iscustom = $(pclass + 'form').serializeArray().filter(function(item) { return item.name == "classifier_id"; }).length;
+    let formData = $(pclass + 'form').serialize();
     // Grab all form data
-    $.post('/api/classify', $(pclass + 'form').serialize())
+    $.post('/api/classify', formData)
         .done(showResult)
         .error(function (error) {
           $loading.hide();
@@ -239,7 +241,7 @@ function setupUse(params) {
     var bundle = getAndParseCookieName('bundle');
     var kind = bundle ? bundle.kind : 'user';
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
-    classifyImage('images' + path + getRandomInt(1, 5) + '.jpg');
+    classifyImage('images' + path + getRandomInt(1, 5) + '.jpg', true);
     $urlInput.val('');
   });
 
@@ -368,14 +370,18 @@ function setupUse(params) {
     return {top: Math.round(top), left: Math.round(left)};
   }
 
-  function renderTable(results) {
+  function renderTable(results,custom_classifier) {
     $('.' + panel + '--mismatch').remove();
     let resolved_url = jpath.jpath('/images/0/resolved_url',results);
     if (resolved_url) {
       $image.attr('src', resolved_url);
     }
 
-    classifyScoreTable(results,$outputData[0]);
+    if (results.classifier_ids && results.classifier_ids.split(",").filter(function(item) { return item !== 'default'; }).length > 0) {
+      customClassifyScoreTable(results, $outputData[0]);
+    } else {
+      classifyScoreTable(results,$outputData[0]);
+    }
   }
 }
 

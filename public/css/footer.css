@@ -47,7 +47,7 @@
 }
 
 .arrowup {
-    background-image: url('images/icons/arrowup.svg');
+    background-image: url('/images/icons/arrowup.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 98% 50%;
@@ -56,14 +56,14 @@
 }
 
 .code {
-    background-image: url('images/icons/code.svg');
+    background-image: url('/images/icons/code.svg');
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-attachment: inherit;
 }
 
 .arrowdown {
-    background-image: url('images/icons/arrowdown.svg');
+    background-image: url('/images/icons/arrowdown.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 98% 50%;
@@ -72,7 +72,7 @@
 }
 
 .arrowup-main {
-    background-image: url('images/icons/arrowup.svg');
+    background-image: url('/images/icons/arrowup.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 95% 50%;
@@ -84,7 +84,7 @@
 }
 
 .arrowdown-main {
-    background-image: url('images/icons/arrowdown.svg');
+    background-image: url('/images/icons/arrowdown.svg');
     background-repeat: no-repeat;
     background-attachment: inherit;
     background-position: 88% 50%;

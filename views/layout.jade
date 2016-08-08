@@ -5,15 +5,15 @@ html(lang='en')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='ct' content='#{locals.ct}')
-    meta(name='og:title' content='IBM Watson Visual Recognition')
+    meta(name='og:title' content='BM Watson Visual Recognition')
     meta(name='og:description' content='Visual Recognition uses deep learning algorithms to analyze images for scenes, objects, faces, text, and other subjects that can give you insights into your visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.')
     link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
-    link(rel='stylesheet', href='css/style.css')
-    link(rel='stylesheet', href='css/training.css')
-    link(rel='stylesheet', href='css/footer.css')
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='/css/training.css')
+    link(rel='stylesheet', href='/css/footer.css')
     block extra-header
-    link(rel='stylesheet', href='css/extra.css')
-    link(rel='stylesheet', href='css/Retraining.css')
+    link(rel='stylesheet', href='/css/extra.css')
+    link(rel='stylesheet', href='/css/Retraining.css')
   body
     header._demo--heading
       include ./includes/header.jade
@@ -21,14 +21,14 @@ html(lang='en')
     block content
     div._demo--banner.bottom-banner
       include ./includes/footer.jade
-    script(src='js/vendors/browser-detect.js')
+    script(src='/js/vendors/browser-detect.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.min.js')
-    script(src='js/bundle.js')
-    script(src='js/vendors/tealeaf.js')
+    script(src='/js/bundle.js')
+    script(src='/js/vendors/tealeaf.js')
     if locals.ga
       script.
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
