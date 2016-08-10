@@ -22,12 +22,11 @@ class RetrainingIndicator extends React.Component {
 class FormTitleHOne extends React.Component {
   render() {
     return (<div className="retrain--header">
-      <h2 className="title-bar base--h2">{this.props.name ? 'Retrain' : 'Hello'}
+      <h2 className="title-bar base--h2">{this.props.name ? 'Improve your classifier' : 'Hello'}
       <div className="status-bar">Classifier has status: {this.props.status}</div>
       </h2>
 
-      <p>Improve the classiefier by uploading additional images or adding a new class.
-      Paste an image URL</p>
+      <p>Add more images to your classes by uploading your own or inputting URLs. Upload at least 10 new images per class you’d like to improve.</p>
 
       {this.props.status !== 'ready' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
     </div>);
@@ -88,37 +87,75 @@ class TrainClassCell extends React.Component {
     super();
     this.state = { nameValue: '' };
   }
-  handleClick(e) {
-    e.preventDefault();
-    if (e.target.getAttribute('name') === 'classname') {
+
+  drag(event) {
+    event.preventDefault();
+  }
+
+  drop(parentAction,event) {
+    event.preventDefault();
+    if (!event.dataTransfer.files) {
       return false;
     }
+
+    if (this.props.kind === 'new') {
+      let trimmed_name = jpath.jpath('/dataTransfer/files/0/name', event).split('.')[0]
+      this.setState({nameValue: trimmed_name, hasFile: true});
+      parentAction(trimmed_name,jpath.jpath('/dataTransfer/files/0', event));
+    } else {
+      this.setState({hasFile: true});
+      parentAction(this.props.name,jpath.jpath('/dataTransfer/files/0', event));
+    }
+  }
+  handleClick(e) {
+
+    if (e.target.getAttribute('name') === 'classname' || e.target.getAttribute('name') === 'clear' || e.target.getAttribute('type') === 'file') {
+      return false;
+    } else {
+      e.preventDefault();
+    }
+
     let parent_id = 'top-'+this.props.name;
     var element = e.target;
     while ( element.getAttribute('id') !== parent_id) {
       element = element.parentElement;
     }
-    element.firstElementChild.nextElementSibling.dispatchEvent(new Event('click'));
+    let target = element.firstElementChild.nextElementSibling;
+    target.click();
     return false;
   }
+
   changeAction(parentAction,e) {
     e.preventDefault();
 
     let validMimeType = {'application/zip': true}[jpath.jpath('/target/files/0/type',e)];
     if (jpath.jpath('/target/files/length', e, 0) > 0) {
       if (validMimeType) {
-        parentAction(jpath.jpath('/target/files/0', e));
-
         if (this.props.kind === 'new') {
           let trimmed_name = jpath.jpath('/target/files/0/name', e).split('.')[0]
-          this.setState({nameValue: trimmed_name, has_file: true});
+          this.setState({nameValue: trimmed_name, hasFile: true});
+          parentAction(trimmed_name,jpath.jpath('/target/files/0', e));
         } else {
-          this.setState({has_file: true});
+          this.setState({hasFile: true});
+          parentAction(this.props.name,jpath.jpath('/target/files/0', e));
         }
       }
     } else {
-      parentAction(null);
-      this.setState({has_file: false});
+      let classname = this.state.nameValue || this.props.name;
+      parentAction(classname,null);
+      this.setState({hasFile: false});
+    }
+  }
+  clear(parentAction,event) {
+    event.preventDefault();
+    event.target.previousSibling.value = null;
+    if (this.props.kind === 'new') {
+      let classname = this.state.nameValue || this.props.name;
+      this.setState({nameValue: null, hasFile: false});
+      parentAction(classname,null);
+    } else {
+      this.setState({hasFile: false});
+      parentAction(this.props.name,null);
     }
   }
   textChange(e) {
@@ -141,21 +178,22 @@ class TrainClassCell extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.classCount === 0) {
-      this.setState({has_file: false, nameValue: ''});
+      this.setState({hasFile: false, nameValue: ''});
     }
   }
   render() {
     return (
-        <div id={"top-"+this.props.name} className="base-div" onClick={this.handleClick.bind(this)}>
-          <div id={this.props.name}>
+        <div id={"top-"+this.props.name} className="base-div" onClick={this.handleClick.bind(this)} onDrop={this.drop.bind(this,this.props.parentAction)} onDragOver={this.drag.bind(this)}>
+          <div className="target-div" id={this.props.name}>
             <h3 className="base--h3">
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
             </h3>
-            { this.state.has_file ? <img style={{maxWidth: '45%'}} className="text-zip-image" src="images/VR zip icon.svg"/> : <div><span className="text-label">Select</span>
-            <div>or drag a zipped folder with at least {image_count} images</div></div>}
+            <div className="notACount">50 images total</div>
+            { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box">Or <span className="decorated">select</span> and drag your own images</div>}
           </div>
           <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
+          <button name="clear" className="clear--button" style={{opacity: this.state.hasFile ? 1 : 0}} onClick={this.clear.bind(this,this.props.parentAction)}>clear</button>
         </div>);
   }
 }
@@ -163,11 +201,18 @@ class TrainClassCell extends React.Component {
 class UpdateForm extends React.Component {
   constructor() {
     super();
-    this.state = { classCount: 0 }
+    this.state = { classCount: 0, files: {} }
   }
-  addFile(fileObj) {
-    let newCount = fileObj ? this.state.classCount + 1 : this.state.classCount - 1;
-    this.setState({classCount: newCount });
+  addFile(classname, fileObj) {
+    let newState = this.state;
+    if (fileObj) {
+      newState.files[classname] = fileObj;
+    } else {
+      delete newState.files[classname];
+    }
+    newState.classCount = Object.keys(newState.files).length;
+    this.setState(newState);
+    console.log("I have ",newState.classCount," files with named", Object.keys(newState.files).join(", "));
   }
   componentWillUnmount() {
     if (this.submitAction) {
@@ -186,6 +231,18 @@ class UpdateForm extends React.Component {
       }
       return store;
     },new FormData());
+
+    let files_dict = this.state.files;
+    let dropped_files = Object.keys(this.state.files).reduce(function(store, item) {
+      let f = files_dict[item];
+      if (f.size && !item.match(/Negative Class/)) {
+        store.append(item+"_positive_examples",f);
+      } else if (f.size && item.match(/Negative Class/)) {
+        store.append('negative_examples',f);
+      }
+      return store;
+    },filtered_form);
+
     let beforeSubmitCallBack = this.props.willSubmit;
     let afterSubmitCallback = this.props.afterSubmit;
     beforeSubmitCallBack();
@@ -194,7 +251,7 @@ class UpdateForm extends React.Component {
 
     this.submitAction = jquery.ajax({ method: 'POST',
       url: '/api/retrain/' + this.props.classifier_id,
-      data: filtered_form,
+      data: dropped_files,
       contentType: false,
       dataType: 'json',
       processData: false
@@ -216,12 +273,10 @@ class UpdateForm extends React.Component {
     };
 
     let submit_button_style = {
-      width: "100%",
       cursor: "pointer",
     };
 
     let submit_button_style_disabled = {
-      width: "100%",
       cursor: "not-allowed",
       backgroundColor: '#959595',
       borderColor: '#959595'
@@ -238,16 +293,21 @@ class UpdateForm extends React.Component {
       return (<form style={form_style} onSubmit={this.submit.bind(this)}>
 
         <div className="existing">
-
+          <h3 className="base--h3">Positive Classes</h3>
+          <div className="positive-classes">
           {this.props.classes.map(function (item) {
             return (<TrainClassCell key={item.class} classCount={classCount} kind='positive'
                                     parentAction={self.addFile.bind(self)} name={item.class}/>);
           })}
           <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)}
                           name="New Class"/>
+            </div>
+          <h3 className="base--h3">Optional Negative Images</h3>
+          <div className="negative-classes">
         <TrainClassCell key="negative-class" kind='negative' classCount={classCount}
                         parentAction={this.addFile.bind(this)} name='Negative Class'/>
           </div>
+        </div>
         {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
         { this.state.classCount > 0 ?
             <input className="base--button" style={submit_button_style} type="submit"
