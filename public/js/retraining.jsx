@@ -198,13 +198,22 @@ class TrainClassCell extends React.Component {
   }
 }
 
+class FlashMessage extends React.Component {
+  render() {
+    if (this.props.display) {
+      return (<div>{this.props.message}</div>);
+    } else {
+      return (<div style={{display: 'none'}}></div>);
+    }
+  }
+}
+
 class WindowShade extends React.Component {
   constructor() {
     super();
     this.state = { clicked: false };
   }
   onclick() {
-    console.log(React.Children.count(this.props.children));
     this.setState({clicked: !this.state.clicked});
   }
   style() {
@@ -223,10 +232,11 @@ class WindowShade extends React.Component {
 class UpdateForm extends React.Component {
   constructor() {
     super();
-    this.state = { classCount: 0, files: {} }
+    this.state = { classCount: 0, files: {}, showFlash: false }
   }
   addFile(classname, fileObj) {
     let newState = this.state;
+    newState.showFlash = fileObj !== null;
     if (fileObj) {
       newState.files[classname] = fileObj;
     } else {
@@ -234,7 +244,10 @@ class UpdateForm extends React.Component {
     }
     newState.classCount = Object.keys(newState.files).length;
     this.setState(newState);
-    console.log("I have ",newState.classCount," files with named", Object.keys(newState.files).join(", "));
+
+    setTimeout(function() {
+      this.setState({showFlash: false});
+    }.bind(this), 3000);
   }
   componentWillUnmount() {
     if (this.submitAction) {
@@ -339,6 +352,7 @@ class UpdateForm extends React.Component {
             <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit"
                    value="Retrain your classifier"/>
         }
+        <FlashMessage message = "New Images Added" display={this.state.showFlash}/>
         <p>This is a demo. For full functionality, try out the API.</p>
       </form>);
     }
