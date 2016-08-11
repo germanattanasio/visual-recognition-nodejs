@@ -22,11 +22,11 @@ class RetrainingIndicator extends React.Component {
 class FormTitleHOne extends React.Component {
   render() {
     return (<div className="retrain--header">
-      <h2 className="title-bar base--h2">{this.props.name ? 'Improve your classifier' : 'Hello'}
+      <h2 className="title-bar base--h2">{this.props.name ? 'Retrain' : 'Hello'}
       <div className="status-bar">Classifier has status: {this.props.status}</div>
       </h2>
 
-      <p>Add more images to your classes by uploading your own or inputting URLs. Upload at least 10 new images per class you’d like to improve.</p>
+      <p>Add more images to classes by uploading your own or adding a new class.</p>
 
       {this.props.status !== 'ready' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
     </div>);
@@ -198,6 +198,28 @@ class TrainClassCell extends React.Component {
   }
 }
 
+class WindowShade extends React.Component {
+  constructor() {
+    super();
+    this.state = { clicked: false };
+  }
+  onclick() {
+    console.log(React.Children.count(this.props.children));
+    this.setState({clicked: !this.state.clicked});
+  }
+  style() {
+    return this.state.clicked ? { opacity: 1 } : { height: 0, opacity: 0 };
+  }
+  render() {
+    return (<div onClick={this.onclick.bind(this)}>
+      <h3>Add Another Class</h3>
+      <div className="windowshade" style={this.style()}>
+        {this.props.children}
+        </div>
+    </div>);
+  }
+}
+
 class UpdateForm extends React.Component {
   constructor() {
     super();
@@ -299,8 +321,10 @@ class UpdateForm extends React.Component {
             return (<TrainClassCell key={item.class} classCount={classCount} kind='positive'
                                     parentAction={self.addFile.bind(self)} name={item.class}/>);
           })}
-          <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)}
-                          name="New Class"/>
+          <WindowShade>
+            <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)}
+                            name="New Class"/>
+            </WindowShade>
             </div>
           <h3 className="base--h3">Optional Negative Images</h3>
           <div className="negative-classes">
