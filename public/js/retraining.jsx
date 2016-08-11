@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 let jpath = require('jpath-query');
 let jquery = require('jquery');
 let { lookupName } = require('./classNameMapper.js');
+let { allMissingClasses } = require('./membership.js');
 const image_count = 10;
 
 class RetrainingIndicator extends React.Component {
@@ -198,6 +199,12 @@ class TrainClassCell extends React.Component {
   }
 }
 
+class UnsubmittedClass extends React.Component {
+  render() {
+    return (<h1>{this.props.classname}</h1>);
+  }
+}
+
 class FlashMessage extends React.Component {
   render() {
     if (this.props.display) {
@@ -299,6 +306,11 @@ class UpdateForm extends React.Component {
     }.bind(this));
   }
 
+  missingClasses() {
+    let classnames = this.props.classes.map(x => x.class);
+    return allMissingClasses(classnames);
+  }
+
   render() {
     let form_style = {
       display: 'flex',
@@ -334,6 +346,11 @@ class UpdateForm extends React.Component {
             return (<TrainClassCell key={item.class} classCount={classCount} kind='positive'
                                     parentAction={self.addFile.bind(self)} name={item.class}/>);
           })}
+
+            {this.missingClasses().map(function(item) {
+              return (<TrainClassCell key={item} classCount={classCount} kind='positive'
+                                      parentAction={self.addFile.bind(self)} name={item}/>);
+            })}
           <WindowShade>
             <TrainClassCell classCount={classCount} key='newclass' kind='new' parentAction={this.addFile.bind(this)}
                             name="New Class"/>
