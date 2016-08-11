@@ -189,7 +189,7 @@ class TrainClassCell extends React.Component {
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
             </h3>
-            <div className="notACount">50 images total</div>
+            <div className="notACount"><button name="Select" value="Select"/></div>
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box">Or <span className="decorated">select</span> and drag your own images</div>}
           </div>
           <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
