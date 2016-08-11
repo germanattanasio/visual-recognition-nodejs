@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 let jpath = require('jpath-query');
 let jquery = require('jquery');
-
+let { lookupName } = require('./classNameMapper.js');
 const image_count = 10;
 
 class RetrainingIndicator extends React.Component {
@@ -171,8 +171,8 @@ class TrainClassCell extends React.Component {
   }
   displayName() {
     return {'new' : '',
-      'negative'  : this.props.name,
-      'positive'  : this.props.name
+      'negative'  : lookupName(this.props.name),
+      'positive'  : lookupName(this.props.name)
     }[this.props.kind];
   }
 
@@ -189,7 +189,7 @@ class TrainClassCell extends React.Component {
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
             </h3>
-            <div className="notACount"><button name="Select" value="Select"/></div>
+            <div className="notACount"><button name="Select">Select</button></div>
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box">Or <span className="decorated">select</span> and drag your own images</div>}
           </div>
           <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
