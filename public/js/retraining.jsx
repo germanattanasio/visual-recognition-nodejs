@@ -109,7 +109,10 @@ class TrainClassCell extends React.Component {
     }
   }
   handleClick(e) {
-
+    if (this.props.kind === 'missing') {
+      e.preventDefault();
+      return false;
+    }
     if (e.target.getAttribute('name') === 'classname' || e.target.getAttribute('name') === 'clear' || e.target.getAttribute('type') === 'file') {
       return false;
     } else {
@@ -167,14 +170,20 @@ class TrainClassCell extends React.Component {
   inputStyle() {
     return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center' },
       'negative'  : { display: 'none' },
-      'positive'  : { display: 'none' }
+      'positive'  : { display: 'none' },
+      'missing'  : { display: 'none' }
     }[this.props.kind];
   }
   displayName() {
     return {'new' : '',
       'negative'  : lookupName(this.props.name),
-      'positive'  : lookupName(this.props.name)
+      'positive'  : lookupName(this.props.name),
+      'missing'    : lookupName(this.props.name)
     }[this.props.kind];
+  }
+
+  selectMissing() {
+    this.setState({hasFile: true});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -190,8 +199,10 @@ class TrainClassCell extends React.Component {
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
             </h3>
-            <div className="notACount"><button name="Select">Select</button></div>
-            { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box">Or <span className="decorated">select</span> and drag your own images</div>}
+            {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this)} name="Select">Select</button> :
+              <button style={{opacity: 0 }} disabled={true} name="Select">Select</button>
+              }
+            { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box"><span className="decorated">upload</span> at least 50 images in zip format</div>}
           </div>
           <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
           <button name="clear" className="clear--button" style={{opacity: this.state.hasFile ? 1 : 0}} onClick={this.clear.bind(this,this.props.parentAction)}>clear</button>
@@ -348,7 +359,7 @@ class UpdateForm extends React.Component {
           })}
 
             {this.missingClasses().map(function(item) {
-              return (<TrainClassCell key={item} classCount={classCount} kind='positive'
+              return (<TrainClassCell key={item} classCount={classCount} kind='missing'
                                       parentAction={self.addFile.bind(self)} name={item}/>);
             })}
           <WindowShade>
