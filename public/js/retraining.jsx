@@ -297,7 +297,9 @@ class UpdateForm extends React.Component {
   submit(e) {
     e.preventDefault();
     let q = new FormData(e.target);
-    let filteredForm = q.getAll('classname').reduce(function(store, item) { let f = q.get(item) || q.get('New Class');
+    let filesDict = this.state.files;
+    let uploadedFiles = Object.keys(this.state.files).reduce(function(store, item) {
+      let f = filesDict[item];
       if (f.size && !item.match(/Negative Class/)) {
         store.append(item+"_positive_examples",f);
       } else if (f.size && item.match(/Negative Class/)) {
@@ -306,24 +308,13 @@ class UpdateForm extends React.Component {
       return store;
     },new FormData());
 
-    let filesDict = this.state.files;
-    let droppedFiles = Object.keys(this.state.files).reduce(function(store, item) {
-      let f = filesDict[item];
-      if (f.size && !item.match(/Negative Class/)) {
-        store.append(item+"_positive_examples",f);
-      } else if (f.size && item.match(/Negative Class/)) {
-        store.append('negative_examples',f);
-      }
-      return store;
-    },filteredForm);
-
     let includeMissing = [...this.state.checkboxes].reduce((store, item) => {
       let zipPath = bundleZipfileForClass(item);
       if (zipPath) {
         store.append(item+"_positive_examples",zipPath);
       }
       return store;
-    }, droppedFiles);
+    }, uploadedFiles);
 
     let beforeSubmitCallBack = this.props.willSubmit;
     let afterSubmitCallback = this.props.afterSubmit;
