@@ -158,11 +158,14 @@ app.post('/api/retrain/:classifier_id', app.upload.any(), function(req, res) {
   let bodyKeys = Object.keys(req.body);
 
   bodyKeys.length && bodyKeys.reduce(function(store, item) {
-    let pathToZip = path.join('./public/images/bundles',req.body[item]);
-    fs.stat(pathToZip, function(error, statinfo) {
-      formData[item] = fs.createReadStream(pathToZip);
-    });
-    return formData;
+    let pathToZip = path.join('./public/images/bundles', req.body[item]);
+    try {
+      let statinfo = fs.statSync(pathToZip);
+      store[item] = fs.createReadStream(pathToZip);
+    } catch (err) {
+      console.log(pathToZip, " path not found");
+    }
+    return store;
   },formData);
 
   req.files && req.files.reduce(function (store, item) {
@@ -171,7 +174,6 @@ app.post('/api/retrain/:classifier_id', app.upload.any(), function(req, res) {
     }
     return store;
   }, formData);
-  console.log(formData);
 
   visualRecognition.retrainClassifier(formData, function(err, classifier) {
     if (err) {
