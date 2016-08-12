@@ -187,7 +187,6 @@ function setupUse(params) {
 
     $imageDataInput.val(imageData);
 
-    let iscustom = $(pclass + 'form').serializeArray().filter(function(item) { return item.name == "classifier_id"; }).length;
     let formData = $(pclass + 'form').serialize();
     // Grab all form data
     $.post('/api/classify', formData)
@@ -370,7 +369,7 @@ function setupUse(params) {
     return {top: Math.round(top), left: Math.round(left)};
   }
 
-  function renderTable(results,custom_classifier) {
+  function renderTable(results) {
     $('.' + panel + '--mismatch').remove();
     let resolved_url = jpath.jpath('/images/0/resolved_url',results);
     if (resolved_url) {

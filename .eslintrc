@@ -18,6 +18,7 @@
     "useResultsTable_template": false,
     "useResultsTableTemplate" : true,
     "imageBoxesTemplate": true,
+    "Set", true,
     "casper": false
   },
   "env": {
