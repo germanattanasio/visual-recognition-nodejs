@@ -10,7 +10,7 @@ let base64Object = function(arg) {
 
 class GreatCF extends React.Component {
   bluemixURL() {
-    return "http://aws.amazon.com";
+    return "https://console.ng.bluemix.net/catalog/visual-recognition";
   }
   render() {
     return (<div className="greatcf">
