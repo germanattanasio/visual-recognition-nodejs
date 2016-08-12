@@ -160,7 +160,7 @@ app.post('/api/retrain/:classifier_id', app.upload.any(), function(req, res) {
   bodyKeys.length && bodyKeys.reduce(function(store, item) {
     let pathToZip = path.join('./public/images/bundles', req.body[item]);
     try {
-      let statinfo = fs.statSync(pathToZip);
+      fs.statSync(pathToZip);
       store[item] = fs.createReadStream(pathToZip);
     } catch (err) {
       console.log(pathToZip, " path not found");
