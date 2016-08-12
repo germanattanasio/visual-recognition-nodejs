@@ -18,11 +18,11 @@
     "useResultsTable_template": false,
     "useResultsTableTemplate" : true,
     "imageBoxesTemplate": true,
-    "Set", true,
     "casper": false
   },
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   },
-  "extends": "eslint:recommended",
+  "extends": "eslint:recommended"
 }
