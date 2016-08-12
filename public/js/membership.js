@@ -4,6 +4,18 @@ classifierNameMapping.insurance = new Set(['brokenwinshield', 'flattire','motorc
 classifierNameMapping.moleskine = new Set(['journaling','landscape','notebook','portrait']);
 classifierNameMapping.omniearth = new Set(['baseball','cars','golf','tennis']);
 
+/**
+ * this function takes a list of class names and a dictionary of
+ * sets of known bundle classes and finds the highest scoring match
+ * for list.  If the score is less than the threshold, then it is discarded.
+ * Most often, the dictionary of sets will be `classifierNameMapping
+ * which is generated from the bundles we provide.
+ * @param threshold
+ * @param list_of_classes
+ * @param class_sets_dictionary
+ * @returns {null or string}
+ */
+
 export function membership(threshold, list_of_classes, class_sets_dictionary) {
 
   let source = class_sets_dictionary || classifierNameMapping;
@@ -32,7 +44,11 @@ export function allMissingClasses(list_of_classes) {
     return [];
   }
 }
-
+/**
+ *
+ * @param classname
+ * @returns {null or a path to a zipfile}
+ */
 export function bundleZipfileForClass(classname) {
   let bundle = membership(0,[classname])
   return bundle ? [bundle, classname].join("/") + ".zip" : null;
