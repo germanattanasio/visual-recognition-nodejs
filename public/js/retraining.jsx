@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 let jpath = require('jpath-query');
 let jquery = require('jquery');
 let { lookupName } = require('./classNameMapper.js');
-let { allMissingClasses } = require('./membership.js');
+let { allMissingClasses, bundleZipfileForClass } = require('./membership.js');
 const image_count = 10;
 
 class RetrainingIndicator extends React.Component {
@@ -102,10 +102,10 @@ class TrainClassCell extends React.Component {
     if (this.props.kind === 'new') {
       let trimmed_name = jpath.jpath('/dataTransfer/files/0/name', event).split('.')[0]
       this.setState({nameValue: trimmed_name, hasFile: true});
-      parentAction(trimmed_name,jpath.jpath('/dataTransfer/files/0', event));
+      parentAction(trimmed_name,jpath.jpath('/dataTransfer/files/0', event), 'add');
     } else {
       this.setState({hasFile: true});
-      parentAction(this.props.name,jpath.jpath('/dataTransfer/files/0', event));
+      parentAction(this.props.name,jpath.jpath('/dataTransfer/files/0', event, 'add'));
     }
   }
   handleClick(e) {
@@ -138,15 +138,15 @@ class TrainClassCell extends React.Component {
         if (this.props.kind === 'new') {
           let trimmed_name = jpath.jpath('/target/files/0/name', e).split('.')[0]
           this.setState({nameValue: trimmed_name, hasFile: true});
-          parentAction(trimmed_name,jpath.jpath('/target/files/0', e));
+          parentAction(trimmed_name,jpath.jpath('/target/files/0', e),'add');
         } else {
           this.setState({hasFile: true});
-          parentAction(this.props.name,jpath.jpath('/target/files/0', e));
+          parentAction(this.props.name,jpath.jpath('/target/files/0', e),'add');
         }
       }
     } else {
       let classname = this.state.nameValue || this.props.name;
-      parentAction(classname,null);
+      parentAction(classname,null,'remove');
       this.setState({hasFile: false});
     }
   }
@@ -156,10 +156,10 @@ class TrainClassCell extends React.Component {
     if (this.props.kind === 'new') {
       let classname = this.state.nameValue || this.props.name;
       this.setState({nameValue: null, hasFile: false, checked: false});
-      parentAction(classname,null);
+      parentAction(classname,null,'remove');
     } else {
       this.setState({hasFile: false, checked: false});
-      parentAction(this.props.name,null);
+      parentAction(this.props.name,null,'remove');
     }
   }
   textChange(e) {
@@ -182,13 +182,14 @@ class TrainClassCell extends React.Component {
     }[this.props.kind];
   }
 
-  selectMissing() {
+  selectMissing(parentAction) {
     this.setState({hasFile: true, checked: true});
+    parentAction(this.props.name, null, 'add');
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.classCount === 0) {
-      this.setState({hasFile: false, nameValue: ''});
+      this.setState({hasFile: false, nameValue: '', checked: false});
     }
   }
   render() {
@@ -200,7 +201,7 @@ class TrainClassCell extends React.Component {
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
               <input style={{display: 'none'}} type="checkbox" name="missing" value={this.props.name} checked={this.state.checked}/>
             </h3>
-            {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this)} name="Select">Select</button> :
+            {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this,this.props.parentAction)} name="Select">Select</button> :
               <button style={{opacity: 0 }} disabled={true} name="Select">Select</button>
               }
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box"><span className="decorated">upload</span> at least 50 images in zip format</div>}
@@ -251,22 +252,39 @@ class WindowShade extends React.Component {
 class UpdateForm extends React.Component {
   constructor() {
     super();
-    this.state = { classCount: 0, files: {}, showFlash: false }
+    this.state = { classCount: 0, files: {}, showFlash: false, checkboxes: new Set([]) };
   }
-  addFile(classname, fileObj) {
+  addFile(classname, fileObj, action) {
     let newState = this.state;
-    newState.showFlash = fileObj !== null;
-    if (fileObj) {
-      newState.files[classname] = fileObj;
-    } else {
-      delete newState.files[classname];
+
+    if (action === 'add') {
+      if (fileObj) {
+        newState.files[classname] = fileObj;
+      } else {
+        newState.checkboxes.add(classname);
+      }
+      newState.showFlash = true;
     }
-    newState.classCount = Object.keys(newState.files).length;
+
+    if (action === 'remove') {
+      newState.showFlash = false;
+      if (newState.files[classname]) {
+        delete newState.files[classname];
+      }
+
+      if (newState.checkboxes.has(classname)) {
+        newState.checkboxes.delete(classname);
+      }
+    }
+
+    newState.classCount = Object.keys(newState.files).length + newState.checkboxes.size;
     this.setState(newState);
 
-    setTimeout(function() {
-      this.setState({showFlash: false});
-    }.bind(this), 3000);
+    if (newState.showFlash) {
+      setTimeout(function () {
+        this.setState({showFlash: false});
+      }.bind(this), 3000);
+    }
   }
   componentWillUnmount() {
     if (this.submitAction) {
@@ -277,7 +295,7 @@ class UpdateForm extends React.Component {
   submit(e) {
     e.preventDefault();
     let q = new FormData(e.target);
-    let filtered_form = q.getAll('classname').reduce(function(store, item) { let f = q.get(item) || q.get('New Class');
+    let filteredForm = q.getAll('classname').reduce(function(store, item) { let f = q.get(item) || q.get('New Class');
       if (f.size && !item.match(/Negative Class/)) {
         store.append(item+"_positive_examples",f);
       } else if (f.size && item.match(/Negative Class/)) {
@@ -286,16 +304,24 @@ class UpdateForm extends React.Component {
       return store;
     },new FormData());
 
-    let files_dict = this.state.files;
-    let dropped_files = Object.keys(this.state.files).reduce(function(store, item) {
-      let f = files_dict[item];
+    let filesDict = this.state.files;
+    let droppedFiles = Object.keys(this.state.files).reduce(function(store, item) {
+      let f = filesDict[item];
       if (f.size && !item.match(/Negative Class/)) {
         store.append(item+"_positive_examples",f);
       } else if (f.size && item.match(/Negative Class/)) {
         store.append('negative_examples',f);
       }
       return store;
-    },filtered_form);
+    },filteredForm);
+
+    let includeMissing = [...this.state.checkboxes].reduce((store, item) => {
+      let zipPath = bundleZipfileForClass(item);
+      if (zipPath) {
+        store.append(item+"_positive_examples",zipPath);
+      }
+      return store;
+    }, droppedFiles);
 
     let beforeSubmitCallBack = this.props.willSubmit;
     let afterSubmitCallback = this.props.afterSubmit;
@@ -305,7 +331,7 @@ class UpdateForm extends React.Component {
 
     this.submitAction = jquery.ajax({ method: 'POST',
       url: '/api/retrain/' + this.props.classifier_id,
-      data: dropped_files,
+      data: includeMissing,
       contentType: false,
       dataType: 'json',
       processData: false
