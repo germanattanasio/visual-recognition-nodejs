@@ -449,9 +449,7 @@ $(document).ready(function() {
   });
 
   var classifierCheckPollInterval = 5000;
-  var totalWaitingTime = 0;
   function checkClassifier(classifierId, done) {
-    totalWaitingTime += classifierCheckPollInterval;
     $.get('/api/classifiers/' + classifierId)
     .success(function(data) {
       if (data.status === 'ready') {
