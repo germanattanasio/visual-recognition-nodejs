@@ -83,10 +83,6 @@ app.get('/train', function(req, res) {
   res.render('train');
 });
 
-app.get('/testing', function(req, res) {
-  res.render('testing');
-});
-
 app.get('/test', function(req, res) {
   res.render('test', {
     bundle: JSON.parse(req.cookies.bundle || '{}'),
