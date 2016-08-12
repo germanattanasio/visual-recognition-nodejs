@@ -86,7 +86,7 @@ class FormTitleBar extends React.Component {
 class TrainClassCell extends React.Component {
   constructor() {
     super();
-    this.state = { nameValue: '' };
+    this.state = { nameValue: '', checked: false };
   }
 
   drag(event) {
@@ -155,10 +155,10 @@ class TrainClassCell extends React.Component {
     event.target.previousSibling.value = null;
     if (this.props.kind === 'new') {
       let classname = this.state.nameValue || this.props.name;
-      this.setState({nameValue: null, hasFile: false});
+      this.setState({nameValue: null, hasFile: false, checked: false});
       parentAction(classname,null);
     } else {
-      this.setState({hasFile: false});
+      this.setState({hasFile: false, checked: false});
       parentAction(this.props.name,null);
     }
   }
@@ -183,7 +183,7 @@ class TrainClassCell extends React.Component {
   }
 
   selectMissing() {
-    this.setState({hasFile: true});
+    this.setState({hasFile: true, checked: true});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -198,6 +198,7 @@ class TrainClassCell extends React.Component {
             <h3 className="base--h3">
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
+              <input style={{display: 'none'}} type="checkbox" name="missing" value={this.props.name} checked={this.state.checked}/>
             </h3>
             {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this)} name="Select">Select</button> :
               <button style={{opacity: 0 }} disabled={true} name="Select">Select</button>
