@@ -1,11 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 .base-div {
     padding:  0.5rem;
     margin-right: 1rem;
-    margin-bottom: 1rem;
     margin-top: 0px;
     width: 20vw;
-    height: 20vw;
-    max-height: 12rem;
+    height: auto;
     max-width: 12rem;
     display: flex;
     align-items: flex-start;
@@ -51,6 +53,8 @@
     -ms-transition: height 0.5s, opacity 0.5s;
     -o-transition: height 0.5s, opacity 0.5s;
     transition: height 0.5s, opacity 0.5s;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .correctButtons {
@@ -89,12 +93,19 @@
 }
 
 .target-box {
-    width: 7rem;
+    width: 100%;
     padding: 1rem;
-    border: dashed 1px darkgrey;
+    border: dashed 2px darkgrey;
+    text-align: center;
 }
 
+.target-div h3.base--h3 {
+    font-size: 1rem;
+}
 
+.windowShadeContainer {
+    margin-top: 0px;
+}
 
 .buttonZone {
     display: flex;

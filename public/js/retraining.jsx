@@ -109,7 +109,7 @@ class TrainClassCell extends React.Component {
     }
   }
   handleClick(e) {
-    if (this.props.kind === 'missing') {
+    if (this.props.kind === 'missing' && e.target.getAttribute('name') === 'Select') {
       e.preventDefault();
       return false;
     }
@@ -168,7 +168,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center' },
+    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center',marginTop: '0.5rem', marginBottom: '0.5rem' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' },
       'missing'  : { display: 'none' }
@@ -202,12 +202,12 @@ class TrainClassCell extends React.Component {
               <input style={{display: 'none'}} type="checkbox" name="missing" value={this.props.name} checked={this.state.checked}/>
             </h3>
             {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this,this.props.parentAction)} name="Select">Select</button> :
-              <button style={{opacity: 0 }} disabled={true} name="Select">Select</button>
+              <button style={{opacity: 0, display: this.props.kind === 'new' ? 'none' : 'block' }} disabled={true} name="Select">Select</button>
               }
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box"><span className="decorated">upload</span> at least 50 images in zip format</div>}
           </div>
           <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
-          <button name="clear" className="clear--button" style={{opacity: this.state.hasFile ? 1 : 0}} onClick={this.clear.bind(this,this.props.parentAction)}>clear</button>
+          <button name="clear" className="clear--button" style={{opacity: this.state.hasFile ? 1 : 0, display: this.state.hasFile ? 'block' : 'none'}} onClick={this.clear.bind(this,this.props.parentAction)}>clear</button>
         </div>);
   }
 }
@@ -233,15 +233,17 @@ class WindowShade extends React.Component {
     super();
     this.state = { clicked: false };
   }
-  onclick() {
-    this.setState({clicked: !this.state.clicked});
+  onclick(event) {
+    if (event.target.getAttribute('data-kind') === 'target') {
+      this.setState({clicked: !this.state.clicked});
+    }
   }
   style() {
-    return this.state.clicked ? { opacity: 1 } : { height: 0, opacity: 0 };
+    return this.state.clicked ? { opacity: 1 } : { opacity: 0 };
   }
   render() {
-    return (<div onClick={this.onclick.bind(this)}>
-      <h3>Add Another Class</h3>
+    return (<div className="windowShadeContainer" onClick={this.onclick.bind(this)}>
+      <h3 data-kind="target">Add Another Class</h3>
       <div className="windowshade" style={this.style()}>
         {this.props.children}
         </div>
