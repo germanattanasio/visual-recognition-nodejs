@@ -42,7 +42,9 @@
     "lint": "eslint .",
     "autofix": "eslint --fix .",
     "codecov": "npm run test && (codecov || true)",
-    "validate": "npm ls"
+    "validate": "npm ls",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "async": "^2.0.0-rc.5",
@@ -71,7 +73,8 @@
     "react-dom": "^15.2.0",
     "uuid": "^2.0.2",
     "validator": "^5.2.0",
-    "watson-developer-cloud": "^2.0.1"
+    "watson-developer-cloud": "^2.0.1",
+    "snyk": "^1.18.0"
   },
   "devDependencies": {
     "casperjs": "^1.1.1",
@@ -87,5 +90,6 @@
   "pre-commit": [
     "lint",
     "validate"
-  ]
+  ],
+  "snyk": true
 }
