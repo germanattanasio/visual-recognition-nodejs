@@ -1,0 +1,16 @@
+version: v1.5.0
+ignore:
+  'npm:shell-quote:20160621':
+    - express-browserify > browserify > shell-quote:
+        reason: None given
+        expires: '2016-09-14T21:22:48.389Z'
+patch:
+  'npm:minimatch:20160620':
+    - express-browserify > browserify > glob > minimatch:
+        patched: '2016-08-15T21:22:48.510Z'
+  'npm:request:20160119':
+    - watson-developer-cloud > solr-client > request:
+        patched: '2016-08-15T21:22:48.510Z'
+  'npm:uglify-js:20151024':
+    - jade > transformers > uglify-js:
+        patched: '2016-08-15T21:22:48.510Z'
