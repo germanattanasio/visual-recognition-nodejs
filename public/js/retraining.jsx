@@ -168,7 +168,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center',marginTop: '0.5rem', marginBottom: '0.5rem' },
+    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center',marginTop: '1rem', marginBottom: '0.5rem' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' },
       'missing'  : { display: 'none' }
@@ -243,7 +243,7 @@ class WindowShade extends React.Component {
   }
   render() {
     return (<div className="windowShadeContainer" onClick={this.onclick.bind(this)}>
-      <h3 data-kind="target">Add Another Class</h3>
+      <h3 className="base--h3 windowShadeLink" data-kind="target">Add Another Class <img data-kind="target" className="chevron" src={this.state.clicked ? "/images/up-arrow.png" : "/images/down-arrow.png" }/></h3>
       <div className="windowshade" style={this.style()}>
         {this.props.children}
         </div>

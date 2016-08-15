@@ -112,7 +112,18 @@
 
 .windowShadeContainer {
     margin-top: 0px;
-    cursor: hand;
+    cursor: pointer;
+}
+
+.windowShadeLink {
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: smaller;
+}
+
+.windowShadeLink .chevron {
+    width: 5%;
+    margin-left: 0.5rem;
 }
 
 .buttonZone {
