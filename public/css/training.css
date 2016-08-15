@@ -678,3 +678,24 @@ input.base--input._examples--input-name {
 .bundle:focus {
     outline: none;
 }
+
+
+._train {
+  position: relative;
+}
+.gray-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  background-color: rgba(255, 255, 255, 0.88);
+  z-index: 50;
+  transition: 0.2s;
+  visibility: hidden;
+  opacity: 0;
+}
+.gray-overlay_visible {
+  visibility: visible;
+  opacity: 1;
+}

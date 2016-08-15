@@ -290,6 +290,7 @@ $(document).ready(function() {
   var $errorMsg = $('.train--error-message');
   var $trainButton = $('.train--train-button');
   var $testSection = $('.test--section');
+  var $grayOverlay = $('.gray-overlay');
 
   function resetPage() {
     $loading.hide();
@@ -399,6 +400,10 @@ $(document).ready(function() {
     });
   }
 
+  function disableForm() {
+    $grayOverlay.addClass('gray-overlay_visible');
+  }
+
   function submitClassifier(params) {
     $.ajax({
       type: 'POST',
@@ -427,6 +432,8 @@ $(document).ready(function() {
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
             showTestPanel(classifier);
             displayRetrainingForm(classifier.classifier_id,'retrain--form');
+
+            disableForm();
           });
         }, 5000);
       },
@@ -484,7 +491,7 @@ $(document).ready(function() {
   }
 
   var classifier = getAndParseCookieName('classifier');
-  
+
   if (classifier) {
     showTestPanel(classifier);
   } else if (window.location.hash) {
