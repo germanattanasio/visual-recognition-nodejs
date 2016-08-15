@@ -1,6 +1,6 @@
 ---
 applications:
 - name: visual-recognition-demo-staging
- path: .
- command: npm start
- memory: 512M
+  path: .
+  command: npm start
+  memory: 512M
