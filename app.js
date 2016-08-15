@@ -36,7 +36,7 @@ require('./config/express')(app);
 // Create the service wrapper
 var visualRecognition = watson.visual_recognition({
   version: 'v3',
-  api_key: process.env.API_KEY || '<api-key>',
+  api_key: process.env.API_KEY,
   version_date: '2015-05-19'
 });
 
