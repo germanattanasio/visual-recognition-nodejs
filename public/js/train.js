@@ -425,6 +425,9 @@ $(document).ready(function() {
               $('input[type=text].test--url-input.base--input').attr('placeholder', 'Or paste an image URL');
             }
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
+	    // hide training form
+	    $("._examples.showing").removeClass('showing');
+	    $('.train--row').removeClass('showing');
             showTestPanel(classifier);
             displayRetrainingForm(classifier.classifier_id,'retrain--form');
           });
