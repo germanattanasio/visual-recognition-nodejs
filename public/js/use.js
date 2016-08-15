@@ -21,7 +21,7 @@ var scrollToElement = require('./demo.js').scrollToElement;
 var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
 var getRandomInt = require('./demo.js').getRandomInt;
 var { renderBoxes } = require('./image-boxes.jsx');
-var { classifyScoreTable } = require('./classresults.jsx');
+var { classifyScoreTable, customClassifyScoreTable } = require('./classresults.jsx');
 var jpath = require('jpath-query');
 
 var errorMessages = {
@@ -129,7 +129,7 @@ function setupUse(params) {
       }
     }
     // populate table
-    renderTable(results);
+    renderTable(results,null);
     $result.show();
 
     setTimeout(function () {
@@ -187,8 +187,9 @@ function setupUse(params) {
 
     $imageDataInput.val(imageData);
 
+    let formData = $(pclass + 'form').serialize();
     // Grab all form data
-    $.post('/api/classify', $(pclass + 'form').serialize())
+    $.post('/api/classify', formData)
         .done(showResult)
         .error(function (error) {
           $loading.hide();
@@ -197,7 +198,7 @@ function setupUse(params) {
           if (error.status === 429) {
             showError(errorMessages.TOO_MANY_REQUESTS);
           } else if (error.responseJSON && error.responseJSON.error) {
-            showError('We had a problem classifying that image because ' + error.responseJSON.error);
+            showError('We had a problem classifying that image because ' + jpath.jpath('/responseJSON/error/description',error,' of an unknown error'));
           } else {
             showError(errorMessages.SITE_IS_DOWN);
           }
@@ -239,7 +240,7 @@ function setupUse(params) {
     var bundle = getAndParseCookieName('bundle');
     var kind = bundle ? bundle.kind : 'user';
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
-    classifyImage('images' + path + getRandomInt(1, 5) + '.jpg');
+    classifyImage('images' + path + getRandomInt(1, 5) + '.jpg', true);
     $urlInput.val('');
   });
 
@@ -375,7 +376,11 @@ function setupUse(params) {
       $image.attr('src', resolved_url);
     }
 
-    classifyScoreTable(results,$outputData[0]);
+    if (results.classifier_ids && results.classifier_ids.split(",").filter(function(item) { return item !== 'default'; }).length > 0) {
+      customClassifyScoreTable(results, $outputData[0]);
+    } else {
+      classifyScoreTable(results,$outputData[0]);
+    }
   }
 }
 

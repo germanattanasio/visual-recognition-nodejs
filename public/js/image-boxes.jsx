@@ -27,5 +27,8 @@ class Boxes extends React.Component {
 export default Boxes;
 
 export function renderBoxes(tagid, boxdata) {
-  ReactDom.render(<Boxes boxdata={boxdata}/>,document.getElementById(tagid));
+  let element = document.getElementById(tagid);
+  if (element) {
+    ReactDom.render(<Boxes boxdata={boxdata}/>,document.getElementById(tagid));
+  }
 }

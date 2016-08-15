@@ -1,10 +1,128 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 let jpath = require('jpath-query');
+let jquery = require('jquery');
 
 let base64Object = function(arg) {
   let buf = new Buffer(JSON.stringify(arg));
   return buf.toString('base64');
+}
+
+class GreatCF extends React.Component {
+  bluemixURL() {
+    return "https://console.ng.bluemix.net/catalog/visual-recognition";
+  }
+  render() {
+    return (<div className="greatcf">
+      <p>Great! Now try the service with your own data <a href={this.bluemixURL()}>on Bluemix</a></p>
+      <div className="buttonZone">
+        <button className="bottomButton" onClick={function() { window.location=this.bluemixURL();}.bind(this)}>Go To Bluemix</button>
+      </div>
+    </div>);
+  }
+}
+
+function scrollWindowBySmoothly(ybypx, inSeconds) {
+  if (!window.requestAnimationFrame) {
+    window.scrollBy(0,ybypx);
+  } else {
+    var remainingTime = inSeconds * 1000;
+    let pxpms = ybypx / (inSeconds * 1000);
+    var lastTime = null;
+    var moveBy = 0;
+    let smoothly = function(timestamp) {
+      lastTime = lastTime || timestamp;
+      let delta = timestamp - lastTime;
+      if (moveBy < 1) {
+        moveBy = moveBy + (pxpms * delta);
+      } else {
+        moveBy = moveBy + (pxpms * delta);
+        window.scrollBy(0,moveBy);
+        moveBy = 0;
+      }
+      remainingTime = remainingTime - delta;
+      lastTime = timestamp;
+      if (remainingTime > 0) {
+        window.requestAnimationFrame(smoothly);
+      }
+    }
+    window.requestAnimationFrame(smoothly);
+  }
+}
+
+class MaybeCF extends React.Component {
+  onClick(e) {
+    e.preventDefault();
+    scrollWindowBySmoothly(e.target.getBoundingClientRect().bottom, 0.5);
+  }
+  render() {
+    return (<div className="maybecf">
+      <p>We can make this better:</p>
+      <p>Add more positive and negative images.</p>
+      <p>Make sure your negative images are similar to, but different than your classifier.</p>
+      <p>Make sure you have an even amount of positive and negative images.</p>
+      <div className="buttonZone">
+        <button onClick={this.onClick.bind(this)} className="bottomButton">Improve Classifier</button>
+      </div>
+    </div>)
+  }
+}
+
+class NoCF extends React.Component {
+  onClick(e) {
+    e.preventDefault();
+    scrollWindowBySmoothly(e.target.getBoundingClientRect().bottom, 0.5);
+  }
+  render() {
+    return (<div className="nocf">
+      <p>This classifier needs more training:</p>
+      <p>Add more positive and negative images.</p>
+      <p>Make sure your negative images are similar to, but different than your classifier.</p>
+      <p>Make sure you have an even amount of positive and negative images.</p>
+      <div className="buttonZone">
+        <button onClick={this.onClick.bind(this)} className="bottomButton">Improve Classifier</button>
+      </div>
+    </div>)
+  }
+}
+class CorrectForm extends React.Component {
+  constructor() {
+    super();
+    this.state = { selected: null };
+  }
+  handleClick(selected,event) {
+    event.preventDefault();
+    this.setState({selected: selected})
+  }
+
+  choosePanel() {
+    if (this.state.selected == 'yes') {
+      return (<GreatCF/>);
+    } else if (this.state.selected == 'maybe') {
+      return (<MaybeCF/>);
+    } else if (this.state.selected == 'no') {
+      return (<NoCF/>);
+    } else {
+      return (<div style={{display: 'none'}}></div>);
+    }
+  }
+  render() {
+    return (<tr className="base--tr">
+      <td className="base--td" colSpan="2">
+        <hr/>
+        <div className="correctForm">
+          <h3 className="iscorrect base--h3">Is this correct?</h3>
+          <div className="correctButtons">
+            <button className={this.state.selected === 'yes' ? 'selected' : 'unselected'} onClick={this.handleClick.bind(this,'yes')}>Yes</button>
+            <button className={this.state.selected === 'maybe' ? 'selected' : 'unselected'} onClick={this.handleClick.bind(this,'maybe')}>Maybe</button>
+            <button className={this.state.selected === 'no' ? 'selected' : 'unselected'} onClick={this.handleClick.bind(this,'no')}>No</button>
+          </div>
+          <hr/>
+          {this.choosePanel()}
+        </div>
+        </td>
+      </tr>);
+  }
 }
 
 class WowFormInputForm extends React.Component {
@@ -192,22 +310,59 @@ class ClassifyScoreTable extends React.Component {
               return (<ClassifyScoreRow key={item['class']} name={item['class']} score={item['score'].toFixed(2)}/>);
             })}
             </tbody>
-            {this.props.items.filter(function(item) { return item.type_hierarchy; }).length ?
-                <tbody className="base--tbody">
+
+            <tbody style={this.props.items.filter(function(item) { return item.type_hierarchy; }).length ? {} : {display: 'none'}} className="base--tbody">
             <tr className="base--tr">
               <th colSpan="2" className="base--th">
                 <hr className="base--hr results-table--line-break"/>
               </th>
             </tr>
             <tr className="base--tr">
-                <th colSpan="2" className="base--th">Type Hierarchy</th>
-              </tr></tbody> : ""}
+              <th colSpan="2" className="base--th">Type Hierarchy</th>
+            </tr></tbody>
             <tbody className="base--tbody">
             {this.props.items.filter(function(item) { return item.type_hierarchy; }).map(function(item) {
               return (<TypeHierarchy key={item.type_hierarchy} type_hierarchy={item.type_hierarchy}/>);
             })}
 
             <WowForm name='class'/>
+            </tbody>
+          </table>
+        </div>
+    );
+  }
+}
+
+class CustomClassifyScoreTable extends React.Component {
+  render() {
+    if (this.props.items && this.props.items.length == 0) {
+      return (
+          <table className="base--table results-table">
+            <tbody className="base--tbody">
+            <tr className="base--tr">
+              <td className="base--td">
+                <p>The score for this image is not above the threshold of 0.5 based on the training data provided.</p>
+              </td>
+            </tr>
+            </tbody>
+            <tbody className="base--tbody">
+            <CorrectForm/>
+            </tbody>
+          </table>
+      );
+    }
+    return (
+        <div className="results-table--container">
+          <JsonLink rawjson={this.props.rawjson}/>
+          <table className="base--table results-table">
+            <ScoreTableHeader title={this.props.category}/>
+            <tbody className="base--tbody">
+            {this.props.items.map(function (item) {
+              return (<ClassifyScoreRow key={item['class']} name={item['class']} score={item['score'].toFixed(2)}/>);
+            })}
+            </tbody>
+            <tbody className="base--tbody">
+            <CorrectForm/>
             </tbody>
           </table>
         </div>
@@ -286,8 +441,17 @@ class ResultsTable extends React.Component {
   render() {
     return (<div className="use--output-data">
           <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems}/>
-          { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : null }
-          { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : null }
+          { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : <div style={{display: 'none'}}></div>}
+          { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
+        </div>
+    );
+  }
+}
+
+class CustomResultsTable extends React.Component {
+  render() {
+    return (<div className="use--output-data">
+          <CustomClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems}/>
         </div>
     );
   }
@@ -301,8 +465,20 @@ export function classifyScoreTable(results, tagid) {
   let tags = jpath.jpath('/images/0/classifiers/0/classes',results,[]);
   let faces = jpath.jpath('/images/0/faces',results,[]);
   let words = jpath.jpath('/images/0/words',results, []);
-    ReactDom.render(<ResultsTable classJson={jpath.jpath('/images/0/classifiers',results)} classItems={tags}
+  if (target) {
+
+    ReactDom.render(<ResultsTable classJson={jpath.jpath('/images/0/classifiers', results)} classItems={tags}
                                   faceJson={faces} faceItems={faces}
-                                  wordsJson={words} wordsItems={words}/>,target);
+                                  wordsJson={words} wordsItems={words}/>, target);
+  }
+}
+
+export function customClassifyScoreTable(results, tagid) {
+  let target = typeof(tagid) === 'string' ? document.getElementById(tagid) : tagid;
+  let tags = jpath.jpath('/images/0/classifiers/0/classes',results,[]);
+  if (target) {
+    ReactDom.render(<CustomResultsTable classJson={jpath.jpath('/images/0/classifiers', results)}
+                                        classItems={tags}/>, target);
+  }
 }
 
