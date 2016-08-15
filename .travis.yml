@@ -5,7 +5,7 @@ script:
 - npm test
 env:
   global:
-  - CF_APP=visual-recognition-demo
+  - CF_APP=visual-recognition-demo-staging
   - CF_API=https://api.ng.bluemix.net
   - CF_ORGANIZATION=WatsonPlatformServices
   - CF_SPACE=demos
@@ -15,7 +15,7 @@ deploy:
   script:
     - cf-blue-green-travis
   on:
-    branch: master
+    branch: retraining
     repo: watson-developer-cloud/visual-recognition-nodejs
   skip_cleanup: true
 notifications:
