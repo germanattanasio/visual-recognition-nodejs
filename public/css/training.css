@@ -707,3 +707,16 @@ input.base--input._examples--input-name {
   visibility: visible;
   opacity: 1;
 }
+
+.test--classifier {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.test--reset.icon-hyperlink {
+  float: none;
+  display: inline-block;
+  margin-left: 2rem;
+  vertical-align: middle;
+  margin-top: 0rem;
+}

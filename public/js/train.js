@@ -125,6 +125,8 @@ $(document).ready(function() {
     window.fileUploader = [];
     window.fileUploaderNegative = null;
     $testSection.hide();
+
+    enableForm();
     enableTrainClassifier();
   });
 
@@ -403,6 +405,9 @@ $(document).ready(function() {
   function disableForm() {
     $grayOverlay.addClass('gray-overlay_visible');
   }
+  function enableForm() {
+    $grayOverlay.removeClass('gray-overlay_visible');
+  }
 
   function submitClassifier(params) {
     $.ajax({
@@ -430,6 +435,7 @@ $(document).ready(function() {
               $('input[type=text].test--url-input.base--input').attr('placeholder', 'Or paste an image URL');
             }
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
+            disableForm();
             showTestPanel(classifier);
             displayRetrainingForm(classifier.classifier_id,'retrain--form');
 
@@ -488,13 +494,12 @@ $(document).ready(function() {
     $('.base--h2.test--classifier').on('click',function(e) {
       e.preventDefault();
       if ($(this).text() === $(this).prop('title')) {
-	$(this).text($(this).attr('classifier_name'));
+         $(this).text($(this).attr('classifier_name'));
       } else {
-	$(this).text($(this).prop('title'));
+         $(this).text($(this).prop('title'));
       }
     });
     $testSection.show();
-    disableForm();
     displayRetrainingForm(classifier.classifier_id,'retrain--form');
   }
 
