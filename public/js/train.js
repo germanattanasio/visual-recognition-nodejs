@@ -433,7 +433,7 @@ $(document).ready(function() {
             showTestPanel(classifier);
             displayRetrainingForm(classifier.classifier_id,'retrain--form');
 
-            disableForm();
+
           });
         }, 5000);
       },
@@ -487,6 +487,7 @@ $(document).ready(function() {
       }
     });
     $testSection.show();
+    disableForm();
     displayRetrainingForm(classifier.classifier_id,'retrain--form');
   }
 

@@ -206,7 +206,7 @@ class TrainClassCell extends React.Component {
               }
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box"><span className="decorated">upload</span> at least 50 images in zip format</div>}
           </div>
-          <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
+          <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name} accept="application/zip"/>
           <button name="clear" className="clear--button" style={{opacity: this.state.hasFile ? 1 : 0, display: this.state.hasFile ? 'block' : 'none'}} onClick={this.clear.bind(this,this.props.parentAction)}>clear</button>
         </div>);
   }

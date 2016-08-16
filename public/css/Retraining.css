@@ -104,6 +104,7 @@
     padding: 1rem;
     border: dashed 2px darkgrey;
     text-align: center;
+    cursor: pointer;
 }
 
 .target-div h3.base--h3 {
