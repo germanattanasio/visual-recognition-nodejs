@@ -44,7 +44,7 @@ applications:
   $ cf push
   ```
 
-See the full [API Reference](http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition/api/v3/) documentation for more details, including code snippets and references.
+See the full [API Reference](http://www.ibm.com/watson/developercloud/visual-recognition/api/v3/) documentation for more details, including code snippets and references.
 
 ## Running locally
   The application uses [Node.js](http://nodejs.org) and [npm](https://www.npmjs.com) so you will have to download and install them as part of the steps below.
@@ -169,11 +169,11 @@ This data is collected from the `VCAP_APPLICATION` environment variable in IBM B
 Deployment tracking can be disabled by removing `require('cf-deployment-tracker-client').track();` from the beginning of the `server.js` file at the root of this repo.
 
 [deploy_track_url]: https://github.com/cloudant-labs/deployment-tracker
-[service_url]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
+[service_url]: http://www.ibm.com/watson/developercloud/visual-recognition.html
 [cloud_foundry]: https://github.com/cloudfoundry/cli
-[visual_recognition_service]: https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html
+[visual_recognition_service]: https://www.ibm.com/watson/developercloud/visual-recognition.html
 [sign_up]: https://console.ng.bluemix.net/registration/
-[getting_started]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/
+[getting_started]: http://www.ibm.com/watson/developercloud/doc/getting_started/
 
 
 
