@@ -395,7 +395,7 @@ class UpdateForm extends React.Component {
                         parentAction={this.addFile.bind(this)} name='Negative Class'/>
           </div>
         </div>
-        {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
+        {this.state.classCount < 1 ? <div>Add at least one zipped file</div> : <div style={{display: 'none'}}></div>}
         { this.state.classCount > 0 ?
             <input className="base--button" style={submit_button_style} type="submit"
                    value="Retrain your classifier"/> :
