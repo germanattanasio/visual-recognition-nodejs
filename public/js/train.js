@@ -27,6 +27,17 @@ var { displayRetrainingForm } = require('./retraining.jsx');
 // var currentPage = require('./demo.js').currentPage;
 
 $(document).ready(function() {
+
+  function resetTrainingExample() {
+    $('.showing').removeClass('showing');
+    $('._container--bundle-form').removeClass('active');
+    $('._training--example').map(function(index, item) {
+      $(item).css('opacity', '1.0');
+      $(item).find('img').css('box-shadow', '0px 0px 0px 0px transparent');
+      $(item).find('._training--use-your-own').css('box-shadow', '0px 0px 0px 0px transparent');
+    });
+  }
+
   $('._training--example').click(function() {
     var currentExample = $(this);
     window.fileUploader = [];
@@ -39,13 +50,7 @@ $(document).ready(function() {
     var kind = $(this).data('kind');
 
     if ($('._examples[data-kind=' + kind + ']').hasClass('showing')) {
-      $('.showing').removeClass('showing');
-      $('._container--bundle-form').removeClass('active');
-      $('._training--example').map(function(index, item) {
-        $(item).css('opacity', '1.0');
-        $(item).find('img').css('box-shadow', '0px 0px 0px 0px transparent');
-        $(item).find('._training--use-your-own').css('box-shadow', '0px 0px 0px 0px transparent');
-      });
+      resetTrainingExample();
     } else {
       $('._training--example').map(function(index, item) {
         if (!$(item).is(currentExample)) {
@@ -133,6 +138,8 @@ $(document).ready(function() {
 
     enableForm();
     enableTrainClassifier();
+    scrollToElement($('h1.use--header'));
+    resetTrainingExample();
   });
 
   $('._examples--class button').click(function() {
