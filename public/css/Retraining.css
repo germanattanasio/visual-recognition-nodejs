@@ -3,10 +3,8 @@
 }
 
 .base-div {
-    padding:  0.5rem;
-    margin-right: 1rem;
+    margin-right: 1.2rem;
     margin-top: 0px;
-    width: 20vw;
     height: auto;
     max-width: 12rem;
     display: flex;
@@ -45,6 +43,8 @@
 
 .positive-classes, .negative-classes {
     display: flex;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .windowshade {
@@ -105,10 +105,12 @@
     border: dashed 2px darkgrey;
     text-align: center;
     cursor: pointer;
+    text-align: left;
 }
 
 .target-div h3.base--h3 {
     font-size: 1rem;
+    line-height: 1.5;
 }
 
 .windowShadeContainer {
@@ -119,12 +121,13 @@
 .windowShadeLink {
     text-decoration: underline;
     font-weight: normal;
-    font-size: smaller;
+    line-height: 1.5;
+    font-size: 1rem;
 }
 
 .windowShadeLink .chevron {
     width: 5%;
-    margin-left: 0.5rem;
+    vertical-align: middle;
 }
 
 .buttonZone {
