@@ -455,6 +455,13 @@ $(document).ready(function() {
     }
   });
 
+  $('.reset--classifier--button').click(function() {
+    // reset classifier
+    Cookies.remove('classNameMap');
+    Cookies.set('bundle');
+    Cookies.set('classifier');
+  });
+
   var classifierCheckPollInterval = 5000;
   function checkClassifier(classifierId, done) {
     $.get('/api/classifiers/' + classifierId)
