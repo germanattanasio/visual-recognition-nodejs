@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-/* global Cookies:true */
-
 'use strict';
 
-var setupUse = require('./use.js');
-var nextHour = require('./demo.js').nextHour;
-var scrollToElement = require('./demo.js').scrollToElement;
-var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
-var { renderErrorMessage } = require('./errormsg.jsx');
-var { displayRetrainingForm } = require('./retraining.jsx');
-// var currentPage = require('./demo.js').currentPage;
+const setupUse = require('./use.js');
+const {nextHour, scrollToElement}  = require('./demo.js');
+const { renderErrorMessage } = require('./errormsg.jsx');
+const { displayRetrainingForm } = require('./retraining.jsx');
+const StateManager = require('./state.js');
 
 $(document).ready(function() {
 
@@ -432,9 +428,12 @@ $(document).ready(function() {
       success: function(classifier) {
         setTimeout(function() {
           checkClassifier(classifier.classifier_id, function done() {
-            Cookies.set('bundle', params.bundle, { expires: nextHour()});
-            Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
-            Cookies.set('classifier', classifier, { expires: nextHour()});
+            StateManager.setState({
+              bundle: params.bundle, // todo: handle json either here or in state manager.
+              classNameMap: lookupClassiferRealNameMap(),
+              classifier: classifier,
+              expires: nextHour().toString() // or .getTime() - latter is shorter, but this is more human-friendly
+            });
             resetPage();
             flashTrainedClassifer();
             scrollToElement($('.train--trained-successfully'), 65);
@@ -508,11 +507,12 @@ $(document).ready(function() {
     displayRetrainingForm(classifier.classifier_id,'retrain--form');
   }
 
-  var classifier = getAndParseCookieName('classifier');
+  const state = StateManager.getState();
 
-  if (classifier) {
-    showTestPanel(classifier);
-  } else if (window.location.hash) {
+  // todo: if state is expired, show some useful message
+  if (state.classifier && new Date(state.expires) > new Date()) {
+    showTestPanel(state.classifier);
+  } else if (window.location.hash) { // todo: is this still needed?
     showTestPanel({name: 'Hash Specified', classifier_id: window.location.hash.substring(1), kind: 'user'});
   } else {
     enableForm();

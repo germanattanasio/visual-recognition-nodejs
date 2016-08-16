@@ -18,7 +18,7 @@
 
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
-var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+const StateManager = require('./state.js');
 var getRandomInt = require('./demo.js').getRandomInt;
 var { renderBoxes } = require('./image-boxes.jsx');
 var { classifyScoreTable, customClassifyScoreTable } = require('./classresults.jsx');
@@ -238,7 +238,7 @@ function setupUse(params) {
    */
   $randomImage.click(function () {
     resetPasteUrl();
-    var bundle = getAndParseCookieName('bundle');
+    var bundle = StateManager.getState().bundle;
     var kind = bundle ? bundle.kind : 'user';
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
     classifyImage('images' + path + getRandomInt(1, 5) + '.jpg', true);
