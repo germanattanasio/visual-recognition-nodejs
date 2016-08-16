@@ -388,7 +388,7 @@ class UpdateForm extends React.Component {
                             name="New Class"/>
             </WindowShade>
             </div>
-            <FlashMessage message = "New Images Added" display={this.state.showFlash}/>
+            <FlashMessage message = "New Images Added!" display={this.state.showFlash}/>
           <h3 className="base--h3">Optional Negative Images</h3>
           <div className="negative-classes">
         <TrainClassCell key="negative-class" kind='negative' classCount={classCount}
