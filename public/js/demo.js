@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- /* global , Cookies */
 'use strict';
 
 /**
@@ -105,15 +104,6 @@ module.exports.scrollToElement = function scrollToElement(element, offset) {
   $('html, body').animate({
     scrollTop: element.offset().top - (typeof offset !== 'undefined' ? offset : 75)
   }, 300);
-};
-
-module.exports.getAndParseCookieName = function getAndParseCookieName(cookieName, defaultValue) {
-  var res = Cookies.get(cookieName);
-  if (res) {
-    return JSON.parse(res);
-  } else {
-    return defaultValue;
-  }
 };
 
 /**
