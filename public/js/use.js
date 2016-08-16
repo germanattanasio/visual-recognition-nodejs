@@ -224,6 +224,7 @@ function setupUse(params) {
       $('input[type=radio][name=use--example-images]').prop('disabled', true);
       resetPasteUrl();
       rI.parent().find('label').addClass('dim');
+      rI.parent().find('label[for=use--file]').removeClass('dim')
       rI.parent().find('label[for=' + rI.attr('id') + ']').removeClass('dim');
     }, function () {
       $urlInput.val('');
