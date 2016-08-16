@@ -487,9 +487,9 @@ $(document).ready(function() {
     $('.base--h2.test--classifier').on('click',function(e) {
       e.preventDefault();
       if ($(this).text() === $(this).prop('title')) {
-	       $(this).text($(this).attr('classifier_name'));
+         $(this).text($(this).attr('classifier_name'));
       } else {
-	       $(this).text($(this).prop('title'));
+         $(this).text($(this).prop('title'));
       }
     });
     $testSection.show();
