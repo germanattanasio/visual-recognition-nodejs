@@ -1,23 +1,31 @@
 import {parse, stringify} from 'querystring';
 
 export function getState() {
+  // substring(1) to drop the '?'
+  return parse(location.search.substring(1));
+}
+
+export function setState(state) {
+  const encoded = stringify(state);
   try {
-    // substring(1) to drop the '?'
-    return JSON.parse(parse(location.search.substring(1)).state);
+    history.pushState(state, state.name || "", '?' + encoded)
   } catch(ex) {
-    return {};
+    location.search = encoded;
   }
 }
 
-// todo: use pushState once this works smoothly
-// todo: consider stringifying only objects and leaving everything ese top-level (or updating code to not need objects ;)
-export function setState(state) {
-  location.search = stringify({
-    state: JSON.stringify(state)
-  });
+export function reset() {
+  setState({});
 }
 
 // export function updateState(changes) {
 //   setState(Object.assign(getState(), changes));
 // }
 //
+
+
+window.onpopstate = function(/*event*/) {
+  // this is dumb but it makes the back button work
+  // (without having to restructure the app)
+  location.reload();
+};

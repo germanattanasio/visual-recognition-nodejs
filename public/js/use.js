@@ -238,8 +238,7 @@ function setupUse(params) {
    */
   $randomImage.click(function () {
     resetPasteUrl();
-    var bundle = StateManager.getState().bundle;
-    var kind = bundle ? bundle.kind : 'user';
+    var kind = StateManager.getState().kind;
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
     classifyImage('images' + path + getRandomInt(1, 5) + '.jpg', true);
     $urlInput.val('');
