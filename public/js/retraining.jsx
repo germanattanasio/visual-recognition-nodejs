@@ -27,7 +27,7 @@ class FormTitleHOne extends React.Component {
       <div className="status-bar">Classifier has status: {this.props.status}</div>
       </h2>
 
-      <p>Add more images to classes by uploading your own or adding a new class.</p>
+      <p className="base--p">Add more images to classes by uploading your own or adding a new class.</p>
 
       {this.props.status !== 'ready' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
     </div>);
@@ -402,7 +402,7 @@ class UpdateForm extends React.Component {
             <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit"
                    value="Retrain your classifier"/>
         }
-        <p>This is a demo. For full functionality, try out the API.</p>
+        <p className="base--p">This is a demo. For full functionality, try out the API.</p>
       </form>);
     }
   }

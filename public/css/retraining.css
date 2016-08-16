@@ -111,6 +111,7 @@
     text-align: center;
     cursor: pointer;
     text-align: left;
+    color: #5a5a5a;
 }
 
 .target-div {
@@ -122,6 +123,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #5a5a5a;
 }
 
 .windowShadeContainer {
