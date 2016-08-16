@@ -97,7 +97,8 @@
 }
 
 .iscorrect {
-
+  color: #6f6d70;
+  font-size: 1em;
 }
 
 .decorated {

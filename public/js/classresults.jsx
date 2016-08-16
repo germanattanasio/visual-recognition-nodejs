@@ -14,7 +14,7 @@ class GreatCF extends React.Component {
   }
   render() {
     return (<div className="greatcf">
-      <p>Great! Now try the service with your own data <a href={this.bluemixURL()}>on Bluemix</a></p>
+      <p>Great! Now try the service with your own data <a className="base--a" href={this.bluemixURL()}>on Bluemix</a>.</p>
       <div className="buttonZone">
         <button className="bottomButton" onClick={function() { window.location=this.bluemixURL();}.bind(this)}>Go To Bluemix</button>
       </div>
@@ -481,4 +481,3 @@ export function customClassifyScoreTable(results, tagid) {
                                         classItems={tags}/>, target);
   }
 }
-
