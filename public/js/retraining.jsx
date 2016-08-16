@@ -387,6 +387,7 @@ class UpdateForm extends React.Component {
                             name="New Class"/>
             </WindowShade>
             </div>
+            <FlashMessage message = "New Images Added" display={this.state.showFlash}/>
           <h3 className="base--h3">Optional Negative Images</h3>
           <div className="negative-classes">
         <TrainClassCell key="negative-class" kind='negative' classCount={classCount}
@@ -400,7 +401,6 @@ class UpdateForm extends React.Component {
             <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit"
                    value="Retrain your classifier"/>
         }
-        <FlashMessage message = "New Images Added" display={this.state.showFlash}/>
         <p>This is a demo. For full functionality, try out the API.</p>
       </form>);
     }
