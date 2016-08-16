@@ -1413,12 +1413,12 @@ div.use--dropzone {
 
 .use--output-image, img.checkered-bg {
     background-image:
-      -moz-linear-gradient(45deg, #ccc 25%, transparent 25%), 
+      -moz-linear-gradient(45deg, #ccc 25%, transparent 25%),
       -moz-linear-gradient(-45deg, #ccc 25%, transparent 25%),
       -moz-linear-gradient(45deg, transparent 75%, #ccc 75%),
       -moz-linear-gradient(-45deg, transparent 75%, #ccc 75%);
     background-image:
-      -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #ccc), color-stop(.25, transparent)), 
+      -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #ccc), color-stop(.25, transparent)),
       -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #ccc), color-stop(.25, transparent)),
       -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #ccc)),
       -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #ccc));
@@ -1426,7 +1426,7 @@ div.use--dropzone {
     -moz-background-size:40px 40px;
     background-size:40px 40px;
     -webkit-background-size:40px 101px; /* override value for shitty webkit */
-    
+
     background-position:0 0, 20px 0, 20px -20px, 0px 20px;
 }
 
@@ -2449,7 +2449,6 @@ div.use--dropzone {
   transition: background-color 1s, color 1s;
 }
 .results-table--feedback-thanks {
-  margin-left: 2rem;
   opacity: 0;
   color: black;
   -webkit-transition: opacity 1s, color 1s;
@@ -2457,6 +2456,7 @@ div.use--dropzone {
   -ms-transition: opacity 1s, color 1s;
   -o-transition: opacity 1s, color 1s;
   transition: opacity 1s, color 1s;
+  text-align: center;
 }
 
 .bottom-banner {
