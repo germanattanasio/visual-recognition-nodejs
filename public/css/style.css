@@ -1390,12 +1390,12 @@ div.use--dropzone {
   max-width: 300px;
   height: 300px;
   position: relative;
-  margin: 0rem auto;
+  margin: 0rem auto 1rem;
   overflow: hidden; }
   @media (min-width: 768px) {
     .use--output-image-container {
       max-width: 100%;
-      margin: 0rem; } }
+      margin: 0rem 0rem 1rem; } }
 
 .use--output-image {
   position: absolute;

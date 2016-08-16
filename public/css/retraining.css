@@ -175,3 +175,8 @@ button.clear--button {
     -o-transition: opacity 1s;
     transition: opacity 1s;
 }
+
+.retraining--base-hr {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
