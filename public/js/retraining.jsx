@@ -196,13 +196,13 @@ class TrainClassCell extends React.Component {
     return (
         <div id={"top-"+this.props.name} className="base-div" onClick={this.handleClick.bind(this)} onDrop={this.drop.bind(this,this.props.parentAction)} onDragOver={this.drag.bind(this)}>
           <div className="target-div" id={this.props.name}>
-            <h3 className="base--h3">
+            <h3 className="base--h3" title={this.displayName()}>
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
               <input style={{display: 'none'}} type="checkbox" name="missing" value={this.props.name} checked={this.state.checked}/>
             </h3>
             {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this,this.props.parentAction)} name="Select">Select</button> :
-              <button style={{opacity: 0, display: this.props.kind === 'new' ? 'none' : 'block' }} disabled={true} name="Select">Select</button>
+              <button style={{opacity: 0, display: (this.props.kind === 'new' || this.props.kind === 'negative') ? 'none' : 'block' }} disabled={true} name="Select">Select</button>
               }
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box"><span className="decorated">upload</span> at least 50 images in zip format</div>}
           </div>
@@ -224,6 +224,16 @@ class FlashMessage extends React.Component {
       return (<div>{this.props.message}</div>);
     } else {
       return (<div style={{display: 'none'}}></div>);
+    }
+  }
+}
+
+class VisibleMessage extends React.Component {
+  render() {
+    if (this.props.visibility) {
+      return (<div>{this.props.message}</div>);
+    } else {
+      return (<div style={{visibility: 'hidden'}}>&nbsp;</div>);
     }
   }
 }
@@ -388,7 +398,7 @@ class UpdateForm extends React.Component {
                             name="New Class"/>
             </WindowShade>
             </div>
-            <FlashMessage message = "New Images Added!" display={this.state.showFlash}/>
+            <VisibleMessage message="New images added!" visibility={this.state.showFlash}/>
           <h3 className="base--h3">Optional Negative Images</h3>
           <div className="negative-classes">
         <TrainClassCell key="negative-class" kind='negative' classCount={classCount}

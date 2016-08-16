@@ -182,3 +182,7 @@ button.clear--button {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+.clear--button {
+  margin-top: 0.2rem;
+}
