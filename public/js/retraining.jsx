@@ -168,7 +168,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '100%', textAlign: 'center',marginTop: '1rem', padding: '0.2em 0em', fontSize: '1rem', height: '2.55rem', 'border': '2px solid #ccc' },
+    return {'new' : { width: '100%', textAlign: 'center',marginTop: '1rem', padding: '0.2em 0em', fontSize: '1rem', height: '1.92rem', 'border': '2px solid #ccc' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' },
       'missing'  : { display: 'none' }

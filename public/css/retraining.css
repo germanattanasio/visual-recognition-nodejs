@@ -90,10 +90,11 @@
 
 .correctButtons button.selected {
     font-weight: bold;
-    border: 2px solid #435d7e;
+    border: 1px solid #435d7e;
     margin-right: 1rem;
     margin-left: 1rem;
     width: 30%;
+    box-shadow: 0px 0px 0px 1px #435d7e;
 }
 
 .iscorrect {
