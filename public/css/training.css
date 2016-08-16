@@ -684,10 +684,10 @@ input.base--input._examples--input-name {
 }
 .gray-overlay {
   height: 100%;
-  width: 100%;
+  width: calc(100% + 2rem);
   position: absolute;
   top: 0rem;
-  left: 0rem;
+  left: -1rem;
   background-color: rgba(255, 255, 255, 0.88);
   z-index: 50;
   transition: 0.2s;
