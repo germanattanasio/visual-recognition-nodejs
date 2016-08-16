@@ -126,6 +126,11 @@ $(document).ready(function() {
     window.fileUploaderNegative = null;
     $testSection.hide();
 
+    // delete the existing classifier
+    Cookies.remove('classNameMap');
+    Cookies.remove('bundle');
+    Cookies.remove('classifier');
+
     enableForm();
     enableTrainClassifier();
   });
@@ -435,7 +440,6 @@ $(document).ready(function() {
               $('input[type=text].test--url-input.base--input').attr('placeholder', 'Or paste an image URL');
             }
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
-            disableForm();
             showTestPanel(classifier);
             displayRetrainingForm(classifier.classifier_id,'retrain--form');
 
@@ -461,13 +465,6 @@ $(document).ready(function() {
     }
   });
 
-  $('.reset--classifier--button').click(function() {
-    // reset classifier
-    Cookies.remove('classNameMap');
-    Cookies.set('bundle');
-    Cookies.set('classifier');
-  });
-
   var classifierCheckPollInterval = 5000;
   function checkClassifier(classifierId, done) {
     $.get('/api/classifiers/' + classifierId)
@@ -487,6 +484,7 @@ $(document).ready(function() {
   setupUse({ panel: 'test' });
 
   function showTestPanel(classifier) {
+    disableForm();
     $('#test_classifier_id').val(classifier.classifier_id);
     $('.base--h2.test--classifier').text(classifier.name);
     $('.base--h2.test--classifier').prop('title',classifier.classifier_id);

@@ -14,8 +14,8 @@ class RetrainingIndicator extends React.Component {
             <circle className="loader__path" cx='50' cy='50' r='20'/>
           </svg>
         </div>
-      <p className="base--p loading--message"> Watson is training your new classifier. </p>
-      <p className="base--p loading--message"> This might take up to 4-5 minutes based on number of images.</p>
+      <p className="base--p loading--message"> Watson is retraining your classifier. </p>
+      <p className="base--p loading--message"> This might take up to 3-4 minutes based on number of images.</p>
         </div>);
   }
 }
@@ -58,6 +58,8 @@ class FormTitleBar extends React.Component {
     this.serverRequest = jquery.get('/api/classifiers/' + this.props.classifier_id).done(function (results) {
       if (this.state.submitted || results.status === 'retraining' || results.status === 'training') {
         setTimeout(this.retryRequest.bind(this), 5000);
+      } else if (results.status === 'ready') {
+        jquery('.test--output').hide();
       }
       this.setState({classifierData: results, submitted: false});
     }.bind(this));
@@ -311,7 +313,7 @@ class UpdateForm extends React.Component {
     let uploadedFiles = Object.keys(this.state.files).reduce(function(store, item) {
       let f = filesDict[item];
       if (f.size && !item.match(/Negative Class/)) {
-        store.append(item+"_positive_examples",f);
+        store.append(item+ '_positive_examples',f);
       } else if (f.size && item.match(/Negative Class/)) {
         store.append('negative_examples',f);
       }
@@ -321,7 +323,7 @@ class UpdateForm extends React.Component {
     let includeMissing = [...this.state.checkboxes].reduce((store, item) => {
       let zipPath = bundleZipfileForClass(item);
       if (zipPath) {
-        store.append(item+"_positive_examples",zipPath);
+        store.append(item+ '_positive_examples',zipPath);
       }
       return store;
     }, uploadedFiles);

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 let jpath = require('jpath-query');
-let jquery = require('jquery');
 
 let base64Object = function(arg) {
   let buf = new Buffer(JSON.stringify(arg));
