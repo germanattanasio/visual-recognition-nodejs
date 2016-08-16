@@ -507,5 +507,7 @@ $(document).ready(function() {
     showTestPanel(classifier);
   } else if (window.location.hash) {
     showTestPanel({name: 'Hash Specified', classifier_id: window.location.hash.substring(1), kind: 'user'});
+  } else {
+    enableForm();
   }
 });
