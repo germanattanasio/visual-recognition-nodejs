@@ -443,6 +443,9 @@ form.trained input[type=text] {
   margin-top: 2rem;
 }
 
+.retrain--loading {
+  margin-top: 2rem;
+}
 .test--output-row {
   margin-top: 2rem;
 }

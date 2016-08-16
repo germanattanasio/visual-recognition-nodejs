@@ -1793,7 +1793,9 @@ div.use--dropzone {
   display: none; }
 
 .train--loading {
-  display: none; }
+  display: none;
+  margin-top: 2rem;
+}
 
 .train--error {
   display: none; }

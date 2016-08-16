@@ -8,7 +8,7 @@ const image_count = 10;
 
 class RetrainingIndicator extends React.Component {
   render() {
-    return (<div className="loading.train--loading">
+    return (<div className="loading retrain--loading">
         <div className="loader-container">
           <svg className="loader" viewBox="25 25 50 50">
             <circle className="loader__path" cx='50' cy='50' r='20'/>
