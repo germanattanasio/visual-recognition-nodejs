@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import {scrollToElement} from './demo.js';
 let jpath = require('jpath-query');
 let jquery = require('jquery');
 let { lookupName } = require('./classNameMapper.js');
@@ -55,11 +56,13 @@ class FormTitleBar extends React.Component {
       this.serverRequest.abort();
     }
 
+    // todo: see if there's a more appropriate location for this logic
     this.serverRequest = jquery.get('/api/classifiers/' + this.props.classifier_id).done(function (results) {
       if (this.state.submitted || results.status === 'retraining' || results.status === 'training') {
         setTimeout(this.retryRequest.bind(this), 5000);
       } else if (results.status === 'ready') {
         jquery('.test--output').hide();
+        scrollToElement($('h2.test--classifier'));
       }
       this.setState({classifierData: results, submitted: false});
     }.bind(this));
@@ -308,7 +311,7 @@ class UpdateForm extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    let q = new FormData(e.target);
+    let q = new FormData(e.target); // what's this for?
     let filesDict = this.state.files;
     let uploadedFiles = Object.keys(this.state.files).reduce(function(store, item) {
       let f = filesDict[item];
