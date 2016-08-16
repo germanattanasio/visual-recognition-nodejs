@@ -438,7 +438,13 @@ form.trained input[type=text] {
     margin-top: 0px;
 }
 
+.test--loading {
+  margin-top: 2rem;
+}
 
+.test--output-row {
+  margin-top: 2rem;
+}
 
 ._examples--clear {
   background-color: transparent;
