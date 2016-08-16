@@ -168,7 +168,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center',marginTop: '1rem', marginBottom: '0.5rem' },
+    return {'new' : { width: '100%', textAlign: 'center',marginTop: '1rem', padding: '0.2em 0em', fontSize: '1rem', height: '2.55rem', 'border': '2px solid #ccc' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' },
       'missing'  : { display: 'none' }
@@ -239,11 +239,11 @@ class WindowShade extends React.Component {
     }
   }
   style() {
-    return this.state.clicked ? { opacity: 1 } : { opacity: 0 };
+    return this.state.clicked ? { opacity: 1, visibility: 'visible' } : { opacity: 0, visibility: 'hidden' };
   }
   render() {
     return (<div className="windowShadeContainer" onClick={this.onclick.bind(this)}>
-      <h3 className="base--h3 windowShadeLink" data-kind="target">Add Another Class <img data-kind="target" className="chevron" src={this.state.clicked ? "/images/up-arrow.png" : "/images/down-arrow.png" }/></h3>
+      <h3 className="base--h3 windowShadeLink base--a" data-kind="target">Add Another Class <img data-kind="target" className="chevron" src={this.state.clicked ? "/images/up-arrow.png" : "/images/down-arrow.png" }/></h3>
       <div className="windowshade" style={this.style()}>
         {this.props.children}
         </div>
@@ -347,7 +347,8 @@ class UpdateForm extends React.Component {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      justifyItems: 'center'
+      justifyItems: 'center',
+      marginTop: '2rem'
     };
 
     let submit_button_style = {
