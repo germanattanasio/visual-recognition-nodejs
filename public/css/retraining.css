@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+#retrain--form {
+  margin-top: 2rem;
+}
+
 .base-div {
     margin-right: 1.2rem;
     margin-top: 0px;
