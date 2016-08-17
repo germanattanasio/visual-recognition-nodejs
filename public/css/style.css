@@ -2351,6 +2351,7 @@ div.use--dropzone {
   border: 1px solid #cfd2d2;
   margin-bottom: 1rem;
   color: #6f6d70;
+  table-layout: fixed;
 }
 .results-table .base--thead {
   border-bottom: none;
@@ -2378,7 +2379,7 @@ div.use--dropzone {
 }
 .results-table--score-cell {
   width: 7rem;
-  width: 60%;
+  width: 70%;
 }
 .results-table--score-item {
   display: flex;
