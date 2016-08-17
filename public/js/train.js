@@ -113,6 +113,12 @@ $(document).ready(function() {
   }
 
   $('button[type=reset]').click(function() {
+    if ($(event.target).hasClass('reset--classifier')) {
+      if (!confirm("Are you sure you want to delete the classifier?")) {
+        $(event.target).blur();
+        return;
+      }
+    }
     if ($('.showing div._examples--class__selected button').length > 0) {
       $('.showing div._examples--class__selected button').click();
     } else {
