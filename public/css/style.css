@@ -1250,7 +1250,7 @@ div.use--dropzone {
 }
 @media (min-width: 1200px) {
   div.use--dropzone {
-    width: calc(12.5% - 0.2625rem);
+    width: calc(12.5% - 0.2825rem);
   }
 }
 
