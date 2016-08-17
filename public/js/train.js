@@ -112,7 +112,17 @@ $(document).ready(function() {
     }
   }
 
-  $('button[type=reset]').click(function() {
+  $('.train--reset-button').click(function() {
+    $('._examples--class button').data('selected', 0);
+    $('._examples--class button').html('Select');
+    $('._examples--class__selected').removeClass('_examples--class__selected');
+    $trainButton.addClass('disabled').prop('disabled', true);
+
+    enableForm();
+    enableTrainClassifier();
+  });
+
+  $('.test--reset-button').click(function() {
     if ($('.showing div._examples--class__selected button').length > 0) {
       $('.showing div._examples--class__selected button').click();
     } else {
