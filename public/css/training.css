@@ -282,6 +282,8 @@ button {
     font-style: normal;
     padding: 0.2em 0em;
     transition: 0.2s;
+    height: 2.5rem;
+    font-weight: 500;
 }
 
 ._examples--class__selected button {

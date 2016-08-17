@@ -1661,7 +1661,7 @@ div.use--dropzone {
   max-height: 100%; }
 
 .train--train-button {
-  padding: 0.5em 1em;
+  padding: 0.5em 1em 2em;
   color: white;
   font-weight: bold;
   background-color: #325c80;
@@ -1671,15 +1671,14 @@ div.use--dropzone {
   display: inline-block;
   display: block;
   width: 100%;
-  font-weight: 300;
+  height: 2.5rem;
+  font-weight: 500;
   margin-top: 1.5rem; }
   .train--train-button:hover, .train--train-button:focus {
     color: #fff;
     background-color: #325c80; }
   .train--train-button:focus, .train--train-button:hover {
-    padding: 0.5em 1em;
     color: #a53725;
-    font-weight: bold;
     background-color: #264a60;
     border: 2px solid #264a60;
     -webkit-transition: 0.2s;
@@ -1688,8 +1687,6 @@ div.use--dropzone {
     .train--train-button:focus:hover, .train--train-button:focus:focus, .train--train-button:hover:hover, .train--train-button:hover:focus {
       color: #fff;
       background-color: #264a60; }
-  .train--train-button:focus, .train--train-button:hover {
-    font-weight: 300; }
   .train--train-button:disabled {
     background-color: #959595;
     border-color: #959595; }

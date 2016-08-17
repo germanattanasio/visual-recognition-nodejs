@@ -173,7 +173,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '100%', textAlign: 'center',marginTop: '1rem', padding: '0.2em 0em', fontSize: '1rem', height: '1.92rem', 'border': '2px solid #ccc' },
+    return {'new' : { width: '100%', textAlign: 'center',marginTop: '1rem', padding: '0.2em 0em', fontSize: '1rem', height: '2.5rem', 'border': '2px solid #ccc' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' },
       'missing'  : { display: 'none' }
@@ -373,7 +373,11 @@ class UpdateForm extends React.Component {
     let submit_button_style_disabled = {
       cursor: "not-allowed",
       backgroundColor: '#959595',
-      borderColor: '#959595'
+      borderColor: '#959595',
+      height: '2.5rem',
+      fontWeight: 500,
+      width: 'calc(40% - 1rem)',
+      marginBottom: '1rem';
     };
 
     let self = this;
