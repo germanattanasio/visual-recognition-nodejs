@@ -377,7 +377,7 @@ class UpdateForm extends React.Component {
       height: '2.5rem',
       fontWeight: 500,
       width: 'calc(40% - 1rem)',
-      marginBottom: '1rem';
+      marginBottom: '1rem'
     };
 
     let self = this;
