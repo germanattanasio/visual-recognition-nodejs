@@ -113,9 +113,11 @@ $(document).ready(function() {
   }
 
   $('button[type=reset]').click(function() {
-    if ($(event.target).hasClass('reset--classifier')) {
+    event.preventDefault();
+    let $button = $(event.target);
+    if ($button.hasClass('reset--classifier')) {
       if (!confirm("Are you sure you want to delete the classifier?")) {
-        $(event.target).blur();
+        $button.blur();
         return;
       }
     }
