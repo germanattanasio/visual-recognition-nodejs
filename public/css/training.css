@@ -63,7 +63,7 @@
 }
 
 .train--column-1 {
-    width: 48.93617%;
+    width: calc(40% - 1rem);
     margin-right: 2.12766%;
     margin-top: 1rem;
     float: left;
