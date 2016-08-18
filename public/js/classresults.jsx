@@ -253,7 +253,7 @@ class ClassifyScoreRow extends React.Component {
           <div className={this.scoreColor()}>
             {this.props.score}
           </div>
-          <img className="result--thermometer" src={"http://visual-recognition-demo.mybluemix.net/thermometer?score=" + this.props.score}/>
+          <img className="result--thermometer" src={"https://visual-recognition-demo.mybluemix.net/thermometer?score=" + this.props.score}/>
         </div>
       </td>
     </tr>);
@@ -275,7 +275,7 @@ class AgeScoreRow extends ClassifyScoreRow {
           <div className={this.scoreColor()}>
             {this.props.score}
           </div>
-          <img className="result--thermometer" src={"http://visual-recognition-demo.mybluemix.net/thermometer?score=" + this.props.score}/>
+          <img className="result--thermometer" src={"https://visual-recognition-demo.mybluemix.net/thermometer?score=" + this.props.score}/>
         </div>
       </td>
     </tr>);

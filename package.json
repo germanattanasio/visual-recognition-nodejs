@@ -64,12 +64,12 @@
     "helmet": "^2.1.0",
     "jade": "^1.11.0",
     "jpath-query": "^0.1.1",
-    "jquery": "^3.1.0",
     "jquery-ui": "^1.12.0",
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
+    "uglifyify": "^3.0.2",
     "uuid": "^2.0.2",
     "validator": "^5.2.0",
     "watson-developer-cloud": "^2.0.1"
