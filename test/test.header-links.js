@@ -26,7 +26,6 @@ function testHeaderLinks() {
   checkLinkDest(baseHost, 'div.banner--service-links li:nth-child(1) a', /https:\/\/www.ibm.com\/watson\/developercloud\/visual-recognition\/api\/v3\//);
   checkLinkDest(baseHost, 'div.banner--service-links li:nth-child(2) a', /http:\/\/www.ibm.com\/watson\/developercloud\/doc\/visual-recognition\//);
   checkLinkDest(baseHost, 'div.banner--service-links li:nth-child(3) a', /https:\/\/github.com\/watson-developer-cloud\/visual-recognition-nodejs/);
-  checkLinkDest(baseHost, 'div.banner--service-links li:nth-child(4) a', /https:\/\/hub.jazz.net\/deploy\/index.html\?repository=https:\/\/github.com\/watson-developer-cloud\/visual-recognition-nodejs/);
 }
 
 function checkLinkDest(starturl, selectorToClick, shouldBePattern) {
