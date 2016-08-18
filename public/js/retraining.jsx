@@ -311,7 +311,6 @@ class UpdateForm extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    let q = new FormData(e.target); // what's this for?
     let filesDict = this.state.files;
     let uploadedFiles = Object.keys(this.state.files).reduce(function(store, item) {
       let f = filesDict[item];

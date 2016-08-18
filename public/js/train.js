@@ -113,16 +113,6 @@ $(document).ready(function() {
   }
 
   $('.train--reset-button').click(function() {
-    $('._examples--class button').data('selected', 0);
-    $('._examples--class button').html('Select');
-    $('._examples--class__selected').removeClass('_examples--class__selected');
-    $trainButton.addClass('disabled').prop('disabled', true);
-
-    enableForm();
-    enableTrainClassifier();
-  });
-
-  $('.test--reset-button').click(function() {
     if ($('.showing div._examples--class__selected button').length > 0) {
       $('.showing div._examples--class__selected button').click();
     } else {
@@ -137,13 +127,23 @@ $(document).ready(function() {
     window.fileUploaderNegative = null;
     $testSection.hide();
 
-    // delete the existing classifier
-    StateManager.reset();
+    enableForm();
+    enableTrainClassifier();
+  });
 
+  $('.test--reset-button').click(function() {
+    event.preventDefault();
+    let $button = $(event.target);
+    if ($button.hasClass('reset--classifier') && !confirm('Are you sure you want to delete the classifier?')) {
+      $button.blur();
+      return;
+    }
+    $testSection.hide();
+    StateManager.reset();
+    resetTrainingExample();
     enableForm();
     enableTrainClassifier();
     scrollToElement($('h1.use--header'));
-    resetTrainingExample();
   });
 
   $('._examples--class button').click(function() {
@@ -457,8 +457,7 @@ $(document).ready(function() {
             }
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
             showTestPanel(classifier);
-            displayRetrainingForm(classifier.classifier_id,'retrain--form');
-
+            scrollToElement($('.base--h2.test--classifier'));
 
           });
         }, 5000);
@@ -514,7 +513,7 @@ $(document).ready(function() {
       }
     });
     $testSection.show();
-    displayRetrainingForm(classifier.classifier_id,'retrain--form');
+    displayRetrainingForm(classifier.classifier_id, 'retrain--form');
   }
 
   const state = StateManager.getState();
