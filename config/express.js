@@ -30,7 +30,19 @@ var os = require('os');
 module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
-  app.use(compression());
+  app.use(compression({filter: function (req, res) {
+
+    // This is kind of dumb, but I've had a few people reporting errors like
+    // net::ERR_INCOMPLETE_CHUNKED_ENCODING.
+    // Without compression, the content-length is known and so chucked encoding isn't used.
+    // So, perhaps this will fix things.
+    if (req.path == '/js/bundle.js') {
+      return false
+    }
+
+    // fallback to standard filter function
+    return compression.filter(req, res)
+  }}));
   app.use(cookieParser());
   if (app.get('env') === 'development') {
     // set up request logging for local development and non-bluemix servers
