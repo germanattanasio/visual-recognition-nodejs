@@ -60,11 +60,17 @@ module.exports = function(app) {
 
   // automatically bundle the front-end js on the fly
   // note: this should come before the express.static since bundle.js is in the public folder
-  app.get('/js/bundle.js', expressBrowserify('./public/js/bundle.js', {
-    watch: (app.get('env') === 'development'),
+  var isDev = (app.get('env') === 'development');
+  var browserifyier = expressBrowserify('./public/js/bundle.js', {
+    watch: isDev,
+    debug: isDev,
     extension: [ 'jsx' ],
     transform:  [["babelify", { "presets": ["es2015", "react"] }]]
-  }));
+  });
+  if (!isDev) {
+    browserifyier.browserify.transform('uglifyify', {global:true})
+  }
+  app.get('/js/bundle.js', browserifyier);
 
   // Setup static public directory
   app.use(express.static(path.join(__dirname, '..', 'public')));
