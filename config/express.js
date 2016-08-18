@@ -30,6 +30,7 @@ var os = require('os');
 module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
+  app.use(require('express-status-monitor')());
   app.use(compression({filter: function (req, res) {
 
     // This is kind of dumb, but I've had a few people reporting errors like
