@@ -59,6 +59,7 @@
     "express": "^4.13.4",
     "express-browserify": "^1.0.2",
     "express-rate-limit": "^2.3.1",
+    "express-status-monitor": "^0.0.9",
     "extend": "^3.0.0",
     "helmet": "^2.1.0",
     "jade": "^1.11.0",
@@ -80,7 +81,7 @@
     "eslint": "^3.3.0",
     "istanbul": "^0.4.3",
     "mocha": "^3.0.2",
-    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.12",
     "precommit-hook": "^3.0.0",
     "supertest": "^2.0.0"
   },

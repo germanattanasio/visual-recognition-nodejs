@@ -59,12 +59,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0.9;
 }
 
 .train--column-1 {
-    width: 48.93617%;
+    width: calc(40% - 1rem);
     margin-right: 2.12766%;
-    margin-top: 1rem;
+    margin-top: 0rem;
     float: left;
 }
 .train--column-2 {
@@ -78,7 +79,6 @@
   height: 5rem;
   font-weight: lighter;
   color: #3a5274;
-  line-height: 0.8;
 }
 
 [data-kind="user"] {
@@ -276,12 +276,14 @@ button {
     background-color: #315d80;
     outline: none;
     border-style: none;
-    font-size: 16pt;
+    font-size: 1rem;
     width: 100%;
     font-weight: normal;
     font-style: normal;
     padding: 0.2em 0em;
     transition: 0.2s;
+    height: 2.5rem;
+    font-weight: 500;
 }
 
 ._examples--class__selected button {
@@ -439,7 +441,16 @@ form.trained input[type=text] {
     margin-top: 0px;
 }
 
+.test--loading {
+  margin-top: 2rem;
+}
 
+.retrain--loading {
+  margin-top: 2rem;
+}
+.test--output-row {
+  margin-top: 2rem;
+}
 
 ._examples--clear {
   background-color: transparent;
@@ -620,7 +631,6 @@ form.upload input[type=file] {
 
 .test--form {
   display: block;
-  margin-bottom: 2.5rem;
 }
 
 .test--url-input {
@@ -677,4 +687,38 @@ input.base--input._examples--input-name {
 
 .bundle:focus {
     outline: none;
+}
+
+
+._train {
+  position: relative;
+}
+.gray-overlay {
+  height: 100%;
+  width: calc(100% + 2rem);
+  position: absolute;
+  top: 0rem;
+  left: -1rem;
+  background-color: rgba(255, 255, 255, 0.88);
+  z-index: 50;
+  transition: 0.2s;
+  visibility: hidden;
+  opacity: 0;
+}
+.gray-overlay_visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.test--classifier {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.test--reset.icon-hyperlink {
+  float: none;
+  display: inline-block;
+  margin-left: 2rem;
+  vertical-align: middle;
+  margin-top: 0rem;
 }

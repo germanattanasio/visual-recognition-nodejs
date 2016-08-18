@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import {scrollToElement} from './demo.js';
 let jpath = require('jpath-query');
 let jquery = require('jquery');
 let { lookupName } = require('./classNameMapper.js');
@@ -8,14 +9,14 @@ const image_count = 10;
 
 class RetrainingIndicator extends React.Component {
   render() {
-    return (<div className="loading.train--loading">
+    return (<div className="loading retrain--loading">
         <div className="loader-container">
           <svg className="loader" viewBox="25 25 50 50">
             <circle className="loader__path" cx='50' cy='50' r='20'/>
           </svg>
         </div>
-      <p className="base--p loading--message"> Watson is training your new classifier. </p>
-      <p className="base--p loading--message"> This might take up to 4-5 minutes based on number of images.</p>
+      <p className="base--p loading--message"> Watson is retraining your classifier. </p>
+      <p className="base--p loading--message"> This might take up to 3-4 minutes based on number of images.</p>
         </div>);
   }
 }
@@ -27,7 +28,7 @@ class FormTitleHOne extends React.Component {
       <div className="status-bar">Classifier has status: {this.props.status}</div>
       </h2>
 
-      <p>Add more images to classes by uploading your own or adding a new class.</p>
+      <p className="base--p">Add more images to classes by uploading your own or adding a new class.</p>
 
       {this.props.status !== 'ready' ? <RetrainingIndicator/> : <div style={{display: 'none'}}></div>}
     </div>);
@@ -55,9 +56,13 @@ class FormTitleBar extends React.Component {
       this.serverRequest.abort();
     }
 
+    // todo: see if there's a more appropriate location for this logic
     this.serverRequest = jquery.get('/api/classifiers/' + this.props.classifier_id).done(function (results) {
       if (this.state.submitted || results.status === 'retraining' || results.status === 'training') {
         setTimeout(this.retryRequest.bind(this), 5000);
+      } else if (results.status === 'ready') {
+        jquery('.test--output').hide();
+        scrollToElement($('h2.test--classifier'));
       }
       this.setState({classifierData: results, submitted: false});
     }.bind(this));
@@ -168,7 +173,7 @@ class TrainClassCell extends React.Component {
   }
 
   inputStyle() {
-    return {'new' : { width: '90%', fontSize: '1.5vw', textAlign: 'center',marginTop: '0.5rem', marginBottom: '0.5rem' },
+    return {'new' : { width: '100%', textAlign: 'center',marginTop: '1rem', padding: '0.2em 0em', fontSize: '1rem', height: '2.5rem', 'border': '2px solid #ccc' },
       'negative'  : { display: 'none' },
       'positive'  : { display: 'none' },
       'missing'  : { display: 'none' }
@@ -196,17 +201,17 @@ class TrainClassCell extends React.Component {
     return (
         <div id={"top-"+this.props.name} className="base-div" onClick={this.handleClick.bind(this)} onDrop={this.drop.bind(this,this.props.parentAction)} onDragOver={this.drag.bind(this)}>
           <div className="target-div" id={this.props.name}>
-            <h3 className="base--h3">
+            <h3 className="base--h3" title={this.displayName()}>
               {this.displayName()}
               <input style={this.inputStyle()} type="text" name="classname" onChange={this.textChange.bind(this)} placeholder="New Class" value={this.state.nameValue || this.props.name}/>
               <input style={{display: 'none'}} type="checkbox" name="missing" value={this.props.name} checked={this.state.checked}/>
             </h3>
             {this.props.kind === 'missing' ? <button style={{opacity: this.state.hasFile ? 0 : 1 }} onClick={this.selectMissing.bind(this,this.props.parentAction)} name="Select">Select</button> :
-              <button style={{opacity: 0, display: this.props.kind === 'new' ? 'none' : 'block' }} disabled={true} name="Select">Select</button>
+              <button style={{opacity: 0, display: (this.props.kind === 'new' || this.props.kind === 'negative') ? 'none' : 'block' }} disabled={true} name="Select">Select</button>
               }
             { this.state.hasFile ? <img className="text-zip-image" src="images/VR zip icon.svg"/> : <div className="target-box"><span className="decorated">upload</span> at least 50 images in zip format</div>}
           </div>
-          <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name}/>
+          <input onChange={this.changeAction.bind(this,this.props.parentAction)} style={{display: 'none'}} type="file" name={this.props.name} accept="application/zip"/>
           <button name="clear" className="clear--button" style={{opacity: this.state.hasFile ? 1 : 0, display: this.state.hasFile ? 'block' : 'none'}} onClick={this.clear.bind(this,this.props.parentAction)}>clear</button>
         </div>);
   }
@@ -228,6 +233,16 @@ class FlashMessage extends React.Component {
   }
 }
 
+class VisibleMessage extends React.Component {
+  render() {
+    if (this.props.visibility) {
+      return (<div>{this.props.message}</div>);
+    } else {
+      return (<div style={{visibility: 'hidden'}}>&nbsp;</div>);
+    }
+  }
+}
+
 class WindowShade extends React.Component {
   constructor() {
     super();
@@ -239,11 +254,11 @@ class WindowShade extends React.Component {
     }
   }
   style() {
-    return this.state.clicked ? { opacity: 1 } : { opacity: 0 };
+    return this.state.clicked ? { opacity: 1, visibility: 'visible' } : { opacity: 0, visibility: 'hidden' };
   }
   render() {
     return (<div className="windowShadeContainer" onClick={this.onclick.bind(this)}>
-      <h3 data-kind="target">Add Another Class</h3>
+      <h3 className="base--h3 windowShadeLink base--a" data-kind="target">Add Another Class <img data-kind="target" className="chevron" src={this.state.clicked ? "/images/up-arrow.png" : "/images/down-arrow.png" }/></h3>
       <div className="windowshade" style={this.style()}>
         {this.props.children}
         </div>
@@ -296,12 +311,11 @@ class UpdateForm extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    let q = new FormData(e.target);
     let filesDict = this.state.files;
     let uploadedFiles = Object.keys(this.state.files).reduce(function(store, item) {
       let f = filesDict[item];
       if (f.size && !item.match(/Negative Class/)) {
-        store.append(item+"_positive_examples",f);
+        store.append(item+ '_positive_examples',f);
       } else if (f.size && item.match(/Negative Class/)) {
         store.append('negative_examples',f);
       }
@@ -311,7 +325,7 @@ class UpdateForm extends React.Component {
     let includeMissing = [...this.state.checkboxes].reduce((store, item) => {
       let zipPath = bundleZipfileForClass(item);
       if (zipPath) {
-        store.append(item+"_positive_examples",zipPath);
+        store.append(item+ '_positive_examples',zipPath);
       }
       return store;
     }, uploadedFiles);
@@ -347,7 +361,8 @@ class UpdateForm extends React.Component {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      justifyItems: 'center'
+      justifyItems: 'center',
+      marginTop: '2rem'
     };
 
     let submit_button_style = {
@@ -357,7 +372,11 @@ class UpdateForm extends React.Component {
     let submit_button_style_disabled = {
       cursor: "not-allowed",
       backgroundColor: '#959595',
-      borderColor: '#959595'
+      borderColor: '#959595',
+      height: '2.5rem',
+      fontWeight: 500,
+      width: 'calc(40% - 1rem)',
+      marginBottom: '1rem'
     };
 
     let self = this;
@@ -387,21 +406,21 @@ class UpdateForm extends React.Component {
                             name="New Class"/>
             </WindowShade>
             </div>
+            <VisibleMessage message="New images added!" visibility={this.state.showFlash}/>
           <h3 className="base--h3">Optional Negative Images</h3>
           <div className="negative-classes">
         <TrainClassCell key="negative-class" kind='negative' classCount={classCount}
                         parentAction={this.addFile.bind(this)} name='Negative Class'/>
           </div>
         </div>
-        {this.state.classCount < 1 ? <div>Add At Least One Zip File</div> : <div style={{display: 'none'}}></div>}
+        {this.state.classCount < 1 ? <div>Add at least one zipped file</div> : <div style={{display: 'none'}}></div>}
         { this.state.classCount > 0 ?
             <input className="base--button" style={submit_button_style} type="submit"
                    value="Retrain your classifier"/> :
             <input className="base--button disabled" style={submit_button_style_disabled} disabled={true} type="submit"
                    value="Retrain your classifier"/>
         }
-        <FlashMessage message = "New Images Added" display={this.state.showFlash}/>
-        <p>This is a demo. For full functionality, try out the API.</p>
+        <p className="base--p">This is a demo. For full functionality, try out the API.</p>
       </form>);
     }
   }

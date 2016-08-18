@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- /* global , Cookies */
 'use strict';
 
 /**
@@ -98,22 +97,13 @@ function imageFadeIn(imgSelector) {
 /**
  * scroll animation to element on page
  * @param  {Object}  element Jquery element
- * @param  {Number}  offset position to scroll to
+ * @param  {Number}  [offset=75] how much padding to leave above the element (px)
  * @return {void}
  */
-module.exports.scrollToElement = function scrollToElement(element, offset) {
+module.exports.scrollToElement = function scrollToElement(element, offset=75) {
   $('html, body').animate({
-    scrollTop: element.offset().top - (typeof offset !== 'undefined' ? offset : 75)
+    scrollTop: element.offset().top - offset
   }, 300);
-};
-
-module.exports.getAndParseCookieName = function getAndParseCookieName(cookieName, defaultValue) {
-  var res = Cookies.get(cookieName);
-  if (res) {
-    return JSON.parse(res);
-  } else {
-    return defaultValue;
-  }
 };
 
 /**

@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-/* global Cookies:true */
-
 'use strict';
 
-var setupUse = require('./use.js');
-var nextHour = require('./demo.js').nextHour;
-var scrollToElement = require('./demo.js').scrollToElement;
-var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
-var { renderErrorMessage } = require('./errormsg.jsx');
-var { displayRetrainingForm } = require('./retraining.jsx');
-// var currentPage = require('./demo.js').currentPage;
+const setupUse = require('./use.js');
+const {nextHour, scrollToElement}  = require('./demo.js');
+const { renderErrorMessage } = require('./errormsg.jsx');
+const { displayRetrainingForm } = require('./retraining.jsx');
+const StateManager = require('./state.js');
 
 $(document).ready(function() {
+
+  function resetTrainingExample() {
+    $('.showing').removeClass('showing');
+    $('._container--bundle-form').removeClass('active');
+    $('._training--example').map(function(index, item) {
+      $(item).css('opacity', '1.0');
+      $(item).find('img').css('box-shadow', '0px 0px 0px 0px transparent');
+      $(item).find('._training--use-your-own').css('box-shadow', '0px 0px 0px 0px transparent');
+    });
+  }
+
   $('._training--example').click(function() {
     var currentExample = $(this);
     window.fileUploader = [];
@@ -39,13 +46,7 @@ $(document).ready(function() {
     var kind = $(this).data('kind');
 
     if ($('._examples[data-kind=' + kind + ']').hasClass('showing')) {
-      $('.showing').removeClass('showing');
-      $('._container--bundle-form').removeClass('active');
-      $('._training--example').map(function(index, item) {
-        $(item).css('opacity', '1.0');
-        $(item).find('img').css('box-shadow', '0px 0px 0px 0px transparent');
-        $(item).find('._training--use-your-own').css('box-shadow', '0px 0px 0px 0px transparent');
-      });
+      resetTrainingExample();
     } else {
       $('._training--example').map(function(index, item) {
         if (!$(item).is(currentExample)) {
@@ -111,7 +112,7 @@ $(document).ready(function() {
     }
   }
 
-  $('button[type=reset]').click(function() {
+  $('.train--reset-button').click(function() {
     if ($('.showing div._examples--class__selected button').length > 0) {
       $('.showing div._examples--class__selected button').click();
     } else {
@@ -125,7 +126,24 @@ $(document).ready(function() {
     window.fileUploader = [];
     window.fileUploaderNegative = null;
     $testSection.hide();
+
+    enableForm();
     enableTrainClassifier();
+  });
+
+  $('.test--reset-button').click(function() {
+    event.preventDefault();
+    let $button = $(event.target);
+    if ($button.hasClass('reset--classifier') && !confirm('Are you sure you want to delete the classifier?')) {
+      $button.blur();
+      return;
+    }
+    $testSection.hide();
+    StateManager.reset();
+    resetTrainingExample();
+    enableForm();
+    enableTrainClassifier();
+    scrollToElement($('h1.use--header'));
   });
 
   $('._examples--class button').click(function() {
@@ -290,6 +308,7 @@ $(document).ready(function() {
   var $errorMsg = $('.train--error-message');
   var $trainButton = $('.train--train-button');
   var $testSection = $('.test--section');
+  var $grayOverlay = $('.gray-overlay');
 
   function resetPage() {
     $loading.hide();
@@ -316,30 +335,30 @@ $(document).ready(function() {
     }[token];
   }
 
-  function lookupClassiferRealNameMap() {
-    var classifierNameMapping = {};
-    classifierNameMapping.dogs = {};
-    classifierNameMapping.dogs.goldenretriever = 'Golden Retriever';
-    classifierNameMapping.dogs.husky = 'Husky';
-    classifierNameMapping.dogs.dalmatian = 'Dalmatian';
-    classifierNameMapping.dogs.beagle = 'Beagle';
-    classifierNameMapping.insurance = {};
-    classifierNameMapping.insurance.brokenwinshield = 'Broken Windshield';
-    classifierNameMapping.insurance.flattire = 'Flat Tire';
-    classifierNameMapping.insurance.motorcycleaccident = 'Motorcycle Involved';
-    classifierNameMapping.insurance.vandalism = 'Vandalism';
-    classifierNameMapping.moleskine = {};
-    classifierNameMapping.moleskine.journaling = 'Journaling';
-    classifierNameMapping.moleskine.landscape = 'Landscape';
-    classifierNameMapping.moleskine.notebook = 'Notebook';
-    classifierNameMapping.moleskine.portrait = 'Portrait';
-    classifierNameMapping.omniearth = {};
-    classifierNameMapping.omniearth.baseball = 'Baseball';
-    classifierNameMapping.omniearth.cars = 'Cars';
-    classifierNameMapping.omniearth.golf = 'Golf';
-    classifierNameMapping.omniearth.tennis = 'Tennis';
-    return classifierNameMapping;
-  }
+  // function lookupClassiferRealNameMap() {
+  //   var classifierNameMapping = {};
+  //   classifierNameMapping.dogs = {};
+  //   classifierNameMapping.dogs.goldenretriever = 'Golden Retriever';
+  //   classifierNameMapping.dogs.husky = 'Husky';
+  //   classifierNameMapping.dogs.dalmatian = 'Dalmatian';
+  //   classifierNameMapping.dogs.beagle = 'Beagle';
+  //   classifierNameMapping.insurance = {};
+  //   classifierNameMapping.insurance.brokenwinshield = 'Broken Windshield';
+  //   classifierNameMapping.insurance.flattire = 'Flat Tire';
+  //   classifierNameMapping.insurance.motorcycleaccident = 'Motorcycle Involved';
+  //   classifierNameMapping.insurance.vandalism = 'Vandalism';
+  //   classifierNameMapping.moleskine = {};
+  //   classifierNameMapping.moleskine.journaling = 'Journaling';
+  //   classifierNameMapping.moleskine.landscape = 'Landscape';
+  //   classifierNameMapping.moleskine.notebook = 'Notebook';
+  //   classifierNameMapping.moleskine.portrait = 'Portrait';
+  //   classifierNameMapping.omniearth = {};
+  //   classifierNameMapping.omniearth.baseball = 'Baseball';
+  //   classifierNameMapping.omniearth.cars = 'Cars';
+  //   classifierNameMapping.omniearth.golf = 'Golf';
+  //   classifierNameMapping.omniearth.tennis = 'Tennis';
+  //   return classifierNameMapping;
+  // }
 
   function getExamplesData() {
     return $('.showing div._examples--class__selected')
@@ -399,6 +418,13 @@ $(document).ready(function() {
     });
   }
 
+  function disableForm() {
+    $grayOverlay.addClass('gray-overlay_visible');
+  }
+  function enableForm() {
+    $grayOverlay.removeClass('gray-overlay_visible');
+  }
+
   function submitClassifier(params) {
     $.ajax({
       type: 'POST',
@@ -410,9 +436,14 @@ $(document).ready(function() {
       success: function(classifier) {
         setTimeout(function() {
           checkClassifier(classifier.classifier_id, function done() {
-            Cookies.set('bundle', params.bundle, { expires: nextHour()});
-            Cookies.set('classNameMap', lookupClassiferRealNameMap(), { expires: nextHour()});
-            Cookies.set('classifier', classifier, { expires: nextHour()});
+            StateManager.setState({
+              // id & name are the only two fields we still use
+              //classNameMap: lookupClassiferRealNameMap(),
+              classifier_id: classifier.classifier_id,
+              name: classifier.name,
+              kind: params.bundle.kind,
+              expires: nextHour().toString() // or .getTime() - latter is shorter, but this is more human-friendly
+            });
             resetPage();
             flashTrainedClassifer();
             scrollToElement($('.train--trained-successfully'), 65);
@@ -426,7 +457,8 @@ $(document).ready(function() {
             }
             $('.test--classifier').text($('input.base--input._examples--input-name').val());
             showTestPanel(classifier);
-            displayRetrainingForm(classifier.classifier_id,'retrain--form');
+            scrollToElement($('.base--h2.test--classifier'));
+
           });
         }, 5000);
       },
@@ -467,6 +499,7 @@ $(document).ready(function() {
   setupUse({ panel: 'test' });
 
   function showTestPanel(classifier) {
+    disableForm();
     $('#test_classifier_id').val(classifier.classifier_id);
     $('.base--h2.test--classifier').text(classifier.name);
     $('.base--h2.test--classifier').prop('title',classifier.classifier_id);
@@ -474,20 +507,27 @@ $(document).ready(function() {
     $('.base--h2.test--classifier').on('click',function(e) {
       e.preventDefault();
       if ($(this).text() === $(this).prop('title')) {
-	$(this).text($(this).attr('classifier_name'));
+         $(this).text($(this).attr('classifier_name'));
       } else {
-	$(this).text($(this).prop('title'));
+         $(this).text($(this).prop('title'));
       }
     });
     $testSection.show();
-    displayRetrainingForm(classifier.classifier_id,'retrain--form');
+    displayRetrainingForm(classifier.classifier_id, 'retrain--form');
   }
 
-  var classifier = getAndParseCookieName('classifier');
-  
-  if (classifier) {
-    showTestPanel(classifier);
-  } else if (window.location.hash) {
+  const state = StateManager.getState();
+
+  if (state.classifier_id && state.name && state.kind) {
+    if (new Date(state.expires) > new Date()) {
+      showTestPanel(state);
+    } else {
+      renderErrorMessage('The requested classifier is no longer available, please create a new one.', 'error');
+      enableForm();
+    }
+  } else if (window.location.hash) { // todo: is this still needed?
     showTestPanel({name: 'Hash Specified', classifier_id: window.location.hash.substring(1), kind: 'user'});
+  } else {
+    enableForm();
   }
 });

@@ -18,7 +18,7 @@
 
 var resize = require('./demo.js').resize;
 var scrollToElement = require('./demo.js').scrollToElement;
-var getAndParseCookieName = require('./demo.js').getAndParseCookieName;
+const StateManager = require('./state.js');
 var getRandomInt = require('./demo.js').getRandomInt;
 var { renderBoxes } = require('./image-boxes.jsx');
 var { classifyScoreTable, customClassifyScoreTable } = require('./classresults.jsx');
@@ -224,6 +224,7 @@ function setupUse(params) {
       $('input[type=radio][name=use--example-images]').prop('disabled', true);
       resetPasteUrl();
       rI.parent().find('label').addClass('dim');
+      rI.parent().find('label[for=use--file]').removeClass('dim')
       rI.parent().find('label[for=' + rI.attr('id') + ']').removeClass('dim');
     }, function () {
       $urlInput.val('');
@@ -237,8 +238,7 @@ function setupUse(params) {
    */
   $randomImage.click(function () {
     resetPasteUrl();
-    var bundle = getAndParseCookieName('bundle');
-    var kind = bundle ? bundle.kind : 'user';
+    var kind = StateManager.getState().kind;
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
     classifyImage('images' + path + getRandomInt(1, 5) + '.jpg', true);
     $urlInput.val('');

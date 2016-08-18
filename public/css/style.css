@@ -1250,7 +1250,7 @@ div.use--dropzone {
 }
 @media (min-width: 1200px) {
   div.use--dropzone {
-    width: calc(12.5% - 0.2625rem);
+    width: calc(12.5% - 0.2825rem);
   }
 }
 
@@ -1390,12 +1390,12 @@ div.use--dropzone {
   max-width: 300px;
   height: 300px;
   position: relative;
-  margin: 0rem auto;
+  margin: 0rem auto 1rem;
   overflow: hidden; }
   @media (min-width: 768px) {
     .use--output-image-container {
       max-width: 100%;
-      margin: 0rem; } }
+      margin: 0rem 0rem 1rem; } }
 
 .use--output-image {
   position: absolute;
@@ -1413,12 +1413,12 @@ div.use--dropzone {
 
 .use--output-image, img.checkered-bg {
     background-image:
-      -moz-linear-gradient(45deg, #ccc 25%, transparent 25%), 
+      -moz-linear-gradient(45deg, #ccc 25%, transparent 25%),
       -moz-linear-gradient(-45deg, #ccc 25%, transparent 25%),
       -moz-linear-gradient(45deg, transparent 75%, #ccc 75%),
       -moz-linear-gradient(-45deg, transparent 75%, #ccc 75%);
     background-image:
-      -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #ccc), color-stop(.25, transparent)), 
+      -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #ccc), color-stop(.25, transparent)),
       -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #ccc), color-stop(.25, transparent)),
       -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #ccc)),
       -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #ccc));
@@ -1426,7 +1426,7 @@ div.use--dropzone {
     -moz-background-size:40px 40px;
     background-size:40px 40px;
     -webkit-background-size:40px 101px; /* override value for shitty webkit */
-    
+
     background-position:0 0, 20px 0, 20px -20px, 0px 20px;
 }
 
@@ -1661,7 +1661,7 @@ div.use--dropzone {
   max-height: 100%; }
 
 .train--train-button {
-  padding: 0.5em 1em;
+  padding: 0.5em 1em 2em;
   color: white;
   font-weight: bold;
   background-color: #325c80;
@@ -1671,15 +1671,14 @@ div.use--dropzone {
   display: inline-block;
   display: block;
   width: 100%;
-  font-weight: 300;
+  height: 2.5rem;
+  font-weight: 500;
   margin-top: 1.5rem; }
   .train--train-button:hover, .train--train-button:focus {
     color: #fff;
     background-color: #325c80; }
   .train--train-button:focus, .train--train-button:hover {
-    padding: 0.5em 1em;
     color: #a53725;
-    font-weight: bold;
     background-color: #264a60;
     border: 2px solid #264a60;
     -webkit-transition: 0.2s;
@@ -1688,8 +1687,6 @@ div.use--dropzone {
     .train--train-button:focus:hover, .train--train-button:focus:focus, .train--train-button:hover:hover, .train--train-button:hover:focus {
       color: #fff;
       background-color: #264a60; }
-  .train--train-button:focus, .train--train-button:hover {
-    font-weight: 300; }
   .train--train-button:disabled {
     background-color: #959595;
     border-color: #959595; }
@@ -1793,7 +1790,9 @@ div.use--dropzone {
   display: none; }
 
 .train--loading {
-  display: none; }
+  display: none;
+  margin-top: 2rem;
+}
 
 .train--error {
   display: none; }
@@ -2349,6 +2348,7 @@ div.use--dropzone {
   border: 1px solid #cfd2d2;
   margin-bottom: 1rem;
   color: #6f6d70;
+  table-layout: fixed;
 }
 .results-table .base--thead {
   border-bottom: none;
@@ -2376,7 +2376,7 @@ div.use--dropzone {
 }
 .results-table--score-cell {
   width: 7rem;
-  width: 60%;
+  width: 70%;
 }
 .results-table--score-item {
   display: flex;
@@ -2449,7 +2449,6 @@ div.use--dropzone {
   transition: background-color 1s, color 1s;
 }
 .results-table--feedback-thanks {
-  margin-left: 2rem;
   opacity: 0;
   color: black;
   -webkit-transition: opacity 1s, color 1s;
@@ -2457,6 +2456,7 @@ div.use--dropzone {
   -ms-transition: opacity 1s, color 1s;
   -o-transition: opacity 1s, color 1s;
   transition: opacity 1s, color 1s;
+  text-align: center;
 }
 
 .bottom-banner {
