@@ -131,7 +131,7 @@ $(document).ready(function() {
     enableTrainClassifier();
   });
 
-  $('.test--reset-button').click(function() {
+  $('.test--reset-button').click(function(event) {
     event.preventDefault();
     let $button = $(event.target);
     if ($button.hasClass('reset--classifier') && !confirm('Are you sure you want to delete the classifier?')) {
