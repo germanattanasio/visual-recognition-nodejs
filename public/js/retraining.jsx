@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import {scrollToElement} from './demo.js';
 let jpath = require('jpath-query');
-let jquery = require('jquery');
+let jquery = $;
 let { lookupName } = require('./classNameMapper.js');
 let { allMissingClasses, bundleZipfileForClass } = require('./membership.js');
 const image_count = 10;
