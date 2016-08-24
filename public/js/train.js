@@ -276,7 +276,7 @@ $(document).ready(function() {
         return;
       } else {
         var file = e.originalEvent.dataTransfer.files[i];
-        var validMimeType = file === 'application/zip';
+        var validMimeType = file.type === 'application/zip';
         if (file.size > (5 * 1024 * 1024)) {
           // eslint-disable-next-line no-alert
           alert('This file exceeds the maximum size of 5 MB. Please choose another file');
