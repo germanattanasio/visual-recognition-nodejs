@@ -282,7 +282,7 @@ $(document).ready(function() {
           alert('This file exceeds the maximum size of 5 MB. Please choose another file');
         } else if (!validMimeType) {
           // eslint-disable-next-line no-alert
-          alert('You can only upload Ziped archives of images');
+          alert('You can only upload Zipped archives of images');
         } else {
           window.fileUploader[idx + i] = file;
           maxFiles--;
