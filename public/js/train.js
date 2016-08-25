@@ -207,7 +207,7 @@ $(document).ready(function() {
   $('.classifier input[type=file]').on('change', function(e) {
     var nameInput = $(e.target).parent().find('input[type=text]');
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
-      var validMimeType = {'application/zip': true}[$(e.target)[0].files[0].type];
+      var validMimeType = {'application/zip': true, 'application/x-zip-compressed': true}[$(e.target)[0].files[0].type];
       if ($(e.target)[0].files[0].size > (5 * 1024 * 1024)) {
         // eslint-disable-next-line no-alert
         alert('This file exceeds the maximum size of 5 MB. Please choose another file');
@@ -276,7 +276,7 @@ $(document).ready(function() {
         return;
       } else {
         var file = e.originalEvent.dataTransfer.files[i];
-        var validMimeType = file.type === 'application/zip';
+	var validMimeType = {'application/zip': true, 'application/x-zip-compressed': true}[file.type];
         if (file.size > (5 * 1024 * 1024)) {
           // eslint-disable-next-line no-alert
           alert('This file exceeds the maximum size of 5 MB. Please choose another file');
