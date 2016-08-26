@@ -307,7 +307,7 @@ $(document).ready(function() {
           $(target).find('.clear_link').show();
         } else {
           alertsForFileInvalidity(file);
-	}
+        }
         enableTrainClassifier();
       }}});
 
