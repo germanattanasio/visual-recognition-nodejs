@@ -245,7 +245,7 @@ $(document).ready(function() {
         $(e.target).parent().find('.text-zip-image').css('display', 'block');
         $(e.target).parent().find('.clear_link').show();
       } else {
-	alertsForFileInvalidity(file);
+        alertsForFileInvalidity(file);
       }
       enableTrainClassifier();
     }
