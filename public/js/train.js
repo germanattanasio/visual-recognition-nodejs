@@ -306,7 +306,7 @@ $(document).ready(function() {
           $(target).find('.text-zip-image').css('display', 'block');
           $(target).find('.clear_link').show();
         } else {
-	  alertsForFileInvalidity(file);
+          alertsForFileInvalidity(file);
 	}
         enableTrainClassifier();
       }}});
