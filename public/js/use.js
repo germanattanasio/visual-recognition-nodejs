@@ -26,7 +26,7 @@ var jpath = require('jpath-query');
 
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
-  LIMIT_FILE_SIZE: 'Ensure the uploaded image is under 2mb',
+  LIMIT_FILE_SIZE: 'Ensure the image is under 2mb',
   URL_FETCH_PROBLEM: 'This is an invalid image URL.',
   TOO_MANY_REQUESTS: 'You have entered too many requests at once. Please try again later.',
   SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!'
@@ -120,7 +120,7 @@ function setupUse(params) {
 
     if (results.images[0].error) {
       var error = results.images[0].error;
-      if (error.description && error.description.indexOf('Individual size limit exceeded') === 0) {
+      if (error.description && error.description.indexOf('limit exceeded') != -1) {
         showError(errorMessages.LIMIT_FILE_SIZE);
         return;
       } else if (results.images[0].error.error_id === 'input_error') {
@@ -280,6 +280,11 @@ function setupUse(params) {
       data.url = '/api/classify';
       if (data.files && data.files[0]) {
         $error.hide();
+
+        if (data.files[0]['size'] > 2000000) {
+          _error(null, errorMessages.LIMIT_FILE_SIZE);
+          return;
+        }
 
         processImage();
         var reader = new FileReader();

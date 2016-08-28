@@ -295,9 +295,13 @@ class IdentityTypeHiearchy extends TypeHierarchy {
 
 class ClassifyScoreTable extends React.Component {
   render() {
-    if (this.props.items && this.props.items.length == 0) {
-      return (<div className="use--mismatch">
-        The score for this image is not above the threshold of 0.5 , based on the training data provided.</div>);
+    if (this.props.items && this.props.items.length === 0) {
+      if (this.props.faceCount === 0 && this.props.wordCount === 0) {
+        return (<div className="use--mismatch">
+          The score for this image is not above the threshold of 0.5</div>);
+      } else {
+        return (<div className="hidden"> </div>);
+      }
     }
     return (
         <div className="results-table--container">
@@ -439,7 +443,7 @@ class WordsScoreTable extends React.Component {
 class ResultsTable extends React.Component {
   render() {
     return (<div className="use--output-data">
-          <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems}/>
+          <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems} faceCount={this.props.faceItems.length}  wordCount={this.props.wordsItems.length}/>
           { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : <div style={{display: 'none'}}></div>}
           { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
         </div>
