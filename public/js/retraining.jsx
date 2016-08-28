@@ -110,7 +110,7 @@ class TrainClassCell extends React.Component {
       parentAction(trimmed_name,jpath.jpath('/dataTransfer/files/0', event), 'add');
     } else {
       this.setState({hasFile: true});
-      parentAction(this.props.name,jpath.jpath('/dataTransfer/files/0', event, 'add'));
+      parentAction(this.props.name,jpath.jpath('/dataTransfer/files/0', event), 'add');
     }
   }
   handleClick(e) {

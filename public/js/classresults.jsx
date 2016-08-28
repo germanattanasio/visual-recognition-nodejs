@@ -339,7 +339,7 @@ class CustomClassifyScoreTable extends React.Component {
           <table className="base--table results-table">
             <tbody className="base--tbody">
             <tr className="base--tr">
-              <td className="base--td">
+              <td className="base--td" colSpan="2">
                 <p>The score for this image is not above the threshold of 0.5 based on the training data provided.</p>
               </td>
             </tr>
