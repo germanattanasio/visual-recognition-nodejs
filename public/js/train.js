@@ -204,22 +204,37 @@ $(document).ready(function() {
     $(this).parent().find('input[type=file]').click();
   });
 
+  let isValidMimeTypeForZip = function(filetype) {
+    return {'application/zip': true, 'application/x-zip-compressed': true}[filetype]
+  }
+
+  let fileSizeOK = function(fileobj) {
+    return fileobj.size < (5 * 1000 * 1000)
+  }
+
+  let isValidFile = function(fileobj) {
+    return fileSizeOK(fileobj) && isValidMimeTypeForZip(fileobj.type)
+  }
+
+  let alertsForFileInvalidity = function(fileobj) {
+    if (!fileSizeOK(fileobj)) {
+      // eslint-disable-next-line no-alert
+      alert('This file exceeds the maximum size of 5 MB. Please choose another file');
+    } else if (!isValidMimeTypeForZip(fileobj.type)) {
+      // eslint-disable-next-line no-alert
+      alert('You can only upload Zipped archives of images');
+    }
+  }
+
   $('.classifier input[type=file]').on('change', function(e) {
     var nameInput = $(e.target).parent().find('input[type=text]');
     if ($(e.target).length > 0 && ($(e.target)[0].files && $(e.target)[0].files.length > 0)) {
-      var validMimeType = {'application/zip': true, 'application/x-zip-compressed': true}[$(e.target)[0].files[0].type];
-      if ($(e.target)[0].files[0].size > (5 * 1024 * 1024)) {
-        // eslint-disable-next-line no-alert
-        alert('This file exceeds the maximum size of 5 MB. Please choose another file');
-      } else if (!validMimeType) {
-        // eslint-disable-next-line no-alert
-        alert('You can only upload Zipped archives of images');
-      } else {
-        var baseFileName = $(e.target)[0].files[0].name;
+      let file = $(e.target)[0].files[0]
+      if (isValidFile(file)) {
+        var baseFileName = file.name;
         nameInput.val(baseFileName.split('.')[0]);
         $(e.target).parent().attr('data-hasfile', 1);
         var idx = parseInt($(e.target).parent().attr('data-idx'), 10);
-
         if (idx === 3) {
           window.fileUploaderNegative = $(e.target)[0].files[0];
         } else {
@@ -229,7 +244,10 @@ $(document).ready(function() {
         $(e.target).parent().find('.text-label').hide();
         $(e.target).parent().find('.text-zip-image').css('display', 'block');
         $(e.target).parent().find('.clear_link').show();
+      } else {
+        alertsForFileInvalidity(file);
       }
+      enableTrainClassifier();
     }
   });
 
@@ -276,14 +294,7 @@ $(document).ready(function() {
         return;
       } else {
         var file = e.originalEvent.dataTransfer.files[i];
-	var validMimeType = {'application/zip': true, 'application/x-zip-compressed': true}[file.type];
-        if (file.size > (5 * 1024 * 1024)) {
-          // eslint-disable-next-line no-alert
-          alert('This file exceeds the maximum size of 5 MB. Please choose another file');
-        } else if (!validMimeType) {
-          // eslint-disable-next-line no-alert
-          alert('You can only upload Zipped archives of images');
-        } else {
+        if (isValidFile(file)) {
           window.fileUploader[idx + i] = file;
           maxFiles--;
           var baseFileName = file.name;
@@ -294,6 +305,8 @@ $(document).ready(function() {
           $(target).find('.text-label').hide();
           $(target).find('.text-zip-image').css('display', 'block');
           $(target).find('.clear_link').show();
+        } else {
+          alertsForFileInvalidity(file);
         }
         enableTrainClassifier();
       }}});
