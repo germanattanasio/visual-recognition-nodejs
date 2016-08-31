@@ -216,6 +216,8 @@ $(document).ready(function() {
     return fileSizeOK(fileobj) && isValidMimeTypeForZip(fileobj.type)
   }
 
+  module.exports.isValidFile = isValidFile;
+
   let alertsForFileInvalidity = function(fileobj) {
     if (!fileSizeOK(fileobj)) {
       // eslint-disable-next-line no-alert
@@ -225,6 +227,8 @@ $(document).ready(function() {
       alert('You can only upload Zipped archives of images');
     }
   }
+
+  module.exports.alertsForFileInvalidity = alertsForFileInvalidity;
 
   $('.classifier input[type=file]').on('change', function(e) {
     var nameInput = $(e.target).parent().find('input[type=text]');
