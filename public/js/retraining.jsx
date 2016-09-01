@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import {scrollToElement} from './demo.js';
+import { isValidFile, alertsForFileInvalidity} from './train.js';
 let jpath = require('jpath-query');
 let jquery = $;
 let { lookupName } = require('./classNameMapper.js');
@@ -104,6 +105,12 @@ class TrainClassCell extends React.Component {
       return false;
     }
 
+    let fileToCheck = jpath.jpath('/dataTransfer/files/0',event)
+    if (!isValidFile(fileToCheck)) {
+     alertsForFileInvalidity(fileToCheck);
+     return;
+    }
+
     if (this.props.kind === 'new') {
       let trimmed_name = jpath.jpath('/dataTransfer/files/0/name', event).split('.')[0]
       this.setState({nameValue: trimmed_name, hasFile: true});
@@ -137,24 +144,28 @@ class TrainClassCell extends React.Component {
   changeAction(parentAction,e) {
     e.preventDefault();
 
-    let validMimeType = {'application/zip': true}[jpath.jpath('/target/files/0/type',e)];
+    let fileToCheck = jpath.jpath('/target/files/0',e)
+    if (fileToCheck && !isValidFile(fileToCheck)) {
+       alertsForFileInvalidity(fileToCheck);
+       return;
+    }
+    
     if (jpath.jpath('/target/files/length', e, 0) > 0) {
-      if (validMimeType) {
-        if (this.props.kind === 'new') {
-          let trimmed_name = jpath.jpath('/target/files/0/name', e).split('.')[0]
-          this.setState({nameValue: trimmed_name, hasFile: true});
-          parentAction(trimmed_name,jpath.jpath('/target/files/0', e),'add');
-        } else {
-          this.setState({hasFile: true});
-          parentAction(this.props.name,jpath.jpath('/target/files/0', e),'add');
-        }
+      if (this.props.kind === 'new') {
+        let trimmed_name = jpath.jpath('/target/files/0/name', e).split('.')[0]
+        this.setState({nameValue: trimmed_name, hasFile: true});
+        parentAction(trimmed_name,jpath.jpath('/target/files/0', e),'add');
+      } else {
+        this.setState({hasFile: true});
+        parentAction(this.props.name,jpath.jpath('/target/files/0', e),'add');
       }
     } else {
       let classname = this.state.nameValue || this.props.name;
       parentAction(classname,null,'remove');
       this.setState({hasFile: false});
     }
-  }
+}
+
   clear(parentAction,event) {
     event.preventDefault();
     event.target.previousSibling.value = null;
