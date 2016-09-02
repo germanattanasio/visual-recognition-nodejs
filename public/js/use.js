@@ -236,7 +236,8 @@ function setupUse(params) {
   /*
    * Random image submission
    */
-  $randomImage.click(function () {
+  $randomImage.click(function (e) {
+    e.preventDefault();
     resetPasteUrl();
     var kind = StateManager.getState().kind;
     var path = kind === 'user' ? '/samples/' : '/bundles/' + kind + '/test/';
