@@ -5,15 +5,15 @@ div._demo--container
   div Choose a sample image or upload your own image (max 2mb) to try out Visual Recognition.
   +sampleInput('use')
 
-  .loading.use--loading(style='display:none')
+  .loading.use--loading.display-none
     .loader-container
       svg.loader(viewBox='25 25 50 50')
         circle.loader__path(cx='50', cy='50', r='20')
     p.base--p.use--loading-message.loading--message Watson is classifying the image to determine a match...
-  .error.use--error(style='display:none')
+  .error.use--error.display-none
     img.use--error-image.error--image(src='images/icons/alert.svg')
     p.base--p.use--error-message.error--message Visual Recognition is not available right now...
-  .use--output(style='display:none')
+  .use--output.display-none
     h2.base--h2.use--output-header Watson sees...
     .use--output-row
       .use--output-image-container
