@@ -29,6 +29,7 @@ var bundleUtils = require('./config/bundle-utils');
 var os = require('os');
 
 var ONE_HOUR = 3600000;
+var TEN_SECONDS = 10000;
 
 // Bootstrap application settings
 require('./config/express')(app);
@@ -268,7 +269,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
 
   // run the 3 classifiers asynchronously and combine the results
   async.parallel(methods.map(function(method) {
-    return async.reflect(visualRecognition[method].bind(visualRecognition, params));
+    return async.reflect(async.timeout(visualRecognition[method].bind(visualRecognition, params), TEN_SECONDS));
   }), function(err, results) {
     // delete the recognized file
     if (params.images_file && !req.body.url) {
