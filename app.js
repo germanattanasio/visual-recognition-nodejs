@@ -22,7 +22,6 @@ var fs = require('fs');
 var extend = require('extend');
 var path = require('path');
 var async = require('async');
-var validator = require('validator');
 var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
@@ -246,7 +245,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     var temp = path.join(os.tmpdir(), uuid.v1() + '.' + resource.type);
     fs.writeFileSync(temp, resource.data);
     params.images_file = fs.createReadStream(temp);
-  } else if (req.body.url && validator.isURL(req.body.url)) { // url
+  } else if (req.body.url) { // url
     params.url = req.body.url;
   } else { // malformed url
     return res.status(400).json({ error: 'Malformed URL', code: 400 });
