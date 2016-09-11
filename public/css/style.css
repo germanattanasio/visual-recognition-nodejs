@@ -2333,6 +2333,19 @@ div.use--dropzone {
   }
 }
 
+.beta-tag {
+  margin-top: 3px;
+  background-color: #562f72;
+  color: white;
+  text-transform: uppercase;
+  vertical-align: baseline;
+  font-size: 0.65rem;
+  padding: 0.10rem 0.26rem;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+  float: left;
+}
+
 .test--output-data .results-table--container {
   max-width: none;
 }
@@ -2497,6 +2510,8 @@ form.dragover {
 .results--json {
   text-align: right;
   color: #315d80;
+  margin-top: 0px;
+  float: right;
 }
 
 .results--json a {
