@@ -268,7 +268,12 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
 
   // run the 3 classifiers asynchronously and combine the results
   async.parallel(methods.map(function(method) {
-    return async.reflect(async.timeout(visualRecognition[method].bind(visualRecognition, params), TWENTY_SECONDS));
+    var fn = visualRecognition[method].bind(visualRecognition, params);
+    if (method === 'recognizeText' || method === 'detectFaces') {
+      return async.reflect(async.timeout(fn, TWENTY_SECONDS));
+    } else {
+      return async.reflect(fn);
+    }
   }), function(err, results) {
     // delete the recognized file
     if (params.images_file && !req.body.url) {
