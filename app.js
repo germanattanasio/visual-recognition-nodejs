@@ -34,9 +34,10 @@ var TWENTY_SECONDS = 20000;
 require('./config/express')(app);
 
 // Create the service wrapper
-var visualRecognition = watson.visual_recognition({
-  version: 'v3',
-  api_key: process.env.API_KEY || '<api-key>',
+// If no API Key is provided here, the watson-developer-cloud@2.x.x library will check for an ALCHEMY_LANGUAGE_API_KEY 
+// environment property and then fall back to the VCAP_SERVICES property provided by Bluemix.
+var visualRecognition = new watson.VisualRecognitionV3({
+  // api_key: '<api-key>',
   version_date: '2015-05-19'
 });
 
