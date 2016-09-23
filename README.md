@@ -43,7 +43,7 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 5. Create the Visual Recognition service in Bluemix
   ```sh
-  $ cf create-service watson_vision_combined free visual-recognition-service
+  $ cf create-service watson_vision_combined free visual-recognition-free
   ```
 
 7. Push it live!
