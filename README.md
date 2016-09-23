@@ -16,15 +16,22 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool
 
-3. Edit the `manifest.yml` file, and change the `<application-name>` to something unique.
-  ```none
-applications:
-- services:
-  - visual-recognition-service
-  name: <application-name>
-  command: node app.js
-  path: .
-  memory: 512M
+3. Edit the `manifest.yml` file, and change the `- name: visual-recognition-demo` line to something unique.
+  ```yml
+  ---
+  declared-services:
+    visual-recognition-free:
+      label: watson_vision_combined
+      plan: free
+  applications:
+  - name: <application-name>
+    path: .
+    command: npm start
+    memory: 512M
+    services:
+    - visual-recognition-free
+    env:
+  NODE_ENV: production
   ```
   The name you use determines your initial application URL, e.g. `<application-name>.mybluemix.net`.
 
