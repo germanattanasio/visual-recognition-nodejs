@@ -37,10 +37,10 @@ module.exports = function(app) {
       // Specify directives as normal.
       directives: {
         defaultSrc: ["'self'"], // default value for unspecified directives that end in -src
-        scriptSrc: ["'self'", 'https://cdnjs.cloudflare.com/'], // jquery cdn, etc. try to avid "'unsafe-inline'"
+        scriptSrc: ["'self'", 'https://cdnjs.cloudflare.com/', '*.google-analytics.com', 'unsafe-inline'], // jquery cdn, etc.
         //styleSrc: ["'self'"], // no inline css
-        imgSrc: ['*', 'data:'], // should be "'self'" and possibly 'data:' for most apps, but vr demo loads random user-supplied image urls, and apparently * doesn't include data: URIs
-        connectSrc: ["'self'", '*.watsonplatform.net', ' https://collector.tealeaf.ibmcloud.com/'], // ajax domains
+        imgSrc: ['*', 'data:', '*.google-analytics.com'], // should be "'self'" and possibly 'data:' for most apps, but vr demo loads random user-supplied image urls, and apparently * doesn't include data: URIs
+        connectSrc: ["'self'", '*.watsonplatform.net', ' https://collector.tealeaf.ibmcloud.com/',], // ajax domains
         //fontSrc: ["'self'"], // cdn?
         objectSrc: [], // embeds (e.g. flash)
         //mediaSrc: ["'self'", '*.watsonplatform.net'], // allow watson TTS streams
