@@ -41,7 +41,6 @@ module.exports = function(app) {
         objectSrc: [], // embeds (e.g. flash)
         //mediaSrc: ["'self'", '*.watsonplatform.net'], // allow watson TTS streams
         childSrc: [], // child iframes
-        frameAncestors: ['*'], // parent iframes
         formAction: ["'self'"], // where can forms submit to
         pluginTypes: [], // e.g. flash, pdf
         //sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin'], // options: allow-forms allow-same-origin allow-scripts allow-top-navigation
