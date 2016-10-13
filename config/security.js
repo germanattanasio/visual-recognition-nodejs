@@ -26,13 +26,9 @@ module.exports = function(app) {
 
   // 1. helmet with some customizations
   var cspReportUrl = '/report-csp-violation';
-  var siteAllowedToIframeThis = 'https://watson-experience.mybluemix.net/';
   app.use(helmet({
     cacheControl: false,
-    frameguard: {
-      action: 'allow-from',
-      domain: siteAllowedToIframeThis
-    },
+    frameguard: false,
     contentSecurityPolicy: {
       // Specify directives as normal.
       directives: {
@@ -45,7 +41,7 @@ module.exports = function(app) {
         objectSrc: [], // embeds (e.g. flash)
         //mediaSrc: ["'self'", '*.watsonplatform.net'], // allow watson TTS streams
         childSrc: [], // child iframes
-        frameAncestors: [siteAllowedToIframeThis], // parent iframes
+        frameAncestors: ['*'], // parent iframes
         formAction: ["'self'"], // where can forms submit to
         pluginTypes: [], // e.g. flash, pdf
         //sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin'], // options: allow-forms allow-same-origin allow-scripts allow-top-navigation
