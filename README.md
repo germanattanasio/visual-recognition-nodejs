@@ -59,7 +59,7 @@ See the full [API Reference](http://www.ibm.com/watson/developercloud/visual-rec
 1. Create a .env file in the root directory of the project with the following content:
 
     ```none
-    API_KEY=<api_key>
+    VISUAL_RECOGNITION_API_KEY=<api_key>
     ```
     You can see the `<api_key>` of your application using the `cf env` command:
 
@@ -101,7 +101,7 @@ To view your logs and troubleshoot your Bluemix application, run:
 
 ## Environment Variables
 
-  - `API_KEY` : This is the API key for the vision service, used if you don't have one in your bluemix account.
+  - `VISUAL_RECOGNITION_API_KEY` : This is the API key for the vision service, used if you don't have one in your bluemix account.
   - `PRESERVE_CLASSIFIERS` : set if you don't want classifiers to be deleted after one hour.
   - `GOOGLE_ANALYTICS` : set to your google analytics key, if you want analytics enabled.
   - `PORT` : The port the server should run on. This is optional.
