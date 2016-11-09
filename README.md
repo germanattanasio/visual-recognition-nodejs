@@ -20,7 +20,7 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
   ```yml
   ---
   declared-services:
-    visual-recognition-free:
+    visual-recognition-service:
       label: watson_vision_combined
       plan: free
   applications:
@@ -29,7 +29,7 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
     command: npm start
     memory: 512M
     services:
-    - visual-recognition-free
+    - visual-recognition-service
     env:
   NODE_ENV: production
   ```
@@ -43,7 +43,7 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 5. Create the Visual Recognition service in Bluemix
   ```sh
-  $ cf create-service watson_vision_combined free visual-recognition-free
+  $ cf create-service watson_vision_combined free visual-recognition-service
   ```
 
 7. Push it live!
