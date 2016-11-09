@@ -1,14 +1,14 @@
 ---
 declared-services:
-  visual-recognition-free:
+  visual-recognition-service:
     label: watson_vision_combined
     plan: free
 applications:
-- name: visual-recognition-demo
+- name: visual-recognition-demo-aadelucc
   path: .
   command: npm start
   memory: 512M
   services:
-  - visual-recognition-free
+  - visual-recognition-service
   env:
     NODE_ENV: production

@@ -40,13 +40,13 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
   ```none
   cf api https://api.ng.bluemix.net
-  cf login -u <your-Bluemix-ID> -p <your-Bluemix-password>
+  cf login
   ```
 
 1. Create and retrieve service keys to access the [Visual Recognition][visual_recogintion] service by running the following command:
 
   ```none
-  cf create-service watson_vision_combined standard visual-recognition-service
+  cf create-service watson_vision_combined free visual-recognition-service
   cf create-service-key visual-recognition-service myKey
   cf service-key visual-recognition-service myKey
   ```
@@ -54,7 +54,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
 1. Provide the credentials from step 6 to the application by creating a `.env` file using this format:
 
   ```none
-  API_KEY: 'ALCHEMY KEY'
+  VISUAL_RECOGNITION_API_KEY=<your-alchemy-api-key>
   ```
 
 1. Install the dependencies you application need:
