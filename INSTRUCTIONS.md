@@ -16,10 +16,11 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
 ## Deploy this sample application in Bluemix
 
-1. Clone the repository into your computer.
+1. Clone the repository into your computer and navigate to the new directory.
 
    ```none
-   git clone https://github.com/watson-developer-cloud/visual-recognition.git
+   git clone https://github.com/watson-developer-cloud/visual-recognition-nodejs.git
+   cd visual-recognition-nodejs
    ```
 
 1. [Sign up][sign_up] in Bluemix or use an existing account.
