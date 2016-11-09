@@ -43,7 +43,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
   cf login
   ```
 
-1. Create and retrieve service keys to access the [Visual Recognition][visual_recogintion] service by running the following command:
+1. Create and retrieve service keys to access the [Visual Recognition][visual_recognition] service by running the following command:
 
   ```none
   cf create-service watson_vision_combined free visual-recognition-service
