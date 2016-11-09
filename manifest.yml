@@ -4,7 +4,7 @@ declared-services:
     label: watson_vision_combined
     plan: free
 applications:
-- name: visual-recognition-demo-aadelucc
+- name: visual-recognition-demo
   path: .
   command: npm start
   memory: 512M
