@@ -281,20 +281,15 @@ function setupUse(params) {
       data.url = '/api/classify';
       if (data.files && data.files[0]) {
         $error.hide();
-
-        if (data.files[0]['size'] > 2000000) {
-          _error(null, errorMessages.LIMIT_FILE_SIZE);
-          return;
-        }
-
         processImage();
         var reader = new FileReader();
         reader.onload = function () {
           var image = new Image();
           image.src = reader.result;
           image.onload = function () {
-            $image.attr('src', this.src);
-            classifyImage('', resize(image, 2048));
+            var resizedImage = resize(image, 800);
+            $image.attr('src', resizedImage);
+            classifyImage('', resizedImage);
           };
           image.onerror = function () {
             _error(null, 'Error loading the image file. I can only work with images.');
