@@ -281,13 +281,14 @@ function setupUse(params) {
       data.url = '/api/classify';
       if (data.files && data.files[0]) {
         $error.hide();
+
         processImage();
         var reader = new FileReader();
         reader.onload = function () {
           var image = new Image();
           image.src = reader.result;
           image.onload = function () {
-            var resizedImage = resize(image, 800);
+            var resizedImage = (data.files[0]['size'] > 2000000) ? resize(image, 800) : this.src;
             $image.attr('src', resizedImage);
             classifyImage('', resizedImage);
           };
