@@ -1,8 +1,12 @@
 language: node_js
-sudo: true
+dist: trusty
+sudo: required
 node_js: 6
-script:
-- npm test
+script: npm test
+
+cache:
+  directories:
+  - node_modules
 env:
   global:
   - CF_APP=visual-recognition-demo
@@ -16,7 +20,7 @@ deploy:
   script:
     - cf-blue-green-travis
   on:
-    branch: release
+    branch: master
     repo: watson-developer-cloud/visual-recognition-nodejs
   skip_cleanup: true
 notifications:
