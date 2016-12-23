@@ -288,7 +288,7 @@ function setupUse(params) {
           var image = new Image();
           image.src = reader.result;
           image.onload = function () {
-            var resizedImage = (data.files[0]['size'] > 2000000) ? resize(image, 800) : this.src;
+            var resizedImage = resize(image, 800);
             $image.attr('src', resizedImage);
             classifyImage('', resizedImage);
           };

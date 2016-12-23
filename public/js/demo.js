@@ -36,6 +36,120 @@ module.exports.getRandomInt = function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+function calculateScaleFactor(imagedata, maxSize) {
+  let largest = imagedata.height > imagedata.width ? imagedata.height : imagedata.width;
+  let ratio = maxSize / largest;
+  return ratio >= 1 ? 1 : ratio;
+}
+
+function applyActions(imagedata, flipDimensions, transformFunc) {
+  let c = window.document.createElement('canvas');
+  if (flipDimensions) {
+    c.width = imagedata.height;
+    c.height = imagedata.width;
+  } else {
+    c.height = imagedata.height;
+    c.width = imagedata.width;
+  }
+  var ctx = c.getContext('2d');
+  typeof transformFunc === "function" && transformFunc(ctx);
+
+  ctx.drawImage(imagedata,0,0,imagedata.width, imagedata.height);
+  return c.toDataURL('image/jpeg');
+}
+
+function portraitNormal(imagedat, maxSize) {
+  return applyActions(imagedat,false,function(ctx) {
+    let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+    ctx.canvas.width = ctx.canvas.width * scaleFactor;
+    ctx.canvas.height = ctx.canvas.height * scaleFactor;
+    ctx.transform(1 * scaleFactor,
+                  0,
+                  0,
+                  1 * scaleFactor,
+                  0,
+                  0);
+  });
+}
+
+function portraitO2(imagedat, maxSize) {
+  return applyActions(imagedat,false, function(ctx) {
+    let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+    ctx.canvas.width = ctx.canvas.width * scaleFactor;
+    ctx.canvas.height = ctx.canvas.height * scaleFactor;
+    ctx.transform(-1 * scaleFactor,
+                  0,
+                  0,
+                  1 * scaleFactor,
+                  imagedat.width * scaleFactor,
+                  0);
+  });
+}
+
+function portraitO3(imagedat, maxSize) {
+    return applyActions(imagedat,false, function(ctx) {
+      let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+      ctx.canvas.width = ctx.canvas.width * scaleFactor;
+      ctx.canvas.height = ctx.canvas.height * scaleFactor;
+      ctx.transform(-1 * scaleFactor,
+                    0,
+                    0,
+                    -1 * scaleFactor,
+                    imagedat.width * scaleFactor,
+                    imagedat.height * scaleFactor);
+  });
+}
+
+function portraitO4(imagedat, maxSize) {
+   return applyActions(imagedat,false, function(ctx) {
+     let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+     ctx.canvas.width = ctx.canvas.width * scaleFactor;
+     ctx.canvas.height = ctx.canvas.height * scaleFactor;
+     ctx.transform(scaleFactor,
+                   0,
+                   0,
+                   -1 * scaleFactor,
+                   0,
+                   imagedat.height * scaleFactor );
+   });
+}
+
+function portraitO5(imagedat, maxSize) {
+  return applyActions(imagedat,true, function(ctx) {
+    let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+    ctx.canvas.width = ctx.canvas.width * scaleFactor;
+    ctx.canvas.height = ctx.canvas.height * scaleFactor;
+    ctx.transform(0, 1 * scaleFactor, 1 * scaleFactor, 0, 0, 0);
+  });
+}
+
+function portraitO6(imagedat, maxSize) {
+  return applyActions(imagedat,true, function(ctx) {
+    let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+    ctx.canvas.width = ctx.canvas.width * scaleFactor;
+    ctx.canvas.height = ctx.canvas.height * scaleFactor;
+    ctx.transform(0, 1 * scaleFactor, -1 * scaleFactor, 0, imagedat.height * scaleFactor, 0);
+  });
+}
+
+function portraitO7(imagedat, maxSize) {
+  return applyActions(imagedat,true, function(ctx) {
+    let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+    ctx.canvas.width = ctx.canvas.width * scaleFactor;
+    ctx.canvas.height = ctx.canvas.height * scaleFactor;
+    ctx.transform(0, -1 * scaleFactor, -1 * scaleFactor, 0, imagedat.height * scaleFactor , imagedat.width * scaleFactor);
+  });
+}
+
+function portraitO8(imagedat, maxSize) {
+  return applyActions(imagedat,true, function(ctx) {
+    let scaleFactor = calculateScaleFactor(imagedat, maxSize);
+    ctx.canvas.width = ctx.canvas.width * scaleFactor;
+    ctx.canvas.height = ctx.canvas.height * scaleFactor;
+    ctx.transform(0, -1 * scaleFactor, 1 * scaleFactor, 0, 0, imagedat.width * scaleFactor);
+  });
+}
+
 /**
  * Resizes an image
  * @param  {String} image   The base64 image
@@ -43,21 +157,24 @@ module.exports.getRandomInt = function getRandomInt(min, max) {
  * @return {String}         The base64 resized image
  */
 module.exports.resize = function(image, maxSize) {
-  var c = window.document.createElement('canvas');
-  var ctx = c.getContext('2d');
-  var ratio = image.width / image.height;
-
-  if (image.width < maxSize && image.height < maxSize) {
-    c.width = image.width;
-    c.height = image.height;
-  } else {
-    c.width = (ratio > 1 ? maxSize : maxSize * ratio);
-    c.height = (ratio > 1 ? maxSize / ratio : maxSize);
-  }
-
-  ctx.drawImage(image, 0, 0, c.width, c.height);
-  return c.toDataURL('image/jpeg');
-};
+  var imageurl = null;
+  // eslint-disable-next-line
+  EXIF.getData(image, function() {
+    // eslint-disable-next-line
+    let orientation = EXIF.getTag(this, 'Orientation');
+      switch (orientation) {
+        default: imageurl = portraitNormal(image,maxSize); break;
+        case 2: imageurl = portraitO2(image, maxSize); break;
+        case 3: imageurl = portraitO3(image, maxSize); break;
+        case 4: imageurl = portraitO4(image, maxSize); break;
+        case 5: imageurl = portraitO5(image, maxSize); break;
+        case 6: imageurl = portraitO6(image, maxSize); break;
+        case 7: imageurl = portraitO7(image, maxSize); break;
+        case 8: imageurl = portraitO8(image, maxSize); break;
+      }
+    });
+  return imageurl ? imageurl : portraitNormal(image,maxSize);
+}
 
 // if image is landscape, tag it
 function addLandscape(imgElement) {
