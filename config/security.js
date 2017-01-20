@@ -25,51 +25,10 @@ module.exports = function(app) {
   app.enable('trust proxy');
 
   // 1. helmet with some customizations
-  var cspReportUrl = '/report-csp-violation';
   app.use(helmet({
     cacheControl: false,
     frameguard: false,
-    contentSecurityPolicy: {
-      // Specify directives as normal.
-      directives: {
-        defaultSrc: ["'self'"], // default value for unspecified directives that end in -src
-        scriptSrc: ["'self'", 'https://cdnjs.cloudflare.com/', '*.google-analytics.com', 'unsafe-inline'], // jquery cdn, etc.
-        //styleSrc: ["'self'"], // no inline css
-        imgSrc: ['*', 'data:', '*.google-analytics.com'], // should be "'self'" and possibly 'data:' for most apps, but vr demo loads random user-supplied image urls, and apparently * doesn't include data: URIs
-        connectSrc: ["'self'", '*.watsonplatform.net', ' https://collector.tealeaf.ibmcloud.com/',], // ajax domains
-        //fontSrc: ["'self'"], // cdn?
-        objectSrc: [], // embeds (e.g. flash)
-        //mediaSrc: ["'self'", '*.watsonplatform.net'], // allow watson TTS streams
-        childSrc: [], // child iframes
-        formAction: ["'self'"], // where can forms submit to
-        pluginTypes: [], // e.g. flash, pdf
-        //sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin'], // options: allow-forms allow-same-origin allow-scripts allow-top-navigation
-        reportUri: cspReportUrl,
-      },
-
-      // Set to true if you only want browsers to report errors, not block them.
-      // You may also set this to a function(req, res) in order to decide dynamically
-      // whether to use reportOnly mode, e.g., to allow for a dynamic kill switch.
-      reportOnly: false,
-
-      // Set to true if you want to blindly set all headers: Content-Security-Policy,
-      // X-WebKit-CSP, and X-Content-Security-Policy.
-      setAllHeaders: false,
-
-      // Set to true if you want to disable CSP on Android where it can be buggy.
-      disableAndroid: false,
-
-      // Set to false if you want to completely disable any user-agent sniffing.
-      // This may make the headers less compatible but it will be much faster.
-      // This defaults to `true`.
-      browserSniff: true
-    }
   }));
-  // endpoint to report CSP violations
-  app.post(cspReportUrl, function(req, res) {
-    console.log('Content Security Policy Violation:\n', req.body);
-    res.status(204).send(); // 204 = No Content
-  });
 
   // 2. rate-limit to /api/
   app.use('/api/', rateLimit({
