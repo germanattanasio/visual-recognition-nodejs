@@ -108,8 +108,8 @@ To train the service to specifically classify a fruitbowl, we are going to use t
 
 Download and select the following .zip files for the classifier:
 
- * Positive Class #1 (leftmost box) - [https://github.com/watson-developer-cloud/visual-recognition-nodejs/releases/download/v3.0.0/](https://github.com/watson-developer-cloud/visual-recognition-nodejs/releases/download/v3.0.0/)
- * Negative Class   (rightmost box) - [https://github.com/watson-developer-cloud/visual-recognition-nodejs/releases/download/v3.0.0/not-fruit-bowls.zip](https://github.com/watson-developer-cloud/visual-recognition-nodejs/releases/download/v3.0.0/not-fruit-bowls.zip)
+ * Positive Class #1 (leftmost box) - [fruitbowl.zip](https://github.com/watson-developer-cloud/visual-recognition-nodejs/releases/download/v3.0.0/fruitbowl.zip)
+ * Negative Class   (rightmost box) - [not-fruit-bowls.zip](https://github.com/watson-developer-cloud/visual-recognition-nodejs/releases/download/v3.0.0/not-fruit-bowls.zip)
 
 Once the two zip files are included, name the classifier "fruitbowl" and select the "Train your classifier" button
 
