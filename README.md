@@ -12,9 +12,9 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 1. Create a Bluemix Account:
 
-  [Sign up][sign_up] in Bluemix, or use an existing account.
+  [Sign up][sign_up] in Bluemix, or use an existing account. If creating an account, you'll have to first create an organization and a space - you should be prompted to do this when you sign in for the first time.
 
-2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool
+2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool.
 
 3. Edit the `manifest.yml` file, and change the `- name: visual-recognition-demo` line to something unique.
   ```yml
@@ -35,13 +35,13 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
   ```
   The name you use determines your initial application URL, e.g. `<application-name>.mybluemix.net`.
 
-4. Connect to Bluemix in the command line tool
+4. Connect to Bluemix in the command line tool.
   ```sh
-  $ cf api https://api.ng.bluemix.net
   $ cf login -u <your user ID>
+  $ cf api https://api.ng.bluemix.net
   ```
 
-5. Create the Visual Recognition service in Bluemix
+5. Create the Visual Recognition service in Bluemix.
   ```sh
   $ cf create-service watson_vision_combined free visual-recognition-service
   ```
@@ -51,12 +51,14 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
   $ cf push
   ```
 
+8. You can now visit `<application-name>.mybluemix.net` to check out the demo! 
+
 See the full [API Reference](http://www.ibm.com/watson/developercloud/visual-recognition/api/v3/) documentation for more details, including code snippets and references.
 
 ## Running locally
-  The application uses [Node.js](http://nodejs.org) and [npm](https://www.npmjs.com) so you will have to download and install them as part of the steps below.
+  The application uses [Node.js][node_js] and [npm][npm] so you will have to download and install them as part of the steps below.
 
-1. Create a .env file in the root directory of the project with the following content:
+1. Create a file named .env in the root directory of the project with the following content:
 
     ```none
     VISUAL_RECOGNITION_API_KEY=<api_key>
@@ -84,12 +86,19 @@ See the full [API Reference](http://www.ibm.com/watson/developercloud/visual-rec
     }
     ```
 
-2. Install [Node.js](http://nodejs.org/)
-3. Go to the project folder in a terminal and run:
-    `npm install`
-4. Start the application
-5.  `npm start`
-6. Go to `http://localhost:3000`
+2. Install [Node.js][node_js]. Installing Node JS will also install [npm][npm].
+
+3. Go to the project folder in a terminal and run
+    ```sh
+    $ npm install
+    ```
+
+4. Start the application by running
+    ```sh
+    $ npm start
+    ```
+
+5. Go to `http://localhost:3000` in the browser to view the demo!
 
 ## Troubleshooting
 
@@ -102,21 +111,19 @@ To view your logs and troubleshoot your Bluemix application, run:
 ## Environment Variables
 
   - `VISUAL_RECOGNITION_API_KEY` : This is the API key for the vision service, used if you don't have one in your bluemix account.
-  - `PRESERVE_CLASSIFIERS` : set if you don't want classifiers to be deleted after one hour.
-  - `GOOGLE_ANALYTICS` : set to your google analytics key, if you want analytics enabled.
-  - `PORT` : The port the server should run on. This is optional.
-  - `OVERRIDE_CLASSIFIER_ID` : if you want to always use a custom
-    classifier, you can set that classifier ID in this env var and it
-    will be used instead of training a new one.
+  - `PRESERVE_CLASSIFIERS` : Set if you don't want classifiers to be deleted after one hour. *(optional)* 
+  - `GOOGLE_ANALYTICS` :Set to your google analytics key, if you want analytics enabled.  *(optional)* 
+  - `PORT` : The port the server should run on. *(optional, defaults to 3000)*
+  - `OVERRIDE_CLASSIFIER_ID` : Set to a classifer ID if you want to always use a custom classifier. This classifier will be used instead of training a new one. *(optional)*
 
-## Changing the Included Images.
+## Changing the Included Images
 
 ### Sample Images
 
 The sample images are the first 7 images when the site loads.  They
 are called from a Jade mixin found in
 `views/mixins/sampleImages.jade`.  If you just want to replace those
-images with different images,  you can replace them in
+images with different images, you can replace them in
 `public/images/samples` and they are numbered 1 - 7 and are `jpg`
 formatted.
 
@@ -134,7 +141,7 @@ then use the classifier ID.
 When you train a custom classifier, the name of the classifier is
 displayed in the test form.
 
-![Classifier ID Tooltip][screengrab-tooltip.png]
+![Classifier ID Tooltip](screengrab-tooltip.png)
 
 If you hover your mouse over the classifier name, the classifier ID
 will be shown in the tooltip. You can also click on the name, and it
@@ -142,10 +149,10 @@ will toggle between the classifier name and the classifier ID.
 
 You can then use this custom classifier id by placing it after the hash
 in the request URL.  For example, lets say you are running the system
-localy, so the base URL is `http://localhost:3000` and then you train
+locally, so the base URL is `http://localhost:3000` and then you train
 a classifier.  This newly trained classifier might have an id like
 `SatelliteImagery_859438478`.   If you wanted to use this classifier
-instead of training a new one,  you can navigate to
+instead of training a new one, you can navigate to
 `http://localhost:3000/train#SatelliteImagery_859438478` and use the
 training form with your existing classifier.
 
@@ -158,7 +165,7 @@ training form with your existing classifier.
   See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Open Source @ IBM
-  Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
+  Find more open source projects on the [IBM Github Page](http://ibm.github.io/).
 
 ### Privacy Notice
 
@@ -181,6 +188,8 @@ Deployment tracking can be disabled by removing `require('cf-deployment-tracker-
 [visual_recognition_service]: https://www.ibm.com/watson/developercloud/visual-recognition.html
 [sign_up]: https://console.ng.bluemix.net/registration/
 [getting_started]: http://www.ibm.com/watson/developercloud/doc/getting_started/
+[node_js]: http://nodejs.org/
+[npm]: https://www.npmjs.com
 
 
 
