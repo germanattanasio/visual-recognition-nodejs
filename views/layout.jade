@@ -14,6 +14,9 @@ html(lang='en')
     block extra-header
     link(rel='stylesheet', href='/css/extra.css')
     link(rel='stylesheet', href='/css/retraining.css')
+    - if (typeof(bluemixAnalytics) !== 'undefined'){
+      !{bluemixAnalytics}
+    - }
   body
     header._demo--heading
       include ./includes/header.jade
