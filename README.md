@@ -187,7 +187,7 @@ Deployment tracking can be disabled by removing `require('cf-deployment-tracker-
 [cloud_foundry]: https://github.com/cloudfoundry/cli
 [visual_recognition_service]: https://www.ibm.com/watson/developercloud/visual-recognition.html
 [sign_up]: https://console.ng.bluemix.net/registration/
-[getting_started]: http://www.ibm.com/watson/developercloud/doc/getting_started/
+[getting_started]: https://www.ibm.com/watson/developercloud/doc/common/index.html
 [node_js]: http://nodejs.org/
 [npm]: https://www.npmjs.com
 
