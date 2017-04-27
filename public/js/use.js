@@ -378,7 +378,7 @@ function setupUse(params) {
       $image.attr('src', resolved_url);
     }
 
-    if (results.classifier_ids && results.classifier_ids.split(",").filter(function(item) { return (item !== 'default') && (item !== 'Spiders_326464611'); }).length > 0) {
+    if (results.classifier_ids && results.classifier_ids.split(",").filter(function(item) { return item !== 'default'; }).length > 0) {
       customClassifyScoreTable(results, $outputData[0]);
     } else {
       classifyScoreTable(results,$outputData[0]);
