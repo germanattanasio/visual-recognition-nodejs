@@ -14,7 +14,7 @@ env:
   - CF_ORGANIZATION=WatsonPlatformServices
   - CF_SPACE=demos
   - VISUAL_RECOGNITION_API_KEY="bogus key to let server spin up for offline tests"
-before_deploy: npm install -g cf-blue-green
+before_deploy: npm install -g https://github.com/germanattanasio/cf-blue-green
 deploy:
   provider: script
   script:
