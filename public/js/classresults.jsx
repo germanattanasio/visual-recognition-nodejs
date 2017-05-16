@@ -467,7 +467,7 @@ class ResultsTable extends React.Component {
   render() {
     return (<div className="use--output-data">
           <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems} foodCount={this.props.foodItems.length} faceCount={this.props.faceItems.length}  wordCount={this.props.wordsItems.length}/>
-          { this.props.foodItems.length ? <FoodScoreTable category="Food(s)" rawjson={this.props.foodJson} items={this.props.foodItems}/> : <div style={{display: 'none'}}></div>}
+          { this.props.foodItems.length ? <FoodScoreTable category="Food" rawjson={this.props.foodJson} items={this.props.foodItems}/> : <div style={{display: 'none'}}></div>}
           { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : <div style={{display: 'none'}}></div>}
           { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
         </div>
@@ -492,14 +492,25 @@ export function classifyScoreTable(results, tagid) {
   let tags = jpath.jpath('/images/0/classifiers/0/classes',results,[]);
   let food = jpath.jpath('/images/0/classifiers/1/classes',results,[]);
   var tagsJ =  jpath.jpath('/images/0/classifiers/0', results) // Json for tags
-  if ( food.length !== 0 ) {
-    let temp = food;
-    food = tags;
-    tags = temp;
-    //Json for tags and food
-    tagsJ = jpath.jpath('/images/0/classifiers/1', results);
-    var foodJ = jpath.jpath('/images/0/classifiers/0', results);
+  var foodJ = jpath.jpath('/images/0/classifiers/1', results);
+  if (tagsJ.classifier_id === 'food') {
+    tagsJ =  jpath.jpath('/images/0/classifiers/1', results);
+    foodJ = jpath.jpath('/images/0/classifiers/0', results);
+    tags = jpath.jpath('/images/0/classifiers/1/classes',results,[]);
+    food = jpath.jpath('/images/0/classifiers/0/classes',results,[]);
   }
+  if (foodJ.classes[0].class === 'non-food' && foodJ.classes.length === 1) {
+    food = [];
+    foodJ = [];
+  }
+  // if ( food.length !== 0 ) {
+  //   let temp = food;
+  //   food = tags;
+  //   tags = temp;
+  //   //Json for tags and food
+  //   tagsJ = jpath.jpath('/images/0/classifiers/1', results);
+  //   var foodJ = jpath.jpath('/images/0/classifiers/0', results);
+  // }
   let faces = jpath.jpath('/images/0/faces',results,[]);
   let words = jpath.jpath('/images/0/words',results, []);
   if (target) {

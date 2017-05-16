@@ -266,7 +266,7 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     params.classifier_ids = req.body.classifier_id ? [req.body.classifier_id] : [process.env.OVERRIDE_CLASSIFIER_ID];
     methods.push('classify');
   } else {
-    params.classifier_ids = ['default', 'Spiders_326464611'];
+    params.classifier_ids = ['default', 'food'];
     params.threshold = 0.5; //So the classifers only show images with a confindence level of 0.5 or higher
     methods.push('classify');
     methods.push('detectFaces');
