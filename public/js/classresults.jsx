@@ -381,9 +381,9 @@ class FoodScoreTable extends React.Component {
           <table className="base--table results-table">
             <ScoreTableHeader title={this.props.category}/>
             <tbody className="base--tbody">
-            {this.props.items.map(function(item) {
-              return (<ClassifyScoreRow key={item.class} name={item.class} score={item.score.toFixed(2)}/>);
-            })}
+            {this.props.items.map(item => (
+              <ClassifyScoreRow key={item.class} name={item.class} score={item.score.toFixed(2)} />
+            ))}
             </tbody>
             <tbody className="base--tbody">
             <WowForm name={this.props.category}/>
