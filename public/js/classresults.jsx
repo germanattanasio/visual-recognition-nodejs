@@ -503,14 +503,6 @@ export function classifyScoreTable(results, tagid) {
     food = [];
     foodJ = [];
   }
-  // if ( food.length !== 0 ) {
-  //   let temp = food;
-  //   food = tags;
-  //   tags = temp;
-  //   //Json for tags and food
-  //   tagsJ = jpath.jpath('/images/0/classifiers/1', results);
-  //   var foodJ = jpath.jpath('/images/0/classifiers/0', results);
-  // }
   let faces = jpath.jpath('/images/0/faces',results,[]);
   let words = jpath.jpath('/images/0/words',results, []);
   if (target) {
