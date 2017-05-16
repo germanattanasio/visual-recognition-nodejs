@@ -491,8 +491,8 @@ export function classifyScoreTable(results, tagid) {
   let target = typeof(tagid) === 'string' ? document.getElementById(tagid) : tagid;
   let tags = jpath.jpath('/images/0/classifiers/0/classes',results,[]);
   let food = jpath.jpath('/images/0/classifiers/1/classes',results,[]);
-  var tagsJ =  jpath.jpath('/images/0/classifiers/0', results) // Json for tags
-  var foodJ = jpath.jpath('/images/0/classifiers/1', results);
+  let tagsJ =  jpath.jpath('/images/0/classifiers/0', results) // Json for tags
+  let foodJ = jpath.jpath('/images/0/classifiers/1', results);
   if (tagsJ.classifier_id === 'food') {
     tagsJ =  jpath.jpath('/images/0/classifiers/1', results);
     foodJ = jpath.jpath('/images/0/classifiers/0', results);
