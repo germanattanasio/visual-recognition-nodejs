@@ -43,7 +43,7 @@ var visualRecognition = new watson.VisualRecognitionV3({
 
 app.get('/', function(req, res) {
   res.render('use', {
-    bluemixAnalytics: process.env.BLUEMIX_ANALYTICS
+    bluemixAnalytics: !!process.env.BLUEMIX_ANALYTICS,
   });
 });
 
@@ -84,7 +84,7 @@ app.get('/ready/:classifier_id', function(req, res) {
 
 app.get('/train', function(req, res) {
   res.render('train', {
-    bluemixAnalytics: process.env.BLUEMIX_ANALYTICS
+    bluemixAnalytics: !!process.env.BLUEMIX_ANALYTICS,
   });
 });
 
@@ -216,7 +216,7 @@ app.get('/api/classifiers/:classifier_id', function(req, res) {
  * @return {Object}             { type: String, data: Buffer }
  */
 function parseBase64Image(imageString) {
-  var matches = imageString.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
+  var matches = imageString.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
   var resource = {};
 
   if (matches.length !== 3) {

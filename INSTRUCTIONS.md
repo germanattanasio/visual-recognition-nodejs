@@ -123,6 +123,6 @@ You have completed the Visual Recognition Lab! :bowtie:
 
 [sign_up]: https://bluemix.net/registration
 [bluemix]: https://console.ng.bluemix.net/
-[wdc_services]: http://www.ibm.com/watson/developercloud/services-catalog.html
-[visual_recognition]: http://www.ibm.com/watson/developercloud/doc/visual-recognition
+[wdc_services]: https://www.ibm.com/watson/products-services/
+[visual_recognition]: https://console.bluemix.net/docs/services/visual-recognition/index.html#about
 [cloud_foundry]: https://github.com/cloudfoundry/cli

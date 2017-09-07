@@ -10,14 +10,12 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 ## Getting Started
 
-1. Create a Bluemix Account:
+1. You need a Bluemix account. If you don't have one, [sign up][sign_up]. Experimental Watson Services are free to use.
 
-  [Sign up][sign_up] in Bluemix, or use an existing account. If creating an account, you'll have to first create an organization and a space - you should be prompted to do this when you sign in for the first time.
+2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool if you haven't already.
 
-2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool.
-
-3. Edit the `manifest.yml` file, and change the `- name: visual-recognition-demo` line to something unique.
-  ```yml
+3. Edit the `manifest.yml` file and change `<application-name>` to something unique. The name you use determines the URL of your application. For example, `<application-name>.mybluemix.net`.
+  ```yaml
   ---
   declared-services:
     visual-recognition-service:
@@ -33,86 +31,65 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
     env:
   NODE_ENV: production
   ```
-  The name you use determines your initial application URL, e.g. `<application-name>.mybluemix.net`.
 
-4. Connect to Bluemix in the command line tool.
+4. Connect to Bluemix with the command line tool.
+
   ```sh
-  $ cf login -u <your user ID>
-  $ cf api https://api.ng.bluemix.net
+  cf api https://api.ng.bluemix.net
+  cf login
   ```
 
 5. Create the Visual Recognition service in Bluemix.
   ```sh
-  $ cf create-service watson_vision_combined free visual-recognition-service
+  cf create-service watson_vision_combined free visual-recognition-service
+  cf create-service-key visual-recognition-service myKey
+  cf service-key visual-recognition-service myKey
   ```
 
-7. Push it live!
-  ```sh
-  $ cf push
+6. Create a `.env` file in the root directory by copying the sample `.env.example` file using the following command:
+
+  ```none
+  cp .env.example .env
+  ```
+  You will update the `.env` with the information you retrieved in steps 5 and 6
+
+  The `.env` file will look something like the following:
+
+  ```none
+  VISUAL_RECOGNITION_API_KEY=
   ```
 
-8. You can now visit `<application-name>.mybluemix.net` to check out the demo! 
+7. Install the dependencies you application need:
 
-See the full [API Reference](http://www.ibm.com/watson/developercloud/visual-recognition/api/v3/) documentation for more details, including code snippets and references.
-
-## Running locally
-  The application uses [Node.js][node_js] and [npm][npm] so you will have to download and install them as part of the steps below.
-
-1. Create a file named .env in the root directory of the project with the following content:
-
-    ```none
-    VISUAL_RECOGNITION_API_KEY=<api_key>
-    ```
-    You can see the `<api_key>` of your application using the `cf env` command:
-
-    ```sh
-    $ cf env <application-name>
-    ```
-    Example output:
-    ```sh
-    System-Provided:
-    {
-    "VCAP_SERVICES": {
-      "watson_vision_combined": [{
-          "credentials": {
-            "url": "<url>",
-            "api_key": "<api_key>",
-          },
-        "label": "visual_recognition",
-        "name": "visual-recognition-service",
-        "plan": "standard"
-     }]
-    }
-    }
-    ```
-
-2. Install [Node.js][node_js]. Installing Node JS will also install [npm][npm].
-
-3. Go to the project folder in a terminal and run
-    ```sh
-    $ npm install
-    ```
-
-4. Start the application by running
-    ```sh
-    $ npm start
-    ```
-
-5. Go to `http://localhost:3000` in the browser to view the demo!
-
-## Troubleshooting
-
-To view your logs and troubleshoot your Bluemix application, run:
-
-  ```sh
-  $ cf logs <application-name> --recent
+  ```none
+  npm install
   ```
+
+8. Start the application locally:
+
+  ```none
+  npm start
+  ```
+
+9. Point your browser to [http://localhost:3000](http://localhost:3000).
+
+10. **Optional:** Push the application to Bluemix:
+
+  ```none
+  cf push
+  ```
+
+After completing the steps above, you are ready to test your application. Start a browser and enter the URL of your application.
+
+            <your application name>.mybluemix.net
+
+
+For more details about developing applications that use Watson Developer Cloud services in Bluemix, see [Getting started with Watson Developer Cloud and Bluemix][getting_started].
 
 ## Environment Variables
 
   - `VISUAL_RECOGNITION_API_KEY` : This is the API key for the vision service, used if you don't have one in your bluemix account.
-  - `PRESERVE_CLASSIFIERS` : Set if you don't want classifiers to be deleted after one hour. *(optional)* 
-  - `GOOGLE_ANALYTICS` :Set to your google analytics key, if you want analytics enabled.  *(optional)* 
+  - `PRESERVE_CLASSIFIERS` : Set if you don't want classifiers to be deleted after one hour. *(optional)*
   - `PORT` : The port the server should run on. *(optional, defaults to 3000)*
   - `OVERRIDE_CLASSIFIER_ID` : Set to a classifer ID if you want to always use a custom classifier. This classifier will be used instead of training a new one. *(optional)*
 
@@ -183,11 +160,11 @@ This data is collected from the `VCAP_APPLICATION` environment variable in IBM B
 Deployment tracking can be disabled by removing `require('cf-deployment-tracker-client').track();` from the beginning of the `server.js` file at the root of this repo.
 
 [deploy_track_url]: https://github.com/cloudant-labs/deployment-tracker
-[service_url]: http://www.ibm.com/watson/developercloud/visual-recognition.html
+[service_url]: https://www.ibm.com/watson/services/visual-recognition/
 [cloud_foundry]: https://github.com/cloudfoundry/cli
-[visual_recognition_service]: https://www.ibm.com/watson/developercloud/visual-recognition.html
+[visual_recognition_service]: https://www.ibm.com/watson/services/visual-recognition/
 [sign_up]: https://console.ng.bluemix.net/registration/
-[getting_started]: https://www.ibm.com/watson/developercloud/doc/common/index.html
+[getting_started]: https://console.bluemix.net/docs/services/watson/index.html#about
 [node_js]: http://nodejs.org/
 [npm]: https://www.npmjs.com
 

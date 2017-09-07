@@ -14,9 +14,6 @@ html(lang='en')
     block extra-header
     link(rel='stylesheet', href='/css/extra.css')
     link(rel='stylesheet', href='/css/retraining.css')
-    - if (typeof(bluemixAnalytics) !== 'undefined'){
-      !{bluemixAnalytics}
-    - }
   body
     header._demo--heading
       include ./includes/header.jade
@@ -30,13 +27,8 @@ html(lang='en')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js')
     script(src='/js/bundle.js')
-    script(src='/js/vendors/tealeaf.js')
-    if locals.ga
-      script.
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    if locals.bluemixAnalytics
+      script(src='/js/analytics.js')
+      script(src='/js/vendors/tealeaf.js')
 
-        ga('create', '#{locals.ga}', 'auto');
-        ga('send', 'pageview');
+
