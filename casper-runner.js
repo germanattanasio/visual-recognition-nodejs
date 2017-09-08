@@ -1,16 +1,13 @@
 'use strict';
 
+if (!process.env.VISUAL_RECOGNITION_API_KEY) {
+  console.log('Skipping integration tests because VISUAL_RECOGNITION_API_KEY is null');
+  process.exit(0);
+}
+
 var spawn = require('child_process').spawn;
 
 require('dotenv').config({silent: true});
-
-if (process.env.GOOGLE_ANALYTICS) {
-  process.env.GOOGLE_ANALYTICS = process.env.GOOGLE_ANALYTICS.replace(/\"/g, '');
-}
-if (process.env.API_KEY) {
-  process.env.API_KEY = process.env.API_KEY.replace(/\"/g, '');
-}
-
 
 var server = require('./app');
 var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
