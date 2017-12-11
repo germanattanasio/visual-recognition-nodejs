@@ -237,7 +237,8 @@ function parseBase64Image(imageString) {
 app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   var params = {
     url: null,
-    images_file: null
+    images_file: null,
+    owners: []
   };
 
   if (req.file) { // file image
