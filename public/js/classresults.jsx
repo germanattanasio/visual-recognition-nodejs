@@ -215,7 +215,9 @@ class JsonLink extends React.Component {
   }
   handleClick(event) {
     event.preventDefault();
-    window.open('data:application/json,' + encodeURIComponent(JSON.stringify(this.props.rawjson, null, 1)), '_blank');
+    var newWindow = window.open('', '_blank');
+    newWindow.document.write("<pre>" + JSON.stringify(this.props.rawjson, null, 2) + "</pre>");
+    newWindow.document.close()
   }
   render() {
     return (<div className="results--json">
