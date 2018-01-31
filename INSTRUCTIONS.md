@@ -2,7 +2,7 @@
 
 During this lab, you will use the [Visual Recognition][visual_recognition] service to train a classifier and recognize images.
 
-You can see a version of this app that is already running [here](https://visual-recognition-demo.mybluemix.net/). 
+You can see a version of this app that is already running [here](https://visual-recognition-demo.ng.bluemix.net/).
 
 So let’s get started. The first thing to do is to build out the shell of our application in Bluemix.
 
@@ -63,7 +63,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
   ```none
   npm install
   ```
-  
+
 1. Start the application by running:
 
   ```none
@@ -72,7 +72,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
 1. Test your application locally by going to: [http://localhost:3000/](http://localhost:3000/)
 
-## Deploying your application to Bluemix    
+## Deploying your application to Bluemix
 
 1. Push the updated application live by running the following command:
 

@@ -30,6 +30,7 @@ var os = require('os');
 module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
+
   app.use(require('express-status-monitor')());
   app.use(compression({filter: function (req, res) {
 
@@ -44,6 +45,7 @@ module.exports = function(app) {
     // fallback to standard filter function
     return compression.filter(req, res)
   }}));
+
   app.use(cookieParser());
   if (app.get('env') === 'development') {
     // set up request logging for local development and non-bluemix servers

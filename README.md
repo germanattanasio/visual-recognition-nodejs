@@ -29,7 +29,7 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
     services:
     - visual-recognition-service
     env:
-  NODE_ENV: production
+      NODE_ENV: production
   ```
 
 4. Connect to Bluemix with the command line tool.
@@ -111,7 +111,7 @@ You can follow the template of the existing bundles found in
 `views/includes/train.jade`.
 
 Or, you can train a custom classifier using the api or the form and
-then use the classifier ID.  
+then use the classifier ID.
 
 ## Getting the Classifier ID
 
@@ -144,20 +144,6 @@ training form with your existing classifier.
 ## Open Source @ IBM
   Find more open source projects on the [IBM Github Page](http://ibm.github.io/).
 
-### Privacy Notice
-
-This node sample web application includes code to track deployments to Bluemix and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker][deploy_track_url] service on each deployment:
-
-* Application Name (`application_name`)
-* Space ID (`space_id`)
-* Application Version (`application_version`)
-* Application URIs (`application_uris`)
-
-This data is collected from the `VCAP_APPLICATION` environment variable in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
-
-### Disabling Deployment Tracking
-
-Deployment tracking can be disabled by removing `require('cf-deployment-tracker-client').track();` from the beginning of the `server.js` file at the root of this repo.
 
 [deploy_track_url]: https://github.com/cloudant-labs/deployment-tracker
 [service_url]: https://www.ibm.com/watson/services/visual-recognition/
