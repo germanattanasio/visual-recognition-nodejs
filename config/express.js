@@ -30,6 +30,7 @@ var os = require('os');
 module.exports = function(app) {
   // Configure Express
   app.set('view engine', 'jade');
+
   app.use(require('express-status-monitor')());
   app.use(compression({filter: function (req, res) {
 
@@ -44,10 +45,11 @@ module.exports = function(app) {
     // fallback to standard filter function
     return compression.filter(req, res)
   }}));
+
   app.use(cookieParser());
   if (app.get('env') === 'development') {
-    // set up request logging for local development and non-bluemix servers
-    // (bluemix's router automatically logs all requests there)
+    // set up request logging for local development and non-IBM Cloud servers
+    // (IBM Cloud's router automatically logs all requests there)
     app.use(morgan('dev'));
   }
   app.use(bodyParser.urlencoded({
@@ -90,7 +92,7 @@ module.exports = function(app) {
   });
   app.upload = upload;
 
-  // When running in Bluemix add rate-limitation
+  // When running in IBM Cloud add rate-limitation
   // and some other features around security
   if (process.env.VCAP_APPLICATION) {
     require('./security')(app);

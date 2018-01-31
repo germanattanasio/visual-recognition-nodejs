@@ -2,19 +2,19 @@
 
 During this lab, you will use the [Visual Recognition][visual_recognition] service to train a classifier and recognize images.
 
-You can see a version of this app that is already running [here](https://visual-recognition-demo.mybluemix.net/). 
+You can see a version of this app that is already running [here](https://visual-recognition-demo.ng.bluemix.net/).
 
-So let’s get started. The first thing to do is to build out the shell of our application in Bluemix.
+So let’s get started. The first thing to do is to build out the shell of our application in the IBM Cloud.
 
-## Creating a [IBM Bluemix][bluemix] Account
+## Creating an [IBM Cloud][bluemix] Account
 
 1. Go to https://bluemix.net/
-2. Create a Bluemix account if required.
-3. Log in with your IBM ID (the ID used to create your Bluemix account) 
+2. Create an IBM Cloud account if required.
+3. Log in with your IBM ID (the ID used to create your IBM Cloud account)
 
-**Note:** The confirmation email from Bluemix mail take up to 1 hour.
+**Note:** The confirmation email from the IBM Cloud mail take up to 1 hour.
 
-## Deploy this sample application in Bluemix
+## Deploy this sample application in the IBM Cloud
 
 1. Clone the repository into your computer and navigate to the new directory.
 
@@ -23,7 +23,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
    cd visual-recognition-nodejs
    ```
 
-1. [Sign up][sign_up] in Bluemix or use an existing account.
+1. [Sign up][sign_up] in the IBM Cloud or use an existing account.
 1. If it is not already installed on your system, download and install the [Cloud-foundry CLI][cloud_foundry] tool.
 1. Edit the `manifest.yml` file in the folder that contains your code and replace `visual-recognition` with a unique name for your application. The name that you specify determines the application's URL, such as `your-application-name.mybluemix.net`. The relevant portion of the `manifest.yml` file looks like the following:
 
@@ -37,7 +37,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
       NODE_ENV: production
     ```
 
-1. Connect to Bluemix by running the following commands in a terminal window:
+1. Connect to the IBM Cloud by running the following commands in a terminal window:
 
   ```none
   cf api https://api.ng.bluemix.net
@@ -63,7 +63,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
   ```none
   npm install
   ```
-  
+
 1. Start the application by running:
 
   ```none
@@ -72,7 +72,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
 1. Test your application locally by going to: [http://localhost:3000/](http://localhost:3000/)
 
-## Deploying your application to Bluemix    
+## Deploying your application to the IBM Cloud
 
 1. Push the updated application live by running the following command:
 
@@ -84,7 +84,7 @@ After completing the steps above, you are ready to test your application. Start 
 
                   <your-application-name>.mybluemix.net
 
-You can also find your application name when you click on your application in Bluemix.
+You can also find your application name when you click on your application in the IBM Cloud.
 
 ## Classifying Images in the Starter Application
 
@@ -122,7 +122,7 @@ You have completed the Visual Recognition Lab! :bowtie:
  ![Congratulations](http://i.giphy.com/ENagATV1Gr9eg.gif)
 
 [sign_up]: https://bluemix.net/registration
-[bluemix]: https://console.ng.bluemix.net/
+[bluemix]: https://console.bluemix.net/
 [wdc_services]: https://www.ibm.com/watson/products-services/
 [visual_recognition]: https://console.bluemix.net/docs/services/visual-recognition/index.html#about
 [cloud_foundry]: https://github.com/cloudfoundry/cli

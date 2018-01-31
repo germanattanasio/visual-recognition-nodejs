@@ -1,5 +1,5 @@
 {
-  "name": "VisualRecognition",
+  "name": "ibm-watson-visual-recognition",
   "version": "3.0.0",
   "description": "A Visual Recognition sample nodejs application",
   "repository": {
@@ -30,7 +30,7 @@
     "url": "https://github.com/watson-developer-cloud/visual-recognition-nodejs/issues"
   },
   "engines": {
-    "node": ">=4.x",
+    "node": ">=6.x",
     "npm": ">=3.x"
   },
   "scripts": {
@@ -61,7 +61,7 @@
     "express-rate-limit": "^2.9.0",
     "express-status-monitor": "^1.0.0",
     "extend": "^3.0.1",
-    "helmet": "^3.8.1",
+    "helmet": "^3.10.0",
     "jade": "^1.11.0",
     "jpath-query": "^0.1.1",
     "jquery-ui": "^1.12.1",
@@ -70,14 +70,14 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "uglifyify": "^4.0.3",
-    "uuid": "^3.1.0",
+    "uuid": "^3.2.1",
     "watson-developer-cloud": "^2.39.0"
   },
   "devDependencies": {
     "casperjs": "^1.1.4",
     "codecov": "^2.3.0",
     "combinations": "^0.1.1",
-    "eslint": "^4.6.1",
+    "eslint": "^4.16.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "phantomjs-prebuilt": "^2.1.15",
