@@ -4,13 +4,13 @@
 
 The [Visual Recognition][visual_recognition_service] Service uses deep learning algorithms to analyze images for scenes, objects, faces, text, and other subjects that can give you insights into your visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
-Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on Bluemix.
+Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on the IBM Cloud.
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs)
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs)
 
 ## Getting Started
 
-1. You need a Bluemix account. If you don't have one, [sign up][sign_up]. Experimental Watson Services are free to use.
+1. You need a IBM Cloud account. If you don't have one, [sign up][sign_up]. Experimental Watson Services are free to use.
 
 2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool if you haven't already.
 
@@ -32,14 +32,14 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
       NODE_ENV: production
   ```
 
-4. Connect to Bluemix with the command line tool.
+4. Connect to the IBM Cloud with the command line tool.
 
   ```sh
   cf api https://api.ng.bluemix.net
   cf login
   ```
 
-5. Create the Visual Recognition service in Bluemix.
+5. Create the Visual Recognition service in the IBM Cloud.
   ```sh
   cf create-service watson_vision_combined free visual-recognition-service
   cf create-service-key visual-recognition-service myKey
@@ -73,7 +73,7 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
 
 9. Point your browser to [http://localhost:3000](http://localhost:3000).
 
-10. **Optional:** Push the application to Bluemix:
+10. **Optional:** Push the application to the IBM Cloud:
 
   ```none
   cf push
@@ -84,11 +84,11 @@ After completing the steps above, you are ready to test your application. Start 
             <your application name>.mybluemix.net
 
 
-For more details about developing applications that use Watson Developer Cloud services in Bluemix, see [Getting started with Watson Developer Cloud and Bluemix][getting_started].
+For more details about developing applications that use Watson Developer Cloud services in the IBM Cloud, see [Getting started with Watson Developer Cloud and the IBM Cloud][getting_started].
 
 ## Environment Variables
 
-  - `VISUAL_RECOGNITION_API_KEY` : This is the API key for the vision service, used if you don't have one in your bluemix account.
+  - `VISUAL_RECOGNITION_API_KEY` : This is the API key for the vision service, used if you don't have one in your IBM Cloud account.
   - `PRESERVE_CLASSIFIERS` : Set if you don't want classifiers to be deleted after one hour. *(optional)*
   - `PORT` : The port the server should run on. *(optional, defaults to 3000)*
   - `OVERRIDE_CLASSIFIER_ID` : Set to a classifer ID if you want to always use a custom classifier. This classifier will be used instead of training a new one. *(optional)*
@@ -149,7 +149,7 @@ training form with your existing classifier.
 [service_url]: https://www.ibm.com/watson/services/visual-recognition/
 [cloud_foundry]: https://github.com/cloudfoundry/cli
 [visual_recognition_service]: https://www.ibm.com/watson/services/visual-recognition/
-[sign_up]: https://console.ng.bluemix.net/registration/
+[sign_up]: https://console.bluemix.net/registration/
 [getting_started]: https://console.bluemix.net/docs/services/watson/index.html#about
 [node_js]: http://nodejs.org/
 [npm]: https://www.npmjs.com
