@@ -72,7 +72,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
 1. Test your application locally by going to: [http://localhost:3000/](http://localhost:3000/)
 
-## Deploying your application to Bluemix
+## Deploying your application to the IBM Cloud
 
 1. Push the updated application live by running the following command:
 

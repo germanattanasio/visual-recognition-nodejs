@@ -31,11 +31,11 @@ module.exports = function(app) {
   }));
 
   // 2. rate-limit to /api/
-  app.use('/api/', rateLimit({
-    windowMs: 30 * 1000, // seconds
-    delayMs: 0,
-    max: 10
-  }));
+  // app.use('/api/', rateLimit({
+  //   windowMs: 30 * 1000, // seconds
+  //   delayMs: 0,
+  //   max: 10
+  // }));
 
   // 3. csrf
   var csrfProtection = csrf({
