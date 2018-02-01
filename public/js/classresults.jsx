@@ -471,7 +471,7 @@ class ResultsTable extends React.Component {
           <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems} foodCount={this.props.foodItems.length} faceCount={this.props.faceItems.length}  wordCount={this.props.wordsItems.length}/>
           { this.props.foodItems.length ? <FoodScoreTable category="Food" rawjson={this.props.foodJson} items={this.props.foodItems}/> : <div style={{display: 'none'}}></div>}
           { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : <div style={{display: 'none'}}></div>}
-          { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
+          { this.props.wordsItems.length ? <WordsScoreTable category="Text" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
         </div>
     );
   }
