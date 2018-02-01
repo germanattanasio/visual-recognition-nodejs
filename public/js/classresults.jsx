@@ -446,8 +446,8 @@ class WordsScoreTable extends React.Component {
   render() {
     return (
         <div className="results-table--container">
-          <div className="beta-tag">Closed Beta</div>
-          <div>This feature is a closed beta, please email us if you're interested. kgong@us.ibm.com </div>
+          <div className="beta-tag">Private Beta</div>
+          <div>Standard Plan members can contact shantenu.agarwal@us.ibm.com to <br />request Private Beta access.</div>
           <JsonLink rawjson={this.props.rawjson}/>
           <table className="base--table results-table">
             <ScoreTableHeader title={this.props.category}/>
