@@ -446,8 +446,8 @@ class WordsScoreTable extends React.Component {
   render() {
     return (
         <div className="results-table--container">
-          <div className="beta-tag">Closed Beta</div>
-          <div>This feature is a closed beta, please email us if you're interested. kgong@us.ibm.com </div>
+          <div className="beta-tag">Private Beta</div>
+          <div>Standard Plan members can contact shantenu.agarwal@us.ibm.com to <br />request Private Beta access.</div>
           <JsonLink rawjson={this.props.rawjson}/>
           <table className="base--table results-table">
             <ScoreTableHeader title={this.props.category}/>
@@ -471,7 +471,7 @@ class ResultsTable extends React.Component {
           <ClassifyScoreTable category="Classes" rawjson={this.props.classJson} items={this.props.classItems} foodCount={this.props.foodItems.length} faceCount={this.props.faceItems.length}  wordCount={this.props.wordsItems.length}/>
           { this.props.foodItems.length ? <FoodScoreTable category="Food" rawjson={this.props.foodJson} items={this.props.foodItems}/> : <div style={{display: 'none'}}></div>}
           { this.props.faceItems.length ? <FaceScoreTable category="Faces" rawjson={this.props.faceJson} items={this.props.faceItems}/> : <div style={{display: 'none'}}></div>}
-          { this.props.wordsItems.length ? <WordsScoreTable category="Words" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
+          { this.props.wordsItems.length ? <WordsScoreTable category="Text" rawjson={this.props.wordsJson} items={this.props.wordsItems}/> : <div style={{display: 'none'}}></div>}
         </div>
     );
   }
