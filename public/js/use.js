@@ -29,7 +29,8 @@ var errorMessages = {
   LIMIT_FILE_SIZE: 'Ensure the image is under 2mb',
   URL_FETCH_PROBLEM: 'This is an invalid image URL.',
   TOO_MANY_REQUESTS: 'You have entered too many requests at once. Please try again later.',
-  SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!'
+  SITE_IS_DOWN: 'We are working to get Visual Recognition up and running shortly!',
+  UNKNOWN_ERROR: 'An unknown error has occured.'
 };
 
 var lockState = {};
@@ -126,6 +127,8 @@ function setupUse(params) {
       } else if (results.images[0].error.error_id === 'input_error') {
         showError(errorMessages.URL_FETCH_PROBLEM);
         return;
+      } else {
+        showError(errorMessages.UNKNOWN_ERROR);
       }
     }
     // populate table
