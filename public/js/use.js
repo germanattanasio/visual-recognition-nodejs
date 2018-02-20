@@ -129,6 +129,7 @@ function setupUse(params) {
         return;
       } else {
         showError(errorMessages.UNKNOWN_ERROR);
+        return;
       }
     }
     // populate table
