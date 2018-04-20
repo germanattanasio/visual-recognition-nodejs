@@ -7,7 +7,8 @@ applications:
 - name: visual-recognition-demo
   path: .
   command: npm start
-  memory: 512M
+  memory: 3000M
+  instances: 5
   services:
   - visual-recognition-service
   env:

@@ -2819,6 +2819,29 @@ img.checkered-bg {
     margin-top: 0rem;
   }
 }
+.banner--service-deprecation {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1rem;
+  background: #fcf794;
+  padding: 1rem;
+}
+.banner--service-gdpr {
+  display: flex;
+  justify-content: center;
+  background: #f4f4f4;
+  margin-top: 0rem;
+  padding: .5rem;
+}
+.banner--service-gdpr-text {
+  max-width: 46rem;
+  font-style: italic;
+  font-size: 9px;
+}
+.banner--service-linkDeprecation {
+  margin-left: 5px;
+}
 .banner--service-link-item {
   display: block;
   margin-top: 0;
