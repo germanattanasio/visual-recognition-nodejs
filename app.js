@@ -42,9 +42,7 @@ var visualRecognition = new watson.VisualRecognitionV3({
 });
 
 app.get('/', function(req, res) {
-  res.render('use', {
-    bluemixAnalytics: !!process.env.BLUEMIX_ANALYTICS,
-  });
+  res.render('use', null);
 });
 
 var scoreData = function(score) {
@@ -83,9 +81,7 @@ app.get('/ready/:classifier_id', function(req, res) {
 });
 
 app.get('/train', function(req, res) {
-  res.render('train', {
-    bluemixAnalytics: !!process.env.BLUEMIX_ANALYTICS,
-  });
+  res.render('train', null);
 });
 
 app.get('/test', function(req, res) {
