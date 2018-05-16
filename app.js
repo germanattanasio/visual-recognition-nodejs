@@ -26,7 +26,6 @@ var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
 var os = require('os');
-var detectFaces = require('./modules/detect-faces')
 
 var ONE_HOUR = 3600000;
 var TWENTY_SECONDS = 20000;
@@ -278,10 +277,8 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   // run the 3 classifiers asynchronously and combine the results
   async.parallel(methods.map(function(method) {
     var fn = visualRecognition[method].bind(visualRecognition, params);
-    if (method === 'recognizeText') {
+    if (method === 'recognizeText' || method === 'detectFaces') {
       return async.reflect(async.timeout(fn, TWENTY_SECONDS));
-    } else if (method === 'detectFaces') {
-      return async.reflect(async.timeout((callback) => {detectFaces.detectFaces(params, callback)}, TWENTY_SECONDS));
     } else {
       return async.reflect(fn);
     }

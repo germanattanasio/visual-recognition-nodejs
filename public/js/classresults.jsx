@@ -400,7 +400,6 @@ class FaceScoreTable extends React.Component {
   render() {
     return (
         <div className="results-table--container">
-          <div className="beta-tag">Public Beta</div>
           <JsonLink rawjson={this.props.rawjson}/>
           <table className="base--table results-table">
             <ScoreTableHeader title={this.props.category}/>
