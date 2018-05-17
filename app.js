@@ -26,7 +26,6 @@ var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
 var os = require('os');
-var detectFaces = require('./modules/detect-faces')
 
 var ONE_HOUR = 3600000;
 var TWENTY_SECONDS = 20000;
@@ -43,9 +42,7 @@ var visualRecognition = new watson.VisualRecognitionV3({
 });
 
 app.get('/', function(req, res) {
-  res.render('use', {
-    bluemixAnalytics: !!process.env.BLUEMIX_ANALYTICS,
-  });
+  res.render('use', null);
 });
 
 var scoreData = function(score) {
@@ -84,9 +81,7 @@ app.get('/ready/:classifier_id', function(req, res) {
 });
 
 app.get('/train', function(req, res) {
-  res.render('train', {
-    bluemixAnalytics: !!process.env.BLUEMIX_ANALYTICS,
-  });
+  res.render('train', null);
 });
 
 app.get('/test', function(req, res) {
@@ -278,10 +273,8 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   // run the 3 classifiers asynchronously and combine the results
   async.parallel(methods.map(function(method) {
     var fn = visualRecognition[method].bind(visualRecognition, params);
-    if (method === 'recognizeText') {
+    if (method === 'recognizeText' || method === 'detectFaces') {
       return async.reflect(async.timeout(fn, TWENTY_SECONDS));
-    } else if (method === 'detectFaces') {
-      return async.reflect(async.timeout((callback) => {detectFaces.detectFaces(params, callback)}, TWENTY_SECONDS));
     } else {
       return async.reflect(fn);
     }

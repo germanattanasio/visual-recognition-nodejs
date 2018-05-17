@@ -44,7 +44,6 @@ module.exports = function(app) {
 
   app.get('/*', csrfProtection, function(req, res, next) {
     res.locals = {
-      ga: process.env.GOOGLE_ANALYTICS,
       ct: req.csrfToken()
     };
     next();
