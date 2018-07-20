@@ -4,18 +4,17 @@
 
 /* eslint no-console: 0, no-shadow: 0, no-param-reassign: 0, padded-blocks: 0 */
 
+require('dotenv').config({silent: true});
+
 var fs = require('fs');
 var path = require('path');
 var async = require('async');
 var getCombinations = require('combinations');
-require('dotenv').config({silent: true});
-var watson = require('watson-developer-cloud');
+var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3'); // watson sdk
 
 // Create the service wrapper
-var visualRecognition = watson.visual_recognition({
-  version: 'v3',
-  api_key: process.env.API_KEY || '<api-key>',
-  version_date: '2015-05-19'
+var visualRecognition = new VisualRecognitionV3({
+  version: '2018-03-19'
 });
 
 // we could embed the expected category into the filename, but then someone might think the service was cheating. so, this will do for now.

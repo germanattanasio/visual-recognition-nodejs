@@ -22,23 +22,19 @@ var fs = require('fs');
 var extend = require('extend');
 var path = require('path');
 var async = require('async');
-var watson = require('watson-developer-cloud');
+var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3'); // watson sdk
 var uuid = require('uuid');
 var bundleUtils = require('./config/bundle-utils');
 var os = require('os');
 
 var ONE_HOUR = 3600000;
-var TWENTY_SECONDS = 20000;
+var FOURTY_SECONDS = 40000;
 
 // Bootstrap application settings
 require('./config/express')(app);
 
-// Create the service wrapper
-// If no API Key is provided here, the watson-developer-cloud@2.x.x library will check for an VISUAL_RECOGNITION_API_KEY
-// environment property and then fall back to the VCAP_SERVICES property provided by the IBM Cloud.
-var visualRecognition = new watson.VisualRecognitionV3({
-  // api_key: '<api-key>',
-  version_date: '2015-05-19'
+var visualRecognition = new VisualRecognitionV3({
+  version: '2018-03-19'
 });
 
 app.get('/', function(req, res) {
@@ -233,8 +229,7 @@ function parseBase64Image(imageString) {
 app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
   var params = {
     url: null,
-    images_file: null,
-    owners: []
+    images_file: null
   };
 
   if (req.file) { // file image
@@ -267,14 +262,13 @@ app.post('/api/classify', app.upload.single('images_file'), function(req, res) {
     params.threshold = 0.5; //So the classifers only show images with a confindence level of 0.5 or higher
     methods.push('classify');
     methods.push('detectFaces');
-    methods.push('recognizeText');
   }
 
   // run the 3 classifiers asynchronously and combine the results
   async.parallel(methods.map(function(method) {
     var fn = visualRecognition[method].bind(visualRecognition, params);
-    if (method === 'recognizeText' || method === 'detectFaces') {
-      return async.reflect(async.timeout(fn, TWENTY_SECONDS));
+    if (method === 'detectFaces') {
+      return async.reflect(async.timeout(fn, FOURTY_SECONDS));
     } else {
       return async.reflect(fn);
     }

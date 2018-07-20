@@ -16,6 +16,7 @@
 
 'use strict';
 
+process.env.VISUAL_RECOGNITION_IAM_APIKEY='foo';
 var app = require('../../app');
 var request = require('supertest');
 

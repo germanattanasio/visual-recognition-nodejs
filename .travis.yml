@@ -1,18 +1,17 @@
 language: node_js
 dist: trusty
 sudo: required
-node_js: 6
+node_js: 8
 script: npm test
 cache:
   directories:
   - node_modules
 env:
   global:
-  - BX_APP=visual-recognition-demo
-  - BX_API=https://api.ng.bluemix.net
-  - BX_ORGANIZATION=WatsonPlatformServices
-  - BX_SPACE=demos
   - VISUAL_RECOGNITION_API_KEY="bogus key to let server spin up for offline tests"
-before_install:
-- openssl aes-256-cbc -K $encrypted_cca766a893ae_key -iv $encrypted_cca766a893ae_iv
-  -in .env.enc -out .env -d
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: npx semantic-release
+  on:
+    node: 8

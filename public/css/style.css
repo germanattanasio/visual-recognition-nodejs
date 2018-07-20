@@ -2835,9 +2835,11 @@ img.checkered-bg {
   padding: .5rem;
 }
 .banner--service-gdpr-text {
-  max-width: 46rem;
+  max-width: 80%;
   font-style: italic;
-  font-size: 9px;
+  background: transparent;
+  font-size: 0.8rem;
+  color: gray;
 }
 .banner--service-linkDeprecation {
   margin-left: 5px;
