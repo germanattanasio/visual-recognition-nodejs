@@ -1,7 +1,10 @@
 'use strict';
 
-if (!process.env.VISUAL_RECOGNITION_API_KEY) {
-  console.log('Skipping integration tests because VISUAL_RECOGNITION_API_KEY is null');
+require('dotenv').config({silent: true});
+
+
+if (!process.env.VISUAL_RECOGNITION_IAM_APIKEY) {
+  console.log('Skipping integration tests because VISUAL_RECOGNITION_IAM_APIKEY is null');
   process.exit(0);
 }
 

@@ -6,11 +6,18 @@ You can see a version of this app that is already running [here](https://visual-
 
 So let’s get started. The first thing to do is to build out the shell of our application in the IBM Cloud.
 
-## Creating an [IBM Cloud][bluemix] Account
+## Prerequisites
 
-1. Go to https://bluemix.net/
-2. Create an IBM Cloud account if required.
-3. Log in with your IBM ID (the ID used to create your IBM Cloud account)
+1. Sign up for an [IBM Cloud account](https://console.bluemix.net/registration/).
+1. Download the [IBM Cloud CLI](https://console.bluemix.net/docs/cli/index.html#overview).
+1. Create an instance of the Visual Recognition service and get your credentials:
+    - Go to the [Visual Recognition](https://console.bluemix.net/catalog/services/visual-recognition) page in the IBM Cloud Catalog.
+    - Log in to your IBM Cloud account.
+    - Click **Create**.
+    - Click **Show** to view the service credentials.
+    - Copy the `apikey` value
+    - Copy the `url` value.
+
 
 **Note:** The confirmation email from the IBM Cloud mail take up to 1 hour.
 
@@ -37,25 +44,11 @@ So let’s get started. The first thing to do is to build out the shell of our a
       NODE_ENV: production
     ```
 
-1. Connect to the IBM Cloud by running the following commands in a terminal window:
+1. Copy the credentials from the prerequisites to the application by creating a `.env` file using this format:
 
   ```none
-  cf api https://api.ng.bluemix.net
-  cf login
-  ```
-
-1. Create and retrieve service keys to access the [Visual Recognition][visual_recognition] service by running the following command:
-
-  ```none
-  cf create-service watson_vision_combined free visual-recognition-service
-  cf create-service-key visual-recognition-service myKey
-  cf service-key visual-recognition-service myKey
-  ```
-
-1. Provide the credentials from step 6 to the application by creating a `.env` file using this format:
-
-  ```none
-  VISUAL_RECOGNITION_API_KEY=<your-alchemy-api-key>
+  VISUAL_RECOGNITION_IAM_API_KEY=<your-api-key>
+  VISUAL_RECOGNITION_URL=<your-url>
   ```
 
 1. Install the dependencies you application need:
@@ -72,19 +65,30 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
 1. Test your application locally by going to: [http://localhost:3000/](http://localhost:3000/)
 
-## Deploying your application to the IBM Cloud
+## Deploying to IBM Cloud as a Cloud Foundry Application
 
-1. Push the updated application live by running the following command:
+1. Login to IBM Cloud with the [IBM Cloud CLI](https://console.bluemix.net/docs/cli/index.html#overview)
 
-  ```none
-  cf push
-  ```
+    ```
+    ibmcloud login
+    ```
 
-After completing the steps above, you are ready to test your application. Start a browser and enter the URL of your application.
+1. Target a Cloud Foundry organization and space.
 
-                  <your-application-name>.mybluemix.net
+    ```
+    ibmcloud target --cf
+    ```
 
-You can also find your application name when you click on your application in the IBM Cloud.
+1. Edit the *manifest.yml* file. Change the **name** field to something unique.  
+  For example, `- name: my-app-name`.
+1. Deploy the application
+
+    ```
+    ibmcloud app push
+    ```
+
+1. View the application online at the app URL.  
+For example: https://my-app-name.mybluemix.net
 
 ## Classifying Images in the Starter Application
 

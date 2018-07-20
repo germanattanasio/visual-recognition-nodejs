@@ -149,7 +149,7 @@ class TrainClassCell extends React.Component {
        alertsForFileInvalidity(fileToCheck);
        return;
     }
-    
+
     if (jpath.jpath('/target/files/length', e, 0) > 0) {
       if (this.props.kind === 'new') {
         let trimmed_name = jpath.jpath('/target/files/0/name', e).split('.')[0]

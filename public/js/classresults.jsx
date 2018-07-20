@@ -508,7 +508,6 @@ export function classifyScoreTable(results, tagid) {
   let faces = jpath.jpath('/images/0/faces',results,[]);
   let words = jpath.jpath('/images/0/words',results, []);
   if (target) {
-
     ReactDom.render(<ResultsTable classJson={tagsJ} classItems={tags}
                                   foodJson={foodJ} foodItems={food}
                                   faceJson={faces} faceItems={faces}

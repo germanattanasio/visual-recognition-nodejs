@@ -6,8 +6,6 @@ The [Visual Recognition][visual_recognition_service] Service uses deep learning 
 
 Give it a try! Click the button below to fork into IBM DevOps Services and deploy your own copy of this application on the IBM Cloud.
 
-[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/visual-recognition-nodejs)
-
 ## Getting Started
 
 1. You need a IBM Cloud account. If you don't have one, [sign up][sign_up]. Experimental Watson Services are free to use.
@@ -145,7 +143,6 @@ training form with your existing classifier.
   Find more open source projects on the [IBM Github Page](http://ibm.github.io/).
 
 
-[deploy_track_url]: https://github.com/cloudant-labs/deployment-tracker
 [service_url]: https://www.ibm.com/watson/services/visual-recognition/
 [cloud_foundry]: https://github.com/cloudfoundry/cli
 [visual_recognition_service]: https://www.ibm.com/watson/services/visual-recognition/
