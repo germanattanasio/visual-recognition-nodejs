@@ -1,15 +1,6 @@
 ---
-declared-services:
-  visual-recognition-service:
-    label: watson_vision_combined
-    plan: free
 applications:
 - name: visual-recognition-demo
   path: .
   command: npm start
-  memory: 3000M
-  instances: 5
-  services:
-  - visual-recognition-service
-  env:
-    NODE_ENV: production
+  memory: 768M
