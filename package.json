@@ -90,5 +90,9 @@
   },
   "pre-commit": [
     "lint"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }
