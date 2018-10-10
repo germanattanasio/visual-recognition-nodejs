@@ -46,7 +46,8 @@
     "test": "npm run lint && npm run test-unit && npm run test-integration-runner",
     "lint": "eslint .",
     "autofix": "eslint --fix .",
-    "codecov": "npm run test && (codecov || true)"
+    "codecov": "npm run test && (codecov || true)",
+    "validate": "npm ls"
   },
   "dependencies": {
     "async": "^2.6.1",
@@ -58,12 +59,12 @@
     "compression": "^1.7.3",
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
-    "dotenv": "^6.0.0",
+    "dotenv": "^6.1.0",
     "express": "^4.16.3",
     "express-browserify": "^1.0.2",
-    "express-rate-limit": "^3.2.0",
+    "express-rate-limit": "^3.2.1",
     "extend": "^3.0.2",
-    "helmet": "^3.13.0",
+    "helmet": "^3.14.0",
     "jade": "^1.11.0",
     "jpath-query": "^0.1.1",
     "morgan": "^1.9.1",
