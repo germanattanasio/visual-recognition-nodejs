@@ -21,8 +21,10 @@ var scrollToElement = require('./demo.js').scrollToElement;
 const StateManager = require('./state.js');
 var getRandomInt = require('./demo.js').getRandomInt;
 var { renderBoxes } = require('./image-boxes.jsx');
-var { classifyScoreTable, customClassifyScoreTable } = require('./classresults.jsx');
+var { classifyScoreTable, customClassifyScoreTable, reactUnmount } = require('./classresults.jsx');
 var jpath = require('jpath-query');
+
+import ReactDom from 'react-dom';
 
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
@@ -93,8 +95,10 @@ function setupUse(params) {
     resetPasteUrl();
     $urlInput.val('');
     $tbody.empty();
+    reactUnmount($outputData[0]);
     $outputData.empty();
     $('.dragover').removeClass('dragover');
+    reactUnmount($boxes[0]);
     $boxes.empty();
   }
 

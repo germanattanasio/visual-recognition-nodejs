@@ -523,3 +523,11 @@ export function customClassifyScoreTable(results, tagid) {
                                         classItems={tags}/>, target);
   }
 }
+
+export function reactUnmount(tagid) {
+  let target = typeof(tagid) === 'string' ? document.getElementById(tagid) : tagid;
+  if (target) {
+    ReactDom.unmountComponentAtNode(target);
+  }
+}
+
