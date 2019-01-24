@@ -24,8 +24,6 @@ var { renderBoxes } = require('./image-boxes.jsx');
 var { classifyScoreTable, customClassifyScoreTable, reactUnmount } = require('./classresults.jsx');
 var jpath = require('jpath-query');
 
-import ReactDom from 'react-dom';
-
 var errorMessages = {
   ERROR_PROCESSING_REQUEST: 'Oops! The system encoutered an error. Try again.',
   LIMIT_FILE_SIZE: 'Ensure the image is under 2mb',
