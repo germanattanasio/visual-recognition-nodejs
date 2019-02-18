@@ -14,6 +14,8 @@ The [Visual Recognition][visual_recognition_service] Service uses deep learning 
 
 ## Prerequisites
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/watson-developer-cloud/visual-recognition-nodejs.svg)](https://greenkeeper.io/)
+
 1. Sign up for an [IBM Cloud account](https://console.bluemix.net/registration/).
 1. Download the [IBM Cloud CLI](https://console.bluemix.net/docs/cli/index.html#overview).
 1. Create an instance of the Visual Recognition service and get your credentials:
