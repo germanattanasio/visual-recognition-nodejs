@@ -46,7 +46,8 @@
     "test": "npm run lint && npm run test-unit && npm run test-integration-runner",
     "lint": "eslint .",
     "autofix": "eslint --fix .",
-    "codecov": "npm run test && (codecov || true)"
+    "codecov": "npm run test && (codecov || true)",
+    "validate": "npm ls"
   },
   "dependencies": {
     "async": "^2.6.2",
