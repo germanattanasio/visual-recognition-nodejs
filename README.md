@@ -10,6 +10,9 @@
 </p>
 </p>
 
+## DEPRECATED: this repo is no longer actively maintained. It can still be used as reference, but may contain outdated or unpatched code.
+This demo application has been replaced by a newer version, and thus this repo has been deprecated. You can view the updated application [running live here](https://visual-recognition-demo.ng.bluemix.net). The new application has not been made public yet, so in the meantime this repo can still be used as reference.
+
 The [Visual Recognition][visual_recognition_service] Service uses deep learning algorithms to analyze images for scenes, objects, faces, text, and other subjects that can give you insights into your visual content. You can organize image libraries, understand an individual image, and create custom classifiers for specific results that are tailored to your needs.
 
 ## Prerequisites
